@@ -1,0 +1,16 @@
+C:\Users\cariv\Documents\Universidad\Clases\Analisis y Diseño\Gestion de Alquiler y Reservaciones\Gestion de Alquiler y Reservaciones\bin\Debug\Gestion de Alquiler y Reservaciones.exe.config
+C:\Users\cariv\Documents\Universidad\Clases\Analisis y Diseño\Gestion de Alquiler y Reservaciones\Gestion de Alquiler y Reservaciones\bin\Debug\Gestion de Alquiler y Reservaciones.exe
+C:\Users\cariv\Documents\Universidad\Clases\Analisis y Diseño\Gestion de Alquiler y Reservaciones\Gestion de Alquiler y Reservaciones\bin\Debug\Gestion de Alquiler y Reservaciones.pdb
+C:\Users\cariv\Documents\Universidad\Clases\Analisis y Diseño\Gestion de Alquiler y Reservaciones\Gestion de Alquiler y Reservaciones\obj\Debug\Gestion de Alquiler y Reservaciones.csproj.AssemblyReference.cache
+C:\Users\cariv\Documents\Universidad\Clases\Analisis y Diseño\Gestion de Alquiler y Reservaciones\Gestion de Alquiler y Reservaciones\obj\Debug\Gestion_de_Alquiler_y_Reservaciones.LoginForm.resources
+C:\Users\cariv\Documents\Universidad\Clases\Analisis y Diseño\Gestion de Alquiler y Reservaciones\Gestion de Alquiler y Reservaciones\obj\Debug\Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.resources
+C:\Users\cariv\Documents\Universidad\Clases\Analisis y Diseño\Gestion de Alquiler y Reservaciones\Gestion de Alquiler y Reservaciones\obj\Debug\Gestion de Alquiler y Reservaciones.csproj.GenerateResource.cache
+C:\Users\cariv\Documents\Universidad\Clases\Analisis y Diseño\Gestion de Alquiler y Reservaciones\Gestion de Alquiler y Reservaciones\obj\Debug\Gestion de Alquiler y Reservaciones.csproj.CoreCompileInputs.cache
+C:\Users\cariv\Documents\Universidad\Clases\Analisis y Diseño\Gestion de Alquiler y Reservaciones\Gestion de Alquiler y Reservaciones\obj\Debug\Gestion de Alquiler y Reservaciones.exe
+C:\Users\cariv\Documents\Universidad\Clases\Analisis y Diseño\Gestion de Alquiler y Reservaciones\Gestion de Alquiler y Reservaciones\obj\Debug\Gestion de Alquiler y Reservaciones.pdb
+C:\Users\cariv\Documents\Universidad\Clases\Analisis y Diseño\Gestion de Alquiler y Reservaciones\Gestion de Alquiler y Reservaciones\obj\Debug\Gestion de Alquiler y Reservaciones.exe.config
+C:\Users\cariv\Documents\Universidad\Clases\Analisis y Diseño\Gestion de Alquiler y Reservaciones\Gestion de Alquiler y Reservaciones\obj\Debug\Gestion_de_Alquiler_y_Reservaciones.MenuPrincipalForm.resources
+C:\Users\cariv\Documents\Universidad\Clases\Analisis y Diseño\Gestion de Alquiler y Reservaciones\Gestion de Alquiler y Reservaciones\obj\Debug\Gestion_de_Alquiler_y_Reservaciones.BaseForm.resources
+C:\Users\cariv\Documents\Universidad\Clases\Analisis y Diseño\Gestion de Alquiler y Reservaciones\Gestion de Alquiler y Reservaciones\obj\Debug\Gestion_de_Alquiler_y_Reservaciones.DashboardForm.resources
+C:\Users\cariv\Documents\Universidad\Clases\Analisis y Diseño\Gestion de Alquiler y Reservaciones\Gestion de Alquiler y Reservaciones\obj\Debug\Gestion_de_Alquiler_y_Reservaciones.ContratoForm.resources
+C:\Users\cariv\Documents\Universidad\Clases\Analisis y Diseño\Gestion de Alquiler y Reservaciones\Gestion de Alquiler y Reservaciones\obj\Debug\Gestion_de_Alquiler_y_Reservaciones.PropiedadesForm.resources

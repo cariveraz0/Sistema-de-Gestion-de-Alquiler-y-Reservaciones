@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{69B376E9-2C80-4F2A-849C-77F191F4544F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Gestion_de_Alquiler_y_Reservaciones</RootNamespace>
+    <AssemblyName>Gestion de Alquiler y Reservaciones</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BaseForm.Designer.cs">
+      <DependentUpon>BaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ContratoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ContratoForm.Designer.cs">
+      <DependentUpon>ContratoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DashboardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DashboardForm.Designer.cs">
+      <DependentUpon>DashboardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MenuPrincipalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MenuPrincipalForm.Designer.cs">
+      <DependentUpon>MenuPrincipalForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropiedadesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PropiedadesForm.Designer.cs">
+      <DependentUpon>PropiedadesForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="BaseForm.resx">
+      <DependentUpon>BaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ContratoForm.resx">
+      <DependentUpon>ContratoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DashboardForm.resx">
+      <DependentUpon>DashboardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MenuPrincipalForm.resx">
+      <DependentUpon>MenuPrincipalForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PropiedadesForm.resx">
+      <DependentUpon>PropiedadesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Assets\Fonts\Montserrat-Black.ttf" />
+    <None Include="Assets\Fonts\Montserrat-BlackItalic.ttf" />
+    <None Include="Assets\Fonts\Montserrat-Bold.ttf" />
+    <None Include="Assets\Fonts\Montserrat-BoldItalic.ttf" />
+    <None Include="Assets\Fonts\Montserrat-ExtraBold.ttf" />
+    <None Include="Assets\Fonts\Montserrat-ExtraBoldItalic.ttf" />
+    <None Include="Assets\Fonts\Montserrat-ExtraLight.ttf" />
+    <None Include="Assets\Fonts\Montserrat-ExtraLightItalic.ttf" />
+    <None Include="Assets\Fonts\Montserrat-Italic.ttf" />
+    <None Include="Assets\Fonts\Montserrat-Light.ttf" />
+    <None Include="Assets\Fonts\Montserrat-LightItalic.ttf" />
+    <None Include="Assets\Fonts\Montserrat-Medium.ttf" />
+    <None Include="Assets\Fonts\Montserrat-MediumItalic.ttf" />
+    <None Include="Assets\Fonts\Montserrat-Regular.ttf" />
+    <None Include="Assets\Fonts\Montserrat-SemiBold.ttf" />
+    <None Include="Assets\Fonts\Montserrat-SemiBoldItalic.ttf" />
+    <None Include="Assets\Fonts\Montserrat-Thin.ttf" />
+    <None Include="Assets\Fonts\Montserrat-ThinItalic.ttf" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Images\Icono.ico" />
+    <Content Include="Assets\Images\LogoFinal2.png" />
+    <None Include="Resources\exit.png" />
+    <None Include="Resources\analytics.png" />
+    <None Include="Resources\money.png" />
+    <None Include="Resources\build.png" />
+    <None Include="Resources\group.png" />
+    <None Include="Resources\calendar.png" />
+    <None Include="Resources\contract.png" />
+    <None Include="Resources\apartment.png" />
+    <None Include="Resources\house.png" />
+    <None Include="Resources\persona.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
