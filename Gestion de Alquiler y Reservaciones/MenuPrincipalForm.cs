@@ -55,7 +55,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void btnContratos_Click(object sender, EventArgs e)
         {
-            AbrirForm(new ContratoForm());
+            ContratosForm frm = new ContratosForm();
+            frm.ShowDialog();
+            this.Close();
+            //AbrirForm(new ContratoForm());
         }
     }
 }
