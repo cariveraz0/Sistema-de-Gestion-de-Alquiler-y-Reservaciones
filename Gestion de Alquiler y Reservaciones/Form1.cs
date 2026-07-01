@@ -23,5 +23,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             frm.ShowDialog();
             this.Close();
         }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
