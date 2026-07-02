@@ -275,6 +275,24 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private Dictionary<string, string> ObtenerDatosApartamento()
         {
             DateTime fechaSeleccionada = dtpFechaArrendamientoA.Value;
+            string depositoEnPalabras = "cero"; 
+            string precioEnPalabras = "cero";
+            if (int.TryParse(txtPrecioAlquilerA.Text, out int precioNumerica))
+            {
+                precioEnPalabras = precioNumerica.ToWords(new CultureInfo("es-ES"));
+            }
+            else
+            {
+                precioEnPalabras = "error_numero_invalido";
+            }
+            if (int.TryParse(txtDepositoUnitarioA.Text, out int depositoNumerica))
+            {
+                depositoEnPalabras = depositoNumerica.ToWords(new CultureInfo("es-ES"));
+            }
+            else
+            {
+                depositoEnPalabras = "error_numero_invalido";
+            }
             return new Dictionary<string, string>
             {
                 { "${nombre_arrendatario}", txtNombreArrendatarioA.Text },
@@ -285,18 +303,30 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 { "${mes_arrendamiento}", fechaSeleccionada.ToString("MMMM").ToUpper()},
                 { "{anio_arrendamiento}", fechaSeleccionada.Year.ToString("0000")},
                 { "${precio_unitario}", txtPrecioAlquilerA.Text },
+                { "${precio_letras}", precioEnPalabras },
                 { "${dia_mensualidad}", txtDiaMensualidadA.Text },
                 { "${deposito_unitario}", txtDepositoUnitarioA.Text },
+                { "${deposito_letras}", depositoEnPalabras },
                 { "${dia_actual}", DateTime.Now.Day.ToString() },
                 { "${mes_actual}", DateTime.Now.ToString("MMMM") },
                 { "${anio_actual}", DateTime.Now.Year.ToString() }
-                //Recordar ${precio_letras} y ${deposito_letras} con Humanizer
             };
         }
 
         private Dictionary<string, string> ObtenerDatosLocal()
         {
             DateTime fechaSeleccionada = dtpFechaArrendamientoL.Value;
+            string duracionEnPalabras = "cero";
+
+            if (int.TryParse(txtDuracionAlquilerL.Text, out int duracionNumerica))
+            {
+                duracionEnPalabras = duracionNumerica.ToWords(new CultureInfo("es-ES"));
+            }
+            else
+            {
+                duracionEnPalabras = "error_numero_invalido";
+            }
+
             return new Dictionary<string, string>
             {
                 { "${nombre_empresa}", txtNombreEmpresaL.Text },
@@ -307,6 +337,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 { "${nacionalidad_arrendatario}", txtNacionalidadL.Text },
                 { "{numero_local}", cmbNumeroLocal.Text },
                 { "${duracion_numeros}", txtDuracionAlquilerL.Text },
+                { "${duracion_arrendamiento}", duracionEnPalabras },
                 { "${dia_arrendamiento}", fechaSeleccionada.Day.ToString("00")},
                 { "${mes_arrendamiento}", fechaSeleccionada.ToString("MMMM").ToUpper()},
                 { "${anio_arrendamiento}", fechaSeleccionada.Year.ToString("0000")},
@@ -316,7 +347,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 { "${dia_creacion}", DateTime.Now.Day.ToString() },
                 { "${mes_creacion}", DateTime.Now.ToString("MMMM") },
                 { "${anio_creacion}", DateTime.Now.Year.ToString() }
-                //${duracion_arrendamiento} con Humanizer y agregar combobox de no. local
             };
         }
 

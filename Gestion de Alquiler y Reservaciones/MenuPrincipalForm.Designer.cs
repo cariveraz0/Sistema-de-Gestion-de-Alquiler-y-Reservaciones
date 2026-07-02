@@ -36,6 +36,7 @@
             this.reservacionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mantenimientoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reporteDeMantenimientoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pagosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -142,10 +143,18 @@
             // 
             // mantenimientoToolStripMenuItem
             // 
+            this.mantenimientoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.reporteDeMantenimientoToolStripMenuItem});
             this.mantenimientoToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.mantenimientoToolStripMenuItem.Name = "mantenimientoToolStripMenuItem";
             this.mantenimientoToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
             this.mantenimientoToolStripMenuItem.Text = "Mantenimiento";
+            // 
+            // reporteDeMantenimientoToolStripMenuItem
+            // 
+            this.reporteDeMantenimientoToolStripMenuItem.Name = "reporteDeMantenimientoToolStripMenuItem";
+            this.reporteDeMantenimientoToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.reporteDeMantenimientoToolStripMenuItem.Text = "Reporte de Mantenimiento";
             // 
             // pagosToolStripMenuItem
             // 
@@ -646,5 +655,6 @@
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.PictureBox pictureBox13;
         private System.Windows.Forms.Panel panelContenido;
+        private System.Windows.Forms.ToolStripMenuItem reporteDeMantenimientoToolStripMenuItem;
     }
 }

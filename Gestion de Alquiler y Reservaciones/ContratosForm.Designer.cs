@@ -85,7 +85,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.txtValoresAgregadosL = new System.Windows.Forms.TextBox();
             this.lblDepositoUnitarioL = new System.Windows.Forms.Label();
             this.txtDepositoUnitarioL = new System.Windows.Forms.TextBox();
-            this.lblNumeroLocal = new System.Windows.Forms.Label();
             this.cmbNumeroLocal = new System.Windows.Forms.ComboBox();
             this.pnlFormCasa = new System.Windows.Forms.Panel();
             this.lblTituloC = new System.Windows.Forms.Label();
@@ -137,6 +136,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnGenerar = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.pnlCuerpo.SuspendLayout();
             this.pnlNuevoContrato.SuspendLayout();
             this.pnlTipoSelector.SuspendLayout();
@@ -299,10 +299,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             // 
             // pnlFormWrapper
             // 
-            this.pnlFormWrapper.Controls.Add(this.pnlFormApartamento);
             this.pnlFormWrapper.Controls.Add(this.pnlFormLocal);
             this.pnlFormWrapper.Controls.Add(this.pnlFormCasa);
             this.pnlFormWrapper.Controls.Add(this.pnlFormSala);
+            this.pnlFormWrapper.Controls.Add(this.pnlFormApartamento);
             this.pnlFormWrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlFormWrapper.Location = new System.Drawing.Point(3, 103);
             this.pnlFormWrapper.Name = "pnlFormWrapper";
@@ -518,6 +518,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             // 
             this.pnlFormLocal.AutoScroll = true;
             this.pnlFormLocal.BackColor = System.Drawing.Color.White;
+            this.pnlFormLocal.Controls.Add(this.label1);
             this.pnlFormLocal.Controls.Add(this.lblTituloL);
             this.pnlFormLocal.Controls.Add(this.lblNombreEmpresaL);
             this.pnlFormLocal.Controls.Add(this.txtNombreEmpresaL);
@@ -541,7 +542,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.pnlFormLocal.Controls.Add(this.txtValoresAgregadosL);
             this.pnlFormLocal.Controls.Add(this.lblDepositoUnitarioL);
             this.pnlFormLocal.Controls.Add(this.txtDepositoUnitarioL);
-            this.pnlFormLocal.Controls.Add(this.lblNumeroLocal);
             this.pnlFormLocal.Controls.Add(this.cmbNumeroLocal);
             this.pnlFormLocal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlFormLocal.Location = new System.Drawing.Point(0, 0);
@@ -587,7 +587,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.lblNombreArrendatarioL.AutoSize = true;
             this.lblNombreArrendatarioL.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNombreArrendatarioL.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblNombreArrendatarioL.Location = new System.Drawing.Point(308, 50);
+            this.lblNombreArrendatarioL.Location = new System.Drawing.Point(350, 52);
             this.lblNombreArrendatarioL.Name = "lblNombreArrendatarioL";
             this.lblNombreArrendatarioL.Size = new System.Drawing.Size(155, 17);
             this.lblNombreArrendatarioL.TabIndex = 3;
@@ -597,7 +597,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             // 
             this.txtNombreArrendatarioL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNombreArrendatarioL.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtNombreArrendatarioL.Location = new System.Drawing.Point(308, 70);
+            this.txtNombreArrendatarioL.Location = new System.Drawing.Point(353, 71);
             this.txtNombreArrendatarioL.Name = "txtNombreArrendatarioL";
             this.txtNombreArrendatarioL.Size = new System.Drawing.Size(260, 23);
             this.txtNombreArrendatarioL.TabIndex = 4;
@@ -627,7 +627,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.lblRTNEmpresaL.AutoSize = true;
             this.lblRTNEmpresaL.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRTNEmpresaL.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblRTNEmpresaL.Location = new System.Drawing.Point(268, 108);
+            this.lblRTNEmpresaL.Location = new System.Drawing.Point(350, 108);
             this.lblRTNEmpresaL.Name = "lblRTNEmpresaL";
             this.lblRTNEmpresaL.Size = new System.Drawing.Size(118, 17);
             this.lblRTNEmpresaL.TabIndex = 7;
@@ -637,7 +637,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             // 
             this.txtRTNEmpresaL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtRTNEmpresaL.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtRTNEmpresaL.Location = new System.Drawing.Point(268, 128);
+            this.txtRTNEmpresaL.Location = new System.Drawing.Point(353, 129);
             this.txtRTNEmpresaL.Name = "txtRTNEmpresaL";
             this.txtRTNEmpresaL.Size = new System.Drawing.Size(220, 23);
             this.txtRTNEmpresaL.TabIndex = 8;
@@ -667,7 +667,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.lblNacionalidadL.AutoSize = true;
             this.lblNacionalidadL.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNacionalidadL.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblNacionalidadL.Location = new System.Drawing.Point(268, 166);
+            this.lblNacionalidadL.Location = new System.Drawing.Point(350, 166);
             this.lblNacionalidadL.Name = "lblNacionalidadL";
             this.lblNacionalidadL.Size = new System.Drawing.Size(184, 17);
             this.lblNacionalidadL.TabIndex = 11;
@@ -677,7 +677,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             // 
             this.txtNacionalidadL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNacionalidadL.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtNacionalidadL.Location = new System.Drawing.Point(268, 186);
+            this.txtNacionalidadL.Location = new System.Drawing.Point(353, 186);
             this.txtNacionalidadL.Name = "txtNacionalidadL";
             this.txtNacionalidadL.Size = new System.Drawing.Size(220, 23);
             this.txtNacionalidadL.TabIndex = 12;
@@ -707,7 +707,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.lblFechaArrendamientoL.AutoSize = true;
             this.lblFechaArrendamientoL.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFechaArrendamientoL.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblFechaArrendamientoL.Location = new System.Drawing.Point(248, 224);
+            this.lblFechaArrendamientoL.Location = new System.Drawing.Point(350, 224);
             this.lblFechaArrendamientoL.Name = "lblFechaArrendamientoL";
             this.lblFechaArrendamientoL.Size = new System.Drawing.Size(155, 17);
             this.lblFechaArrendamientoL.TabIndex = 15;
@@ -717,7 +717,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             // 
             this.dtpFechaArrendamientoL.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dtpFechaArrendamientoL.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFechaArrendamientoL.Location = new System.Drawing.Point(248, 244);
+            this.dtpFechaArrendamientoL.Location = new System.Drawing.Point(353, 240);
             this.dtpFechaArrendamientoL.Name = "dtpFechaArrendamientoL";
             this.dtpFechaArrendamientoL.Size = new System.Drawing.Size(200, 23);
             this.dtpFechaArrendamientoL.TabIndex = 16;
@@ -747,7 +747,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.lblValoresAgregadosL.AutoSize = true;
             this.lblValoresAgregadosL.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblValoresAgregadosL.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblValoresAgregadosL.Location = new System.Drawing.Point(248, 282);
+            this.lblValoresAgregadosL.Location = new System.Drawing.Point(350, 282);
             this.lblValoresAgregadosL.Name = "lblValoresAgregadosL";
             this.lblValoresAgregadosL.Size = new System.Drawing.Size(117, 17);
             this.lblValoresAgregadosL.TabIndex = 19;
@@ -757,7 +757,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             // 
             this.txtValoresAgregadosL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtValoresAgregadosL.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtValoresAgregadosL.Location = new System.Drawing.Point(248, 302);
+            this.txtValoresAgregadosL.Location = new System.Drawing.Point(353, 302);
             this.txtValoresAgregadosL.Name = "txtValoresAgregadosL";
             this.txtValoresAgregadosL.Size = new System.Drawing.Size(200, 23);
             this.txtValoresAgregadosL.TabIndex = 20;
@@ -782,17 +782,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.txtDepositoUnitarioL.Size = new System.Drawing.Size(200, 23);
             this.txtDepositoUnitarioL.TabIndex = 22;
             // 
-            // lblNumeroLocal
-            // 
-            this.lblNumeroLocal.AutoSize = true;
-            this.lblNumeroLocal.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNumeroLocal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblNumeroLocal.Location = new System.Drawing.Point(24, 340);
-            this.lblNumeroLocal.Name = "lblNumeroLocal";
-            this.lblNumeroLocal.Size = new System.Drawing.Size(108, 17);
-            this.lblNumeroLocal.TabIndex = 0;
-            this.lblNumeroLocal.Text = "Número de Local";
-            // 
             // cmbNumeroLocal
             // 
             this.cmbNumeroLocal.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -816,7 +805,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             "16",
             "17",
             "18"});
-            this.cmbNumeroLocal.Location = new System.Drawing.Point(24, 360);
+            this.cmbNumeroLocal.Location = new System.Drawing.Point(353, 360);
             this.cmbNumeroLocal.Name = "cmbNumeroLocal";
             this.cmbNumeroLocal.Size = new System.Drawing.Size(200, 23);
             this.cmbNumeroLocal.TabIndex = 0;
@@ -1432,6 +1421,17 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.btnGenerar.UseVisualStyleBackColor = false;
             this.btnGenerar.Click += new System.EventHandler(this.btnGenerar_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.label1.Location = new System.Drawing.Point(350, 340);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(108, 17);
+            this.label1.TabIndex = 23;
+            this.label1.Text = "Número de Local";
+            // 
             // ContratosForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1552,7 +1552,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private System.Windows.Forms.DataGridView dgvHistorial;
             private System.Windows.Forms.Label lblNumeroDepartamento;
         private System.Windows.Forms.ComboBox cmbNumeroDepartamento;
-        private System.Windows.Forms.Label lblNumeroLocal;
         private System.Windows.Forms.ComboBox cmbNumeroLocal;
         private System.Windows.Forms.Label lblSeleccionSala;
         private System.Windows.Forms.ComboBox cmbSeleccionSala;
@@ -1590,5 +1589,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private System.Windows.Forms.TextBox txtTarifaC;
         private System.Windows.Forms.Label lblTotalPersonasC;
         private System.Windows.Forms.TextBox txtTotalPersonasC;
-}
+        private System.Windows.Forms.Label label1;
+    }
 }
