@@ -21,7 +21,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         }
         private void MenuPrincipalForm_Load(object sender, EventArgs e)
         {
-            AbrirForm(new DashboardForm());
+            //AbrirForm(new DashboardForm());
         }
 
         private void AbrirForm(Form formNuevo)
@@ -45,12 +45,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void btnPrincipal_Click(object sender, EventArgs e)
         {
-            AbrirForm(new DashboardForm());
+            //AbrirForm(new DashboardForm());
         }
 
         private void btnPropiedades_Click(object sender, EventArgs e)
         {
-            AbrirForm(new PropiedadesForm());
+            //AbrirForm(new PropiedadesForm());
         }
 
         private void btnContratos_Click(object sender, EventArgs e)
@@ -58,7 +58,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             ContratosForm frm = new ContratosForm();
             frm.ShowDialog();
             this.Close();
-            //AbrirForm(new ContratoForm());
+            AbrirForm(new ContratoForm());
+        }
+
+        private void btnCerrarSesion_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
