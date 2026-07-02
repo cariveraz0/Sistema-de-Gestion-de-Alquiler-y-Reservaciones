@@ -16,12 +16,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
+            iniciarSesion();
             txtUsuario.Clear();
             txtContra.Clear();
             empleadoID = string.Empty;
             txtUsuario.Focus();
 
-            iniciarSesion();
         }
 
         private void LoginForm_Load(object sender, EventArgs e)
@@ -36,6 +36,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             if (e.KeyCode == Keys.Enter)
             {
                 iniciarSesion();
+                txtUsuario.Clear();
+                txtContra.Clear();
+                empleadoID = string.Empty;
+                txtUsuario.Focus();
             }
         }
 
@@ -93,12 +97,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     if (readerQueryPrueba.Read())
                     {
                         empleadoID = readerQueryPrueba["Empleado_ID"].ToString();
-
-                        // Limpiamos los campos para mayor seguridad
-                        txtUsuario.Clear();
-                        txtContra.Clear();
-                        txtUsuario.Focus();
-
                         obtenerDatos(empleadoID); //Esto es solo para probar la conexion a la DB y mostrar nuestros nombres
 
                         MenuPrincipalForm frm = new MenuPrincipalForm();
