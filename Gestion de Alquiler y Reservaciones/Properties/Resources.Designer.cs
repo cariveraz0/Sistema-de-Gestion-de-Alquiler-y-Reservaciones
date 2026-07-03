@@ -83,6 +83,16 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap arrow_back_24dp_000000_FILL0_wght400_GRAD0_opsz24 {
+            get {
+                object obj = ResourceManager.GetObject("arrow_back_24dp_000000_FILL0_wght400_GRAD0_opsz24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap build {
             get {
                 object obj = ResourceManager.GetObject("build", resourceCulture);
@@ -136,6 +146,16 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Properties {
         internal static System.Drawing.Bitmap house {
             get {
                 object obj = ResourceManager.GetObject("house", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LogoFinal2 {
+            get {
+                object obj = ResourceManager.GetObject("LogoFinal2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

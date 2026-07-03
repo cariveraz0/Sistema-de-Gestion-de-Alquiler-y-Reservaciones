@@ -229,6 +229,54 @@
     <Compile Include="PropiedadesForm.Designer.cs">
       <DependentUpon>PropiedadesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Reportes\EstadisticasOcupacionPropiedad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\EstadisticasOcupacionPropiedad.Designer.cs">
+      <DependentUpon>EstadisticasOcupacionPropiedad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\EstadoCuentaArrendatario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\EstadoCuentaArrendatario.Designer.cs">
+      <DependentUpon>EstadoCuentaArrendatario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\HistorialMantenimientoPropiedad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\HistorialMantenimientoPropiedad.Designer.cs">
+      <DependentUpon>HistorialMantenimientoPropiedad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\ReporteBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteBase.Designer.cs">
+      <DependentUpon>ReporteBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\ReporteContratosVigentes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteContratosVigentes.Designer.cs">
+      <DependentUpon>ReporteContratosVigentes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\ReporteReservacionesPeriodo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteReservacionesPeriodo.Designer.cs">
+      <DependentUpon>ReporteReservacionesPeriodo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\ResumenIngresosConcepto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\ResumenIngresosConcepto.Designer.cs">
+      <DependentUpon>ResumenIngresosConcepto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\ResumenMantenimientoEstado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\ResumenMantenimientoEstado.Designer.cs">
+      <DependentUpon>ResumenMantenimientoEstado.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -254,6 +302,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PropiedadesForm.resx">
       <DependentUpon>PropiedadesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\EstadisticasOcupacionPropiedad.resx">
+      <DependentUpon>EstadisticasOcupacionPropiedad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\EstadoCuentaArrendatario.resx">
+      <DependentUpon>EstadoCuentaArrendatario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\HistorialMantenimientoPropiedad.resx">
+      <DependentUpon>HistorialMantenimientoPropiedad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\ReporteBase.resx">
+      <DependentUpon>ReporteBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\ReporteContratosVigentes.resx">
+      <DependentUpon>ReporteContratosVigentes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\ReporteReservacionesPeriodo.resx">
+      <DependentUpon>ReporteReservacionesPeriodo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\ResumenIngresosConcepto.resx">
+      <DependentUpon>ResumenIngresosConcepto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\ResumenMantenimientoEstado.resx">
+      <DependentUpon>ResumenMantenimientoEstado.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Assets\Fonts\Montserrat-Black.ttf" />
     <None Include="Assets\Fonts\Montserrat-BlackItalic.ttf" />
@@ -307,6 +379,8 @@
   <ItemGroup>
     <Content Include="Assets\Images\Icono.ico" />
     <Content Include="Assets\Images\LogoFinal2.png" />
+    <None Include="Resources\arrow_back_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" />
+    <None Include="Resources\LogoFinal2.png" />
     <None Include="Resources\exit.png" />
     <None Include="Resources\analytics.png" />
     <None Include="Resources\money.png" />
