@@ -32,23 +32,39 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuPrincipalForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reporteDeContratosVigentesYSuEstadoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.propiedadesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.historialDeMantenimientoPorPropiedadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contratoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reporteDeReservacionesPorPeríodoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reservacionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.estadoDeCuentaPorArrendatarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.estadísticasDeOcToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mantenimientoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resumenDeIngresosPorConceptoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox13 = new System.Windows.Forms.PictureBox();
             this.btnCerrarSesion = new System.Windows.Forms.Button();
+            this.pictureBox9 = new System.Windows.Forms.PictureBox();
             this.button8 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
+            this.pictureBox7 = new System.Windows.Forms.PictureBox();
+            this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.button6 = new System.Windows.Forms.Button();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.btnContratos = new System.Windows.Forms.Button();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.btnPropiedades = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.btnPrincipal = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -59,27 +75,10 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.panelContenido = new System.Windows.Forms.Panel();
-            this.reporteDeContratosVigentesYSuEstadoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.historialDeMantenimientoPorPropiedadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reporteDeReservacionesPorPeríodoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.estadoDeCuentaPorArrendatarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.estadísticasDeOcToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.pictureBox13 = new System.Windows.Forms.PictureBox();
-            this.pictureBox9 = new System.Windows.Forms.PictureBox();
-            this.pictureBox7 = new System.Windows.Forms.PictureBox();
-            this.pictureBox6 = new System.Windows.Forms.PictureBox();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.resumenDeIngresosPorConceptoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
@@ -89,6 +88,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -117,6 +118,13 @@
             this.archivoToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
             this.archivoToolStripMenuItem.Text = "Contratos";
             // 
+            // reporteDeContratosVigentesYSuEstadoToolStripMenuItem
+            // 
+            this.reporteDeContratosVigentesYSuEstadoToolStripMenuItem.Name = "reporteDeContratosVigentesYSuEstadoToolStripMenuItem";
+            this.reporteDeContratosVigentesYSuEstadoToolStripMenuItem.Size = new System.Drawing.Size(296, 22);
+            this.reporteDeContratosVigentesYSuEstadoToolStripMenuItem.Text = "Reporte de Contratos Vigentes y su Estado";
+            this.reporteDeContratosVigentesYSuEstadoToolStripMenuItem.Click += new System.EventHandler(this.reporteDeContratosVigentesYSuEstadoToolStripMenuItem_Click);
+            // 
             // propiedadesToolStripMenuItem
             // 
             this.propiedadesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -127,14 +135,36 @@
             this.propiedadesToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
             this.propiedadesToolStripMenuItem.Text = "Mantenimiento";
             // 
+            // historialDeMantenimientoPorPropiedadToolStripMenuItem
+            // 
+            this.historialDeMantenimientoPorPropiedadToolStripMenuItem.Name = "historialDeMantenimientoPorPropiedadToolStripMenuItem";
+            this.historialDeMantenimientoPorPropiedadToolStripMenuItem.Size = new System.Drawing.Size(359, 22);
+            this.historialDeMantenimientoPorPropiedadToolStripMenuItem.Text = "Historial de Mantenimiento por Propiedad";
+            this.historialDeMantenimientoPorPropiedadToolStripMenuItem.Click += new System.EventHandler(this.historialDeMantenimientoPorPropiedadToolStripMenuItem_Click);
+            // 
+            // resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem
+            // 
+            this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem.Name = "resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem";
+            this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem.Size = new System.Drawing.Size(359, 22);
+            this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem.Text = "Resumen de Solicitudes de Mantenimiento por Estado";
+            this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem.Click += new System.EventHandler(this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem_Click);
+            // 
             // contratoToolStripMenuItem
             // 
             this.contratoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reporteDeReservacionesPorPeríodoToolStripMenuItem});
+            this.reporteDeReservacionesPorPeríodoToolStripMenuItem,
+            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem});
             this.contratoToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.contratoToolStripMenuItem.Name = "contratoToolStripMenuItem";
             this.contratoToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
             this.contratoToolStripMenuItem.Text = "Reservaciones";
+            // 
+            // reporteDeReservacionesPorPeríodoToolStripMenuItem
+            // 
+            this.reporteDeReservacionesPorPeríodoToolStripMenuItem.Name = "reporteDeReservacionesPorPeríodoToolStripMenuItem";
+            this.reporteDeReservacionesPorPeríodoToolStripMenuItem.Size = new System.Drawing.Size(349, 22);
+            this.reporteDeReservacionesPorPeríodoToolStripMenuItem.Text = "Reporte de Reservaciones por Período";
+            this.reporteDeReservacionesPorPeríodoToolStripMenuItem.Click += new System.EventHandler(this.reporteDeReservacionesPorPeríodoToolStripMenuItem_Click);
             // 
             // reservacionesToolStripMenuItem
             // 
@@ -145,6 +175,13 @@
             this.reservacionesToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
             this.reservacionesToolStripMenuItem.Text = "Pagos";
             // 
+            // estadoDeCuentaPorArrendatarioToolStripMenuItem
+            // 
+            this.estadoDeCuentaPorArrendatarioToolStripMenuItem.Name = "estadoDeCuentaPorArrendatarioToolStripMenuItem";
+            this.estadoDeCuentaPorArrendatarioToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.estadoDeCuentaPorArrendatarioToolStripMenuItem.Text = "Estado de Cuenta por Arrendatario";
+            this.estadoDeCuentaPorArrendatarioToolStripMenuItem.Click += new System.EventHandler(this.estadoDeCuentaPorArrendatarioToolStripMenuItem_Click);
+            // 
             // clientesToolStripMenuItem
             // 
             this.clientesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -154,6 +191,13 @@
             this.clientesToolStripMenuItem.Size = new System.Drawing.Size(84, 20);
             this.clientesToolStripMenuItem.Text = "Propiedades";
             // 
+            // estadísticasDeOcToolStripMenuItem
+            // 
+            this.estadísticasDeOcToolStripMenuItem.Name = "estadísticasDeOcToolStripMenuItem";
+            this.estadísticasDeOcToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
+            this.estadísticasDeOcToolStripMenuItem.Text = "Estadísticas de Ocupación por Propiedad";
+            this.estadísticasDeOcToolStripMenuItem.Click += new System.EventHandler(this.estadísticasDeOcToolStripMenuItem_Click);
+            // 
             // mantenimientoToolStripMenuItem
             // 
             this.mantenimientoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -162,6 +206,13 @@
             this.mantenimientoToolStripMenuItem.Name = "mantenimientoToolStripMenuItem";
             this.mantenimientoToolStripMenuItem.Size = new System.Drawing.Size(100, 20);
             this.mantenimientoToolStripMenuItem.Text = "Administración";
+            // 
+            // resumenDeIngresosPorConceptoToolStripMenuItem
+            // 
+            this.resumenDeIngresosPorConceptoToolStripMenuItem.Name = "resumenDeIngresosPorConceptoToolStripMenuItem";
+            this.resumenDeIngresosPorConceptoToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
+            this.resumenDeIngresosPorConceptoToolStripMenuItem.Text = "Resumen de Ingresos por Concepto";
+            this.resumenDeIngresosPorConceptoToolStripMenuItem.Click += new System.EventHandler(this.resumenDeIngresosPorConceptoToolStripMenuItem_Click);
             // 
             // panel1
             // 
@@ -193,6 +244,16 @@
             this.panel1.Size = new System.Drawing.Size(230, 657);
             this.panel1.TabIndex = 3;
             // 
+            // pictureBox13
+            // 
+            this.pictureBox13.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.exit;
+            this.pictureBox13.Location = new System.Drawing.Point(9, 627);
+            this.pictureBox13.Name = "pictureBox13";
+            this.pictureBox13.Size = new System.Drawing.Size(24, 27);
+            this.pictureBox13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox13.TabIndex = 18;
+            this.pictureBox13.TabStop = false;
+            // 
             // btnCerrarSesion
             // 
             this.btnCerrarSesion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
@@ -207,6 +268,16 @@
             this.btnCerrarSesion.Text = "Cerrar Sesión";
             this.btnCerrarSesion.UseVisualStyleBackColor = false;
             this.btnCerrarSesion.Click += new System.EventHandler(this.btnCerrarSesion_Click);
+            // 
+            // pictureBox9
+            // 
+            this.pictureBox9.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.money;
+            this.pictureBox9.Location = new System.Drawing.Point(6, 365);
+            this.pictureBox9.Name = "pictureBox9";
+            this.pictureBox9.Size = new System.Drawing.Size(24, 27);
+            this.pictureBox9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox9.TabIndex = 14;
+            this.pictureBox9.TabStop = false;
             // 
             // button8
             // 
@@ -233,6 +304,26 @@
             this.label4.TabIndex = 12;
             this.label4.Text = "FINANZAS";
             // 
+            // pictureBox7
+            // 
+            this.pictureBox7.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.build;
+            this.pictureBox7.Location = new System.Drawing.Point(6, 302);
+            this.pictureBox7.Name = "pictureBox7";
+            this.pictureBox7.Size = new System.Drawing.Size(24, 27);
+            this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox7.TabIndex = 9;
+            this.pictureBox7.TabStop = false;
+            // 
+            // pictureBox6
+            // 
+            this.pictureBox6.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.group;
+            this.pictureBox6.Location = new System.Drawing.Point(6, 266);
+            this.pictureBox6.Name = "pictureBox6";
+            this.pictureBox6.Size = new System.Drawing.Size(24, 27);
+            this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox6.TabIndex = 9;
+            this.pictureBox6.TabStop = false;
+            // 
             // button6
             // 
             this.button6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
@@ -246,6 +337,16 @@
             this.button6.TabIndex = 8;
             this.button6.Text = "Mantenimiento";
             this.button6.UseVisualStyleBackColor = false;
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.calendar;
+            this.pictureBox5.Location = new System.Drawing.Point(6, 230);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(24, 27);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox5.TabIndex = 11;
+            this.pictureBox5.TabStop = false;
             // 
             // button5
             // 
@@ -275,6 +376,16 @@
             this.button4.Text = "Reservaciones";
             this.button4.UseVisualStyleBackColor = false;
             // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.contract;
+            this.pictureBox4.Location = new System.Drawing.Point(6, 194);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(24, 27);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox4.TabIndex = 9;
+            this.pictureBox4.TabStop = false;
+            // 
             // btnContratos
             // 
             this.btnContratos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
@@ -289,6 +400,16 @@
             this.btnContratos.Text = "Contratos";
             this.btnContratos.UseVisualStyleBackColor = false;
             this.btnContratos.Click += new System.EventHandler(this.btnContratos_Click);
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.apartment;
+            this.pictureBox3.Location = new System.Drawing.Point(6, 158);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(24, 27);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 7;
+            this.pictureBox3.TabStop = false;
             // 
             // btnPropiedades
             // 
@@ -316,6 +437,16 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "GESTIÓN";
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.house;
+            this.pictureBox2.Location = new System.Drawing.Point(6, 96);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(24, 27);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 4;
+            this.pictureBox2.TabStop = false;
+            // 
             // btnPrincipal
             // 
             this.btnPrincipal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
@@ -341,6 +472,16 @@
             this.label2.Size = new System.Drawing.Size(70, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "PRINCIPAL";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(12, 11);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(57, 49);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
             // 
             // label1
             // 
@@ -450,150 +591,18 @@
             this.panelContenido.Size = new System.Drawing.Size(1120, 597);
             this.panelContenido.TabIndex = 5;
             // 
-            // reporteDeContratosVigentesYSuEstadoToolStripMenuItem
-            // 
-            this.reporteDeContratosVigentesYSuEstadoToolStripMenuItem.Name = "reporteDeContratosVigentesYSuEstadoToolStripMenuItem";
-            this.reporteDeContratosVigentesYSuEstadoToolStripMenuItem.Size = new System.Drawing.Size(296, 22);
-            this.reporteDeContratosVigentesYSuEstadoToolStripMenuItem.Text = "Reporte de Contratos Vigentes y su Estado";
-            this.reporteDeContratosVigentesYSuEstadoToolStripMenuItem.Click += new System.EventHandler(this.reporteDeContratosVigentesYSuEstadoToolStripMenuItem_Click);
-            // 
-            // historialDeMantenimientoPorPropiedadToolStripMenuItem
-            // 
-            this.historialDeMantenimientoPorPropiedadToolStripMenuItem.Name = "historialDeMantenimientoPorPropiedadToolStripMenuItem";
-            this.historialDeMantenimientoPorPropiedadToolStripMenuItem.Size = new System.Drawing.Size(359, 22);
-            this.historialDeMantenimientoPorPropiedadToolStripMenuItem.Text = "Historial de Mantenimiento por Propiedad";
-            this.historialDeMantenimientoPorPropiedadToolStripMenuItem.Click += new System.EventHandler(this.historialDeMantenimientoPorPropiedadToolStripMenuItem_Click);
-            // 
-            // resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem
-            // 
-            this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem.Name = "resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem";
-            this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem.Size = new System.Drawing.Size(359, 22);
-            this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem.Text = "Resumen de Solicitudes de Mantenimiento por Estado";
-            this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem.Click += new System.EventHandler(this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem_Click);
-            // 
-            // reporteDeReservacionesPorPeríodoToolStripMenuItem
-            // 
-            this.reporteDeReservacionesPorPeríodoToolStripMenuItem.Name = "reporteDeReservacionesPorPeríodoToolStripMenuItem";
-            this.reporteDeReservacionesPorPeríodoToolStripMenuItem.Size = new System.Drawing.Size(273, 22);
-            this.reporteDeReservacionesPorPeríodoToolStripMenuItem.Text = "Reporte de Reservaciones por Período";
-            this.reporteDeReservacionesPorPeríodoToolStripMenuItem.Click += new System.EventHandler(this.reporteDeReservacionesPorPeríodoToolStripMenuItem_Click);
-            // 
-            // estadoDeCuentaPorArrendatarioToolStripMenuItem
-            // 
-            this.estadoDeCuentaPorArrendatarioToolStripMenuItem.Name = "estadoDeCuentaPorArrendatarioToolStripMenuItem";
-            this.estadoDeCuentaPorArrendatarioToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.estadoDeCuentaPorArrendatarioToolStripMenuItem.Text = "Estado de Cuenta por Arrendatario";
-            this.estadoDeCuentaPorArrendatarioToolStripMenuItem.Click += new System.EventHandler(this.estadoDeCuentaPorArrendatarioToolStripMenuItem_Click);
-            // 
-            // estadísticasDeOcToolStripMenuItem
-            // 
-            this.estadísticasDeOcToolStripMenuItem.Name = "estadísticasDeOcToolStripMenuItem";
-            this.estadísticasDeOcToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
-            this.estadísticasDeOcToolStripMenuItem.Text = "Estadísticas de Ocupación por Propiedad";
-            this.estadísticasDeOcToolStripMenuItem.Click += new System.EventHandler(this.estadísticasDeOcToolStripMenuItem_Click);
-            // 
             // timer1
             // 
             this.timer1.Enabled = true;
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // pictureBox13
+            // casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem
             // 
-            this.pictureBox13.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.exit;
-            this.pictureBox13.Location = new System.Drawing.Point(9, 627);
-            this.pictureBox13.Name = "pictureBox13";
-            this.pictureBox13.Size = new System.Drawing.Size(24, 27);
-            this.pictureBox13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox13.TabIndex = 18;
-            this.pictureBox13.TabStop = false;
-            // 
-            // pictureBox9
-            // 
-            this.pictureBox9.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.money;
-            this.pictureBox9.Location = new System.Drawing.Point(6, 365);
-            this.pictureBox9.Name = "pictureBox9";
-            this.pictureBox9.Size = new System.Drawing.Size(24, 27);
-            this.pictureBox9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox9.TabIndex = 14;
-            this.pictureBox9.TabStop = false;
-            // 
-            // pictureBox7
-            // 
-            this.pictureBox7.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.build;
-            this.pictureBox7.Location = new System.Drawing.Point(6, 302);
-            this.pictureBox7.Name = "pictureBox7";
-            this.pictureBox7.Size = new System.Drawing.Size(24, 27);
-            this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox7.TabIndex = 9;
-            this.pictureBox7.TabStop = false;
-            // 
-            // pictureBox6
-            // 
-            this.pictureBox6.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.group;
-            this.pictureBox6.Location = new System.Drawing.Point(6, 266);
-            this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(24, 27);
-            this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox6.TabIndex = 9;
-            this.pictureBox6.TabStop = false;
-            // 
-            // pictureBox5
-            // 
-            this.pictureBox5.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.calendar;
-            this.pictureBox5.Location = new System.Drawing.Point(6, 230);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(24, 27);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox5.TabIndex = 11;
-            this.pictureBox5.TabStop = false;
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.contract;
-            this.pictureBox4.Location = new System.Drawing.Point(6, 194);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(24, 27);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox4.TabIndex = 9;
-            this.pictureBox4.TabStop = false;
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.apartment;
-            this.pictureBox3.Location = new System.Drawing.Point(6, 158);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(24, 27);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox3.TabIndex = 7;
-            this.pictureBox3.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.house;
-            this.pictureBox2.Location = new System.Drawing.Point(6, 96);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(24, 27);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 4;
-            this.pictureBox2.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(12, 11);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(57, 49);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            // 
-            // resumenDeIngresosPorConceptoToolStripMenuItem
-            // 
-            this.resumenDeIngresosPorConceptoToolStripMenuItem.Name = "resumenDeIngresosPorConceptoToolStripMenuItem";
-            this.resumenDeIngresosPorConceptoToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
-            this.resumenDeIngresosPorConceptoToolStripMenuItem.Text = "Resumen de Ingresos por Concepto";
-            this.resumenDeIngresosPorConceptoToolStripMenuItem.Click += new System.EventHandler(this.resumenDeIngresosPorConceptoToolStripMenuItem_Click);
+            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem.Name = "casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem";
+            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem.Size = new System.Drawing.Size(349, 22);
+            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem.Text = "Casas Vacacionales Reservadas con Pago en Efectivo";
+            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem.Click += new System.EventHandler(this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem_Click);
             // 
             // MenuPrincipalForm
             // 
@@ -616,10 +625,6 @@
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
@@ -629,6 +634,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -681,5 +690,6 @@
         private System.Windows.Forms.ToolStripMenuItem estadísticasDeOcToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ToolStripMenuItem resumenDeIngresosPorConceptoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem;
     }
 }

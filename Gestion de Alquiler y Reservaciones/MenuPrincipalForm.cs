@@ -121,5 +121,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             frm.StartPosition = FormStartPosition.CenterScreen;
             frm.ShowDialog();
         }
+
+        private void casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReporteCasasReservadasEfectivo frm = new ReporteCasasReservadasEfectivo();
+            frm.StartPosition = FormStartPosition.CenterScreen;
+            frm.ShowDialog();
+        }
     }
 }

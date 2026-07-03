@@ -253,6 +253,12 @@
     <Compile Include="Reportes\ReporteBase.Designer.cs">
       <DependentUpon>ReporteBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Reportes\ReporteCasasReservadasEfectivo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteCasasReservadasEfectivo.Designer.cs">
+      <DependentUpon>ReporteCasasReservadasEfectivo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Reportes\ReporteContratosVigentes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -314,6 +320,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes\ReporteBase.resx">
       <DependentUpon>ReporteBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\ReporteCasasReservadasEfectivo.resx">
+      <DependentUpon>ReporteCasasReservadasEfectivo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes\ReporteContratosVigentes.resx">
       <DependentUpon>ReporteContratosVigentes.cs</DependentUpon>
