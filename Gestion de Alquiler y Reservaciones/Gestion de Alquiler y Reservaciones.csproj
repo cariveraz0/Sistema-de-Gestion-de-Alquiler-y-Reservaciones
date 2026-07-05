@@ -283,6 +283,12 @@
     <Compile Include="Reportes\ResumenMantenimientoEstado.Designer.cs">
       <DependentUpon>ResumenMantenimientoEstado.cs</DependentUpon>
     </Compile>
+    <Compile Include="Reportes\SeleccionarPeriodoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\SeleccionarPeriodoForm.Designer.cs">
+      <DependentUpon>SeleccionarPeriodoForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </EmbeddedResource>

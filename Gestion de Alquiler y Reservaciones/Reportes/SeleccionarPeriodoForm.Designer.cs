@@ -1,6 +1,6 @@
-﻿namespace Gestion_de_Alquiler_y_Reservaciones
+﻿namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 {
-    partial class PropiedadesForm : BaseForm
+    partial class SeleccionarPeriodoForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,18 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // PropiedadesForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1426, 641);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Name = "PropiedadesForm";
-            this.Text = "PropiedadesForm";
-            this.ResumeLayout(false);
-
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Text = "SeleccionarPeriodoForm";
         }
 
         #endregion

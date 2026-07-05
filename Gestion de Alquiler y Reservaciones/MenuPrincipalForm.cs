@@ -96,9 +96,19 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void reporteDeReservacionesPorPeríodoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ReporteReservacionesPeriodo frm = new ReporteReservacionesPeriodo();
-            frm.StartPosition = FormStartPosition.CenterScreen;
-            frm.ShowDialog();
+            using (SeleccionarPeriodoForm formPeriodo = new SeleccionarPeriodoForm())
+            {
+                if (formPeriodo.ShowDialog() == DialogResult.OK)
+                {
+                    ReporteReservacionesPeriodo frm = new ReporteReservacionesPeriodo(
+                        formPeriodo.FechaInicio,
+                        formPeriodo.FechaFin
+                    );
+
+                    frm.StartPosition = FormStartPosition.CenterScreen;
+                    frm.ShowDialog();
+                }
+            }
         }
 
         private void estadoDeCuentaPorArrendatarioToolStripMenuItem_Click(object sender, EventArgs e)
