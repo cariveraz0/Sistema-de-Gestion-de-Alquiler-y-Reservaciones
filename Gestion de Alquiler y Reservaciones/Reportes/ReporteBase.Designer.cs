@@ -35,20 +35,20 @@
             this.lblFecha = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pnlPrincipal = new System.Windows.Forms.Panel();
             this.pnlFooter = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.lblPagina = new System.Windows.Forms.Label();
-            this.btnAtras = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnAtras = new System.Windows.Forms.Button();
+            this.lblPagina = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlFooter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -63,7 +63,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1084, 103);
+            this.panel1.Size = new System.Drawing.Size(984, 103);
             this.panel1.TabIndex = 0;
             // 
             // lblHora
@@ -102,6 +102,16 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Fecha:";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.LogoFinal2;
+            this.pictureBox1.Location = new System.Drawing.Point(30, 34);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(117, 42);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -119,7 +129,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 103);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1084, 10);
+            this.panel2.Size = new System.Drawing.Size(984, 10);
             this.panel2.TabIndex = 1;
             // 
             // timer1
@@ -133,7 +143,7 @@
             this.pnlPrincipal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlPrincipal.Location = new System.Drawing.Point(0, 113);
             this.pnlPrincipal.Name = "pnlPrincipal";
-            this.pnlPrincipal.Size = new System.Drawing.Size(1084, 748);
+            this.pnlPrincipal.Size = new System.Drawing.Size(984, 548);
             this.pnlPrincipal.TabIndex = 2;
             // 
             // pnlFooter
@@ -143,29 +153,21 @@
             this.pnlFooter.Controls.Add(this.lblPagina);
             this.pnlFooter.Controls.Add(this.panel3);
             this.pnlFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlFooter.Location = new System.Drawing.Point(0, 798);
+            this.pnlFooter.Location = new System.Drawing.Point(0, 598);
             this.pnlFooter.Name = "pnlFooter";
-            this.pnlFooter.Size = new System.Drawing.Size(1084, 63);
+            this.pnlFooter.Size = new System.Drawing.Size(984, 63);
             this.pnlFooter.TabIndex = 3;
             // 
-            // panel3
+            // pictureBox2
             // 
-            this.panel3.BackColor = System.Drawing.Color.Black;
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(0, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1084, 10);
-            this.panel3.TabIndex = 0;
-            // 
-            // lblPagina
-            // 
-            this.lblPagina.AutoSize = true;
-            this.lblPagina.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPagina.Location = new System.Drawing.Point(853, 25);
-            this.lblPagina.Name = "lblPagina";
-            this.lblPagina.Size = new System.Drawing.Size(119, 25);
-            this.lblPagina.TabIndex = 1;
-            this.lblPagina.Text = "Página 1 de 1";
+            this.pictureBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(179)))), ((int)(((byte)(64)))));
+            this.pictureBox2.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.arrow_back_24dp_000000_FILL0_wght400_GRAD0_opsz24;
+            this.pictureBox2.Location = new System.Drawing.Point(16, 24);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(34, 24);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox2.TabIndex = 3;
+            this.pictureBox2.TabStop = false;
             // 
             // btnAtras
             // 
@@ -181,32 +183,30 @@
             this.btnAtras.UseVisualStyleBackColor = false;
             this.btnAtras.Click += new System.EventHandler(this.btnAtras_Click);
             // 
-            // pictureBox2
+            // lblPagina
             // 
-            this.pictureBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(179)))), ((int)(((byte)(64)))));
-            this.pictureBox2.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.arrow_back_24dp_000000_FILL0_wght400_GRAD0_opsz24;
-            this.pictureBox2.Location = new System.Drawing.Point(16, 24);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(34, 24);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox2.TabIndex = 3;
-            this.pictureBox2.TabStop = false;
+            this.lblPagina.AutoSize = true;
+            this.lblPagina.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPagina.Location = new System.Drawing.Point(849, 24);
+            this.lblPagina.Name = "lblPagina";
+            this.lblPagina.Size = new System.Drawing.Size(119, 25);
+            this.lblPagina.TabIndex = 1;
+            this.lblPagina.Text = "Página 1 de 1";
             // 
-            // pictureBox1
+            // panel3
             // 
-            this.pictureBox1.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.LogoFinal2;
-            this.pictureBox1.Location = new System.Drawing.Point(30, 34);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(117, 42);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
+            this.panel3.BackColor = System.Drawing.Color.Black;
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel3.Location = new System.Drawing.Point(0, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(984, 10);
+            this.panel3.TabIndex = 0;
             // 
             // ReporteBase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1084, 861);
+            this.ClientSize = new System.Drawing.Size(984, 661);
             this.Controls.Add(this.pnlFooter);
             this.Controls.Add(this.pnlPrincipal);
             this.Controls.Add(this.panel2);
@@ -218,10 +218,10 @@
             this.Load += new System.EventHandler(this.ReporteContratosVigentes_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pnlFooter.ResumeLayout(false);
             this.pnlFooter.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -241,7 +241,7 @@
         private System.Windows.Forms.Panel pnlFooter;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button btnAtras;
-        private System.Windows.Forms.Label lblPagina;
         private System.Windows.Forms.Panel panel3;
+        protected System.Windows.Forms.Label lblPagina;
     }
 }
