@@ -127,9 +127,19 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void resumenDeIngresosPorConceptoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ResumenIngresosConcepto frm = new ResumenIngresosConcepto();
-            frm.StartPosition = FormStartPosition.CenterScreen;
-            frm.ShowDialog();
+            using (SeleccionarPeriodoIngresosForm formPeriodo = new SeleccionarPeriodoIngresosForm())
+            {
+                if (formPeriodo.ShowDialog() == DialogResult.OK)
+                {
+                    ResumenIngresosConcepto frm = new ResumenIngresosConcepto(
+                        formPeriodo.FechaInicio,
+                        formPeriodo.FechaFin
+                    );
+
+                    frm.StartPosition = FormStartPosition.CenterScreen;
+                    frm.ShowDialog();
+                }
+            }
         }
 
         private void casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem_Click(object sender, EventArgs e)
