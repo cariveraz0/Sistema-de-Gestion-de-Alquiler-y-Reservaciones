@@ -21,7 +21,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
         private void DiseñarFormulario()
         {
             this.Text = "Periodo de Consulta";
-            this.Size = new Size(380, 220);
+            this.Size = new Size(380, 240);
             this.StartPosition = FormStartPosition.CenterParent;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -30,7 +30,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
             Label lblTitulo = new Label();
             lblTitulo.Text = "Seleccione el período del reporte";
-            lblTitulo.Font = new Font("Arial", 12, FontStyle.Bold);
+            lblTitulo.Font = new Font("Montserrat", 12, FontStyle.Bold);
             lblTitulo.Location = new Point(35, 20);
             lblTitulo.Size = new Size(300, 25);
             lblTitulo.TextAlign = ContentAlignment.MiddleCenter;
@@ -38,7 +38,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
             Label lblDesde = new Label();
             lblDesde.Text = "Desde:";
-            lblDesde.Font = new Font("Arial", 9, FontStyle.Bold);
+            lblDesde.Font = new Font("Montserrat", 9, FontStyle.Bold);
             lblDesde.Location = new Point(45, 70);
             lblDesde.Size = new Size(70, 25);
             this.Controls.Add(lblDesde);
@@ -52,7 +52,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
             Label lblHasta = new Label();
             lblHasta.Text = "Hasta:";
-            lblHasta.Font = new Font("Arial", 9, FontStyle.Bold);
+            lblHasta.Font = new Font("Montserrat", 9, FontStyle.Bold);
             lblHasta.Location = new Point(45, 105);
             lblHasta.Size = new Size(70, 25);
             this.Controls.Add(lblHasta);
@@ -68,16 +68,24 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             btnAceptar.Text = "Aceptar";
             btnAceptar.Location = new Point(80, 145);
             btnAceptar.Size = new Size(90, 30);
-            btnAceptar.BackColor = Color.FromArgb(242, 190, 64);
-            btnAceptar.Font = new Font("Arial", 9, FontStyle.Bold);
+            btnAceptar.BackColor = Color.FromArgb(214, 122, 49);
+            btnAceptar.Font = new Font("Montserrat", 9, FontStyle.Bold);
+            btnAceptar.ForeColor = Color.White;
+            btnAceptar.FlatStyle = FlatStyle.Flat;
+            btnAceptar.FlatAppearance.BorderColor = Color.White;
+            btnAceptar.FlatAppearance.BorderSize = 1;
             btnAceptar.Click += BtnAceptar_Click;
             this.Controls.Add(btnAceptar);
 
             Button btnCancelar = new Button();
             btnCancelar.Text = "Cancelar";
+            btnCancelar.Font = new Font("Montserrat", 9, FontStyle.Bold);
             btnCancelar.Location = new Point(190, 145);
             btnCancelar.Size = new Size(90, 30);
             btnCancelar.Click += (s, e) => this.DialogResult = DialogResult.Cancel;
+            btnCancelar.FlatStyle = FlatStyle.Flat;
+            btnCancelar.FlatAppearance.BorderColor = Color.White;
+            btnCancelar.FlatAppearance.BorderSize = 1;
             this.Controls.Add(btnCancelar);
         }
 

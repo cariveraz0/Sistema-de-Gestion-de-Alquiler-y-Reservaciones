@@ -8,16 +8,26 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Data.SqlClient;
+using System.IO;
+using iText.Kernel.Colors;
+using iText.Kernel.Font;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas;
+using iText.IO.Font.Constants;
+using iText.IO.Image;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
+using iText.Layout.Borders;
 
 namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 {
     public partial class EstadoCuentaArrendatario : ReporteBase
     {
-        // Contrato que se está mostrando actualmente en el reporte
         private int idContratoActual = 0;
-
-        // Nota aclaratoria sobre el cálculo de la mora, se agrega debajo del resumen
         private Label lblNotaMora;
+        private static readonly string RutaLogo = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Images", "LogoFinal2.png");
 
         public EstadoCuentaArrendatario()
         {
@@ -66,8 +76,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             {
                 AutoSize = true,
                 Font = new Font(label14.Font.FontFamily, 8f, FontStyle.Italic),
-                ForeColor = Color.DimGray,
-                Location = new Point(panel8.Location.X, panel8.Location.Y + panel8.Height + 4),
+                ForeColor = System.Drawing.Color.DimGray,
+                Location = new System.Drawing.Point(panel8.Location.X, panel8.Location.Y + panel8.Height + 4),
                 Text = "Nota: la mora se calcula aplicando un 5% mensual sobre el saldo pendiente acumulado."
             };
 
@@ -407,7 +417,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
             bool enMora = totalPendienteValor > 0;
             estadoGeneral.Text = enMora ? "EN MORA" : "AL DÍA";
-            estadoGeneral.ForeColor = enMora ? Color.Red : Color.Green;
+            estadoGeneral.ForeColor = enMora ? System.Drawing.Color.Red : System.Drawing.Color.Green;
         }
 
         // Limpia el reporte cuando no se encuentran resultados en la búsqueda
@@ -424,26 +434,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             estadoGeneral.Text = string.Empty;
             estadoGeneral.ForeColor = SystemColors.ControlText;
             dataGridView1.DataSource = null;
-        }
-
-        private void panel4_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pnlPrincipal_Paint(object sender, PaintEventArgs e)
-        {
-
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
@@ -470,6 +460,218 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             LimpiarReporte();
 
             filtroNombre.Focus();
+        }
+
+        private void btnImprimir_Click(object sender, EventArgs e)
+        {
+            if (idContratoActual == 0)
+            {
+                MessageBox.Show("Seleccione un contrato primero para imprimir su estado de cuenta.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataTable dt = dataGridView1.DataSource as DataTable;
+            if (dt == null || dt.Rows.Count == 0)
+            {
+                MessageBox.Show("No hay datos para imprimir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "Archivo PDF (*.pdf)|*.pdf";
+                sfd.FileName = $"EstadoCuenta_{Nombre.Text.Replace(" ", "")}_{DateTime.Now:yyyyMMdd_HHmm}.pdf";
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        GenerarPdfEstadoCuenta(sfd.FileName, dt);
+                        MessageBox.Show("Estado de cuenta generado con éxito.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (IOException)
+                    {
+                        MessageBox.Show(
+                            "No se pudo guardar el archivo porque está abierto en otro programa. Ciérrelo e intente de nuevo.",
+                            "Archivo en uso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+                }
+            }
+        }
+        private void GenerarPdfEstadoCuenta(string rutaArchivo, DataTable dt)
+        {
+            PdfWriter writer = new PdfWriter(rutaArchivo);
+            PdfDocument pdf = new PdfDocument(writer);
+            Document documento = new Document(pdf, PageSize.LETTER.Rotate());
+
+            try
+            {
+                documento.SetMargins(20, 25, 40, 25);
+
+                PdfFont fontRegular = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
+                PdfFont fontBold = PdfFontFactory.CreateFont(StandardFonts.HELVETICA_BOLD);
+                documento.SetFont(fontRegular);
+
+                float[] anchoEncabezado = { 1.3f, 5f, 2f };
+                Table tablaEncabezado = new Table(UnitValue.CreatePercentArray(anchoEncabezado)).UseAllAvailableWidth();
+                tablaEncabezado.SetBackgroundColor(new DeviceRgb(0xD6, 0x79, 0x31));
+                tablaEncabezado.SetBorder(Border.NO_BORDER);
+
+                Cell celdaLogo = new Cell()
+                    .SetBorder(Border.NO_BORDER)
+                    .SetVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .SetPadding(6);
+
+                if (File.Exists(RutaLogo))
+                {
+                    iText.Layout.Element.Image logo = new iText.Layout.Element.Image(ImageDataFactory.Create(RutaLogo));
+                    logo.SetWidth(45).SetAutoScaleHeight(true);
+                    celdaLogo.Add(logo);
+                }
+                else
+                {
+                    celdaLogo.Add(new Paragraph(""));
+                }
+
+                Cell celdaTitulo = new Cell()
+                    .SetBorder(Border.NO_BORDER)
+                    .SetVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .SetPadding(8)
+                    .Add(new Paragraph("ESTADO DE CUENTA POR ARRENDATARIO")
+                        .SetFont(fontBold)
+                        .SetFontSize(14)
+                        .SetFontColor(ColorConstants.WHITE)
+                        .SetTextAlignment(TextAlignment.CENTER)
+                        .SetMargin(0));
+
+                Paragraph parrafoFecha = new Paragraph()
+                    .Add(new Text("Fecha: ").SetFont(fontBold))
+                    .Add(new Text(DateTime.Now.ToString("dd/MM/yyyy")).SetFont(fontRegular))
+                    .Add(new Text("\nHora: ").SetFont(fontBold))
+                    .Add(new Text(DateTime.Now.ToString("hh:mm tt")).SetFont(fontRegular))
+                    .SetFontSize(9)
+                    .SetFontColor(ColorConstants.WHITE)
+                    .SetTextAlignment(TextAlignment.RIGHT)
+                    .SetMargin(0);
+
+                Cell celdaFecha = new Cell()
+                    .SetBorder(Border.NO_BORDER)
+                    .SetVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .SetPadding(8)
+                    .Add(parrafoFecha);
+
+                tablaEncabezado.AddCell(celdaLogo);
+                tablaEncabezado.AddCell(celdaTitulo);
+                tablaEncabezado.AddCell(celdaFecha);
+                documento.Add(tablaEncabezado);
+
+                documento.Add(new Paragraph("\n"));
+
+                Table infoTable = new Table(UnitValue.CreatePercentArray(new float[] { 1, 3, 1, 2 })).UseAllAvailableWidth();
+                infoTable.SetMarginBottom(10);
+
+                infoTable.AddCell(new Cell().Add(new Paragraph("Arrendatario:").SetFont(fontBold)).SetBorder(Border.NO_BORDER));
+                infoTable.AddCell(new Cell().Add(new Paragraph(Nombre.Text)).SetBorder(Border.NO_BORDER));
+                infoTable.AddCell(new Cell().Add(new Paragraph("Propiedad:").SetFont(fontBold)).SetBorder(Border.NO_BORDER));
+                infoTable.AddCell(new Cell().Add(new Paragraph(Propiedad.Text)).SetBorder(Border.NO_BORDER));
+
+                infoTable.AddCell(new Cell().Add(new Paragraph("Nº Contrato:").SetFont(fontBold)).SetBorder(Border.NO_BORDER));
+                infoTable.AddCell(new Cell().Add(new Paragraph(nContrato.Text)).SetBorder(Border.NO_BORDER));
+                infoTable.AddCell(new Cell().Add(new Paragraph("Monto Mensual:").SetFont(fontBold)).SetBorder(Border.NO_BORDER));
+                infoTable.AddCell(new Cell().Add(new Paragraph(montoMensual.Text)).SetBorder(Border.NO_BORDER));
+
+                infoTable.AddCell(new Cell().Add(new Paragraph("Inicio:").SetFont(fontBold)).SetBorder(Border.NO_BORDER));
+                infoTable.AddCell(new Cell().Add(new Paragraph(fechaInicio.Text)).SetBorder(Border.NO_BORDER));
+                infoTable.AddCell(new Cell().Add(new Paragraph("Vencimiento:").SetFont(fontBold)).SetBorder(Border.NO_BORDER));
+                infoTable.AddCell(new Cell().Add(new Paragraph(fechaVencimiento.Text)).SetBorder(Border.NO_BORDER));
+
+                documento.Add(infoTable);
+
+                float[] anchoColumnas = { 2, 2, 2, 2, 2, 2, 3 };
+                Table tabla = new Table(UnitValue.CreatePercentArray(anchoColumnas)).UseAllAvailableWidth();
+
+                string[] encabezados = { "Fecha de Pago", "Periodo Cubierto", "Monto Pagado", "Pago Pendiente", "Mora Acumulada", "Estado", "Observaciones" };
+                foreach (var encabezado in encabezados)
+                {
+                    Cell celda = new Cell()
+                        .Add(new Paragraph(encabezado).SetFont(fontBold).SetFontColor(ColorConstants.WHITE).SetFontSize(9))
+                        .SetBackgroundColor(new DeviceRgb(0xD6, 0x79, 0x31))
+                        .SetTextAlignment(TextAlignment.CENTER)
+                        .SetVerticalAlignment(VerticalAlignment.MIDDLE)
+                        .SetPadding(6);
+                    tabla.AddHeaderCell(celda);
+                }
+
+                foreach (DataRow fila in dt.Rows)
+                {
+                    tabla.AddCell(CeldaTexto(fila["Fecha de Pago"].ToString(), fontRegular));
+                    tabla.AddCell(CeldaTexto(fila["Periodo Cubierto"].ToString(), fontRegular));
+                    tabla.AddCell(CeldaTexto(fila["Monto Pagado"].ToString(), fontRegular, TextAlignment.RIGHT));
+                    tabla.AddCell(CeldaTexto(fila["Pago Pendiente"].ToString(), fontRegular, TextAlignment.RIGHT));
+                    tabla.AddCell(CeldaTexto(fila["Mora Acumulada"].ToString(), fontRegular, TextAlignment.RIGHT));
+
+                    string estado = fila["Estado"].ToString();
+                    Cell celdaEstado = new Cell()
+                        .Add(new Paragraph(estado).SetFont(fontBold).SetFontSize(9))
+                        .SetTextAlignment(TextAlignment.CENTER)
+                        .SetVerticalAlignment(VerticalAlignment.MIDDLE)
+                        .SetPadding(4);
+
+                    switch (estado.Trim().ToLower())
+                    {
+                        case "pagada":
+                        case "pagado":
+                            celdaEstado.SetBackgroundColor(new DeviceRgb(0xD4, 0xED, 0xDA)).SetFontColor(new DeviceRgb(0x15, 0x57, 0x24));
+                            break;
+                        case "en mora":
+                            celdaEstado.SetBackgroundColor(new DeviceRgb(0xF8, 0xD7, 0xDA)).SetFontColor(new DeviceRgb(0x72, 0x1C, 0x24));
+                            break;
+                        case "pendiente":
+                            celdaEstado.SetBackgroundColor(new DeviceRgb(0xFF, 0xF3, 0xCD)).SetFontColor(new DeviceRgb(0x85, 0x64, 0x04));
+                            break;
+                    }
+                    tabla.AddCell(celdaEstado);
+
+                    tabla.AddCell(CeldaTexto(fila["Observaciones"].ToString(), fontRegular, TextAlignment.LEFT));
+                }
+
+                documento.Add(tabla);
+
+                documento.Add(new Paragraph($"\nResumen: Total Pagado {totalPagado.Text}  |  Total Pendiente {totalPendiente.Text}  |  Estado: {estadoGeneral.Text}")
+                    .SetFont(fontBold).SetFontSize(10).SetTextAlignment(TextAlignment.RIGHT).SetMarginTop(10));
+
+                int totalPaginas = pdf.GetNumberOfPages();
+                for (int i = 1; i <= totalPaginas; i++)
+                {
+                    PdfPage pagina = pdf.GetPage(i);
+                    iText.Kernel.Geom.Rectangle tamano = pagina.GetPageSize();
+                    PdfCanvas pdfCanvas = new PdfCanvas(pagina);
+                    Canvas canvas = new Canvas(pdfCanvas, tamano);
+                    canvas.ShowTextAligned(
+                        new Paragraph($"Página {i} de {totalPaginas}")
+                            .SetFont(fontRegular).SetFontSize(8).SetFontColor(ColorConstants.GRAY),
+                        tamano.GetWidth() - 25, 15, TextAlignment.RIGHT);
+                    canvas.Close();
+                }
+            }
+            finally
+            {
+                documento.Close();
+            }
+        }
+        private Cell CeldaTexto(string texto, PdfFont fuente, TextAlignment alineacion = TextAlignment.CENTER)
+        {
+            return new Cell()
+                .Add(new Paragraph(texto).SetFont(fuente))
+                .SetTextAlignment(alineacion)
+                .SetVerticalAlignment(VerticalAlignment.MIDDLE)
+                .SetPadding(4)
+                .SetFontSize(9);
         }
     }
 }

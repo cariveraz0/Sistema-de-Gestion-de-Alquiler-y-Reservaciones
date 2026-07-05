@@ -6,14 +6,25 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Microsoft.Data.SqlClient;
+using System.IO;
+using iText.Kernel.Colors;
+using iText.Kernel.Font;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas;
+using iText.IO.Font.Constants;
+using iText.IO.Image;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
+using iText.Layout.Borders;
 
 namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 {
     public partial class ResumenMantenimientoEstado : ReporteBase
     {
-
-
-        //Método para cargar estados en Combobox
+        private DataTable dtPivotPDF;
+        private static readonly string RutaLogo = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Images", "LogoFinal2.png");
         public void CargarEstadosEnComboBox(ComboBox cBxEstados)
         {
             try
@@ -236,7 +247,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                 {
                     BackColor = ObtenerColorEstado(item.Estado),
                     Size = new Size(12, 12),
-                    Location = new Point(14, y + 3)
+                    Location = new System.Drawing.Point(14, y + 3)
                 };
 
                 Label lblEstado = new Label
@@ -244,14 +255,14 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     Text = $"{item.Estado}:",
                     Font = new Font(label6.Font, FontStyle.Bold),
                     AutoSize = true,
-                    Location = new Point(34, y)
+                    Location = new System.Drawing.Point(34, y)
                 };
 
                 Label lblCantidad = new Label
                 {
                     Text = $"{item.Cantidad} órdenes",
                     AutoSize = true,
-                    Location = new Point(200, y)
+                    Location = new System.Drawing.Point(200, y)
                 };
 
                 pnlResumenEjecutivo.Controls.Add(dot);
@@ -268,7 +279,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                 BorderStyle = BorderStyle.Fixed3D,
                 AutoSize = false,
                 Height = 2,
-                Location = new Point(14, y),
+                Location = new System.Drawing.Point(14, y),
                 Width = pnlResumenEjecutivo.Width - 28
             };
             pnlResumenEjecutivo.Controls.Add(lblSeparador);
@@ -288,14 +299,14 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             {
                 Text = "Total de órdenes:",
                 AutoSize = true,
-                Location = new Point(14, y)
+                Location = new System.Drawing.Point(14, y)
             };
             Label lblTotalOrdenesValor = new Label
             {
                 Text = totalOrdenes.ToString(),
                 Font = new Font(label3.Font, FontStyle.Bold),
                 AutoSize = true,
-                Location = new Point(300, y)
+                Location = new System.Drawing.Point(300, y)
             };
             pnlResumenEjecutivo.Controls.Add(lblTotalOrdenes);
             pnlResumenEjecutivo.Controls.Add(lblTotalOrdenesValor);
@@ -305,14 +316,14 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             {
                 Text = "Propiedades con incidencias:",
                 AutoSize = true,
-                Location = new Point(14, y)
+                Location = new System.Drawing.Point(14, y)
             };
             Label lblIncidenciasValor = new Label
             {
                 Text = propiedadesConIncidencias.ToString(),
                 Font = new Font(label3.Font, FontStyle.Bold),
                 AutoSize = true,
-                Location = new Point(300, y)
+                Location = new System.Drawing.Point(300, y)
             };
             pnlResumenEjecutivo.Controls.Add(lblIncidencias);
             pnlResumenEjecutivo.Controls.Add(lblIncidenciasValor);
@@ -366,6 +377,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             filaTotal["Total"] = totalGeneral;
             dtPivot.Rows.Add(filaTotal);
 
+            dtPivotPDF = dtPivot;
+
             dgvPropiedades.AutoGenerateColumns = true;
             dgvPropiedades.DataSource = dtPivot;
             dgvPropiedades.ReadOnly = true;
@@ -404,37 +417,45 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
         }
 
         // Asigna un color consistente según el nombre del estado
-        private Color ObtenerColorEstado(string nombreEstado)
+        private System.Drawing.Color ObtenerColorEstado(string nombreEstado)
         {
             switch (nombreEstado)
             {
                 case "Pendiente":
-                    return Color.Red;
+                    return System.Drawing.ColorTranslator.FromHtml("#E6B340");
+
                 case "En Proceso":
-                    return Color.Orange;
+                    return System.Drawing.ColorTranslator.FromHtml("#FFC69C");
+
                 case "Completado":
-                    return Color.LimeGreen;
+                    return System.Drawing.ColorTranslator.FromHtml("#D67A31");
+
                 case "Cancelado":
-                    return Color.Gray;
+                    return System.Drawing.ColorTranslator.FromHtml("#F53D20");
+
                 default:
-                    return Color.SteelBlue;
+                    return System.Drawing.Color.SteelBlue;
             }
         }
 
-        private Color ObtenerColorChart(string nombreEstado)
+        private System.Drawing.Color ObtenerColorChart(string nombreEstado)
         {
             switch (nombreEstado)
             {
                 case "Pendiente":
-                    return Color.Orange;
+                    return System.Drawing.ColorTranslator.FromHtml("#E6B340");
+
                 case "En Proceso":
-                    return Color.Orange;
+                    return System.Drawing.ColorTranslator.FromHtml("#FFC69C");
+
                 case "Completado":
-                    return Color.OrangeRed;
+                    return System.Drawing.ColorTranslator.FromHtml("#D67A31");
+
                 case "Cancelado":
-                    return Color.Gray;
+                    return System.Drawing.ColorTranslator.FromHtml("#F53D20");
+
                 default:
-                    return Color.SteelBlue;
+                    return System.Drawing.Color.SteelBlue;
             }
         }
 
@@ -491,19 +512,169 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
         }
 
-        private void chartEstados_Click(object sender, EventArgs e)
+        private void btnImprimir_Click(object sender, EventArgs e)
         {
+            if (dtPivotPDF == null || dtPivotPDF.Rows.Count == 0)
+            {
+                MessageBox.Show("No hay datos para imprimir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "Archivo PDF (*.pdf)|*.pdf";
+                sfd.FileName = $"ResumenMantenimiento_{DateTime.Now:yyyyMMdd_HHmm}.pdf";
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        GenerarPdfResumen(sfd.FileName, dtPivotPDF);
+                        MessageBox.Show("Reporte generado con éxito.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (IOException)
+                    {
+                        MessageBox.Show(
+                            "No se pudo guardar el archivo porque está abierto en otro programa. Ciérrelo e intente de nuevo.",
+                            "Archivo en uso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+                }
+            }
+        }
+        private void GenerarPdfResumen(string rutaArchivo, DataTable dt)
+        {
+            PdfWriter writer = new PdfWriter(rutaArchivo);
+            PdfDocument pdf = new PdfDocument(writer);
+            Document documento = new Document(pdf, PageSize.LETTER.Rotate());
+
+            try
+            {
+                documento.SetMargins(20, 25, 40, 25);
+
+                PdfFont fontRegular = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
+                PdfFont fontBold = PdfFontFactory.CreateFont(StandardFonts.HELVETICA_BOLD);
+                documento.SetFont(fontRegular);
+
+                float[] anchoEncabezado = { 1.3f, 5f, 2f };
+                Table tablaEncabezado = new Table(UnitValue.CreatePercentArray(anchoEncabezado)).UseAllAvailableWidth();
+                tablaEncabezado.SetBackgroundColor(new DeviceRgb(0xD6, 0x79, 0x31));
+                tablaEncabezado.SetBorder(Border.NO_BORDER);
+
+                Cell celdaLogo = new Cell()
+                    .SetBorder(Border.NO_BORDER)
+                    .SetVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .SetPadding(6);
+
+                if (File.Exists(RutaLogo))
+                {
+                    iText.Layout.Element.Image logo = new iText.Layout.Element.Image(ImageDataFactory.Create(RutaLogo));
+                    logo.SetWidth(45).SetAutoScaleHeight(true);
+                    celdaLogo.Add(logo);
+                }
+                else
+                {
+                    celdaLogo.Add(new Paragraph(""));
+                }
+
+                Cell celdaTitulo = new Cell()
+                    .SetBorder(Border.NO_BORDER)
+                    .SetVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .SetPadding(8)
+                    .Add(new Paragraph("RESUMEN DE SOLICITUDES DE MANTENIMIENTO")
+                        .SetFont(fontBold)
+                        .SetFontSize(14)
+                        .SetFontColor(ColorConstants.WHITE)
+                        .SetTextAlignment(TextAlignment.CENTER)
+                        .SetMargin(0));
+
+                Paragraph parrafoFecha = new Paragraph()
+                    .Add(new Text("Fecha: ").SetFont(fontBold))
+                    .Add(new Text(DateTime.Now.ToString("dd/MM/yyyy")).SetFont(fontRegular))
+                    .Add(new Text("\nHora: ").SetFont(fontBold))
+                    .Add(new Text(DateTime.Now.ToString("hh:mm tt")).SetFont(fontRegular))
+                    .SetFontSize(9)
+                    .SetFontColor(ColorConstants.WHITE)
+                    .SetTextAlignment(TextAlignment.RIGHT)
+                    .SetMargin(0);
+
+                Cell celdaFecha = new Cell()
+                    .SetBorder(Border.NO_BORDER)
+                    .SetVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .SetPadding(8)
+                    .Add(parrafoFecha);
+
+                tablaEncabezado.AddCell(celdaLogo);
+                tablaEncabezado.AddCell(celdaTitulo);
+                tablaEncabezado.AddCell(celdaFecha);
+                documento.Add(tablaEncabezado);
+
+                documento.Add(new Paragraph($"\n{lblSubtitulo.Text}\n")
+                    .SetFont(fontBold).SetFontSize(10).SetTextAlignment(TextAlignment.CENTER).SetMargin(0));
+
+                float[] anchoColumnas = new float[dt.Columns.Count];
+                for (int i = 0; i < anchoColumnas.Length; i++)
+                {
+                    anchoColumnas[i] = (i == 0) ? 3f : 1f;
+                }
+                Table tabla = new Table(UnitValue.CreatePercentArray(anchoColumnas)).UseAllAvailableWidth();
+
+                foreach (DataColumn col in dt.Columns)
+                {
+                    Cell celda = new Cell()
+                        .Add(new Paragraph(col.ColumnName).SetFont(fontBold).SetFontColor(ColorConstants.WHITE).SetFontSize(9))
+                        .SetBackgroundColor(new DeviceRgb(0xD6, 0x79, 0x31))
+                        .SetTextAlignment(TextAlignment.CENTER)
+                        .SetVerticalAlignment(VerticalAlignment.MIDDLE)
+                        .SetPadding(6);
+                    tabla.AddHeaderCell(celda);
+                }
+
+                foreach (DataRow fila in dt.Rows)
+                {
+                    for (int i = 0; i < dt.Columns.Count; i++)
+                    {
+                        bool isLastRow = (dt.Rows.IndexOf(fila) == dt.Rows.Count - 1);
+                        PdfFont font = isLastRow ? fontBold : fontRegular;
+                        TextAlignment alig = (i == 0) ? TextAlignment.LEFT : TextAlignment.CENTER;
+                        tabla.AddCell(CeldaTexto(fila[i].ToString(), font, alig));
+                    }
+                }
+
+                documento.Add(tabla);
+
+                int totalPaginas = pdf.GetNumberOfPages();
+                for (int i = 1; i <= totalPaginas; i++)
+                {
+                    PdfPage pagina = pdf.GetPage(i);
+                    iText.Kernel.Geom.Rectangle tamano = pagina.GetPageSize();
+                    PdfCanvas pdfCanvas = new PdfCanvas(pagina);
+                    Canvas canvas = new Canvas(pdfCanvas, tamano);
+                    canvas.ShowTextAligned(
+                        new Paragraph($"Página {i} de {totalPaginas}")
+                            .SetFont(fontRegular).SetFontSize(8).SetFontColor(ColorConstants.GRAY),
+                        tamano.GetWidth() - 25, 15, TextAlignment.RIGHT);
+                    canvas.Close();
+                }
+            }
+            finally
+            {
+                documento.Close();
+            }
         }
 
-        private void lblSubtitulo_Click(object sender, EventArgs e)
+        private Cell CeldaTexto(string texto, PdfFont fuente, TextAlignment alineacion = TextAlignment.CENTER)
         {
-
-        }
-
-        private void pnlPrincipal_Paint(object sender, PaintEventArgs e)
-        {
-
+            return new Cell()
+                .Add(new Paragraph(texto).SetFont(fuente))
+                .SetTextAlignment(alineacion)
+                .SetVerticalAlignment(VerticalAlignment.MIDDLE)
+                .SetPadding(4)
+                .SetFontSize(9);
         }
     }
 }

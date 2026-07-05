@@ -38,6 +38,7 @@
             this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contratoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reporteDeReservacionesPorPeríodoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reservacionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.estadoDeCuentaPorArrendatarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,7 +77,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.panelContenido = new System.Windows.Forms.Panel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).BeginInit();
@@ -90,6 +91,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -166,6 +168,13 @@
             this.reporteDeReservacionesPorPeríodoToolStripMenuItem.Text = "Reporte de Reservaciones por Período";
             this.reporteDeReservacionesPorPeríodoToolStripMenuItem.Click += new System.EventHandler(this.reporteDeReservacionesPorPeríodoToolStripMenuItem_Click);
             // 
+            // casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem
+            // 
+            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem.Name = "casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem";
+            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem.Size = new System.Drawing.Size(349, 22);
+            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem.Text = "Casas Vacacionales Reservadas con Pago en Efectivo";
+            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem.Click += new System.EventHandler(this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem_Click);
+            // 
             // reservacionesToolStripMenuItem
             // 
             this.reservacionesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -217,8 +226,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
-            this.panel1.Controls.Add(this.pictureBox13);
-            this.panel1.Controls.Add(this.btnCerrarSesion);
+            this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.pictureBox9);
             this.panel1.Controls.Add(this.button8);
             this.panel1.Controls.Add(this.label4);
@@ -247,7 +255,7 @@
             // pictureBox13
             // 
             this.pictureBox13.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.exit;
-            this.pictureBox13.Location = new System.Drawing.Point(9, 627);
+            this.pictureBox13.Location = new System.Drawing.Point(6, 9);
             this.pictureBox13.Name = "pictureBox13";
             this.pictureBox13.Size = new System.Drawing.Size(24, 27);
             this.pictureBox13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -261,7 +269,7 @@
             this.btnCerrarSesion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCerrarSesion.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCerrarSesion.ForeColor = System.Drawing.Color.White;
-            this.btnCerrarSesion.Location = new System.Drawing.Point(3, 627);
+            this.btnCerrarSesion.Location = new System.Drawing.Point(0, 6);
             this.btnCerrarSesion.Name = "btnCerrarSesion";
             this.btnCerrarSesion.Size = new System.Drawing.Size(230, 30);
             this.btnCerrarSesion.TabIndex = 17;
@@ -597,12 +605,15 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem
+            // panel4
             // 
-            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem.Name = "casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem";
-            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem.Size = new System.Drawing.Size(349, 22);
-            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem.Text = "Casas Vacacionales Reservadas con Pago en Efectivo";
-            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem.Click += new System.EventHandler(this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem_Click);
+            this.panel4.Controls.Add(this.pictureBox13);
+            this.panel4.Controls.Add(this.btnCerrarSesion);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel4.Location = new System.Drawing.Point(0, 617);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(230, 40);
+            this.panel4.TabIndex = 19;
             // 
             // MenuPrincipalForm
             // 
@@ -638,6 +649,7 @@
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.panel4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -691,5 +703,6 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ToolStripMenuItem resumenDeIngresosPorConceptoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem;
+        private System.Windows.Forms.Panel panel4;
     }
 }

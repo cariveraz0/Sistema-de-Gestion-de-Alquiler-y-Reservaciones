@@ -34,6 +34,11 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dtpInicio = new System.Windows.Forms.DateTimePicker();
             this.dtpFin = new System.Windows.Forms.DateTimePicker();
             this.btnGenerar = new System.Windows.Forms.Button();
@@ -50,6 +55,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.btnLimpiar = new System.Windows.Forms.Button();
+            this.btnImprimir = new System.Windows.Forms.Button();
             this.pnlPrincipal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartEstados)).BeginInit();
             this.pnlResumenEjecutivo.SuspendLayout();
@@ -59,6 +65,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             // 
             // pnlPrincipal
             // 
+            this.pnlPrincipal.Controls.Add(this.btnImprimir);
             this.pnlPrincipal.Controls.Add(this.lblTotalCentro);
             this.pnlPrincipal.Controls.Add(this.btnLimpiar);
             this.pnlPrincipal.Controls.Add(this.label7);
@@ -73,19 +80,17 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             this.pnlPrincipal.Controls.Add(this.btnGenerar);
             this.pnlPrincipal.Controls.Add(this.dtpFin);
             this.pnlPrincipal.Controls.Add(this.dtpInicio);
-            this.pnlPrincipal.Size = new System.Drawing.Size(984, 548);
-            this.pnlPrincipal.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlPrincipal_Paint);
             // 
             // label1
             // 
             this.label1.Location = new System.Drawing.Point(177, 44);
-            this.label1.Size = new System.Drawing.Size(637, 26);
+            this.label1.Size = new System.Drawing.Size(642, 30);
             this.label1.Text = "RESUMEN DE SOLICITUDES DE MANTENIMIENTO POR ESTADO";
             // 
             // dtpInicio
             // 
             this.dtpInicio.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpInicio.Location = new System.Drawing.Point(30, 188);
+            this.dtpInicio.Location = new System.Drawing.Point(30, 186);
             this.dtpInicio.Name = "dtpInicio";
             this.dtpInicio.Size = new System.Drawing.Size(140, 20);
             this.dtpInicio.TabIndex = 0;
@@ -93,15 +98,19 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             // dtpFin
             // 
             this.dtpFin.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFin.Location = new System.Drawing.Point(30, 214);
+            this.dtpFin.Location = new System.Drawing.Point(30, 213);
             this.dtpFin.Name = "dtpFin";
             this.dtpFin.Size = new System.Drawing.Size(140, 20);
             this.dtpFin.TabIndex = 1;
             // 
             // btnGenerar
             // 
-            this.btnGenerar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(179)))), ((int)(((byte)(64)))));
-            this.btnGenerar.Location = new System.Drawing.Point(26, 125);
+            this.btnGenerar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(214)))), ((int)(((byte)(122)))), ((int)(((byte)(49)))));
+            this.btnGenerar.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnGenerar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGenerar.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGenerar.ForeColor = System.Drawing.Color.White;
+            this.btnGenerar.Location = new System.Drawing.Point(26, 120);
             this.btnGenerar.Name = "btnGenerar";
             this.btnGenerar.Size = new System.Drawing.Size(144, 34);
             this.btnGenerar.TabIndex = 2;
@@ -112,22 +121,23 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             // lblSubtitulo
             // 
             this.lblSubtitulo.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblSubtitulo.Font = new System.Drawing.Font("Montserrat SemiBold", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSubtitulo.Location = new System.Drawing.Point(0, 0);
             this.lblSubtitulo.Name = "lblSubtitulo";
             this.lblSubtitulo.Size = new System.Drawing.Size(984, 24);
             this.lblSubtitulo.TabIndex = 3;
             this.lblSubtitulo.Text = "SUbtitulo";
             this.lblSubtitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblSubtitulo.Click += new System.EventHandler(this.lblSubtitulo_Click);
             // 
             // lblTotalCentro
             // 
             this.lblTotalCentro.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.lblTotalCentro.AutoSize = true;
+            this.lblTotalCentro.Font = new System.Drawing.Font("Montserrat SemiBold", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalCentro.Location = new System.Drawing.Point(544, 42);
             this.lblTotalCentro.Name = "lblTotalCentro";
-            this.lblTotalCentro.Size = new System.Drawing.Size(31, 13);
+            this.lblTotalCentro.Size = new System.Drawing.Size(36, 17);
             this.lblTotalCentro.TabIndex = 5;
             this.lblTotalCentro.Text = "Total";
             this.lblTotalCentro.Visible = false;
@@ -157,6 +167,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             chartArea1.Name = "ChartArea1";
             this.chartEstados.ChartAreas.Add(chartArea1);
             this.chartEstados.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            legend1.IsTextAutoFit = false;
             legend1.Name = "Legend1";
             this.chartEstados.Legends.Add(legend1);
             this.chartEstados.Location = new System.Drawing.Point(0, 0);
@@ -164,18 +176,19 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             this.chartEstados.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
+            series1.Font = new System.Drawing.Font("Montserrat SemiBold", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             series1.Legend = "Legend1";
             series1.Name = "Estados";
             this.chartEstados.Series.Add(series1);
             this.chartEstados.Size = new System.Drawing.Size(319, 207);
             this.chartEstados.TabIndex = 4;
             this.chartEstados.Text = "chart1";
-            this.chartEstados.Click += new System.EventHandler(this.chartEstados_Click);
             // 
             // pnlResumenEjecutivo
             // 
             this.pnlResumenEjecutivo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.pnlResumenEjecutivo.Controls.Add(this.label3);
+            this.pnlResumenEjecutivo.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pnlResumenEjecutivo.Location = new System.Drawing.Point(608, 27);
             this.pnlResumenEjecutivo.Name = "pnlResumenEjecutivo";
             this.pnlResumenEjecutivo.Size = new System.Drawing.Size(351, 207);
@@ -184,22 +197,50 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(14, 8);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(184, 20);
+            this.label3.Size = new System.Drawing.Size(199, 25);
             this.label3.TabIndex = 0;
             this.label3.Text = "RESUMEN EJECUTIVO";
             // 
             // dgvPropiedades
             // 
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvPropiedades.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvPropiedades.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvPropiedades.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvPropiedades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvPropiedades.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvPropiedades.Location = new System.Drawing.Point(0, 251);
             this.dgvPropiedades.Name = "dgvPropiedades";
-            this.dgvPropiedades.Size = new System.Drawing.Size(984, 228);
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvPropiedades.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvPropiedades.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            this.dgvPropiedades.Size = new System.Drawing.Size(984, 175);
             this.dgvPropiedades.TabIndex = 7;
             // 
             // panel4
@@ -213,40 +254,62 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(27, 11);
+            this.label5.Font = new System.Drawing.Font("Montserrat SemiBold", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(27, 7);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(43, 13);
+            this.label5.Size = new System.Drawing.Size(51, 17);
             this.label5.TabIndex = 11;
             this.label5.Text = "Estado:";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(27, 66);
+            this.label6.Font = new System.Drawing.Font("Montserrat SemiBold", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(27, 62);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(55, 13);
+            this.label6.Size = new System.Drawing.Size(69, 17);
             this.label6.TabIndex = 12;
             this.label6.Text = "Propiedad";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(27, 172);
+            this.label7.Font = new System.Drawing.Font("Montserrat SemiBold", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(27, 166);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(88, 13);
+            this.label7.Size = new System.Drawing.Size(108, 17);
             this.label7.TabIndex = 13;
-            this.label7.Text = "Fecha(Opcional):";
+            this.label7.Text = "Fecha (Opcional):";
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(179)))), ((int)(((byte)(64)))));
-            this.btnLimpiar.Location = new System.Drawing.Point(538, 125);
+            this.btnLimpiar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(214)))), ((int)(((byte)(122)))), ((int)(((byte)(49)))));
+            this.btnLimpiar.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnLimpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLimpiar.Font = new System.Drawing.Font("Montserrat SemiBold", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLimpiar.ForeColor = System.Drawing.Color.White;
+            this.btnLimpiar.Location = new System.Drawing.Point(523, 140);
             this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(55, 34);
+            this.btnLimpiar.Size = new System.Drawing.Size(70, 34);
             this.btnLimpiar.TabIndex = 14;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = false;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click_1);
+            // 
+            // btnImprimir
+            // 
+            this.btnImprimir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(214)))), ((int)(((byte)(122)))), ((int)(((byte)(49)))));
+            this.btnImprimir.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnImprimir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnImprimir.Font = new System.Drawing.Font("Montserrat SemiBold", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnImprimir.ForeColor = System.Drawing.Color.White;
+            this.btnImprimir.Location = new System.Drawing.Point(420, 440);
+            this.btnImprimir.Name = "btnImprimir";
+            this.btnImprimir.Size = new System.Drawing.Size(160, 35);
+            this.btnImprimir.TabIndex = 15;
+            this.btnImprimir.Text = "Imprimir";
+            this.btnImprimir.UseVisualStyleBackColor = false;
+            this.btnImprimir.Click += new System.EventHandler(this.btnImprimir_Click);
             // 
             // ResumenMantenimientoEstado
             // 
@@ -287,5 +350,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
         private Label label6;
         private Label label5;
         private Button btnLimpiar;
+        private Button btnImprimir;
     }
 }

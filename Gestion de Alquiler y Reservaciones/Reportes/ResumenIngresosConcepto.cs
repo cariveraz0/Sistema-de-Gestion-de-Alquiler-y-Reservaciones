@@ -47,7 +47,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             lblPeriodo.Size = new Size(520, 30);
             lblPeriodo.BackColor = naranjaTitulo;
             lblPeriodo.ForeColor = Color.White;
-            lblPeriodo.Font = new Font("Arial", 10, FontStyle.Bold);
+            lblPeriodo.Font = new Font("Montserrat", 10, FontStyle.Bold);
             lblPeriodo.TextAlign = ContentAlignment.MiddleCenter;
             pnlPrincipal.Controls.Add(lblPeriodo);
 
@@ -63,7 +63,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             dgvIngresos.EnableHeadersVisualStyles = false;
             dgvIngresos.ColumnHeadersDefaultCellStyle.BackColor = naranjaTitulo;
             dgvIngresos.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            dgvIngresos.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 9, FontStyle.Bold);
+            dgvIngresos.ColumnHeadersDefaultCellStyle.Font = new Font("Montserrat", 9, FontStyle.Bold);
             dgvIngresos.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvIngresos.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvIngresos.RowTemplate.Height = 28;
@@ -79,7 +79,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             lblTituloGrafico.Size = new Size(395, 25);
             lblTituloGrafico.BackColor = naranjaTitulo;
             lblTituloGrafico.ForeColor = Color.White;
-            lblTituloGrafico.Font = new Font("Arial", 8, FontStyle.Bold);
+            lblTituloGrafico.Font = new Font("Montserrat", 8, FontStyle.Bold);
             lblTituloGrafico.TextAlign = ContentAlignment.MiddleCenter;
             pnlPrincipal.Controls.Add(lblTituloGrafico);
 
@@ -123,7 +123,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             lblNota.Text = "Nota: Los ingresos incluyen todos los pagos recibidos mediante efectivo, tarjeta u otros métodos durante el período seleccionado.";
             lblNota.Location = new Point(45, 385);
             lblNota.Size = new Size(900, 25);
-            lblNota.Font = new Font("Arial", 9, FontStyle.Bold);
+            lblNota.Font = new Font("Montserrat", 9, FontStyle.Bold);
             lblNota.ForeColor = Color.Black;
             lblNota.TextAlign = ContentAlignment.MiddleLeft;
             pnlPrincipal.Controls.Add(lblNota);
@@ -141,7 +141,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             lbl.Text = texto;
             lbl.Location = new Point(25, y);
             lbl.Size = new Size(155, 25);
-            lbl.Font = new Font("Arial", 7, FontStyle.Regular);
+            lbl.Font = new Font("Montserrat", 7, FontStyle.Regular);
             lbl.ForeColor = Color.Black;
             lbl.TextAlign = ContentAlignment.MiddleLeft;
             panel.Controls.Add(lbl);
@@ -274,7 +274,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     e.CellStyle.ForeColor = Color.White;
                     e.CellStyle.SelectionBackColor = Color.FromArgb(216, 122, 45);
                     e.CellStyle.SelectionForeColor = Color.White;
-                    e.CellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
+                    e.CellStyle.Font = new Font("Montserrat", 8, FontStyle.Bold);
                 }
             }
         }

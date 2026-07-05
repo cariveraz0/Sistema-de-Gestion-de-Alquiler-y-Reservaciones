@@ -21,7 +21,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
         private void DiseñarFormulario()
         {
             this.Text = "Periodo de Consulta";
-            this.Size = new Size(380, 220);
+            this.Size = new Size(380, 240);
             this.StartPosition = FormStartPosition.CenterParent;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -31,7 +31,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             Label lblTitulo = new Label
             {
                 Text = "Seleccione el período del reporte",
-                Font = new Font("Arial", 12, FontStyle.Bold),
+                Font = new Font("Montserrat", 12, FontStyle.Bold),
                 Location = new Point(35, 20),
                 Size = new Size(300, 25),
                 TextAlign = ContentAlignment.MiddleCenter
@@ -41,7 +41,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             Label lblDesde = new Label
             {
                 Text = "Desde:",
-                Font = new Font("Arial", 9, FontStyle.Bold),
+                Font = new Font("Montserrat", 9, FontStyle.Bold),
                 Location = new Point(45, 70),
                 Size = new Size(70, 25)
             };
@@ -59,7 +59,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             Label lblHasta = new Label
             {
                 Text = "Hasta:",
-                Font = new Font("Arial", 9, FontStyle.Bold),
+                Font = new Font("Montserrat", 9, FontStyle.Bold),
                 Location = new Point(45, 105),
                 Size = new Size(70, 25)
             };
@@ -79,8 +79,15 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                 Text = "Aceptar",
                 Location = new Point(80, 145),
                 Size = new Size(90, 30),
-                BackColor = Color.FromArgb(242, 190, 64),
-                Font = new Font("Arial", 9, FontStyle.Bold)
+                BackColor = Color.FromArgb(214, 122, 49),
+                Font = new Font("Montserrat", 9, FontStyle.Bold),
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                FlatAppearance = 
+                {
+                    BorderColor = Color.White,
+                    BorderSize = 1
+                }
             };
             btnAceptar.Click += BtnAceptar_Click;
             this.Controls.Add(btnAceptar);
@@ -89,7 +96,14 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             {
                 Text = "Cancelar",
                 Location = new Point(190, 145),
-                Size = new Size(90, 30)
+                Size = new Size(90, 30),
+                Font = new Font("Montserrat", 9, FontStyle.Bold),
+                FlatStyle = FlatStyle.Flat,
+                FlatAppearance =
+                {
+                    BorderColor = Color.White,
+                    BorderSize = 1
+                }
             };
             btnCancelar.Click += (s, e) => this.DialogResult = DialogResult.Cancel;
             this.Controls.Add(btnCancelar);

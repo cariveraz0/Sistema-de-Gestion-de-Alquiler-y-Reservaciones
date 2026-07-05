@@ -45,31 +45,27 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
         public void ConfigurarDataGridView(DataGridView grid)
         {
+            // Color naranja del reporte anterior
+            System.Drawing.Color naranjaTitulo = System.Drawing.Color.FromArgb(216, 122, 45);
+
+            grid.RowHeadersVisible = false;
+            grid.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            grid.RowTemplate.Height = 28;
+            grid.ReadOnly = true;
+            grid.AllowUserToAddRows = false;
+            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            grid.BackgroundColor = System.Drawing.Color.White;
             grid.EnableHeadersVisualStyles = false;
 
-            grid.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#D67931");
+            // Estilo de los encabezados
+            grid.ColumnHeadersDefaultCellStyle.BackColor = naranjaTitulo;
             grid.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.Color.White;
             grid.ColumnHeadersDefaultCellStyle.Font = new Font("Montserrat", 9, FontStyle.Bold);
-            grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            grid.ColumnHeadersHeight = 40;
 
-            grid.RowsDefaultCellStyle.BackColor = System.Drawing.Color.White;
-            grid.AlternatingRowsDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#F8F9FA");
-            grid.RowsDefaultCellStyle.Font = new Font("Montserrat", 9, FontStyle.Regular);
-            grid.RowsDefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(64, 64, 64);
-
-            grid.RowsDefaultCellStyle.SelectionBackColor = ColorTranslator.FromHtml("#E2E6EA");
-            grid.RowsDefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
-            grid.BackgroundColor = System.Drawing.Color.White;
-            grid.BorderStyle = BorderStyle.None;
-            grid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            grid.GridColor = ColorTranslator.FromHtml("#E0E0E0");
-            grid.RowHeadersVisible = false;
-            grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            grid.AllowUserToAddRows = false;
-            grid.ReadOnly = true;
-            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            // Estilo de las filas
+            grid.DefaultCellStyle.Font = new Font("Montserrat", 8, FontStyle.Regular);
+            grid.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(225, 225, 225);
         }
 
         public void CargarDatosContratos()
