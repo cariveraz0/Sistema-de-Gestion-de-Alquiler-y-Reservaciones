@@ -97,7 +97,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     if (readerQueryPrueba.Read())
                     {
                         empleadoID = readerQueryPrueba["Empleado_ID"].ToString();
-                        obtenerDatos(empleadoID); //Esto es solo para probar la conexion a la DB y mostrar nuestros nombres
+                        //obtenerDatos(empleadoID); //Esto es solo para probar la conexion a la DB y mostrar nuestros nombres
 
                         MenuPrincipalForm frm = new MenuPrincipalForm();
                         frm.ShowDialog();
