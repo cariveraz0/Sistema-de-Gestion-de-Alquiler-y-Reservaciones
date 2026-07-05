@@ -38,6 +38,7 @@
             // 
             this.label1.Location = new System.Drawing.Point(254, 44);
             this.label1.Size = new System.Drawing.Size(474, 32);
+            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.label1.Text = "REPORTE DE RESERVACIONES POR PERÍODO";
             // 
             // ReporteReservacionesPeriodo

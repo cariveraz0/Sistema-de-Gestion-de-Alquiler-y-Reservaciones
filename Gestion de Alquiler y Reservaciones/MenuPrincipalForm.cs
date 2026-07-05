@@ -96,9 +96,19 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void reporteDeReservacionesPorPeríodoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ReporteReservacionesPeriodo frm = new ReporteReservacionesPeriodo();
-            frm.StartPosition = FormStartPosition.CenterScreen;
-            frm.ShowDialog();
+            using (SeleccionarPeriodoForm formPeriodo = new SeleccionarPeriodoForm())
+            {
+                if (formPeriodo.ShowDialog() == DialogResult.OK)
+                {
+                    ReporteReservacionesPeriodo frm = new ReporteReservacionesPeriodo(
+                        formPeriodo.FechaInicio,
+                        formPeriodo.FechaFin
+                    );
+
+                    frm.StartPosition = FormStartPosition.CenterScreen;
+                    frm.ShowDialog();
+                }
+            }
         }
 
         private void estadoDeCuentaPorArrendatarioToolStripMenuItem_Click(object sender, EventArgs e)
@@ -117,9 +127,19 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void resumenDeIngresosPorConceptoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ResumenIngresosConcepto frm = new ResumenIngresosConcepto();
-            frm.StartPosition = FormStartPosition.CenterScreen;
-            frm.ShowDialog();
+            using (SeleccionarPeriodoIngresosForm formPeriodo = new SeleccionarPeriodoIngresosForm())
+            {
+                if (formPeriodo.ShowDialog() == DialogResult.OK)
+                {
+                    ResumenIngresosConcepto frm = new ResumenIngresosConcepto(
+                        formPeriodo.FechaInicio,
+                        formPeriodo.FechaFin
+                    );
+
+                    frm.StartPosition = FormStartPosition.CenterScreen;
+                    frm.ShowDialog();
+                }
+            }
         }
 
         private void casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem_Click(object sender, EventArgs e)
