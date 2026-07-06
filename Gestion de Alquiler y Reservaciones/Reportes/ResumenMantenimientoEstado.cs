@@ -74,7 +74,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
                     // Crear una fila para "Todos los estados"
                     DataRow row = dtEstados.NewRow();
-                    row["IdPropiedad"] = 0;
+                    row["IdPropiedad"] = "0";
                     row["Codigo"] = "Todas las propiedades";
                     dtEstados.Rows.InsertAt(row, 0);
 
@@ -84,7 +84,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     cBxPropiedades.ValueMember = "IdPropiedad";
 
                     // Seleccionar "Todos" por defecto
-                    cBxPropiedades.SelectedValue = 0;
+                    cBxPropiedades.SelectedValue = "0";
                 }
             }
             catch (Exception ex)
@@ -145,7 +145,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                 INNER JOIN EstadosMantenimiento em ON em.IdEstadoMantenimiento = m.IdEstadoMantenimiento
                 WHERE m.FechaSolicitud BETWEEN @FechaInicio AND @FechaFin
                     AND (@IdEstado = 0 OR m.IdEstadoMantenimiento = @IdEstado)
-                    AND (@IdPropiedad = 0 OR m.IdPropiedad = @IdPropiedad)
+                    AND (@IdPropiedad = '0' OR m.IdPropiedad = @IdPropiedad) -- El 0 debe ir entre comillas
                 ORDER BY p.Codigo";
 
             DataTable dt = new DataTable();
@@ -154,7 +154,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             using (SqlCommand cmd = new SqlCommand(query, conexion))
             {
                 int idEstado = cBxEstados.SelectedValue != null ? Convert.ToInt32(cBxEstados.SelectedValue) : 0;
-                int idPropiedad = cBxPropiedades.SelectedValue != null ? Convert.ToInt32(cBxPropiedades.SelectedValue) : 0;
+
+                // Se captura el IdPropiedad como string, usando "0" como valor comodín
+                string idPropiedad = cBxPropiedades.SelectedValue != null ? cBxPropiedades.SelectedValue.ToString() : "0";
 
                 cmd.Parameters.AddWithValue("@FechaInicio", dtpInicio.Value.Date);
                 cmd.Parameters.AddWithValue("@FechaFin", dtpFin.Value.Date.AddDays(1).AddSeconds(-1));
@@ -291,7 +293,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             // en el rango filtrado, sin importar el estado (2 mantenimientos en la misma
             // propiedad cuentan como 1 incidencia).
             int propiedadesConIncidencias = dt.AsEnumerable()
-                .Select(r => r.Field<int>("IdPropiedad"))
+                .Select(r => r.Field<string>("IdPropiedad"))
                 .Distinct()
                 .Count();
 
@@ -343,7 +345,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             dtPivot.Columns.Add("Total", typeof(int));
 
             var propiedades = dt.AsEnumerable()
-                .GroupBy(r => new { Id = r.Field<int>("IdPropiedad"), Codigo = r.Field<string>("PropiedadCodigo") })
+                .GroupBy(r => new { Id = r.Field<string>("IdPropiedad"), Codigo = r.Field<string>("PropiedadCodigo") }) // <-- Cambiado el Id a string
                 .OrderBy(g => g.Key.Id)
                 .ToList();
 

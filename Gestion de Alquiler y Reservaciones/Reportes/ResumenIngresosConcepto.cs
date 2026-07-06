@@ -116,7 +116,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             AgregarLeyenda(pnlLeyenda, "Alquiler de locales comerciales", Color.FromArgb(216, 122, 45), 0);
             AgregarLeyenda(pnlLeyenda, "Alquiler de viviendas", Color.FromArgb(239, 154, 70), 28);
             AgregarLeyenda(pnlLeyenda, "Reservaciones de auditorio", Color.FromArgb(246, 180, 89), 56);
-            AgregarLeyenda(pnlLeyenda, "Reservaciones de sala de juntas", Color.FromArgb(255, 205, 120), 84);
+            AgregarLeyenda(pnlLeyenda, "Reservaciones de sala de \njuntas", Color.FromArgb(255, 205, 120), 84);
             AgregarLeyenda(pnlLeyenda, "Propiedades vacacionales", Color.FromArgb(196, 87, 32), 112);
 
             lblNota = new Label();

@@ -111,45 +111,44 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             if (cboPropiedades.SelectedValue == null || cboPropiedades.SelectedValue is DBNull)
                 return;
 
-            int idPropiedad = Convert.ToInt32(cboPropiedades.SelectedValue);
+            string idPropiedad = cboPropiedades.SelectedValue.ToString();
             propiedadSeleccionadaTexto = cboPropiedades.Text;
 
-            CargarHistorial(idPropiedad);
+            CargarHistorialMantenimiento(idPropiedad);
         }
-        private void CargarHistorial(int idPropiedad)
-        {
-            string query = @"
-        SELECT
-            m.FechaSolicitud   AS [Fecha Reporte],
-            m.Descripcion       AS [Descripción del Problema],
-            e.NombreCompleto    AS [Técnico Asignado],
-            m.Costo,
-            m.FechaConclusion   AS Conclusión,
-            em.Nombre           AS Estado
-        FROM Mantenimiento m
-        LEFT JOIN Empleado e               ON e.IdEmpleado = m.IdTecnicoAsignado
-        INNER JOIN EstadosMantenimiento em ON em.IdEstadoMantenimiento = m.IdEstadoMantenimiento
-        WHERE m.IdPropiedad = @IdPropiedad
-        ORDER BY m.FechaSolicitud DESC;";
 
-            try
+        private void CargarHistorialMantenimiento(string idPropiedad)
+        {
+            // Se ajustaron los alias para que coincidan exactamente con lo que espera el PDF y el DataGridView
+            string query = @"
+        SELECT 
+            m.NumeroOrden AS [Número de Orden],
+            tm.Nombre AS [Tipo],
+            e.NombreCompleto AS [Técnico Asignado],
+            m.Descripcion AS [Descripción del Problema],
+            m.FechaSolicitud AS [Fecha Reporte],
+            m.FechaProgramada AS [Fecha Programada],
+            m.FechaConclusion AS [Conclusión],
+            m.Costo AS [Costo],
+            em.Nombre AS [Estado]
+        FROM Mantenimiento m
+        INNER JOIN TiposMantenimiento tm ON m.IdTipoMantenimiento = tm.IdTipoMantenimiento
+        INNER JOIN EstadosMantenimiento em ON m.IdEstadoMantenimiento = em.IdEstadoMantenimiento
+        LEFT JOIN Empleado e ON m.IdTecnicoAsignado = e.IdEmpleado
+        WHERE m.IdPropiedad = @IdPropiedad
+        ORDER BY m.FechaSolicitud DESC";
+
+            using (SqlConnection conexion = Conexion.ObtenerConexion())
             {
-                using (SqlConnection conexion = Conexion.ObtenerConexion())
                 using (SqlCommand cmd = new SqlCommand(query, conexion))
                 {
                     cmd.Parameters.AddWithValue("@IdPropiedad", idPropiedad);
-
-                    SqlDataAdapter adaptador = new SqlDataAdapter(cmd);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     dtCompleto = new DataTable();
-                    adaptador.Fill(dtCompleto);
-                }
+                    adapter.Fill(dtCompleto);
 
-                paginaActual = 0;
-                MostrarPagina(paginaActual);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar el historial de mantenimiento: " + ex.Message, "Error de Datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dgvMantenimiento.DataSource = dtCompleto;
+                }
             }
         }
         private void MostrarPagina(int numeroPagina)
@@ -218,9 +217,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
             if (grid.Columns["Costo"] != null)
             {
+                grid.Columns["Costo"].DefaultCellStyle.FormatProvider = System.Globalization.CultureInfo.CreateSpecificCulture("es-HN");
                 grid.Columns["Costo"].DefaultCellStyle.Format = "C2";
                 grid.Columns["Costo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                grid.Columns["Costo"].DefaultCellStyle.NullValue = "—"; // orden aún sin costo registrado
+                grid.Columns["Costo"].DefaultCellStyle.NullValue = "—";
             }
         }
 
@@ -392,7 +392,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     string tecnico = fila["Técnico Asignado"] is DBNull ? "Sin asignar" : fila["Técnico Asignado"].ToString();
                     tabla.AddCell(CeldaTexto(tecnico, fontRegular));
 
-                    string costo = fila["Costo"] is DBNull ? "—" : Convert.ToDecimal(fila["Costo"]).ToString("C2");
+                    string costo = fila["Costo"] is DBNull ? "—" : Convert.ToDecimal(fila["Costo"]).ToString("C2", System.Globalization.CultureInfo.CreateSpecificCulture("es-HN"));
                     tabla.AddCell(CeldaTexto(costo, fontRegular, TextAlignment.RIGHT));
 
                     // Ajuste por posible acento en la columna Conclusión según la base de datos

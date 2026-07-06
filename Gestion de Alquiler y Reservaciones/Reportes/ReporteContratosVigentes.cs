@@ -156,6 +156,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
             if (grid.Columns["Monto Mensual"] != null)
             {
+                grid.Columns["Monto Mensual"].DefaultCellStyle.FormatProvider = System.Globalization.CultureInfo.CreateSpecificCulture("es-HN");
                 grid.Columns["Monto Mensual"].DefaultCellStyle.Format = "C2";
                 grid.Columns["Monto Mensual"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             }
@@ -321,8 +322,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     tabla.AddCell(CeldaTexto(fila["Propiedad"].ToString(), fontRegular));
                     tabla.AddCell(CeldaTexto(Convert.ToDateTime(fila["Fecha Inicio"]).ToString("dd/MM/yyyy"), fontRegular));
                     tabla.AddCell(CeldaTexto(Convert.ToDateTime(fila["Fecha Vencimiento"]).ToString("dd/MM/yyyy"), fontRegular));
-                    tabla.AddCell(CeldaTexto(Convert.ToDecimal(fila["Monto Mensual"]).ToString("C2"), fontRegular, TextAlignment.RIGHT));
-
+                    tabla.AddCell(CeldaTexto(Convert.ToDecimal(fila["Monto Mensual"]).ToString("C2", System.Globalization.CultureInfo.CreateSpecificCulture("es-HN")), fontRegular, TextAlignment.RIGHT));
                     string estado = fila["Estado"].ToString();
                     Cell celdaEstado = new Cell()
                         .Add(new Paragraph(estado).SetFont(fontBold).SetFontSize(9))
