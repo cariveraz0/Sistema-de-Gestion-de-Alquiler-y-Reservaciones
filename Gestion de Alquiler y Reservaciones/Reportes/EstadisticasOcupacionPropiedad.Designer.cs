@@ -72,9 +72,9 @@
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(343, 54);
-            this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label1.Size = new System.Drawing.Size(616, 29);
+            this.label1.Location = new System.Drawing.Point(257, 44);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Size = new System.Drawing.Size(502, 30);
             this.label1.Text = "ESTADÍSTICAS DE OCUPACIÓN POR PROPIEDAD";
             // 
             // dgvInformacion
@@ -83,6 +83,7 @@
             this.dgvInformacion.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgvInformacion.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvInformacion.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvInformacion.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(214)))), ((int)(((byte)(122)))), ((int)(((byte)(49)))));
@@ -97,8 +98,8 @@
             this.PropiedadID,
             this.TipoPropiedad,
             this.Cantidad});
-            this.dgvInformacion.Location = new System.Drawing.Point(91, 446);
-            this.dgvInformacion.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dgvInformacion.Location = new System.Drawing.Point(68, 341);
+            this.dgvInformacion.Margin = new System.Windows.Forms.Padding(2);
             this.dgvInformacion.Name = "dgvInformacion";
             this.dgvInformacion.ReadOnly = true;
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -115,7 +116,7 @@
             this.dgvInformacion.RowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvInformacion.RowTemplate.Height = 24;
             this.dgvInformacion.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvInformacion.Size = new System.Drawing.Size(1109, 126);
+            this.dgvInformacion.Size = new System.Drawing.Size(832, 123);
             this.dgvInformacion.TabIndex = 0;
             // 
             // PropiedadID
@@ -129,7 +130,7 @@
             this.PropiedadID.MinimumWidth = 6;
             this.PropiedadID.Name = "PropiedadID";
             this.PropiedadID.ReadOnly = true;
-            this.PropiedadID.Width = 156;
+            this.PropiedadID.Width = 125;
             // 
             // TipoPropiedad
             // 
@@ -142,7 +143,7 @@
             this.TipoPropiedad.MinimumWidth = 6;
             this.TipoPropiedad.Name = "TipoPropiedad";
             this.TipoPropiedad.ReadOnly = true;
-            this.TipoPropiedad.Width = 155;
+            this.TipoPropiedad.Width = 124;
             // 
             // Cantidad
             // 
@@ -160,9 +161,10 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(388, 27);
+            this.label3.Location = new System.Drawing.Point(291, 22);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(249, 18);
+            this.label3.Size = new System.Drawing.Size(215, 15);
             this.label3.TabIndex = 1;
             this.label3.Text = "Seleccione el tipo de propiedad:";
             // 
@@ -174,10 +176,10 @@
             "Plaza Universitaria",
             "Casa Vacacional",
             "Apartamento"});
-            this.cmbTiposPropiedad.Location = new System.Drawing.Point(685, 22);
-            this.cmbTiposPropiedad.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmbTiposPropiedad.Location = new System.Drawing.Point(514, 18);
+            this.cmbTiposPropiedad.Margin = new System.Windows.Forms.Padding(2);
             this.cmbTiposPropiedad.Name = "cmbTiposPropiedad";
-            this.cmbTiposPropiedad.Size = new System.Drawing.Size(207, 30);
+            this.cmbTiposPropiedad.Size = new System.Drawing.Size(232, 25);
             this.cmbTiposPropiedad.TabIndex = 2;
             this.cmbTiposPropiedad.SelectedIndexChanged += new System.EventHandler(this.cmbTiposPropiedad_SelectedIndexChanged);
             // 
@@ -185,27 +187,29 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(529, 94);
+            this.label5.Location = new System.Drawing.Point(397, 54);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(295, 18);
+            this.label5.Size = new System.Drawing.Size(253, 15);
             this.label5.TabIndex = 3;
             this.label5.Text = "Seleccione el rango de fecha deseado";
             // 
             // dtpDesde
             // 
-            this.dtpDesde.Location = new System.Drawing.Point(350, 133);
-            this.dtpDesde.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dtpDesde.Location = new System.Drawing.Point(262, 86);
+            this.dtpDesde.Margin = new System.Windows.Forms.Padding(2);
             this.dtpDesde.Name = "dtpDesde";
-            this.dtpDesde.Size = new System.Drawing.Size(200, 22);
+            this.dtpDesde.Size = new System.Drawing.Size(151, 20);
             this.dtpDesde.TabIndex = 4;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(280, 135);
+            this.label6.Location = new System.Drawing.Point(210, 88);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(61, 18);
+            this.label6.Size = new System.Drawing.Size(52, 15);
             this.label6.TabIndex = 5;
             this.label6.Text = "Desde:";
             // 
@@ -213,18 +217,19 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(600, 137);
+            this.label7.Location = new System.Drawing.Point(450, 89);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(57, 18);
+            this.label7.Size = new System.Drawing.Size(48, 15);
             this.label7.TabIndex = 7;
             this.label7.Text = "Hasta:";
             // 
             // dtpHasta
             // 
-            this.dtpHasta.Location = new System.Drawing.Point(666, 134);
-            this.dtpHasta.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dtpHasta.Location = new System.Drawing.Point(500, 87);
+            this.dtpHasta.Margin = new System.Windows.Forms.Padding(2);
             this.dtpHasta.Name = "dtpHasta";
-            this.dtpHasta.Size = new System.Drawing.Size(200, 22);
+            this.dtpHasta.Size = new System.Drawing.Size(151, 20);
             this.dtpHasta.TabIndex = 6;
             // 
             // btnConsultar
@@ -234,10 +239,10 @@
             this.btnConsultar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnConsultar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnConsultar.ForeColor = System.Drawing.Color.White;
-            this.btnConsultar.Location = new System.Drawing.Point(907, 127);
-            this.btnConsultar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnConsultar.Location = new System.Drawing.Point(680, 81);
+            this.btnConsultar.Margin = new System.Windows.Forms.Padding(2);
             this.btnConsultar.Name = "btnConsultar";
-            this.btnConsultar.Size = new System.Drawing.Size(127, 39);
+            this.btnConsultar.Size = new System.Drawing.Size(95, 32);
             this.btnConsultar.TabIndex = 8;
             this.btnConsultar.Text = "Consultar";
             this.btnConsultar.UseVisualStyleBackColor = false;
@@ -249,25 +254,25 @@
             this.chartOcupacionPropiedades.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.chartOcupacionPropiedades.Legends.Add(legend1);
-            this.chartOcupacionPropiedades.Location = new System.Drawing.Point(276, 176);
-            this.chartOcupacionPropiedades.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chartOcupacionPropiedades.Location = new System.Drawing.Point(207, 121);
+            this.chartOcupacionPropiedades.Margin = new System.Windows.Forms.Padding(2);
             this.chartOcupacionPropiedades.Name = "chartOcupacionPropiedades";
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chartOcupacionPropiedades.Series.Add(series1);
-            this.chartOcupacionPropiedades.Size = new System.Drawing.Size(757, 246);
+            this.chartOcupacionPropiedades.Size = new System.Drawing.Size(568, 200);
             this.chartOcupacionPropiedades.TabIndex = 9;
             this.chartOcupacionPropiedades.Text = "chart1";
             // 
             // EstadisticasOcupacionPropiedad
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1312, 814);
+            this.ClientSize = new System.Drawing.Size(984, 661);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "EstadisticasOcupacionPropiedad";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Estadisticas de Ocupacion por Propiedad";

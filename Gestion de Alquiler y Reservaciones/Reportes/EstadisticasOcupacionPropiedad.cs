@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -11,6 +12,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
     public partial class EstadisticasOcupacionPropiedad : ReporteBase
     {
         private List<string> listaPropiedadesReservadas = new List<string>();
+
         public EstadisticasOcupacionPropiedad()
         {
             InitializeComponent();
@@ -19,7 +21,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
         private void EstadisticasOcupacionPropiedad_Load(object sender, EventArgs e)
         {
-            cmbTiposPropiedad.SelectedIndex = -1;
+            CargarTiposPropiedad();
 
             if (cmbTiposPropiedad.SelectedIndex == -1)
             {
@@ -27,6 +29,72 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                 dtpHasta.Enabled = false;
                 btnConsultar.Enabled = false;
                 dgvInformacion.Enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// Agrupa y filtra los tipos de propiedad según requerimientos de diseño del reporte
+        /// </summary>
+        private void CargarTiposPropiedad()
+        {
+            try
+            {
+                // Obtenemos los tipos reales de la base de datos para no quemar IDs fijos
+                string query = "SELECT IdTipoPropiedad, Nombre FROM TiposPropiedad";
+                using (SqlConnection conexion = Conexion.ObtenerConexion())
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, conexion);
+                    DataTable dtOriginal = new DataTable();
+                    adapter.Fill(dtOriginal);
+
+                    // Estructura personalizada para el ComboBox (Nombre visible e IDs de mapeo)
+                    DataTable dtCombo = new DataTable();
+                    dtCombo.Columns.Add("Nombre", typeof(string));
+                    dtCombo.Columns.Add("Ids", typeof(string)); // Cadena de IDs separados por coma (ej: "4,5")
+
+                    string idApartamento = "";
+                    string idCasa = "";
+                    string idAuditorio = "";
+                    string idSala = "";
+
+                    // Buscamos dinámicamente los IDs correspondientes por su nombre en la base de datos
+                    foreach (DataRow row in dtOriginal.Rows)
+                    {
+                        string nombre = row["Nombre"].ToString().Trim();
+                        string id = row["IdTipoPropiedad"].ToString();
+
+                        if (nombre.Equals("Apartamento", StringComparison.OrdinalIgnoreCase)) idApartamento = id;
+                        else if (nombre.Equals("Casa de Playa/Montaña", StringComparison.OrdinalIgnoreCase)) idCasa = id;
+                        else if (nombre.Equals("Auditorio", StringComparison.OrdinalIgnoreCase)) idAuditorio = id;
+                        else if (nombre.Equals("Sala de Juntas", StringComparison.OrdinalIgnoreCase)) idSala = id;
+                        // "Local Comercial" no se procesa, cumpliendo con la exclusión solicitada
+                    }
+
+                    // Construimos las opciones deseadas
+                    if (!string.IsNullOrEmpty(idApartamento))
+                        dtCombo.Rows.Add("Apartamentos", idApartamento);
+
+                    if (!string.IsNullOrEmpty(idCasa))
+                        dtCombo.Rows.Add("Casas de Playa/Montaña", idCasa);
+
+                    // Fusionamos Auditorio y Sala de Juntas en una sola opción comercial
+                    if (!string.IsNullOrEmpty(idAuditorio) && !string.IsNullOrEmpty(idSala))
+                        dtCombo.Rows.Add("Auditorios y Salas de Juntas", $"{idAuditorio},{idSala}");
+                    else if (!string.IsNullOrEmpty(idAuditorio))
+                        dtCombo.Rows.Add("Auditorios", idAuditorio);
+                    else if (!string.IsNullOrEmpty(idSala))
+                        dtCombo.Rows.Add("Salas de Juntas", idSala);
+
+                    cmbTiposPropiedad.DisplayMember = "Nombre";
+                    cmbTiposPropiedad.ValueMember = "Ids";
+                    cmbTiposPropiedad.DataSource = dtCombo;
+
+                    cmbTiposPropiedad.SelectedIndex = -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los tipos de propiedad: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -45,54 +113,43 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             if (dtpDesde.Value > dtpHasta.Value)
             {
                 MessageBox.Show("La fecha inicial no debe ser mayor a la fecha final",
-                    "Rango de fecha invalido",
+                    "Rango de fecha inválido",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
+                return;
             }
-            else
+
+            if (cmbTiposPropiedad.SelectedValue != null)
             {
-                int[] propiedadID = { };
-                switch (cmbTiposPropiedad.SelectedIndex)
-                {
-                    //Plaza Universitaria
-                    //Casa Vacacional
-                    //Apartamento
-                    case 0:
-                        propiedadID = new int[] { 3, 4, 7, 8, 11 };
-                        break;
-
-                    case 1:
-                        propiedadID = new int[] { 5, 6, 12 };
-                        break;
-
-                    case 2:
-                        propiedadID = new int[] { 1, 2, 9, 10 };
-                        break;
-                }
+                string idsString = cmbTiposPropiedad.SelectedValue.ToString();
                 dgvInformacion.Enabled = true;
-                listaPropiedadesReservadas = buscarTipoPropiedades(propiedadID);
+
+                listaPropiedadesReservadas = buscarTipoPropiedades(idsString);
                 llenargrafico();
-                llenardgv(propiedadID);
+                llenardgv(idsString);
             }
         }
 
-        /// <summary>
-        /// Busca el tipo de propiedad reservada entre el rango de fechas a partir de la idPropiedad reservada
-        /// </summary>
-        /// <param name="propiedadID"></param>
-        private List<string> buscarTipoPropiedades(int[] propiedadID)
+        private List<string> buscarTipoPropiedades(string idsString)
         {
             List<string> propiedades = new List<string>();
             try
             {
-                string idsFormateados = string.Join(",", propiedadID);
-                string queryBuscarTipoPropiedades = "select R.IdPropiedad, R.FechaEntrada, " +
-                    "R.FechaSalida, TP.Nombre from Reservaciones as R INNER JOIN Propiedades as P " +
-                    "on R.IdPropiedad = P.IdPropiedad INNER JOIN TiposPropiedad as TP on " +
-                    "P.IdTipoPropiedad = TP.IdTipoPropiedad where " +
-                    $"R.IdPropiedad in ({idsFormateados}) and " +
-                    "R.FechaCreacion BETWEEN @desde and @hasta";
+                // 1. Alineamos la consulta para usar FechaInicio y FechaFin (Lógica de traslape)
+                string queryBuscarTipoPropiedades = $@"
+            WITH Ocupaciones AS (
+                SELECT IdPropiedad, FechaEntrada AS FechaInicio, FechaSalida AS FechaFin FROM Reservaciones
+                UNION ALL
+                SELECT IdPropiedad, FechaInicio, FechaFin FROM Contratos
+            )
+            SELECT P.Codigo 
+            FROM Ocupaciones AS O 
+            INNER JOIN Propiedades AS P ON O.IdPropiedad = P.IdPropiedad 
+            WHERE P.IdTipoPropiedad IN ({idsString}) 
+            AND CAST(O.FechaInicio AS DATE) <= @hasta 
+            AND CAST(O.FechaFin AS DATE) >= @desde";
+
                 using (SqlConnection conectar = Conexion.ObtenerConexion())
                 {
                     conectar.Open();
@@ -101,46 +158,35 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
                     DateTime fechaHastaFinDelDia = dtpHasta.Value.Date.AddDays(1).AddSeconds(-1);
                     cmdBuscarTipoPropiedades.Parameters.AddWithValue("@hasta", fechaHastaFinDelDia);
+
                     SqlDataReader readerBuscarTipoPropiedades = cmdBuscarTipoPropiedades.ExecuteReader();
                     while (readerBuscarTipoPropiedades.Read())
                     {
-                        propiedades.Add(readerBuscarTipoPropiedades["Nombre"].ToString());
+                        propiedades.Add(readerBuscarTipoPropiedades["Codigo"].ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Algo salió mal",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show(ex.Message, "Algo salió mal", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return propiedades;
         }
 
-        /// <summary>
-        /// Esta funcion se encarga de llenar de valores el grafico de pastel
-        /// </summary>
         private void llenargrafico()
         {
             try
             {
-                // 1. Limpiamos cualquier dato o serie de prueba que traiga el diseño por defecto
                 chartOcupacionPropiedades.Series.Clear();
                 chartOcupacionPropiedades.Titles.Clear();
 
-                // 2. Agregamos un título principal
-                Title titulo = chartOcupacionPropiedades.Titles.Add($"Ocupación en {cmbTiposPropiedad.SelectedItem}");
-                titulo.Font = new Font("Microsoft Sans Serif", 11);
+                Title titulo = chartOcupacionPropiedades.Titles.Add($"Ocupación en {cmbTiposPropiedad.Text}");
+                titulo.Font = new Font("Montserrat", 11, FontStyle.Bold);
 
-                // 3. Creamos la serie y le decimos explícitamente que sea tipo Pastel (Pie)
                 Series seriePastel = new Series("Ocupacion");
                 seriePastel.ChartType = SeriesChartType.Pie;
                 chartOcupacionPropiedades.Series.Add(seriePastel);
 
-                // --- NUEVO PASO: Agrupar y contar las palabras repetidas antes de graficar ---
                 Dictionary<string, int> conteoPropiedades = new Dictionary<string, int>();
                 foreach (string propiedad in listaPropiedadesReservadas)
                 {
@@ -150,60 +196,54 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                         conteoPropiedades.Add(propiedad, 1);
                 }
 
-                // 4. ¡Agregamos los datos agrupados al gráfico configurando la leyenda por separado!
+                // Paleta de colores en tonos anaranjados solicitada
+                string[] coloresHex = { "#E6B340", "#D67A31", "#FFC69C", "#C84F24" };
+                int colorIndex = 0;
+
                 foreach (KeyValuePair<string, int> resultado in conteoPropiedades)
                 {
-                    // Añadimos el punto con su valor numérico
                     int nuevoPuntoIndex = seriePastel.Points.AddXY(resultado.Key, resultado.Value);
                     DataPoint punto = seriePastel.Points[nuevoPuntoIndex];
 
-                    // ASIGNACIÓN CORRECTA:
-                    // El texto que va en la leyenda de colores (abajo) será el nombre único de la propiedad
-                    punto.LegendText = resultado.Key;
+                    // Asignación de color de la paleta personalizada
+                    punto.Color = ColorTranslator.FromHtml(coloresHex[colorIndex % coloresHex.Length]);
+                    colorIndex++;
 
-                    // El texto que va DENTRO del círculo será únicamente el porcentaje calculado
+                    punto.LegendText = resultado.Key;
                     punto.Label = "#PERCENT{P0}";
                 }
 
-                // 5. Configuración estética final del texto interior
                 seriePastel.IsValueShownAsLabel = true;
-                seriePastel.Font = new Font("Microsoft Sans Serif", 11, FontStyle.Bold);
+                seriePastel.Font = new Font("Montserrat", 10, FontStyle.Bold);
 
-
-                // 6. Configurar la leyenda (los cuadritos informativos de abajo)
                 chartOcupacionPropiedades.Legends[0].Docking = Docking.Bottom;
                 chartOcupacionPropiedades.Legends[0].Alignment = StringAlignment.Center;
-
-                // 7. Colores personalizados (Validando cuántos puntos se agregaron para evitar errores de índice)
-                if (seriePastel.Points.Count > 0) seriePastel.Points[0].Color = Color.FromArgb(230, 126, 34);  // Naranja
-                if (seriePastel.Points.Count > 1) seriePastel.Points[1].Color = Color.FromArgb(241, 196, 15);  // Amarillo
-                if (seriePastel.Points.Count > 2) seriePastel.Points[2].Color = Color.FromArgb(46, 204, 113);  // Verde
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Algo salió mal",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show(ex.Message, "Algo salió mal", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void llenardgv(int[] propiedadID)
+        private void llenardgv(string idsString)
         {
             try
             {
-                string idsFormateados = string.Join(",", propiedadID);
-                string queryLlenarDGV =
-                "SELECT R.IdPropiedad, TP.Nombre, COUNT(*) as Cantidad " +
-                "FROM Reservaciones as R " +
-                "INNER JOIN Propiedades as P ON R.IdPropiedad = P.IdPropiedad " +
-                "INNER JOIN TiposPropiedad as TP ON P.IdTipoPropiedad = TP.IdTipoPropiedad " +
-                $"WHERE R.IdPropiedad IN ({idsFormateados}) " +
-                "AND CAST(R.FechaEntrada AS DATE) >= @desde " + // Forzamos a comparar solo fechas sin hora
-                "AND CAST(R.FechaSalida AS DATE) <= @hasta " +
-                "GROUP BY R.IdPropiedad, TP.Nombre";
+                // 2. Aplicamos la misma lógica exacta en el DGV para que los datos coincidan 100% con el pastel
+                string queryLlenarDGV = $@"
+            WITH Ocupaciones AS (
+                SELECT IdPropiedad, FechaEntrada AS FechaInicio, FechaSalida AS FechaFin FROM Reservaciones
+                UNION ALL
+                SELECT IdPropiedad, FechaInicio, FechaFin FROM Contratos
+            )
+            SELECT P.IdPropiedad, P.Codigo AS NombrePropiedad, COUNT(*) as Cantidad 
+            FROM Ocupaciones AS O 
+            INNER JOIN Propiedades AS P ON O.IdPropiedad = P.IdPropiedad 
+            WHERE P.IdTipoPropiedad IN ({idsString}) 
+            AND CAST(O.FechaInicio AS DATE) <= @hasta 
+            AND CAST(O.FechaFin AS DATE) >= @desde 
+            GROUP BY P.IdPropiedad, P.Codigo";
+
                 using (SqlConnection conectar = Conexion.ObtenerConexion())
                 {
                     conectar.Open();
@@ -212,13 +252,15 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
                     DateTime fechaHastaFinDelDia = dtpHasta.Value.Date.AddDays(1).AddSeconds(-1);
                     cmdLlenarDGV.Parameters.AddWithValue("@hasta", fechaHastaFinDelDia);
+
                     SqlDataReader readerLlenarDGV = cmdLlenarDGV.ExecuteReader();
                     dgvInformacion.Rows.Clear();
+
                     while (readerLlenarDGV.Read())
                     {
                         dgvInformacion.Rows.Add(
-                            readerLlenarDGV["IdPropiedad"].ToString(), 
-                            readerLlenarDGV["Nombre"].ToString(), 
+                            readerLlenarDGV["IdPropiedad"].ToString(),
+                            readerLlenarDGV["NombrePropiedad"].ToString(),
                             readerLlenarDGV["Cantidad"].ToString()
                         );
                     }
@@ -226,12 +268,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Algo salió mal",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show(ex.Message, "Algo salió mal", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
