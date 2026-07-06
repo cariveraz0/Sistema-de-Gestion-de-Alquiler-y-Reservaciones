@@ -79,9 +79,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             dgvCasas.Rows.Clear();
             try
             {
-                try
-                {
-                    string queryBuscarClientes =
+                string queryBuscarClientes =
                         "select Res.IdReservacion, Res.NumeroReservacion, Res.FechaCreacion, Res.FechaEntrada, " +
                         "Res.FechaSalida, Res.NumeroPersonas, Res.MontoTotal " +
                         "from Reservaciones as Res " +
@@ -95,39 +93,33 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                         $"and Cli.NombreCompleto like '%{cmbClientes.SelectedItem}%'" +
                         $"and YEAR(Res.FechaCreacion) = {cmbAño.SelectedItem}";
 
-                    using (SqlConnection conectar = Conexion.ObtenerConexion())
-                    {
-                        conectar.Open();
-                        SqlCommand cmdBuscarClientes = new SqlCommand(queryBuscarClientes, conectar);
-                        SqlDataReader readerBuscarClientes = cmdBuscarClientes.ExecuteReader();
-                        while (readerBuscarClientes.Read())
-                        {
-                            dgvCasas.Rows.Add(
-                                readerBuscarClientes["IdReservacion"].ToString(),
-                                readerBuscarClientes["NumeroReservacion"].ToString(),
-                                readerBuscarClientes["FechaCreacion"].ToString(),
-                                readerBuscarClientes["FechaEntrada"].ToString(),
-                                readerBuscarClientes["FechaSalida"].ToString(),
-                                readerBuscarClientes["NumeroPersonas"].ToString(),
-                                readerBuscarClientes["MontoTotal"].ToString()
-                            );
-                        }
-                    }
-                }
-                catch (Exception ex)
+                using (SqlConnection conectar = Conexion.ObtenerConexion())
                 {
-                    MessageBox.Show(
-                        ex.Message,
-                        "Algo salió mal",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                    );
+                    conectar.Open();
+                    SqlCommand cmdBuscarClientes = new SqlCommand(queryBuscarClientes, conectar);
+                    SqlDataReader readerBuscarClientes = cmdBuscarClientes.ExecuteReader();
+                    while (readerBuscarClientes.Read())
+                    {
+                        dgvCasas.Rows.Add(
+                            readerBuscarClientes["IdReservacion"].ToString(),
+                            readerBuscarClientes["NumeroReservacion"].ToString(),
+                            readerBuscarClientes["FechaCreacion"].ToString(),
+                            readerBuscarClientes["FechaEntrada"].ToString(),
+                            readerBuscarClientes["FechaSalida"].ToString(),
+                            readerBuscarClientes["NumeroPersonas"].ToString(),
+                            readerBuscarClientes["MontoTotal"].ToString()
+                        );
+                    }
                 }
             }
             catch (Exception ex)
             {
-
-                throw;
+                MessageBox.Show(
+                    ex.Message,
+                    "Algo salió mal",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
     }

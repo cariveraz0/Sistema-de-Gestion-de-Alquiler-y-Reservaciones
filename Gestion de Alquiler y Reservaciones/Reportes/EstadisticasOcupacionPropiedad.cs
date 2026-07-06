@@ -87,17 +87,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             try
             {
                 string idsFormateados = string.Join(",", propiedadID);
-
-                // 1. Cambiamos TP.Nombre por P.Codigo
-                // 2. Igualamos el filtro de fechas al que usas en el DataGridView
-                string queryBuscarTipoPropiedades =
-                    "SELECT P.Codigo " +
-                    "FROM Reservaciones as R " +
-                    "INNER JOIN Propiedades as P ON R.IdPropiedad = P.IdPropiedad " +
-                    $"WHERE R.IdPropiedad IN ({idsFormateados}) " +
-                    "AND CAST(R.FechaEntrada AS DATE) >= @desde " +
-                    "AND CAST(R.FechaSalida AS DATE) <= @hasta";
-
+                string queryBuscarTipoPropiedades = "select R.IdPropiedad, R.FechaEntrada, " +
+                    "R.FechaSalida, TP.Nombre from Reservaciones as R INNER JOIN Propiedades as P " +
+                    "on R.IdPropiedad = P.IdPropiedad INNER JOIN TiposPropiedad as TP on " +
+                    "P.IdTipoPropiedad = TP.IdTipoPropiedad where " +
+                    $"R.IdPropiedad in ({idsFormateados}) and " +
+                    "R.FechaCreacion BETWEEN @desde and @hasta";
                 using (SqlConnection conectar = Conexion.ObtenerConexion())
                 {
                     conectar.Open();
@@ -106,12 +101,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
                     DateTime fechaHastaFinDelDia = dtpHasta.Value.Date.AddDays(1).AddSeconds(-1);
                     cmdBuscarTipoPropiedades.Parameters.AddWithValue("@hasta", fechaHastaFinDelDia);
-
                     SqlDataReader readerBuscarTipoPropiedades = cmdBuscarTipoPropiedades.ExecuteReader();
                     while (readerBuscarTipoPropiedades.Read())
                     {
-                        // Agregamos el código de la propiedad a la lista para que el pastel tenga distintas rebanadas
-                        propiedades.Add(readerBuscarTipoPropiedades["Codigo"].ToString());
+                        propiedades.Add(readerBuscarTipoPropiedades["Nombre"].ToString());
                     }
                 }
             }
@@ -223,7 +216,11 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     dgvInformacion.Rows.Clear();
                     while (readerLlenarDGV.Read())
                     {
-                        dgvInformacion.Rows.Add(readerLlenarDGV["IdPropiedad"].ToString(), readerLlenarDGV["Nombre"].ToString(), readerLlenarDGV["Cantidad"].ToString());
+                        dgvInformacion.Rows.Add(
+                            readerLlenarDGV["IdPropiedad"].ToString(), 
+                            readerLlenarDGV["Nombre"].ToString(), 
+                            readerLlenarDGV["Cantidad"].ToString()
+                        );
                     }
                 }
             }
