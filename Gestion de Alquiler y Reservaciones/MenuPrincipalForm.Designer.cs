@@ -30,22 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuPrincipalForm));
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reporteDeContratosVigentesYSuEstadoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.propiedadesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.historialDeMantenimientoPorPropiedadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contratoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reporteDeReservacionesPorPeríodoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reservacionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.estadoDeCuentaPorArrendatarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.estadísticasDeOcToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mantenimientoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resumenDeIngresosPorConceptoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox8 = new System.Windows.Forms.PictureBox();
+            this.btnReportes = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
             this.pictureBox13 = new System.Windows.Forms.PictureBox();
             this.btnCerrarSesion = new System.Windows.Forms.Button();
@@ -54,10 +41,10 @@
             this.label4 = new System.Windows.Forms.Label();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
-            this.button6 = new System.Windows.Forms.Button();
+            this.btnMantenimiento = new System.Windows.Forms.Button();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.btnClientes = new System.Windows.Forms.Button();
+            this.btnReservaciones = new System.Windows.Forms.Button();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.btnContratos = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -78,8 +65,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.panelContenido = new System.Windows.Forms.Panel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
@@ -94,148 +81,21 @@
             this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
-            // menuStrip1
-            // 
-            this.menuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.archivoToolStripMenuItem,
-            this.propiedadesToolStripMenuItem,
-            this.contratoToolStripMenuItem,
-            this.reservacionesToolStripMenuItem,
-            this.clientesToolStripMenuItem,
-            this.mantenimientoToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1350, 24);
-            this.menuStrip1.TabIndex = 2;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // archivoToolStripMenuItem
-            // 
-            this.archivoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reporteDeContratosVigentesYSuEstadoToolStripMenuItem});
-            this.archivoToolStripMenuItem.ForeColor = System.Drawing.Color.White;
-            this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
-            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
-            this.archivoToolStripMenuItem.Text = "Contratos";
-            // 
-            // reporteDeContratosVigentesYSuEstadoToolStripMenuItem
-            // 
-            this.reporteDeContratosVigentesYSuEstadoToolStripMenuItem.Name = "reporteDeContratosVigentesYSuEstadoToolStripMenuItem";
-            this.reporteDeContratosVigentesYSuEstadoToolStripMenuItem.Size = new System.Drawing.Size(296, 22);
-            this.reporteDeContratosVigentesYSuEstadoToolStripMenuItem.Text = "Reporte de Contratos Vigentes y su Estado";
-            this.reporteDeContratosVigentesYSuEstadoToolStripMenuItem.Click += new System.EventHandler(this.reporteDeContratosVigentesYSuEstadoToolStripMenuItem_Click);
-            // 
-            // propiedadesToolStripMenuItem
-            // 
-            this.propiedadesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.historialDeMantenimientoPorPropiedadToolStripMenuItem,
-            this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem});
-            this.propiedadesToolStripMenuItem.ForeColor = System.Drawing.Color.White;
-            this.propiedadesToolStripMenuItem.Name = "propiedadesToolStripMenuItem";
-            this.propiedadesToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
-            this.propiedadesToolStripMenuItem.Text = "Mantenimiento";
-            // 
-            // historialDeMantenimientoPorPropiedadToolStripMenuItem
-            // 
-            this.historialDeMantenimientoPorPropiedadToolStripMenuItem.Name = "historialDeMantenimientoPorPropiedadToolStripMenuItem";
-            this.historialDeMantenimientoPorPropiedadToolStripMenuItem.Size = new System.Drawing.Size(359, 22);
-            this.historialDeMantenimientoPorPropiedadToolStripMenuItem.Text = "Historial de Mantenimiento por Propiedad";
-            this.historialDeMantenimientoPorPropiedadToolStripMenuItem.Click += new System.EventHandler(this.historialDeMantenimientoPorPropiedadToolStripMenuItem_Click);
-            // 
-            // resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem
-            // 
-            this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem.Name = "resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem";
-            this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem.Size = new System.Drawing.Size(359, 22);
-            this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem.Text = "Resumen de Solicitudes de Mantenimiento por Estado";
-            this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem.Click += new System.EventHandler(this.resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem_Click);
-            // 
-            // contratoToolStripMenuItem
-            // 
-            this.contratoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reporteDeReservacionesPorPeríodoToolStripMenuItem,
-            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem});
-            this.contratoToolStripMenuItem.ForeColor = System.Drawing.Color.White;
-            this.contratoToolStripMenuItem.Name = "contratoToolStripMenuItem";
-            this.contratoToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
-            this.contratoToolStripMenuItem.Text = "Reservaciones";
-            // 
-            // reporteDeReservacionesPorPeríodoToolStripMenuItem
-            // 
-            this.reporteDeReservacionesPorPeríodoToolStripMenuItem.Name = "reporteDeReservacionesPorPeríodoToolStripMenuItem";
-            this.reporteDeReservacionesPorPeríodoToolStripMenuItem.Size = new System.Drawing.Size(349, 22);
-            this.reporteDeReservacionesPorPeríodoToolStripMenuItem.Text = "Reporte de Reservaciones por Período";
-            this.reporteDeReservacionesPorPeríodoToolStripMenuItem.Click += new System.EventHandler(this.reporteDeReservacionesPorPeríodoToolStripMenuItem_Click);
-            // 
-            // casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem
-            // 
-            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem.Name = "casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem";
-            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem.Size = new System.Drawing.Size(349, 22);
-            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem.Text = "Casas Vacacionales Reservadas con Pago en Efectivo";
-            this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem.Click += new System.EventHandler(this.casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem_Click);
-            // 
-            // reservacionesToolStripMenuItem
-            // 
-            this.reservacionesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.estadoDeCuentaPorArrendatarioToolStripMenuItem});
-            this.reservacionesToolStripMenuItem.ForeColor = System.Drawing.Color.White;
-            this.reservacionesToolStripMenuItem.Name = "reservacionesToolStripMenuItem";
-            this.reservacionesToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
-            this.reservacionesToolStripMenuItem.Text = "Pagos";
-            // 
-            // estadoDeCuentaPorArrendatarioToolStripMenuItem
-            // 
-            this.estadoDeCuentaPorArrendatarioToolStripMenuItem.Name = "estadoDeCuentaPorArrendatarioToolStripMenuItem";
-            this.estadoDeCuentaPorArrendatarioToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.estadoDeCuentaPorArrendatarioToolStripMenuItem.Text = "Estado de Cuenta por Arrendatario";
-            this.estadoDeCuentaPorArrendatarioToolStripMenuItem.Click += new System.EventHandler(this.estadoDeCuentaPorArrendatarioToolStripMenuItem_Click);
-            // 
-            // clientesToolStripMenuItem
-            // 
-            this.clientesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.estadísticasDeOcToolStripMenuItem});
-            this.clientesToolStripMenuItem.ForeColor = System.Drawing.Color.White;
-            this.clientesToolStripMenuItem.Name = "clientesToolStripMenuItem";
-            this.clientesToolStripMenuItem.Size = new System.Drawing.Size(84, 20);
-            this.clientesToolStripMenuItem.Text = "Propiedades";
-            // 
-            // estadísticasDeOcToolStripMenuItem
-            // 
-            this.estadísticasDeOcToolStripMenuItem.Name = "estadísticasDeOcToolStripMenuItem";
-            this.estadísticasDeOcToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
-            this.estadísticasDeOcToolStripMenuItem.Text = "Estadísticas de Ocupación por Propiedad";
-            this.estadísticasDeOcToolStripMenuItem.Click += new System.EventHandler(this.estadísticasDeOcToolStripMenuItem_Click);
-            // 
-            // mantenimientoToolStripMenuItem
-            // 
-            this.mantenimientoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.resumenDeIngresosPorConceptoToolStripMenuItem});
-            this.mantenimientoToolStripMenuItem.ForeColor = System.Drawing.Color.White;
-            this.mantenimientoToolStripMenuItem.Name = "mantenimientoToolStripMenuItem";
-            this.mantenimientoToolStripMenuItem.Size = new System.Drawing.Size(100, 20);
-            this.mantenimientoToolStripMenuItem.Text = "Administración";
-            // 
-            // resumenDeIngresosPorConceptoToolStripMenuItem
-            // 
-            this.resumenDeIngresosPorConceptoToolStripMenuItem.Name = "resumenDeIngresosPorConceptoToolStripMenuItem";
-            this.resumenDeIngresosPorConceptoToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
-            this.resumenDeIngresosPorConceptoToolStripMenuItem.Text = "Resumen de Ingresos por Concepto";
-            this.resumenDeIngresosPorConceptoToolStripMenuItem.Click += new System.EventHandler(this.resumenDeIngresosPorConceptoToolStripMenuItem_Click);
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
+            this.panel1.Controls.Add(this.pictureBox8);
+            this.panel1.Controls.Add(this.btnReportes);
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.pictureBox9);
             this.panel1.Controls.Add(this.button8);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.pictureBox7);
             this.panel1.Controls.Add(this.pictureBox6);
-            this.panel1.Controls.Add(this.button6);
+            this.panel1.Controls.Add(this.btnMantenimiento);
             this.panel1.Controls.Add(this.pictureBox5);
-            this.panel1.Controls.Add(this.button5);
-            this.panel1.Controls.Add(this.button4);
+            this.panel1.Controls.Add(this.btnClientes);
+            this.panel1.Controls.Add(this.btnReservaciones);
             this.panel1.Controls.Add(this.pictureBox4);
             this.panel1.Controls.Add(this.btnContratos);
             this.panel1.Controls.Add(this.pictureBox3);
@@ -247,17 +107,42 @@
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 24);
+            this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(230, 657);
+            this.panel1.Size = new System.Drawing.Size(230, 681);
             this.panel1.TabIndex = 3;
+            // 
+            // pictureBox8
+            // 
+            this.pictureBox8.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.analytics;
+            this.pictureBox8.Location = new System.Drawing.Point(6, 338);
+            this.pictureBox8.Name = "pictureBox8";
+            this.pictureBox8.Size = new System.Drawing.Size(24, 27);
+            this.pictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox8.TabIndex = 21;
+            this.pictureBox8.TabStop = false;
+            // 
+            // btnReportes
+            // 
+            this.btnReportes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
+            this.btnReportes.FlatAppearance.BorderSize = 0;
+            this.btnReportes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReportes.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReportes.ForeColor = System.Drawing.Color.White;
+            this.btnReportes.Location = new System.Drawing.Point(3, 337);
+            this.btnReportes.Name = "btnReportes";
+            this.btnReportes.Size = new System.Drawing.Size(224, 30);
+            this.btnReportes.TabIndex = 20;
+            this.btnReportes.Text = "Reportes";
+            this.btnReportes.UseVisualStyleBackColor = false;
+            this.btnReportes.Click += new System.EventHandler(this.btnReportes_Click);
             // 
             // panel4
             // 
             this.panel4.Controls.Add(this.pictureBox13);
             this.panel4.Controls.Add(this.btnCerrarSesion);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(0, 617);
+            this.panel4.Location = new System.Drawing.Point(0, 641);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(230, 40);
             this.panel4.TabIndex = 19;
@@ -290,7 +175,7 @@
             // pictureBox9
             // 
             this.pictureBox9.Image = global::Gestion_de_Alquiler_y_Reservaciones.Properties.Resources.money;
-            this.pictureBox9.Location = new System.Drawing.Point(6, 365);
+            this.pictureBox9.Location = new System.Drawing.Point(6, 406);
             this.pictureBox9.Name = "pictureBox9";
             this.pictureBox9.Size = new System.Drawing.Size(24, 27);
             this.pictureBox9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -304,7 +189,7 @@
             this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button8.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button8.ForeColor = System.Drawing.Color.White;
-            this.button8.Location = new System.Drawing.Point(3, 364);
+            this.button8.Location = new System.Drawing.Point(3, 405);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(224, 30);
             this.button8.TabIndex = 13;
@@ -316,7 +201,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(12, 345);
+            this.label4.Location = new System.Drawing.Point(12, 386);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 13);
             this.label4.TabIndex = 12;
@@ -342,19 +227,19 @@
             this.pictureBox6.TabIndex = 9;
             this.pictureBox6.TabStop = false;
             // 
-            // button6
+            // btnMantenimiento
             // 
-            this.button6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
-            this.button6.FlatAppearance.BorderSize = 0;
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button6.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.ForeColor = System.Drawing.Color.White;
-            this.button6.Location = new System.Drawing.Point(3, 301);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(224, 30);
-            this.button6.TabIndex = 8;
-            this.button6.Text = "Mantenimiento";
-            this.button6.UseVisualStyleBackColor = false;
+            this.btnMantenimiento.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
+            this.btnMantenimiento.FlatAppearance.BorderSize = 0;
+            this.btnMantenimiento.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMantenimiento.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMantenimiento.ForeColor = System.Drawing.Color.White;
+            this.btnMantenimiento.Location = new System.Drawing.Point(3, 301);
+            this.btnMantenimiento.Name = "btnMantenimiento";
+            this.btnMantenimiento.Size = new System.Drawing.Size(224, 30);
+            this.btnMantenimiento.TabIndex = 8;
+            this.btnMantenimiento.Text = "Mantenimiento";
+            this.btnMantenimiento.UseVisualStyleBackColor = false;
             // 
             // pictureBox5
             // 
@@ -366,33 +251,33 @@
             this.pictureBox5.TabIndex = 11;
             this.pictureBox5.TabStop = false;
             // 
-            // button5
+            // btnClientes
             // 
-            this.button5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
-            this.button5.FlatAppearance.BorderSize = 0;
-            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.ForeColor = System.Drawing.Color.White;
-            this.button5.Location = new System.Drawing.Point(3, 265);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(224, 30);
-            this.button5.TabIndex = 8;
-            this.button5.Text = "Clientes";
-            this.button5.UseVisualStyleBackColor = false;
+            this.btnClientes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
+            this.btnClientes.FlatAppearance.BorderSize = 0;
+            this.btnClientes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClientes.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClientes.ForeColor = System.Drawing.Color.White;
+            this.btnClientes.Location = new System.Drawing.Point(3, 265);
+            this.btnClientes.Name = "btnClientes";
+            this.btnClientes.Size = new System.Drawing.Size(224, 30);
+            this.btnClientes.TabIndex = 8;
+            this.btnClientes.Text = "Clientes";
+            this.btnClientes.UseVisualStyleBackColor = false;
             // 
-            // button4
+            // btnReservaciones
             // 
-            this.button4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
-            this.button4.FlatAppearance.BorderSize = 0;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.ForeColor = System.Drawing.Color.White;
-            this.button4.Location = new System.Drawing.Point(3, 229);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(224, 30);
-            this.button4.TabIndex = 10;
-            this.button4.Text = "Reservaciones";
-            this.button4.UseVisualStyleBackColor = false;
+            this.btnReservaciones.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
+            this.btnReservaciones.FlatAppearance.BorderSize = 0;
+            this.btnReservaciones.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReservaciones.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReservaciones.ForeColor = System.Drawing.Color.White;
+            this.btnReservaciones.Location = new System.Drawing.Point(3, 229);
+            this.btnReservaciones.Name = "btnReservaciones";
+            this.btnReservaciones.Size = new System.Drawing.Size(224, 30);
+            this.btnReservaciones.TabIndex = 10;
+            this.btnReservaciones.Text = "Reservaciones";
+            this.btnReservaciones.UseVisualStyleBackColor = false;
             // 
             // pictureBox4
             // 
@@ -519,7 +404,7 @@
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.label5);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(230, 24);
+            this.panel2.Location = new System.Drawing.Point(230, 0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1120, 60);
             this.panel2.TabIndex = 4;
@@ -604,9 +489,9 @@
             // panelContenido
             // 
             this.panelContenido.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelContenido.Location = new System.Drawing.Point(230, 84);
+            this.panelContenido.Location = new System.Drawing.Point(230, 60);
             this.panelContenido.Name = "panelContenido";
-            this.panelContenido.Size = new System.Drawing.Size(1120, 597);
+            this.panelContenido.Size = new System.Drawing.Size(1120, 621);
             this.panelContenido.TabIndex = 5;
             // 
             // timer1
@@ -624,18 +509,15 @@
             this.Controls.Add(this.panelContenido);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip1;
             this.Name = "MenuPrincipalForm";
             this.Text = "Menú Principal";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MenuPrincipalForm_Load);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             this.panel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
@@ -651,18 +533,10 @@
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem archivoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem propiedadesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem contratoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem reservacionesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem clientesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem mantenimientoToolStripMenuItem;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label1;
@@ -674,9 +548,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.PictureBox pictureBox7;
         private System.Windows.Forms.PictureBox pictureBox6;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btnMantenimiento;
+        private System.Windows.Forms.Button btnClientes;
+        private System.Windows.Forms.Button btnReservaciones;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Button btnContratos;
         private System.Windows.Forms.PictureBox pictureBox9;
@@ -694,15 +568,9 @@
         private System.Windows.Forms.Button btnCerrarSesion;
         private System.Windows.Forms.PictureBox pictureBox13;
         private System.Windows.Forms.Panel panelContenido;
-        private System.Windows.Forms.ToolStripMenuItem reporteDeContratosVigentesYSuEstadoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem historialDeMantenimientoPorPropiedadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem reporteDeReservacionesPorPeríodoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem estadoDeCuentaPorArrendatarioToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem estadísticasDeOcToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.ToolStripMenuItem resumenDeIngresosPorConceptoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem;
         private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Button btnReportes;
+        private System.Windows.Forms.PictureBox pictureBox8;
     }
 }

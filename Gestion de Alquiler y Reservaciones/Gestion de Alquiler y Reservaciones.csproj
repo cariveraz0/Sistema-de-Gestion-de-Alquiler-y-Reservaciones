@@ -251,12 +251,6 @@
     </Compile>
     <Compile Include="Conexion.cs" />
     <Compile Include="ConexionEjemplo.cs" />
-    <Compile Include="ContratoForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ContratoForm.Designer.cs">
-      <DependentUpon>ContratoForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="ContratosForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -289,6 +283,12 @@
     </Compile>
     <Compile Include="PropiedadesForm.Designer.cs">
       <DependentUpon>PropiedadesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReportesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReportesForm.Designer.cs">
+      <DependentUpon>ReportesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Reportes\EstadisticasOcupacionPropiedad.cs">
       <SubType>Form</SubType>
@@ -359,9 +359,6 @@
     <EmbeddedResource Include="BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ContratoForm.resx">
-      <DependentUpon>ContratoForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ContratosForm.resx">
       <DependentUpon>ContratosForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -381,6 +378,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PropiedadesForm.resx">
       <DependentUpon>PropiedadesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportesForm.resx">
+      <DependentUpon>ReportesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes\EstadisticasOcupacionPropiedad.resx">
       <DependentUpon>EstadisticasOcupacionPropiedad.cs</DependentUpon>

@@ -69,22 +69,15 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void btnContratos_Click(object sender, EventArgs e)
         {
-            ContratosForm frm = new ContratosForm();
-            frm.ShowDialog();
-            this.Close();
-            AbrirForm(new ContratoForm());
+            //ContratosForm frm = new ContratosForm();
+            //frm.ShowDialog();
+            //this.Close();
+            AbrirForm(new ContratosForm());
         }
 
         private void btnCerrarSesion_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void reporteDeContratosVigentesYSuEstadoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ReporteContratosVigentes frm = new ReporteContratosVigentes();
-            frm.StartPosition = FormStartPosition.CenterScreen;
-            frm.ShowDialog();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -93,73 +86,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             lblHora.Text = DateTime.Now.ToString("hh:mm tt");
         }
 
-        private void historialDeMantenimientoPorPropiedadToolStripMenuItem_Click(object sender, EventArgs e)
+        private void btnReportes_Click(object sender, EventArgs e)
         {
-            HistorialMantenimientoPropiedad frm = new HistorialMantenimientoPropiedad();
-            frm.StartPosition = FormStartPosition.CenterScreen;
-            frm.ShowDialog();
-        }
-
-        private void resumenDeSolicitudesDeMantenimientoPorEstadoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ResumenMantenimientoEstado frm = new ResumenMantenimientoEstado();
-            frm.StartPosition = FormStartPosition.CenterScreen;
-            frm.ShowDialog();
-        }
-
-        private void reporteDeReservacionesPorPeríodoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (SeleccionarPeriodoForm formPeriodo = new SeleccionarPeriodoForm())
-            {
-                if (formPeriodo.ShowDialog() == DialogResult.OK)
-                {
-                    ReporteReservacionesPeriodo frm = new ReporteReservacionesPeriodo(
-                        formPeriodo.FechaInicio,
-                        formPeriodo.FechaFin
-                    );
-
-                    frm.StartPosition = FormStartPosition.CenterScreen;
-                    frm.ShowDialog();
-                }
-            }
-        }
-
-        private void estadoDeCuentaPorArrendatarioToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            EstadoCuentaArrendatario frm = new EstadoCuentaArrendatario();
-            frm.StartPosition = FormStartPosition.CenterScreen;
-            frm.ShowDialog();
-        }
-
-        private void estadísticasDeOcToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            EstadisticasOcupacionPropiedad frm = new EstadisticasOcupacionPropiedad();
-            frm.StartPosition = FormStartPosition.CenterScreen;
-            frm.ShowDialog();
-        }
-
-        private void resumenDeIngresosPorConceptoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (SeleccionarPeriodoIngresosForm formPeriodo = new SeleccionarPeriodoIngresosForm())
-            {
-                if (formPeriodo.ShowDialog() == DialogResult.OK)
-                {
-                    ResumenIngresosConcepto frm = new ResumenIngresosConcepto(
-                        formPeriodo.FechaInicio,
-                        formPeriodo.FechaFin
-                    );
-
-                    frm.StartPosition = FormStartPosition.CenterScreen;
-                    frm.ShowDialog();
-                }
-            }
-        }
-
-        private void casasVacacionalesReservadasConPagoEnEfectivoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ReporteCasasReservadasEfectivo frm = new ReporteCasasReservadasEfectivo();
-            frm.StartPosition = FormStartPosition.CenterScreen;
-            frm.ShowDialog();
+            AbrirForm(new ReportesForm());
         }
     }
 }

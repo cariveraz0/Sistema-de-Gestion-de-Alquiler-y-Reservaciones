@@ -131,6 +131,7 @@
             this.panelKPI4.Name = "panelKPI4";
             this.panelKPI4.Size = new System.Drawing.Size(186, 118);
             this.panelKPI4.TabIndex = 27;
+            this.panelKPI4.Paint += new System.Windows.Forms.PaintEventHandler(this.panelKPI4_Paint_1);
             // 
             // label21
             // 
@@ -186,6 +187,7 @@
             this.panelKPI3.Name = "panelKPI3";
             this.panelKPI3.Size = new System.Drawing.Size(186, 118);
             this.panelKPI3.TabIndex = 25;
+            this.panelKPI3.Paint += new System.Windows.Forms.PaintEventHandler(this.panelKPI3_Paint_1);
             // 
             // label20
             // 
@@ -241,6 +243,7 @@
             this.panelKPI2.Name = "panelKPI2";
             this.panelKPI2.Size = new System.Drawing.Size(186, 118);
             this.panelKPI2.TabIndex = 26;
+            this.panelKPI2.Paint += new System.Windows.Forms.PaintEventHandler(this.panelKPI2_Paint_1);
             // 
             // pictureBox14
             // 
@@ -296,6 +299,7 @@
             this.panelKPI1.Name = "panelKPI1";
             this.panelKPI1.Size = new System.Drawing.Size(186, 118);
             this.panelKPI1.TabIndex = 24;
+            this.panelKPI1.Paint += new System.Windows.Forms.PaintEventHandler(this.panelKPI1_Paint_1);
             // 
             // label22
             // 
@@ -344,7 +348,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(894, 571);
+            this.ClientSize = new System.Drawing.Size(960, 571);
             this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.panel5);
