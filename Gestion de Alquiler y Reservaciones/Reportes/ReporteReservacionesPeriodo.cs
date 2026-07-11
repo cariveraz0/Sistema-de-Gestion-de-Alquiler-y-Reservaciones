@@ -46,6 +46,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             InitializeComponent();
             CrearControlesReporte();
             CargarReporteReservaciones();
+
+            dgvReservaciones.CellFormatting += new DataGridViewCellFormattingEventHandler(dgvReservaciones_CellFormatting);
         }
 
         private void CrearControlesReporte()
@@ -76,7 +78,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             dgvReservaciones.EnableHeadersVisualStyles = false;
             dgvReservaciones.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.Color.White;
             dgvReservaciones.ColumnHeadersDefaultCellStyle.Font = new Font("Montserrat", 9, FontStyle.Bold);
-            dgvReservaciones.DefaultCellStyle.Font = new Font("Montserrat", 8, FontStyle.Regular);
+            dgvReservaciones.DefaultCellStyle.Font = new Font("Segoe UI", 8, FontStyle.Regular);
             dgvReservaciones.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(225, 225, 225);
             dgvReservaciones.ColumnHeadersDefaultCellStyle.BackColor = naranjaTitulo;
             pnlPrincipal.Controls.Add(dgvReservaciones);
@@ -257,17 +259,22 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     try
                     {
                         GenerarPdfReservaciones(sfd.FileName);
-                        MessageBox.Show("Reporte generado con éxito.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    catch (IOException)
-                    {
-                        MessageBox.Show(
-                            "No se pudo guardar el archivo porque está abierto en otro programa (por ejemplo, su lector de PDF). Ciérrelo e intente de nuevo.",
-                            "Archivo en uso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        var abrir = MessageBox.Show(
+                            "Reporte generado correctamente. ¿Desea abrirlo ahora?",
+                            "Éxito", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                        if (abrir == DialogResult.Yes)
+                        {
+                            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(sfd.FileName)
+                            {
+                                UseShellExecute = true
+                            });
+                        }
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error: " + ex.Message);
+                        MessageBox.Show("Error al generar el PDF: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -345,10 +352,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                 documento.Add(new Paragraph($"Periodo Consultado: {fechaInicio:dd/MM/yyyy} - {fechaFin:dd/MM/yyyy}\n\n")
                     .SetFont(fontBold).SetFontSize(10).SetTextAlignment(TextAlignment.CENTER).SetMargin(0));
 
-                float[] anchoColumnas = { 1, 3, 2, 2, 2, 2, 2 };
+                float[] anchoColumnas = {3, 2, 2, 3, 2, 2};
                 Table tabla = new Table(UnitValue.CreatePercentArray(anchoColumnas)).UseAllAvailableWidth();
 
-                string[] encabezados = { "#", "Cliente", "Espacio Reservado", "Fecha de Reserva", "Hora / Día", "Estado", "Monto Cobrado" };
+                string[] encabezados = {"Cliente", "Espacio Reservado", "Fecha de Reserva", "Hora / Día", "Estado", "Monto Cobrado" };
                 foreach (var encabezado in encabezados)
                 {
                     Cell celda = new Cell()
@@ -362,7 +369,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
                 foreach (DataRow fila in dtCompleto.Rows)
                 {
-                    tabla.AddCell(CeldaTexto(fila["#"].ToString(), fontRegular));
                     tabla.AddCell(CeldaTexto(fila["Cliente"].ToString(), fontRegular, TextAlignment.LEFT));
                     tabla.AddCell(CeldaTexto(fila["Espacio Reservado"].ToString(), fontRegular));
                     tabla.AddCell(CeldaTexto(fila["Fecha de Reserva"].ToString(), fontRegular));
@@ -378,22 +384,27 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     switch (estado.Trim().ToLower())
                     {
                         case "confirmada":
-                            celdaEstado.SetBackgroundColor(new DeviceRgb(0xD4, 0xED, 0xDA)).SetFontColor(new DeviceRgb(0x15, 0x57, 0x24));
+                            celdaEstado.SetFontColor(new DeviceRgb(0x15, 0x57, 0x24));
                             break;
                         case "finalizada":
-                            celdaEstado.SetBackgroundColor(new DeviceRgb(0xCC, 0xE5, 0xFF)).SetFontColor(new DeviceRgb(0x00, 0x40, 0x85));
+                            celdaEstado.SetFontColor(new DeviceRgb(0x00, 0x40, 0x85));
                             break;
                         case "pendiente":
-                            celdaEstado.SetBackgroundColor(new DeviceRgb(0xFF, 0xF3, 0xCD)).SetFontColor(new DeviceRgb(0x85, 0x64, 0x04));
+                            celdaEstado.SetFontColor(new DeviceRgb(0x85, 0x64, 0x04));
                             break;
                         case "cancelada":
-                            celdaEstado.SetBackgroundColor(new DeviceRgb(0xF8, 0xD7, 0xDA)).SetFontColor(new DeviceRgb(0x72, 0x1C, 0x24));
+                            celdaEstado.SetFontColor(new DeviceRgb(0x72, 0x1C, 0x24));
                             break;
                     }
                     tabla.AddCell(celdaEstado);
 
                     tabla.AddCell(CeldaTexto(fila["Monto Cobrado"].ToString(), fontRegular, TextAlignment.RIGHT));
                 }
+
+                //documento.Add(new Paragraph($"\nTotal de reservaciones: {dtCompleto.Rows.Count}")
+                //    .SetFont(fontBold)
+                //    .SetFontSize(9)
+                //    .SetTextAlignment(TextAlignment.RIGHT));
 
                 documento.Add(tabla);
 
@@ -425,6 +436,35 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                 .SetVerticalAlignment(VerticalAlignment.MIDDLE)
                 .SetPadding(4)
                 .SetFontSize(9);
+        }
+        private void dgvReservaciones_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (this.dgvReservaciones.Columns[e.ColumnIndex].Name == "Estado" && e.Value != null)
+            {
+                string estado = e.Value.ToString().Trim().ToLower();
+
+                switch (estado)
+                {
+                    case "confirmada":
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#155724");
+                        break;
+
+                    case "pendiente":
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#856404");
+                        break;
+
+                    case "finalizada":
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#004085");
+                        break;
+
+                    case "cancelada":
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#721C24");
+                        break;
+                }
+
+                // Aplicamos la fuente en negrita
+                e.CellStyle.Font = new Font("Montserrat", 9, FontStyle.Bold);
+            }
         }
     }
 }

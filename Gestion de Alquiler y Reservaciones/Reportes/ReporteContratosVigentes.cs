@@ -64,7 +64,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             grid.ColumnHeadersDefaultCellStyle.Font = new Font("Montserrat", 9, FontStyle.Bold);
 
             // Estilo de las filas
-            grid.DefaultCellStyle.Font = new Font("Montserrat", 8, FontStyle.Regular);
+            grid.DefaultCellStyle.Font = new Font("Segoe UI", 8, FontStyle.Regular);
             grid.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(225, 225, 225);
         }
 
@@ -187,34 +187,34 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             using (SaveFileDialog sfd = new SaveFileDialog())
             {
                 sfd.Filter = "Archivo PDF (*.pdf)|*.pdf";
-                sfd.FileName = $"ReporteContratos_{DateTime.Now:yyyyMMdd_HHmm}.pdf";
+                sfd.FileName = $"ReporteContratosVigentes_{DateTime.Now:yyyyMMdd_HHmm}.pdf";
 
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
                     try
                     {
                         GenerarPdfContratos(sfd.FileName);
-                        MessageBox.Show("Reporte generado con éxito.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    catch (IOException)
-                    {
-                        MessageBox.Show(
-                            "No se pudo guardar el archivo porque está abierto en otro programa (por ejemplo, su lector de PDF). Ciérrelo e intente de nuevo.",
-                            "Archivo en uso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        var abrir = MessageBox.Show(
+                            "Reporte generado correctamente. ¿Desea abrirlo ahora?",
+                            "Éxito", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                        if (abrir == DialogResult.Yes)
+                        {
+                            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(sfd.FileName)
+                            {
+                                UseShellExecute = true
+                            });
+                        }
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error: " + ex.Message);
+                        MessageBox.Show("Error al generar el PDF: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
-        }
+         }   
 
-        /// <summary>
-        /// Genera el PDF en tamaño carta con TODOS los contratos, con
-        /// encabezado alineado (logo + título recuadrado + fecha/hora),
-        /// negritas reales con fuentes bold y numeración de página al pie.
-        /// </summary>
         private void GenerarPdfContratos(string rutaArchivo)
         {
             // OJO: no envolver PdfWriter/PdfDocument en "using". Document.Close()
@@ -333,16 +333,16 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     switch (estado.Trim().ToLower())
                     {
                         case "vigente":
-                            celdaEstado.SetBackgroundColor(new DeviceRgb(0xD4, 0xED, 0xDA)).SetFontColor(new DeviceRgb(0x15, 0x57, 0x24));
+                            celdaEstado.SetFontColor(new DeviceRgb(0x15, 0x57, 0x24));
                             break;
                         case "por vencer":
-                            celdaEstado.SetBackgroundColor(new DeviceRgb(0xFF, 0xF3, 0xCD)).SetFontColor(new DeviceRgb(0x85, 0x64, 0x04));
+                            celdaEstado.SetFontColor(new DeviceRgb(0x85, 0x64, 0x04));
                             break;
                         case "finalizado":
-                            celdaEstado.SetBackgroundColor(new DeviceRgb(0xCC, 0xE5, 0xFF)).SetFontColor(new DeviceRgb(0x00, 0x40, 0x85));
+                            celdaEstado.SetFontColor(new DeviceRgb(0x00, 0x40, 0x85));
                             break;
                         case "cancelado":
-                            celdaEstado.SetBackgroundColor(new DeviceRgb(0xF8, 0xD7, 0xDA)).SetFontColor(new DeviceRgb(0x72, 0x1C, 0x24));
+                            celdaEstado.SetFontColor(new DeviceRgb(0x72, 0x1C, 0x24));
                             break;
                     }
 
@@ -411,27 +411,27 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                 switch (estado)
                 {
                     case "vigente":
-                        e.CellStyle.BackColor = ColorTranslator.FromHtml("#D4EDDA");
+                        //e.CellStyle.BackColor = ColorTranslator.FromHtml("#D4EDDA");
                         e.CellStyle.ForeColor = ColorTranslator.FromHtml("#155724");
                         break;
 
                     case "por vencer":
-                        e.CellStyle.BackColor = ColorTranslator.FromHtml("#FFF3CD");
+                        //e.CellStyle.BackColor = ColorTranslator.FromHtml("#FFF3CD");
                         e.CellStyle.ForeColor = ColorTranslator.FromHtml("#856404");
                         break;
 
                     case "finalizado":
-                        e.CellStyle.BackColor = ColorTranslator.FromHtml("#CCE5FF");
+                        //e.CellStyle.BackColor = ColorTranslator.FromHtml("#CCE5FF");
                         e.CellStyle.ForeColor = ColorTranslator.FromHtml("#004085");
                         break;
 
                     case "cancelado":
-                        e.CellStyle.BackColor = ColorTranslator.FromHtml("#F8D7DA");
+                        //e.CellStyle.BackColor = ColorTranslator.FromHtml("#F8D7DA");
                         e.CellStyle.ForeColor = ColorTranslator.FromHtml("#721C24");
                         break;
                 }
 
-                e.CellStyle.Font = new Font("Montserrat", 9, FontStyle.Bold);
+                e.CellStyle.Font = new Font("Microsoft Sans Serif", 9, FontStyle.Bold);
             }
         }
     }

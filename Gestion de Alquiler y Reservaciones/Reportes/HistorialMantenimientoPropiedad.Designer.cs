@@ -46,7 +46,7 @@
             // label1
             // 
             this.label1.Location = new System.Drawing.Point(245, 44);
-            this.label1.Size = new System.Drawing.Size(518, 32);
+            this.label1.Size = new System.Drawing.Size(516, 30);
             this.label1.Text = "HISTORIAL DE MANTENIMIENTO POR PROPIEDAD";
             // 
             // lblPagina
@@ -75,9 +75,9 @@
             // dgvMantenimiento
             // 
             this.dgvMantenimiento.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMantenimiento.Location = new System.Drawing.Point(50, 77);
+            this.dgvMantenimiento.Location = new System.Drawing.Point(20, 75);
             this.dgvMantenimiento.Name = "dgvMantenimiento";
-            this.dgvMantenimiento.Size = new System.Drawing.Size(882, 280);
+            this.dgvMantenimiento.Size = new System.Drawing.Size(943, 280);
             this.dgvMantenimiento.TabIndex = 2;
             this.dgvMantenimiento.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvMantenimiento_CellFormatting);
             // 

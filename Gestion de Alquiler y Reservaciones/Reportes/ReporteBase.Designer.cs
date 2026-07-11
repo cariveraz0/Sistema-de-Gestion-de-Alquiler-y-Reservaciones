@@ -69,7 +69,7 @@
             // lblHora
             // 
             this.lblHora.AutoSize = true;
-            this.lblHora.Location = new System.Drawing.Point(910, 80);
+            this.lblHora.Location = new System.Drawing.Point(907, 80);
             this.lblHora.Name = "lblHora";
             this.lblHora.Size = new System.Drawing.Size(0, 13);
             this.lblHora.TabIndex = 7;
@@ -77,7 +77,7 @@
             // lblFecha
             // 
             this.lblFecha.AutoSize = true;
-            this.lblFecha.Location = new System.Drawing.Point(910, 60);
+            this.lblFecha.Location = new System.Drawing.Point(907, 60);
             this.lblFecha.Name = "lblFecha";
             this.lblFecha.Size = new System.Drawing.Size(0, 13);
             this.lblFecha.TabIndex = 6;
@@ -115,10 +115,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Montserrat ExtraBold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Montserrat ExtraBold", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(228, 43);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(522, 30);
+            this.label1.Size = new System.Drawing.Size(550, 31);
             this.label1.TabIndex = 0;
             this.label1.Text = "REPORTE DE CONTRATOS VIGENTES Y SU ESTADO";
             // 
@@ -173,7 +173,7 @@
             this.btnAtras.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(179)))), ((int)(((byte)(64)))));
             this.btnAtras.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.btnAtras.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAtras.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAtras.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAtras.Location = new System.Drawing.Point(12, 18);
             this.btnAtras.Name = "btnAtras";
             this.btnAtras.Size = new System.Drawing.Size(122, 35);
@@ -185,10 +185,10 @@
             // lblPagina
             // 
             this.lblPagina.AutoSize = true;
-            this.lblPagina.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPagina.Location = new System.Drawing.Point(849, 24);
+            this.lblPagina.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPagina.Location = new System.Drawing.Point(876, 28);
             this.lblPagina.Name = "lblPagina";
-            this.lblPagina.Size = new System.Drawing.Size(119, 25);
+            this.lblPagina.Size = new System.Drawing.Size(96, 20);
             this.lblPagina.TabIndex = 1;
             this.lblPagina.Text = "Página 1 de 1";
             // 

@@ -26,7 +26,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 {
     public partial class HistorialMantenimientoPropiedad : ReporteBase
     {
-        private DataTable dtCompleto;          // historial completo de la propiedad seleccionada
+        private DataTable dtCompleto;
         private int paginaActual = 0;
         private const int FilasPorPagina = 10;
 
@@ -39,14 +39,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             ConfigurarDataGridView(dgvMantenimiento);
             CargarComboPropiedades();
 
-            //btnPaginaAnterior.Click += btnPaginaAnterior_Click;
-            //btnPaginaSiguiente.Click += btnPaginaSiguiente_Click;
-            //btnImprimir.Click += btnImprimir_Click;
-            //cboPropiedades.SelectedIndexChanged += cboPropiedades_SelectedIndexChanged;
         }
         public void ConfigurarDataGridView(DataGridView grid)
         {
-            // Color naranja del reporte anterior
             System.Drawing.Color naranjaTitulo = System.Drawing.Color.FromArgb(216, 122, 45);
 
             grid.RowHeadersVisible = false;
@@ -59,13 +54,11 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             grid.BackgroundColor = System.Drawing.Color.White;
             grid.EnableHeadersVisualStyles = false;
 
-            // Estilo de los encabezados
             grid.ColumnHeadersDefaultCellStyle.BackColor = naranjaTitulo;
             grid.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.Color.White;
             grid.ColumnHeadersDefaultCellStyle.Font = new Font("Montserrat", 9, FontStyle.Bold);
 
-            // Estilo de las filas
-            grid.DefaultCellStyle.Font = new Font("Montserrat", 8, FontStyle.Regular);
+            grid.DefaultCellStyle.Font = new Font("Segoe UI", 8, FontStyle.Regular);
             grid.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(225, 225, 225);
         }
 
@@ -147,7 +140,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     dtCompleto = new DataTable();
                     adapter.Fill(dtCompleto);
 
-                    dgvMantenimiento.DataSource = dtCompleto;
+                    //dgvMantenimiento.DataSource = dtCompleto;
+                    MostrarPagina(0);
                 }
             }
         }
@@ -157,8 +151,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             {
                 dgvMantenimiento.DataSource = null;
                 lblPagina.Text = "Sin registros";
-                //btnPaginaAnterior.Enabled = false;
-                //btnPaginaSiguiente.Enabled = false;
                 return;
             }
 
@@ -204,7 +196,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                 grid.Columns["Fecha Reporte"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             if (grid.Columns["Descripción del Problema"] != null)
+            {
                 grid.Columns["Descripción del Problema"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                grid.Columns["Descripción del Problema"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            }
 
             if (grid.Columns["Técnico Asignado"] != null)
                 grid.Columns["Técnico Asignado"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -220,7 +215,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                 grid.Columns["Costo"].DefaultCellStyle.FormatProvider = System.Globalization.CultureInfo.CreateSpecificCulture("es-HN");
                 grid.Columns["Costo"].DefaultCellStyle.Format = "C2";
                 grid.Columns["Costo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                grid.Columns["Costo"].DefaultCellStyle.NullValue = "—";
+                //grid.Columns["Costo"].DefaultCellStyle.NullValue = "—";
             }
         }
 
@@ -245,7 +240,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                         {
                             GenerarPdfHistorial(sfd.FileName);
 
-                            // Se eliminó la doble confirmación, ahora solo informa que se guardó correctamente.
                             MessageBox.Show("Reporte generado y guardado con éxito.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         catch (IOException)
@@ -392,8 +386,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     string tecnico = fila["Técnico Asignado"] is DBNull ? "Sin asignar" : fila["Técnico Asignado"].ToString();
                     tabla.AddCell(CeldaTexto(tecnico, fontRegular));
 
-                    string costo = fila["Costo"] is DBNull ? "—" : Convert.ToDecimal(fila["Costo"]).ToString("C2", System.Globalization.CultureInfo.CreateSpecificCulture("es-HN"));
-                    tabla.AddCell(CeldaTexto(costo, fontRegular, TextAlignment.RIGHT));
+                    string costo = fila["Costo"] is DBNull ? "—"  : Convert.ToDecimal(fila["Costo"]).ToString("C2", System.Globalization.CultureInfo.CreateSpecificCulture("es-HN"));
+                    TextAlignment alineacion = (costo == "—") ? TextAlignment.CENTER : TextAlignment.RIGHT;
+                    tabla.AddCell(CeldaTexto(costo, fontRegular, alineacion));
 
                     // Ajuste por posible acento en la columna Conclusión según la base de datos
                     string columnaConclusion = dtCompleto.Columns.Contains("Conclusión") ? "Conclusión" : "Conclusion";
@@ -410,16 +405,16 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     switch (estado.Trim().ToLower())
                     {
                         case "pendiente":
-                            celdaEstado.SetBackgroundColor(new DeviceRgb(0xFF, 0xF3, 0xCD)).SetFontColor(new DeviceRgb(0x85, 0x64, 0x04));
+                            celdaEstado.SetFontColor(new DeviceRgb(0x85, 0x64, 0x04));
                             break;
                         case "en proceso":
-                            celdaEstado.SetBackgroundColor(new DeviceRgb(0xCC, 0xE5, 0xFF)).SetFontColor(new DeviceRgb(0x00, 0x40, 0x85));
+                            celdaEstado.SetFontColor(new DeviceRgb(0x00, 0x40, 0x85));
                             break;
                         case "completado":
-                            celdaEstado.SetBackgroundColor(new DeviceRgb(0xD4, 0xED, 0xDA)).SetFontColor(new DeviceRgb(0x15, 0x57, 0x24));
+                            celdaEstado.SetFontColor(new DeviceRgb(0x15, 0x57, 0x24));
                             break;
                         case "cancelado":
-                            celdaEstado.SetBackgroundColor(new DeviceRgb(0xF8, 0xD7, 0xDA)).SetFontColor(new DeviceRgb(0x72, 0x1C, 0x24));
+                            celdaEstado.SetFontColor(new DeviceRgb(0x72, 0x1C, 0x24));
                             break;
                     }
                     tabla.AddCell(celdaEstado);
@@ -474,22 +469,22 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                 switch (estado)
                 {
                     case "pendiente":
-                        e.CellStyle.BackColor = ColorTranslator.FromHtml("#FFF3CD");
+                        //e.CellStyle.BackColor = ColorTranslator.FromHtml("#FFF3CD");
                         e.CellStyle.ForeColor = ColorTranslator.FromHtml("#856404");
                         break;
 
                     case "en proceso":
-                        e.CellStyle.BackColor = ColorTranslator.FromHtml("#CCE5FF");
+                        //e.CellStyle.BackColor = ColorTranslator.FromHtml("#CCE5FF");
                         e.CellStyle.ForeColor = ColorTranslator.FromHtml("#004085");
                         break;
 
                     case "completado":
-                        e.CellStyle.BackColor = ColorTranslator.FromHtml("#D4EDDA");
+                        //e.CellStyle.BackColor = ColorTranslator.FromHtml("#D4EDDA");
                         e.CellStyle.ForeColor = ColorTranslator.FromHtml("#155724");
                         break;
 
                     case "cancelado":
-                        e.CellStyle.BackColor = ColorTranslator.FromHtml("#F8D7DA");
+                        //e.CellStyle.BackColor = ColorTranslator.FromHtml("#F8D7DA");
                         e.CellStyle.ForeColor = ColorTranslator.FromHtml("#721C24");
                         break;
                 }

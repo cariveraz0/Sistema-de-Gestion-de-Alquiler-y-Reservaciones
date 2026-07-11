@@ -22,7 +22,20 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         }
         private void MenuPrincipalForm_Load(object sender, EventArgs e)
         {
+            CargarDatosUsuario();
             AbrirForm(new DashboardForm());
+        }
+
+        private void CargarDatosUsuario()
+        {
+            string nombre = LoginForm.nombreCompleto;
+            
+            if (!string.IsNullOrWhiteSpace(nombre))
+            {
+                nombre = nombre.Trim();
+                lblUsuario.Text = nombre;
+                lblInicial.Text = nombre.Substring(0, 1).ToUpper();
+            }
         }
 
         private void AbrirForm(Form formNuevo)

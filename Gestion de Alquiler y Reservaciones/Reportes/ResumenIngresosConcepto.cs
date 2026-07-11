@@ -57,14 +57,19 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             dgvIngresos.ReadOnly = true;
             dgvIngresos.AllowUserToAddRows = false;
             dgvIngresos.RowHeadersVisible = false;
+            dgvIngresos.BackgroundColor = Color.White;
             dgvIngresos.ScrollBars = ScrollBars.None;
             dgvIngresos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvIngresos.AllowUserToResizeColumns = false;
+            dgvIngresos.AllowUserToResizeRows = false;
+            dgvIngresos.AllowUserToOrderColumns = false;
             dgvIngresos.BackgroundColor = Color.White;
             dgvIngresos.EnableHeadersVisualStyles = false;
             dgvIngresos.ColumnHeadersDefaultCellStyle.BackColor = naranjaTitulo;
             dgvIngresos.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dgvIngresos.ColumnHeadersDefaultCellStyle.Font = new Font("Montserrat", 9, FontStyle.Bold);
             dgvIngresos.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvIngresos.DefaultCellStyle.Font = new Font("Segoe UI", 8, FontStyle.Regular);
             dgvIngresos.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvIngresos.RowTemplate.Height = 28;
             dgvIngresos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -84,24 +89,23 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             pnlPrincipal.Controls.Add(lblTituloGrafico);
 
             chartIngresos = new Chart();
-            chartIngresos.Location = new Point(550, 150);
-            chartIngresos.Size = new Size(250, 210);
+            chartIngresos.Location = new Point(530, 150);
+            chartIngresos.Size = new Size(270, 210);
             chartIngresos.BackColor = pnlPrincipal.BackColor;
+
 
             ChartArea area = new ChartArea();
             area.BackColor = pnlPrincipal.BackColor;
             area.BorderColor = pnlPrincipal.BackColor;
-            area.Position.Auto = false;
-            area.Position.X = 0;
-            area.Position.Y = 5;
-            area.Position.Width = 100;
-            area.Position.Height = 90;
             chartIngresos.ChartAreas.Add(area);
 
             Series serie = new Series();
             serie.ChartType = SeriesChartType.Pie;
             serie.IsValueShownAsLabel = true;
             serie.Label = "#PERCENT{P0}";
+            serie.Font = new Font("Montserrat", 8, FontStyle.Bold);
+            serie.SmartLabelStyle.Enabled = true;
+            serie["MinimumRelativePieSize"] = "70";
             chartIngresos.Series.Add(serie);
             chartIngresos.Legends.Clear();
 
@@ -243,22 +247,31 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     string concepto = row["Concepto"].ToString();
                     decimal total = Convert.ToDecimal(row["TotalIngresos"]);
                     decimal porcentaje = totalGeneral > 0 ? (total / totalGeneral) * 100 : 0;
-
-                    tabla.Rows.Add(concepto, "L. " + total.ToString("N2"), porcentaje.ToString("N0") + "%");
+                    tabla.Rows.Add(concepto, "L. " + total.ToString("N2"), porcentaje.ToString("N2") + "%");
 
                     if (total > 0)
                     {
                         int punto = chartIngresos.Series[0].Points.AddXY(concepto, total);
                         chartIngresos.Series[0].Points[punto].Color = coloresNaranja[indiceColor % coloresNaranja.Length];
+
+                        if (porcentaje < 10m)
+                        {
+                            chartIngresos.Series[0].Points[punto]["PieLabelStyle"] = "Outside";
+                            chartIngresos.Series[0].Points[punto]["PieLineColor"] = "Black";
+                        }
                     }
 
                     indiceColor++;
                 }
 
-                tabla.Rows.Add("TOTAL GENERAL", "L. " + totalGeneral.ToString("N2"), "100%");
+                tabla.Rows.Add("TOTAL GENERAL", "L" + totalGeneral.ToString("N2"), "100.00%");
 
                 dgvIngresos.DataSource = tabla;
                 dgvIngresos.ClearSelection();
+                foreach (DataGridViewColumn columna in dgvIngresos.Columns)
+                {
+                    columna.SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
             }
         }
 

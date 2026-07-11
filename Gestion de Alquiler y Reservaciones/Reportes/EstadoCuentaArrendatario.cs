@@ -34,14 +34,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             InitializeComponent();
 
             ConfigurarDataGridView();
-
-            // Permite buscar presionando Enter dentro del cuadro de texto
             filtroNombre.KeyDown += FiltroNombre_KeyDown;
-
-            // El combo de contratos no viene conectado desde el diseñador, se conecta aquí
             cbxContrato.SelectedIndexChanged += cbxContrato_SelectedIndexChanged;
-
-            // Autocompletado: sugiere nombres de arrendatarios existentes mientras se escribe
             CargarSugerenciasArrendatarios();
 
             AgregarNotaMora();
@@ -390,37 +384,68 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             mes = char.ToUpper(mes[0]) + mes.Substring(1);
             return $"{mes} {fecha.Year}";
         }
-
-        // Calcula y muestra los totales del resumen del estado de cuenta
         private void ActualizarResumen(DataTable dtHistorial)
         {
             decimal totalPagadoValor = 0m;
             decimal totalPendienteValor = 0m;
 
+            bool tieneMoraReal = false;
+            int cuotasActivas = 0;
+            int cuotasAnuladas = 0;
+
             foreach (DataRow fila in dtHistorial.Rows)
             {
                 string estado = fila["Estado"].ToString();
                 bool pagada = estado.StartsWith("Pagad", StringComparison.OrdinalIgnoreCase);
+
                 bool anulada = estado.Equals("Anulada", StringComparison.OrdinalIgnoreCase);
+
+                bool vencida = estado.Equals("Vencida", StringComparison.OrdinalIgnoreCase);
 
                 decimal montoCuota = Convert.ToDecimal(fila["MontoCuota"]);
                 decimal montoMora = Convert.ToDecimal(fila["MontoMora"]);
 
                 if (pagada && fila["MontoPagado"] != DBNull.Value)
+                {
                     totalPagadoValor += Convert.ToDecimal(fila["MontoPagado"]);
-                else if (!anulada)
-                    totalPendienteValor += montoCuota + montoMora;
+                }
+                else if (anulada)
+                {
+                    cuotasAnuladas++;
+                }
+                else
+                {
+                    cuotasActivas++;
+                    totalPendienteValor += (montoCuota + montoMora);
+
+                    if (vencida || montoMora > 0)
+                    {
+                        tieneMoraReal = true;
+                    }
+                }
             }
 
-            totalPagado.Text = "L. " + totalPagadoValor.ToString("N2");
-            totalPendiente.Text = "L. " + totalPendienteValor.ToString("N2");
+            totalPagado.Text = "L" + totalPagadoValor.ToString("N2");
+            totalPendiente.Text = "L" + totalPendienteValor.ToString("N2");
 
-            bool enMora = totalPendienteValor > 0;
-            estadoGeneral.Text = enMora ? "EN MORA" : "AL DÍA";
-            estadoGeneral.ForeColor = enMora ? System.Drawing.Color.Red : System.Drawing.Color.Green;
+            if (tieneMoraReal)
+            {
+                estadoGeneral.Text = "EN MORA";
+                estadoGeneral.ForeColor = System.Drawing.Color.Red;
+            }
+            else if (cuotasActivas == 0 && cuotasAnuladas > 0)
+            {
+
+                estadoGeneral.Text = "ANULADO";
+                estadoGeneral.ForeColor = System.Drawing.Color.DimGray;
+            }
+            else
+            {
+                estadoGeneral.Text = "AL DÍA";
+                estadoGeneral.ForeColor = System.Drawing.Color.Green;
+            }
         }
 
-        // Limpia el reporte cuando no se encuentran resultados en la búsqueda
         private void LimpiarReporte()
         {
             Nombre.Text = string.Empty;
@@ -487,17 +512,22 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     try
                     {
                         GenerarPdfEstadoCuenta(sfd.FileName, dt);
-                        MessageBox.Show("Estado de cuenta generado con éxito.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    catch (IOException)
-                    {
-                        MessageBox.Show(
-                            "No se pudo guardar el archivo porque está abierto en otro programa. Ciérrelo e intente de nuevo.",
-                            "Archivo en uso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        var abrir = MessageBox.Show(
+                            "Reporte generado correctamente. ¿Desea abrirlo ahora?",
+                            "Éxito", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                        if (abrir == DialogResult.Yes)
+                        {
+                            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(sfd.FileName)
+                            {
+                                UseShellExecute = true
+                            });
+                        }
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error: " + ex.Message);
+                        MessageBox.Show("Error al generar el PDF: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -626,13 +656,13 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     {
                         case "pagada":
                         case "pagado":
-                            celdaEstado.SetBackgroundColor(new DeviceRgb(0xD4, 0xED, 0xDA)).SetFontColor(new DeviceRgb(0x15, 0x57, 0x24));
+                            celdaEstado.SetFontColor(new DeviceRgb(0x15, 0x57, 0x24));
                             break;
                         case "en mora":
-                            celdaEstado.SetBackgroundColor(new DeviceRgb(0xF8, 0xD7, 0xDA)).SetFontColor(new DeviceRgb(0x72, 0x1C, 0x24));
+                            celdaEstado.SetFontColor(new DeviceRgb(0x72, 0x1C, 0x24));
                             break;
                         case "pendiente":
-                            celdaEstado.SetBackgroundColor(new DeviceRgb(0xFF, 0xF3, 0xCD)).SetFontColor(new DeviceRgb(0x85, 0x64, 0x04));
+                            celdaEstado.SetFontColor(new DeviceRgb(0x85, 0x64, 0x04));
                             break;
                     }
                     tabla.AddCell(celdaEstado);

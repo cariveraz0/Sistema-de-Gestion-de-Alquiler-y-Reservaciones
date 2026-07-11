@@ -46,6 +46,7 @@
             this.mantenimientoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resumenDeIngresosPorConceptoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.pictureBox13 = new System.Windows.Forms.PictureBox();
             this.btnCerrarSesion = new System.Windows.Forms.Button();
             this.pictureBox9 = new System.Windows.Forms.PictureBox();
@@ -69,17 +70,17 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.lblUsuario = new System.Windows.Forms.Label();
+            this.lblInicial = new System.Windows.Forms.Label();
             this.lblHora = new System.Windows.Forms.Label();
             this.lblFecha = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.panelContenido = new System.Windows.Forms.Panel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.panel4 = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
@@ -91,7 +92,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -251,6 +251,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(230, 657);
             this.panel1.TabIndex = 3;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.pictureBox13);
+            this.panel4.Controls.Add(this.btnCerrarSesion);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel4.Location = new System.Drawing.Point(0, 617);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(230, 40);
+            this.panel4.TabIndex = 19;
             // 
             // pictureBox13
             // 
@@ -516,78 +526,78 @@
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.label10);
-            this.panel3.Controls.Add(this.label9);
+            this.panel3.Controls.Add(this.lblUsuario);
+            this.panel3.Controls.Add(this.lblInicial);
             this.panel3.Controls.Add(this.lblHora);
             this.panel3.Controls.Add(this.lblFecha);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel3.Location = new System.Drawing.Point(765, 0);
+            this.panel3.Location = new System.Drawing.Point(655, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(355, 60);
+            this.panel3.Size = new System.Drawing.Size(465, 60);
             this.panel3.TabIndex = 3;
             // 
-            // label10
+            // lblUsuario
             // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(279, 17);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(49, 17);
-            this.label10.TabIndex = 5;
-            this.label10.Text = "Admin";
+            this.lblUsuario.AutoSize = true;
+            this.lblUsuario.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsuario.Location = new System.Drawing.Point(300, 18);
+            this.lblUsuario.Name = "lblUsuario";
+            this.lblUsuario.Size = new System.Drawing.Size(93, 15);
+            this.lblUsuario.TabIndex = 5;
+            this.lblUsuario.Text = "Mantenimiento";
             // 
-            // label9
+            // lblInicial
             // 
-            this.label9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(79)))), ((int)(((byte)(36)))));
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(248, 10);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(25, 31);
-            this.label9.TabIndex = 4;
-            this.label9.Text = "A";
+            this.lblInicial.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(79)))), ((int)(((byte)(36)))));
+            this.lblInicial.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInicial.ForeColor = System.Drawing.Color.White;
+            this.lblInicial.Location = new System.Drawing.Point(269, 13);
+            this.lblInicial.Name = "lblInicial";
+            this.lblInicial.Size = new System.Drawing.Size(25, 31);
+            this.lblInicial.TabIndex = 4;
+            this.lblInicial.Text = "A";
             // 
             // lblHora
             // 
             this.lblHora.AutoSize = true;
-            this.lblHora.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHora.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblHora.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(179)))), ((int)(((byte)(64)))));
-            this.lblHora.Location = new System.Drawing.Point(160, 31);
+            this.lblHora.Location = new System.Drawing.Point(33, 33);
             this.lblHora.Name = "lblHora";
-            this.lblHora.Size = new System.Drawing.Size(63, 13);
+            this.lblHora.Size = new System.Drawing.Size(64, 17);
             this.lblHora.TabIndex = 3;
             this.lblHora.Text = "08:00 a.m";
             // 
             // lblFecha
             // 
             this.lblFecha.AutoSize = true;
-            this.lblFecha.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFecha.Font = new System.Drawing.Font("Montserrat", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFecha.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(179)))), ((int)(((byte)(64)))));
-            this.lblFecha.Location = new System.Drawing.Point(65, 10);
+            this.lblFecha.Location = new System.Drawing.Point(33, 9);
             this.lblFecha.Name = "lblFecha";
-            this.lblFecha.Size = new System.Drawing.Size(172, 15);
+            this.lblFecha.Size = new System.Drawing.Size(218, 18);
             this.lblFecha.TabIndex = 2;
-            this.lblFecha.Text = "Sábado, 20 de junio 2026";
+            this.lblFecha.Text = "Miércoles, 20 de septiembre 2026";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.label6.Location = new System.Drawing.Point(23, 34);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(170, 13);
+            this.label6.Size = new System.Drawing.Size(181, 13);
             this.label6.TabIndex = 1;
             this.label6.Text = "Resumen General de Operaciones";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Font = new System.Drawing.Font("Montserrat ExtraBold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(79)))), ((int)(((byte)(36)))));
             this.label5.Location = new System.Drawing.Point(21, 9);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(127, 20);
+            this.label5.Size = new System.Drawing.Size(141, 25);
             this.label5.TabIndex = 0;
             this.label5.Text = "Panel Principal";
             // 
@@ -604,16 +614,6 @@
             this.timer1.Enabled = true;
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.pictureBox13);
-            this.panel4.Controls.Add(this.btnCerrarSesion);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(0, 617);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(230, 40);
-            this.panel4.TabIndex = 19;
             // 
             // MenuPrincipalForm
             // 
@@ -636,6 +636,7 @@
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
@@ -649,7 +650,6 @@
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            this.panel4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -688,8 +688,8 @@
         private System.Windows.Forms.Label lblFecha;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label lblHora;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblUsuario;
+        private System.Windows.Forms.Label lblInicial;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.Button btnCerrarSesion;
         private System.Windows.Forms.PictureBox pictureBox13;

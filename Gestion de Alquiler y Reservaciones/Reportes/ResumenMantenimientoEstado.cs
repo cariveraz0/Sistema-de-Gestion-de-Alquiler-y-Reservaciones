@@ -125,9 +125,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
-
         // Obtiene las solicitudes de mantenimiento aplicando los filtros de fecha, estado y propiedad
         private DataTable ObtenerDatosFiltrados()
         {
@@ -190,9 +187,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
             return estados;
         }
-
-
-
 
         // Llena el chart de dona con la cantidad de solicitudes por estado
         private void ActualizarChart(DataTable dt)
@@ -525,26 +519,32 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             using (SaveFileDialog sfd = new SaveFileDialog())
             {
                 sfd.Filter = "Archivo PDF (*.pdf)|*.pdf";
-                sfd.FileName = $"ResumenMantenimiento_{DateTime.Now:yyyyMMdd_HHmm}.pdf";
+                sfd.FileName = $"ReporteMantenimiento_{DateTime.Now:yyyyMMdd_HHmm}.pdf";
 
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
                     try
                     {
                         GenerarPdfResumen(sfd.FileName, dtPivotPDF);
-                        MessageBox.Show("Reporte generado con éxito.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    catch (IOException)
-                    {
-                        MessageBox.Show(
-                            "No se pudo guardar el archivo porque está abierto en otro programa. Ciérrelo e intente de nuevo.",
-                            "Archivo en uso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        var abrir = MessageBox.Show(
+                            "Reporte generado correctamente. ¿Desea abrirlo ahora?",
+                            "Éxito", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                        if (abrir == DialogResult.Yes)
+                        {
+                            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(sfd.FileName)
+                            {
+                                UseShellExecute = true
+                            });
+                        }
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error: " + ex.Message);
+                        MessageBox.Show("Error al generar el PDF: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+
             }
         }
         private void GenerarPdfResumen(string rutaArchivo, DataTable dt)
@@ -618,6 +618,28 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                 documento.Add(new Paragraph($"\n{lblSubtitulo.Text}\n")
                     .SetFont(fontBold).SetFontSize(10).SetTextAlignment(TextAlignment.CENTER).SetMargin(0));
 
+                if (chartEstados != null && chartEstados.Series.Count > 0 && chartEstados.Series[0].Points.Count > 0)
+                {
+                    using (MemoryStream msChart = new MemoryStream())
+                    {
+                        // Guarda el gráfico de la UI en memoria con formato PNG
+                        chartEstados.SaveImage(msChart, ChartImageFormat.Png);
+                        byte[] chartBytes = msChart.ToArray();
+
+                        // Crea el objeto ImageData de iText a partir de los bytes
+                        ImageData chartImageData = ImageDataFactory.Create(chartBytes);
+                        iText.Layout.Element.Image pdfChartImage = new iText.Layout.Element.Image(chartImageData);
+
+                        // Configura el tamaño y alineación del gráfico dentro del PDF
+                        pdfChartImage.SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.CENTER);
+                        pdfChartImage.SetHeight(200); // Altura fija. Puedes ajustarla según lo que necesites
+                        pdfChartImage.SetMarginBottom(15);
+
+                        // Añadir el gráfico al documento antes de la tabla
+                        documento.Add(pdfChartImage);
+                    }
+                }
+
                 float[] anchoColumnas = new float[dt.Columns.Count];
                 for (int i = 0; i < anchoColumnas.Length; i++)
                 {
@@ -677,6 +699,19 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                 .SetVerticalAlignment(VerticalAlignment.MIDDLE)
                 .SetPadding(4)
                 .SetFontSize(9);
+        }
+
+        private void dgvPropiedades_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgvPropiedades.Rows[e.RowIndex].Cells["Propiedad"].Value != null)
+            {
+                if (dgvPropiedades.Rows[e.RowIndex].Cells["Propiedad"].Value.ToString() == "Total general")
+                {
+                    dgvPropiedades.Rows[e.RowIndex].DefaultCellStyle.Font = new Font(dgvPropiedades.Font, FontStyle.Bold);
+
+                    dgvPropiedades.Rows[e.RowIndex].DefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
+                }
+            }
         }
     }
 }

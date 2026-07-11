@@ -21,6 +21,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
         private void EstadisticasOcupacionPropiedad_Load(object sender, EventArgs e)
         {
+            ConfigurarDataGridView(dgvInformacion);
             CargarTiposPropiedad();
 
             if (cmbTiposPropiedad.SelectedIndex == -1)
@@ -31,10 +32,34 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                 dgvInformacion.Enabled = false;
             }
         }
+        private void ConfigurarDataGridView(DataGridView grid)
+        {
+            Color naranjaTitulo = ColorTranslator.FromHtml("#D87A2D");
 
-        /// <summary>
-        /// Agrupa y filtra los tipos de propiedad según requerimientos de diseño del reporte
-        /// </summary>
+            grid.RowHeadersVisible = false;
+            grid.ReadOnly = true;
+            grid.AllowUserToAddRows = false;
+            grid.AllowUserToResizeColumns = true;               
+            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            grid.BackgroundColor = Color.White;
+            grid.EnableHeadersVisualStyles = false;
+
+            grid.ColumnHeadersDefaultCellStyle.BackColor = naranjaTitulo;
+            grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Montserrat", 9, FontStyle.Bold);
+            grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+
+            grid.DefaultCellStyle.Font = new Font("Segoe UI", 8, FontStyle.Regular);
+            grid.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(225, 225, 225);
+            grid.DefaultCellStyle.SelectionBackColor = grid.DefaultCellStyle.BackColor;
+            grid.DefaultCellStyle.SelectionForeColor = grid.DefaultCellStyle.ForeColor;
+
+            grid.AlternatingRowsDefaultCellStyle.SelectionBackColor = grid.AlternatingRowsDefaultCellStyle.BackColor;
+            grid.AlternatingRowsDefaultCellStyle.SelectionForeColor = Color.Black;
+        }
+
         private void CargarTiposPropiedad()
         {
             try
@@ -79,9 +104,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
                     // Fusionamos Auditorio y Sala de Juntas en una sola opción comercial
                     if (!string.IsNullOrEmpty(idAuditorio) && !string.IsNullOrEmpty(idSala))
-                        dtCombo.Rows.Add("Auditorios y Salas de Juntas", $"{idAuditorio},{idSala}");
+                        dtCombo.Rows.Add("Auditorio/Salas de Juntas", $"{idAuditorio},{idSala}");
                     else if (!string.IsNullOrEmpty(idAuditorio))
-                        dtCombo.Rows.Add("Auditorios", idAuditorio);
+                        dtCombo.Rows.Add("Auditorio", idAuditorio);
                     else if (!string.IsNullOrEmpty(idSala))
                         dtCombo.Rows.Add("Salas de Juntas", idSala);
 
@@ -112,11 +137,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
         {
             if (dtpDesde.Value > dtpHasta.Value)
             {
-                MessageBox.Show("La fecha inicial no debe ser mayor a la fecha final",
-                    "Rango de fecha inválido",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show("La fecha inicial no debe ser mayor a la fecha final", "Rango de fecha inválido", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -183,7 +204,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                 Title titulo = chartOcupacionPropiedades.Titles.Add($"Ocupación en {cmbTiposPropiedad.Text}");
                 titulo.Font = new Font("Montserrat", 11, FontStyle.Bold);
 
-                Series seriePastel = new Series("Ocupacion");
+                Series seriePastel = new Series("Ocupación");
                 seriePastel.ChartType = SeriesChartType.Pie;
                 chartOcupacionPropiedades.Series.Add(seriePastel);
 
@@ -196,7 +217,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                         conteoPropiedades.Add(propiedad, 1);
                 }
 
-                // Paleta de colores en tonos anaranjados solicitada
                 string[] coloresHex = { "#E6B340", "#D67A31", "#FFC69C", "#C84F24" };
                 int colorIndex = 0;
 
@@ -205,7 +225,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     int nuevoPuntoIndex = seriePastel.Points.AddXY(resultado.Key, resultado.Value);
                     DataPoint punto = seriePastel.Points[nuevoPuntoIndex];
 
-                    // Asignación de color de la paleta personalizada
                     punto.Color = ColorTranslator.FromHtml(coloresHex[colorIndex % coloresHex.Length]);
                     colorIndex++;
 
@@ -236,14 +255,17 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                 UNION ALL
                 SELECT IdPropiedad, FechaInicio, FechaFin FROM Contratos
             )
-            SELECT P.IdPropiedad, P.Codigo AS NombrePropiedad, COUNT(*) as Cantidad 
-            FROM Ocupaciones AS O 
-            INNER JOIN Propiedades AS P ON O.IdPropiedad = P.IdPropiedad 
+            SELECT P.IdPropiedad AS [ID Propiedad], P.Codigo AS [Nombre de Propiedad], COUNT(O.IdPropiedad) as Cantidad 
+            FROM Propiedades AS P
+            LEFT JOIN Ocupaciones AS O 
+                ON O.IdPropiedad = P.IdPropiedad 
+                AND CAST(O.FechaInicio AS DATE) <= @hasta
+                AND CAST(O.FechaFin AS DATE) >= @desde
             WHERE P.IdTipoPropiedad IN ({idsString}) 
-            AND CAST(O.FechaInicio AS DATE) <= @hasta 
-            AND CAST(O.FechaFin AS DATE) >= @desde 
-            GROUP BY P.IdPropiedad, P.Codigo";
+            GROUP BY P.IdPropiedad, P.Codigo
+            ORDER BY [Cantidad] DESC";
 
+                DataTable dtInformacion = new DataTable();
                 using (SqlConnection conectar = Conexion.ObtenerConexion())
                 {
                     conectar.Open();
@@ -253,17 +275,19 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     DateTime fechaHastaFinDelDia = dtpHasta.Value.Date.AddDays(1).AddSeconds(-1);
                     cmdLlenarDGV.Parameters.AddWithValue("@hasta", fechaHastaFinDelDia);
 
-                    SqlDataReader readerLlenarDGV = cmdLlenarDGV.ExecuteReader();
-                    dgvInformacion.Rows.Clear();
+                    SqlDataAdapter adaptador = new SqlDataAdapter(cmdLlenarDGV);
+                    adaptador.Fill(dtInformacion);
+                }
+                dgvInformacion.DataSource = dtInformacion;
 
-                    while (readerLlenarDGV.Read())
-                    {
-                        dgvInformacion.Rows.Add(
-                            readerLlenarDGV["IdPropiedad"].ToString(),
-                            readerLlenarDGV["NombrePropiedad"].ToString(),
-                            readerLlenarDGV["Cantidad"].ToString()
-                        );
-                    }
+                if (dgvInformacion.Columns["Cantidad"] != null)
+                {
+                    dgvInformacion.Columns["Cantidad"].HeaderText =
+                        cmbTiposPropiedad.Text.Equals("Apartamentos", StringComparison.OrdinalIgnoreCase)
+                            ? "Rotación de Inquilinos"
+                            : "Cantidad de Reservaciones";
+
+                    dgvInformacion.Columns["Cantidad"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
             }
             catch (Exception ex)
