@@ -37,7 +37,7 @@
             this.pictureBox13 = new System.Windows.Forms.PictureBox();
             this.btnCerrarSesion = new System.Windows.Forms.Button();
             this.pictureBox9 = new System.Windows.Forms.PictureBox();
-            this.button8 = new System.Windows.Forms.Button();
+            this.btnPagos = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
@@ -61,8 +61,8 @@
             this.lblInicial = new System.Windows.Forms.Label();
             this.lblHora = new System.Windows.Forms.Label();
             this.lblFecha = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblSubtitulo = new System.Windows.Forms.Label();
+            this.lblTitulo = new System.Windows.Forms.Label();
             this.panelContenido = new System.Windows.Forms.Panel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
@@ -88,7 +88,7 @@
             this.panel1.Controls.Add(this.btnReportes);
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.pictureBox9);
-            this.panel1.Controls.Add(this.button8);
+            this.panel1.Controls.Add(this.btnPagos);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.pictureBox7);
             this.panel1.Controls.Add(this.pictureBox6);
@@ -182,19 +182,20 @@
             this.pictureBox9.TabIndex = 14;
             this.pictureBox9.TabStop = false;
             // 
-            // button8
+            // btnPagos
             // 
-            this.button8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
-            this.button8.FlatAppearance.BorderSize = 0;
-            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button8.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button8.ForeColor = System.Drawing.Color.White;
-            this.button8.Location = new System.Drawing.Point(3, 405);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(224, 30);
-            this.button8.TabIndex = 13;
-            this.button8.Text = "Pagos";
-            this.button8.UseVisualStyleBackColor = false;
+            this.btnPagos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
+            this.btnPagos.FlatAppearance.BorderSize = 0;
+            this.btnPagos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPagos.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPagos.ForeColor = System.Drawing.Color.White;
+            this.btnPagos.Location = new System.Drawing.Point(3, 405);
+            this.btnPagos.Name = "btnPagos";
+            this.btnPagos.Size = new System.Drawing.Size(224, 30);
+            this.btnPagos.TabIndex = 13;
+            this.btnPagos.Text = "Pagos";
+            this.btnPagos.UseVisualStyleBackColor = false;
+            this.btnPagos.Click += new System.EventHandler(this.btnPagos_Click);
             // 
             // label4
             // 
@@ -240,6 +241,7 @@
             this.btnMantenimiento.TabIndex = 8;
             this.btnMantenimiento.Text = "Mantenimiento";
             this.btnMantenimiento.UseVisualStyleBackColor = false;
+            this.btnMantenimiento.Click += new System.EventHandler(this.btnMantenimiento_Click);
             // 
             // pictureBox5
             // 
@@ -264,6 +266,7 @@
             this.btnClientes.TabIndex = 8;
             this.btnClientes.Text = "Clientes";
             this.btnClientes.UseVisualStyleBackColor = false;
+            this.btnClientes.Click += new System.EventHandler(this.btnClientes_Click);
             // 
             // btnReservaciones
             // 
@@ -278,6 +281,7 @@
             this.btnReservaciones.TabIndex = 10;
             this.btnReservaciones.Text = "Reservaciones";
             this.btnReservaciones.UseVisualStyleBackColor = false;
+            this.btnReservaciones.Click += new System.EventHandler(this.btnReservaciones_Click);
             // 
             // pictureBox4
             // 
@@ -401,8 +405,8 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.White;
             this.panel2.Controls.Add(this.panel3);
-            this.panel2.Controls.Add(this.label6);
-            this.panel2.Controls.Add(this.label5);
+            this.panel2.Controls.Add(this.lblSubtitulo);
+            this.panel2.Controls.Add(this.lblTitulo);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(230, 0);
             this.panel2.Name = "panel2";
@@ -464,27 +468,27 @@
             this.lblFecha.TabIndex = 2;
             this.lblFecha.Text = "Miércoles, 20 de septiembre 2026";
             // 
-            // label6
+            // lblSubtitulo
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label6.Location = new System.Drawing.Point(23, 34);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(181, 13);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "Resumen General de Operaciones";
+            this.lblSubtitulo.AutoSize = true;
+            this.lblSubtitulo.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSubtitulo.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblSubtitulo.Location = new System.Drawing.Point(23, 34);
+            this.lblSubtitulo.Name = "lblSubtitulo";
+            this.lblSubtitulo.Size = new System.Drawing.Size(181, 13);
+            this.lblSubtitulo.TabIndex = 1;
+            this.lblSubtitulo.Text = "Resumen General de Operaciones";
             // 
-            // label5
+            // lblTitulo
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Montserrat ExtraBold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(79)))), ((int)(((byte)(36)))));
-            this.label5.Location = new System.Drawing.Point(21, 9);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(141, 25);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Panel Principal";
+            this.lblTitulo.AutoSize = true;
+            this.lblTitulo.Font = new System.Drawing.Font("Montserrat ExtraBold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitulo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(79)))), ((int)(((byte)(36)))));
+            this.lblTitulo.Location = new System.Drawing.Point(21, 9);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Size = new System.Drawing.Size(141, 25);
+            this.lblTitulo.TabIndex = 0;
+            this.lblTitulo.Text = "Panel Principal";
             // 
             // panelContenido
             // 
@@ -554,11 +558,11 @@
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Button btnContratos;
         private System.Windows.Forms.PictureBox pictureBox9;
-        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button btnPagos;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblSubtitulo;
+        private System.Windows.Forms.Label lblTitulo;
         private System.Windows.Forms.Label lblFecha;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label lblHora;

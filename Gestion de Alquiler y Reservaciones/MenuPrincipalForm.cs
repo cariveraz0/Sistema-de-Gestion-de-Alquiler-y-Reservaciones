@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Gestion_de_Alquiler_y_Reservaciones.Reportes;
 
 namespace Gestion_de_Alquiler_y_Reservaciones
 {
@@ -19,11 +18,36 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         public MenuPrincipalForm()
         {
             InitializeComponent();
+            btnPrincipal.Click += CambiarTitulo_Click;
+            btnPropiedades.Click += CambiarTitulo_Click;
+            btnContratos.Click += CambiarTitulo_Click;
+            btnReservaciones.Click += CambiarTitulo_Click;
+            btnClientes.Click += CambiarTitulo_Click;
+            btnMantenimiento.Click += CambiarTitulo_Click;
+            btnReportes.Click += CambiarTitulo_Click;
+            btnPagos.Click += CambiarTitulo_Click;
         }
         private void MenuPrincipalForm_Load(object sender, EventArgs e)
         {
             CargarDatosUsuario();
             AbrirForm(new DashboardForm());
+        }
+
+        private void CambiarTitulo_Click(object sender, EventArgs e)
+        {
+            if (sender is Button botonPresionado)
+            {
+                lblTitulo.Text = botonPresionado.Text;
+
+                if (botonPresionado.Name == "btnPrincipal")
+                {
+                    lblSubtitulo.Visible = true;
+                }
+                else
+                {
+                    lblSubtitulo.Visible = false;
+                }
+            }
         }
 
         private void CargarDatosUsuario()
@@ -89,6 +113,26 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private void btnReportes_Click(object sender, EventArgs e)
         {
             AbrirForm(new ReportesForm());
+        }
+
+        private void btnReservaciones_Click(object sender, EventArgs e)
+        {
+            AbrirForm(new ReservacionesForm());
+        }
+
+        private void btnClientes_Click(object sender, EventArgs e)
+        {
+            AbrirForm(new ClientesForm());
+        }
+
+        private void btnMantenimiento_Click(object sender, EventArgs e)
+        {
+            AbrirForm(new MantenimientoForm());
+        }
+
+        private void btnPagos_Click(object sender, EventArgs e)
+        {
+            AbrirForm(new PagosForm());
         }
     }
 }

@@ -249,6 +249,12 @@
     <Compile Include="BaseForm.Designer.cs">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ClientesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClientesForm.Designer.cs">
+      <DependentUpon>ClientesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Conexion.cs" />
     <Compile Include="ConexionEjemplo.cs" />
     <Compile Include="ContratosForm.cs">
@@ -270,11 +276,23 @@
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
     <Compile Include="GeneradorContratos.cs" />
+    <Compile Include="MantenimientoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MantenimientoForm.Designer.cs">
+      <DependentUpon>MantenimientoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MenuPrincipalForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MenuPrincipalForm.Designer.cs">
       <DependentUpon>MenuPrincipalForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PagosForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PagosForm.Designer.cs">
+      <DependentUpon>PagosForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -355,6 +373,12 @@
     </Compile>
     <Compile Include="Reportes\SeleccionarPeriodoIngresosForm.Designer.cs">
       <DependentUpon>SeleccionarPeriodoIngresosForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReservacionesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReservacionesForm.Designer.cs">
+      <DependentUpon>ReservacionesForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>

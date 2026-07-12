@@ -339,7 +339,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                             celdaEstado.SetFontColor(new DeviceRgb(0x85, 0x64, 0x04));
                             break;
                         case "finalizado":
-                            celdaEstado.SetFontColor(new DeviceRgb(0x00, 0x40, 0x85));
+                            celdaEstado.SetFontColor(new DeviceRgb(0x8F, 0x86, 0x86));
                             break;
                         case "cancelado":
                             celdaEstado.SetFontColor(new DeviceRgb(0x72, 0x1C, 0x24));
@@ -411,22 +411,18 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                 switch (estado)
                 {
                     case "vigente":
-                        //e.CellStyle.BackColor = ColorTranslator.FromHtml("#D4EDDA");
                         e.CellStyle.ForeColor = ColorTranslator.FromHtml("#155724");
                         break;
 
                     case "por vencer":
-                        //e.CellStyle.BackColor = ColorTranslator.FromHtml("#FFF3CD");
                         e.CellStyle.ForeColor = ColorTranslator.FromHtml("#856404");
                         break;
 
                     case "finalizado":
-                        //e.CellStyle.BackColor = ColorTranslator.FromHtml("#CCE5FF");
                         e.CellStyle.ForeColor = ColorTranslator.FromHtml("#004085");
                         break;
 
                     case "cancelado":
-                        //e.CellStyle.BackColor = ColorTranslator.FromHtml("#F8D7DA");
                         e.CellStyle.ForeColor = ColorTranslator.FromHtml("#721C24");
                         break;
                 }

@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using ProyectoInversion;
 using Humanizer;
 using System.Globalization;
+using Microsoft.Data.SqlClient;
 
 namespace Gestion_de_Alquiler_y_Reservaciones
 {
@@ -27,8 +28,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             InitializeComponent();
             ConfigurarDataGridView();
-            CargarDatosEjemplo();
-            // Al abrir, mostramos la pestaña "Nuevo Contrato" activa
+            CargarDatosDesdeBD();
             ActivarTabNuevo();
         }
 
@@ -148,49 +148,94 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 if (c is DateTimePicker dtp) dtp.Value = DateTime.Today;
             }
         }
+        private void CargarDatosDesdeBD()
+        {
+            string consulta = @"
+        SELECT 
+            c.NumeroContrato AS [Numero Contrato],
+            cl.NombreCompleto AS Arrendatario,
+            p.Codigo AS [Nombre Propiedad],
+            c.FechaInicio AS [Fecha Inicio],
+            c.FechaFin AS [Fecha Final],
+            c.MontoMensual AS Monto,
+            ec.Nombre AS Estado
+        FROM Contratos c
+        INNER JOIN Clientes cl ON c.IdArrendatario = cl.IdCliente
+        INNER JOIN Propiedades p ON c.IdPropiedad = p.IdPropiedad
+        INNER JOIN EstadosContrato ec ON c.IdEstadoContrato = ec.IdEstadoContrato
+        ORDER BY c.FechaFin DESC;";
+
+            try
+            {
+                // Utilizamos tu clase de conexión centralizada
+                using (SqlConnection conexion = Conexion.ObtenerConexion())
+                {
+                    using (SqlCommand comando = new SqlCommand(consulta, conexion))
+                    {
+                        SqlDataAdapter adaptador = new SqlDataAdapter(comando);
+
+                        _tablaHistorial.Clear();
+                        adaptador.Fill(_tablaHistorial);
+
+                        // Limpiamos cualquier filtro previo
+                        _tablaHistorial.DefaultView.RowFilter = string.Empty;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar el historial de contratos: " + ex.Message, "Error de Datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         // ═══════════════════════════════════════════════════════════
         //  Historial — DataGridView
         // ═══════════════════════════════════════════════════════════
         private void ConfigurarDataGridView()
         {
+            System.Drawing.Color naranjaTitulo = System.Drawing.Color.FromArgb(216, 122, 45);
+
+            dgvHistorial.RowHeadersVisible = false;
+            dgvHistorial.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvHistorial.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvHistorial.RowTemplate.Height = 28;
+            dgvHistorial.ReadOnly = true;
+            dgvHistorial.AllowUserToAddRows = false;
+            dgvHistorial.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvHistorial.BackgroundColor = System.Drawing.Color.White;
+            dgvHistorial.EnableHeadersVisualStyles = false;
+
+            dgvHistorial.ColumnHeadersDefaultCellStyle.BackColor = naranjaTitulo;
+            dgvHistorial.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.Color.White;
+            dgvHistorial.ColumnHeadersDefaultCellStyle.Font = new Font("Montserrat", 9, FontStyle.Bold);
+
+            dgvHistorial.DefaultCellStyle.Font = new Font("Segoe UI", 8, FontStyle.Regular);
+            dgvHistorial.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(225, 225, 225);
+
             _tablaHistorial = new DataTable();
-            _tablaHistorial.Columns.Add("No.",          typeof(int));
-            _tablaHistorial.Columns.Add("Tipo",          typeof(string));
-            _tablaHistorial.Columns.Add("Arrendatario",  typeof(string));
-            _tablaHistorial.Columns.Add("Propiedad",     typeof(string));
-            _tablaHistorial.Columns.Add("Fecha Inicio",  typeof(DateTime));
-            _tablaHistorial.Columns.Add("Fecha Fin",     typeof(DateTime));
-            _tablaHistorial.Columns.Add("Monto (L.)",    typeof(decimal));
-            _tablaHistorial.Columns.Add("Estado",        typeof(string));
+            _tablaHistorial.Columns.Add("Numero Contrato", typeof(string));
+            _tablaHistorial.Columns.Add("Arrendatario", typeof(string));
+            _tablaHistorial.Columns.Add("Nombre Propiedad", typeof(string));
+            _tablaHistorial.Columns.Add("Fecha Inicio", typeof(DateTime));
+            _tablaHistorial.Columns.Add("Fecha Final", typeof(DateTime));
+            _tablaHistorial.Columns.Add("Monto", typeof(decimal));
+            _tablaHistorial.Columns.Add("Estado", typeof(string));
 
             dgvHistorial.DataSource = _tablaHistorial;
 
-            // Formato de columnas de fecha
             if (dgvHistorial.Columns["Fecha Inicio"] != null)
                 dgvHistorial.Columns["Fecha Inicio"].DefaultCellStyle.Format = "dd/MM/yyyy";
-            if (dgvHistorial.Columns["Fecha Fin"] != null)
-                dgvHistorial.Columns["Fecha Fin"].DefaultCellStyle.Format = "dd/MM/yyyy";
 
-            // Formato moneda
-            if (dgvHistorial.Columns["Monto (L.)"] != null)
-                dgvHistorial.Columns["Monto (L.)"].DefaultCellStyle.Format = "N2";
+            if (dgvHistorial.Columns["Fecha Final"] != null)
+                dgvHistorial.Columns["Fecha Final"].DefaultCellStyle.Format = "dd/MM/yyyy";
 
-            // Ancho fijo para "No."
-            if (dgvHistorial.Columns["No."] != null)
+            if (dgvHistorial.Columns["Monto"] != null)
             {
-                dgvHistorial.Columns["No."].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                dgvHistorial.Columns["No."].Width = 50;
+                // Formato Moneda de Honduras (como en tu reporte)
+                dgvHistorial.Columns["Monto"].DefaultCellStyle.FormatProvider = System.Globalization.CultureInfo.CreateSpecificCulture("es-HN");
+                dgvHistorial.Columns["Monto"].DefaultCellStyle.Format = "C2";
+                dgvHistorial.Columns["Monto"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             }
-        }
-
-        private void CargarDatosEjemplo()
-        {
-            _tablaHistorial.Rows.Add(1, "Apartamento",     "Carlos Mejía",       "Apto. 3B - Torre Norte",    new DateTime(2025, 1, 1),  new DateTime(2025, 12, 31), 8500m,  "Activo");
-            _tablaHistorial.Rows.Add(2, "Local Comercial", "Distribuidora XYZ",  "Local 12 - Plaza Central",  new DateTime(2024, 6, 1),  new DateTime(2025, 5, 31),  15000m, "Vencido");
-            _tablaHistorial.Rows.Add(3, "Casa Playa",      "Marta Rodríguez",    "Casa El Paraíso - Tela",    new DateTime(2026, 3, 15), new DateTime(2026, 3, 22),  4200m,  "Activo");
-            _tablaHistorial.Rows.Add(4, "Sala de Juntas",  "Empresa Soluciones", "Auditorio A - Edificio G",  new DateTime(2026, 6, 10), new DateTime(2026, 6, 10),  2500m,  "Completado");
-            _tablaHistorial.Rows.Add(5, "Apartamento",     "Jorge Pineda",       "Apto. 7A - Residencial Sur", new DateTime(2025, 8, 1), new DateTime(2026, 7, 31),  7200m,  "Activo");
         }
 
         // ═══════════════════════════════════════════════════════════
@@ -213,9 +258,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
 
             _tablaHistorial.DefaultView.RowFilter =
-                $"Convert(Tipo, 'System.String') LIKE '%{filtro}%' OR " +
+                $"Convert([Numero Contrato], 'System.String') LIKE '%{filtro}%' OR " +
                 $"Convert(Arrendatario, 'System.String') LIKE '%{filtro}%' OR " +
-                $"Convert(Propiedad, 'System.String') LIKE '%{filtro}%' OR ";
+                $"Convert([Nombre Propiedad], 'System.String') LIKE '%{filtro}%' OR " +
+                $"Convert(Estado, 'System.String') LIKE '%{filtro}%'";
         }
 
         private void btnGenerar_Click(object sender, EventArgs e)
@@ -397,6 +443,32 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 //${total_tarifa} hacer que sea la multiplicacion de dias * tarifa
                 //arreglar fecha arrendamiento en documento?? Si se quita o se deja
             };
+        }
+
+        private void dgvHistorial_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (this.dgvHistorial.Columns[e.ColumnIndex].Name == "Estado" && e.Value != null)
+            {
+                string estado = e.Value.ToString().Trim().ToLower();
+
+                switch (estado)
+                {
+                    case "vigente":
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#155724");
+                        break;
+                    case "por vencer":
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#856404");
+                        break;
+                    case "finalizado":
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#8F8686");
+                        break;
+                    case "cancelado":
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#721C24");
+                        break;
+                }
+
+                e.CellStyle.Font = new Font("Microsoft Sans Serif", 9, FontStyle.Bold);
+            }
         }
     }
 }
