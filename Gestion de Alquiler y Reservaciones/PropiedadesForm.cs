@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Gestion_de_Alquiler_y_Reservaciones
 {
-    public partial class PropiedadesForm : BaseForm
+    public partial class PropiedadesForm : Form
     {
         public PropiedadesForm()
         {

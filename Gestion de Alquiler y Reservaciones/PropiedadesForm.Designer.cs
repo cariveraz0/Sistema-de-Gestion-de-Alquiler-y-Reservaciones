@@ -1,6 +1,6 @@
 ﻿namespace Gestion_de_Alquiler_y_Reservaciones
 {
-    partial class PropiedadesForm : BaseForm
+    partial class PropiedadesForm
     {
         /// <summary>
         /// Required designer variable.
@@ -32,10 +32,9 @@
             // 
             // PropiedadesForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1426, 641);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ClientSize = new System.Drawing.Size(1120, 574);
             this.Name = "PropiedadesForm";
             this.Text = "PropiedadesForm";
             this.ResumeLayout(false);
