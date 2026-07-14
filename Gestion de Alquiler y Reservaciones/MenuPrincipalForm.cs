@@ -14,6 +14,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
     {
         private Form formActivo = null;
         private Button botonActual = null;
+        private string nombres = string.Empty;
 
         public MenuPrincipalForm()
         {
@@ -52,14 +53,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void CargarDatosUsuario()
         {
-            string nombre = LoginForm.nombreCompleto;
-            
-            if (!string.IsNullOrWhiteSpace(nombre))
-            {
-                nombre = nombre.Trim();
-                lblUsuario.Text = nombre;
-                lblInicial.Text = nombre.Substring(0, 1).ToUpper();
-            }
+            lblInicial.Text = LoginForm.nombreCompleto.Substring(0, 1).ToUpper();
+            string[] nombrePartes = LoginForm.nombreCompleto.Split(' ');
+            nombres = nombrePartes[0] + " " + nombrePartes[2];
+            lblUsuario.Text = nombres;
         }
 
         private void AbrirForm(Form formNuevo)

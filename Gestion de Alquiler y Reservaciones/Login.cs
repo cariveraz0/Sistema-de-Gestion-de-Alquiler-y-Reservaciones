@@ -20,6 +20,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             txtUsuario.Clear();
             txtContra.Clear();
             empleadoID = string.Empty;
+            nombreCompleto = string.Empty;
             txtUsuario.Focus();
 
         }
@@ -39,6 +40,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 txtUsuario.Clear();
                 txtContra.Clear();
                 empleadoID = string.Empty;
+                nombreCompleto = string.Empty;
                 txtUsuario.Focus();
             }
         }
@@ -97,6 +99,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     if (readerQueryPrueba.Read())
                     {
                         empleadoID = readerQueryPrueba["Empleado_ID"].ToString();
+                        nombreCompleto = obtenerNombreCompleto(empleadoID);
                         readerQueryPrueba.Close();
 
                         this.Hide();
@@ -125,6 +128,49 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     MessageBoxIcon.Error
                 );
             }
-        }   
+        }
+        
+        /// <summary>
+        /// Devuelve el nombre completo del usuario dependiendo del EmpleadoID que le demos como arametro
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        private string obtenerNombreCompleto(string id)
+        {
+            string nombreCompleto = string.Empty;
+            try
+            {
+                string queryObtenerNombreCompleto = "select * from Empleados where Empleado_ID = @id;";
+                using (SqlConnection conectar = Conexion.ObtenerConexion())
+                {
+                    conectar.Open();
+                    SqlCommand cmdObtenerNombreCompleto = new SqlCommand(queryObtenerNombreCompleto, conectar);
+                    cmdObtenerNombreCompleto.Parameters.AddWithValue("@id", id);
+                    SqlDataReader readerObtenerNombreCompleto = cmdObtenerNombreCompleto.ExecuteReader();
+                    if (readerObtenerNombreCompleto.Read())
+                    {
+                        nombreCompleto = readerObtenerNombreCompleto["Nombre"].ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Usuario o contraseña incorrecta. Intente de nuevo",
+                            "Credenciales invalidas",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+            return nombreCompleto;
+        }
     }
 }
