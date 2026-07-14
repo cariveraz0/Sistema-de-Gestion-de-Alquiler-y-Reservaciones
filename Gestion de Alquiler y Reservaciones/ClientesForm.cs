@@ -17,12 +17,36 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private static readonly Color ColorInactivo = ColorTranslator.FromHtml("#E0DBD2");
         private static readonly Color TextoInactivo = ColorTranslator.FromHtml("#666666");
+        private DataTable tablalocal;
 
         public ClientesForm()
         {
             InitializeComponent();
             ActivarTabNuevo();
             CargarDatosBD();
+            ConfigurarDataGridView(dgvHistorial);
+        }
+
+        public void ConfigurarDataGridView(DataGridView grid)
+        {
+            System.Drawing.Color naranjaTitulo = System.Drawing.Color.FromArgb(216, 122, 45);
+
+            grid.RowHeadersVisible = false;
+            grid.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            grid.RowTemplate.Height = 28;
+            grid.ReadOnly = true;
+            grid.AllowUserToAddRows = false;
+            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            grid.BackgroundColor = System.Drawing.Color.White;
+            grid.EnableHeadersVisualStyles = false;
+
+            grid.ColumnHeadersDefaultCellStyle.BackColor = naranjaTitulo;
+            grid.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.Color.White;
+            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Montserrat", 9, FontStyle.Bold);
+
+            grid.DefaultCellStyle.Font = new Font("Segoe UI", 8, FontStyle.Regular);
+            grid.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(225, 225, 225);
         }
         private void btnNuevoCliente_Click(object sender, EventArgs e) => ActivarTabNuevo();
         private void btnClienteHistorial_Click(object sender, EventArgs e) => ActivarTabHistorial();
@@ -83,14 +107,13 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
             try
             {
-                // Utilizamos tu clase de conexión centralizada
                 using (SqlConnection conexion = Conexion.ObtenerConexion())
                 {
                     using (SqlCommand comando = new SqlCommand(query, conexion))
                     {
                         SqlDataAdapter adaptador = new SqlDataAdapter(comando);
 
-                        DataTable tablalocal = new DataTable();
+                        tablalocal = new DataTable();
 
                         adaptador.Fill(tablalocal);
                         dgvHistorial.DataSource = tablalocal;
@@ -103,11 +126,43 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
         }
 
-        
-
-        private void ClientesForm_Load(object sender, EventArgs e)
+        private void txtBuscar_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode == Keys.Enter)
+            {
+                FiltrarHistorial();
+                e.SuppressKeyPress = true;
+            }
+        }
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            FiltrarHistorial();
+        }
 
+        private void FiltrarHistorial()
+        {
+            if (tablalocal == null) return;
+
+            string filtro = txtBuscar.Text.Trim().Replace("'", "''");
+
+            if (string.IsNullOrEmpty(filtro))
+            {
+                tablalocal.DefaultView.RowFilter = string.Empty;
+                return;
+            }
+
+            try
+            {
+                tablalocal.DefaultView.RowFilter =
+                    $"Convert([Nombre Completo], 'System.String') LIKE '%{filtro}%' OR " +
+                    $"Convert(Identidad, 'System.String') LIKE '%{filtro}%' OR " +
+                    $"Convert([Nombre de Empresa], 'System.String') LIKE '%{filtro}%' OR " +
+                    $"Convert([Correo Electrónico], 'System.String') LIKE '%{filtro}%'";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al filtrar los datos: " + ex.Message, "Error de Filtro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }

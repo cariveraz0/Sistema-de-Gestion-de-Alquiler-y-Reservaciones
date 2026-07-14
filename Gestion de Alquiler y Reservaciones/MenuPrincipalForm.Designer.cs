@@ -57,6 +57,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.lblCargo = new System.Windows.Forms.Label();
             this.lblUsuario = new System.Windows.Forms.Label();
             this.lblInicial = new System.Windows.Forms.Label();
             this.lblHora = new System.Windows.Forms.Label();
@@ -65,7 +66,6 @@
             this.lblTitulo = new System.Windows.Forms.Label();
             this.panelContenido = new System.Windows.Forms.Panel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.lblCargo = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             this.panel4.SuspendLayout();
@@ -205,7 +205,7 @@
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(12, 386);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(72, 15);
+            this.label4.Size = new System.Drawing.Size(65, 13);
             this.label4.TabIndex = 12;
             this.label4.Text = "FINANZAS";
             // 
@@ -341,7 +341,7 @@
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(12, 138);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(67, 15);
+            this.label3.Size = new System.Drawing.Size(59, 13);
             this.label3.TabIndex = 5;
             this.label3.Text = "GESTIÓN";
             // 
@@ -377,7 +377,7 @@
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(12, 76);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 15);
+            this.label2.Size = new System.Drawing.Size(70, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "PRINCIPAL";
             // 
@@ -398,7 +398,7 @@
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(73, 21);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(91, 34);
+            this.label1.Size = new System.Drawing.Size(71, 26);
             this.label1.TabIndex = 0;
             this.label1.Text = "Inmobiliaria\r\nClarita";
             // 
@@ -427,20 +427,31 @@
             this.panel3.Size = new System.Drawing.Size(465, 60);
             this.panel3.TabIndex = 3;
             // 
+            // lblCargo
+            // 
+            this.lblCargo.AutoSize = true;
+            this.lblCargo.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCargo.ForeColor = System.Drawing.Color.DimGray;
+            this.lblCargo.Location = new System.Drawing.Point(300, 31);
+            this.lblCargo.Name = "lblCargo";
+            this.lblCargo.Size = new System.Drawing.Size(80, 13);
+            this.lblCargo.TabIndex = 6;
+            this.lblCargo.Text = "Administrador";
+            // 
             // lblUsuario
             // 
             this.lblUsuario.AutoSize = true;
             this.lblUsuario.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsuario.Location = new System.Drawing.Point(300, 18);
+            this.lblUsuario.Location = new System.Drawing.Point(300, 14);
             this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(117, 20);
+            this.lblUsuario.Size = new System.Drawing.Size(93, 15);
             this.lblUsuario.TabIndex = 5;
             this.lblUsuario.Text = "Mantenimiento";
             // 
             // lblInicial
             // 
             this.lblInicial.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(79)))), ((int)(((byte)(36)))));
-            this.lblInicial.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInicial.Font = new System.Drawing.Font("Montserrat", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblInicial.ForeColor = System.Drawing.Color.White;
             this.lblInicial.Location = new System.Drawing.Point(269, 13);
             this.lblInicial.Name = "lblInicial";
@@ -456,7 +467,7 @@
             this.lblHora.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(179)))), ((int)(((byte)(64)))));
             this.lblHora.Location = new System.Drawing.Point(33, 33);
             this.lblHora.Name = "lblHora";
-            this.lblHora.Size = new System.Drawing.Size(80, 17);
+            this.lblHora.Size = new System.Drawing.Size(63, 13);
             this.lblHora.TabIndex = 3;
             this.lblHora.Text = "08:00 a.m";
             // 
@@ -467,7 +478,7 @@
             this.lblFecha.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(179)))), ((int)(((byte)(64)))));
             this.lblFecha.Location = new System.Drawing.Point(33, 9);
             this.lblFecha.Name = "lblFecha";
-            this.lblFecha.Size = new System.Drawing.Size(262, 18);
+            this.lblFecha.Size = new System.Drawing.Size(226, 15);
             this.lblFecha.TabIndex = 2;
             this.lblFecha.Text = "Miércoles, 20 de septiembre 2026";
             // 
@@ -478,18 +489,18 @@
             this.lblSubtitulo.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.lblSubtitulo.Location = new System.Drawing.Point(23, 34);
             this.lblSubtitulo.Name = "lblSubtitulo";
-            this.lblSubtitulo.Size = new System.Drawing.Size(215, 19);
+            this.lblSubtitulo.Size = new System.Drawing.Size(181, 13);
             this.lblSubtitulo.TabIndex = 1;
             this.lblSubtitulo.Text = "Resumen General de Operaciones";
             // 
             // lblTitulo
             // 
             this.lblTitulo.AutoSize = true;
-            this.lblTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitulo.Font = new System.Drawing.Font("Montserrat ExtraBold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitulo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(79)))), ((int)(((byte)(36)))));
             this.lblTitulo.Location = new System.Drawing.Point(21, 9);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(156, 25);
+            this.lblTitulo.Size = new System.Drawing.Size(141, 25);
             this.lblTitulo.TabIndex = 0;
             this.lblTitulo.Text = "Panel Principal";
             // 
@@ -507,20 +518,9 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // lblCargo
-            // 
-            this.lblCargo.AutoSize = true;
-            this.lblCargo.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCargo.ForeColor = System.Drawing.Color.DimGray;
-            this.lblCargo.Location = new System.Drawing.Point(300, 39);
-            this.lblCargo.Name = "lblCargo";
-            this.lblCargo.Size = new System.Drawing.Size(43, 17);
-            this.lblCargo.TabIndex = 6;
-            this.lblCargo.Text = "label5";
-            // 
             // MenuPrincipalForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(241)))), ((int)(((byte)(236)))));
             this.ClientSize = new System.Drawing.Size(1350, 681);
