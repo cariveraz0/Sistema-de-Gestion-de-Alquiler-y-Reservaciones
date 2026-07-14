@@ -57,6 +57,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             string[] nombrePartes = LoginForm.nombreCompleto.Split(' ');
             nombres = nombrePartes[0] + " " + nombrePartes[2];
             lblUsuario.Text = nombres;
+            lblCargo.Text = LoginForm.cargo;
         }
 
         private void AbrirForm(Form formNuevo)

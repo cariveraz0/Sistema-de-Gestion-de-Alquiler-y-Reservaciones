@@ -8,6 +8,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
     {
         public static string empleadoID;
         public static string nombreCompleto;
+        public static string cargo;
 
         public LoginForm()
         {
@@ -21,6 +22,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             txtContra.Clear();
             empleadoID = string.Empty;
             nombreCompleto = string.Empty;
+            cargo = string.Empty;
             txtUsuario.Focus();
 
         }
@@ -41,6 +43,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 txtContra.Clear();
                 empleadoID = string.Empty;
                 nombreCompleto = string.Empty;
+                cargo= string.Empty;
                 txtUsuario.Focus();
             }
         }
@@ -99,7 +102,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     if (readerQueryPrueba.Read())
                     {
                         empleadoID = readerQueryPrueba["Empleado_ID"].ToString();
-                        nombreCompleto = obtenerNombreCompleto(empleadoID);
+                        nombreCompleto = obtenerDatosEmpleado(empleadoID);
                         readerQueryPrueba.Close();
 
                         this.Hide();
@@ -135,7 +138,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        private string obtenerNombreCompleto(string id)
+        private string obtenerDatosEmpleado(string id)
         {
             string nombreCompleto = string.Empty;
             try
@@ -150,6 +153,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     if (readerObtenerNombreCompleto.Read())
                     {
                         nombreCompleto = readerObtenerNombreCompleto["Nombre"].ToString();
+                        cargo = readerObtenerNombreCompleto["Cargo"].ToString();
                     }
                     else
                     {

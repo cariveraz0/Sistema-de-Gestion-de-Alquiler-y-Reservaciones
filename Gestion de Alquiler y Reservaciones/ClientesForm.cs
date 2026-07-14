@@ -102,5 +102,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 MessageBox.Show("Error al cargar el historial de contratos: " + ex.Message, "Error de Datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        
+
+        private void ClientesForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

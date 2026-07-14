@@ -65,6 +65,7 @@
             this.lblTitulo = new System.Windows.Forms.Label();
             this.panelContenido = new System.Windows.Forms.Panel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.lblCargo = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             this.panel4.SuspendLayout();
@@ -415,6 +416,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.lblCargo);
             this.panel3.Controls.Add(this.lblUsuario);
             this.panel3.Controls.Add(this.lblInicial);
             this.panel3.Controls.Add(this.lblHora);
@@ -505,6 +507,17 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // lblCargo
+            // 
+            this.lblCargo.AutoSize = true;
+            this.lblCargo.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCargo.ForeColor = System.Drawing.Color.DimGray;
+            this.lblCargo.Location = new System.Drawing.Point(300, 39);
+            this.lblCargo.Name = "lblCargo";
+            this.lblCargo.Size = new System.Drawing.Size(43, 17);
+            this.lblCargo.TabIndex = 6;
+            this.lblCargo.Text = "label5";
+            // 
             // MenuPrincipalForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
@@ -577,5 +590,6 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button btnReportes;
         private System.Windows.Forms.PictureBox pictureBox8;
+        private System.Windows.Forms.Label lblCargo;
     }
 }
