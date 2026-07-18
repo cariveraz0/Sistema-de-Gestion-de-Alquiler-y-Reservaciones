@@ -395,6 +395,9 @@
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MantenimientoForm.resx">
+      <DependentUpon>MantenimientoForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MenuPrincipalForm.resx">
       <DependentUpon>MenuPrincipalForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -435,6 +438,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes\ResumenMantenimientoEstado.resx">
       <DependentUpon>ResumenMantenimientoEstado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReservacionesForm.resx">
+      <DependentUpon>ReservacionesForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Assets\Fonts\Montserrat-Black.ttf" />
     <None Include="Assets\Fonts\Montserrat-BlackItalic.ttf" />

@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
-using System.Windows.Forms;
-using ProyectoInversion;
-using Humanizer;
 using System.Globalization;
+using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
+using Humanizer;
 using Microsoft.Data.SqlClient;
+using ProyectoInversion;
 
 namespace Gestion_de_Alquiler_y_Reservaciones
 {

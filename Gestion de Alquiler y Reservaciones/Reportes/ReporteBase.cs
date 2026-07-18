@@ -13,6 +13,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
     public partial class ReporteBase : Form
     {
         private bool esCierrePermitido = false;
+        private object da;
         public ReporteBase()
         {
             InitializeComponent();

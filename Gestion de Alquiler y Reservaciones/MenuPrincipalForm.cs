@@ -13,7 +13,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
     public partial class MenuPrincipalForm : Form
     {
         private Form formActivo = null;
-        private Button botonActual = null;
         private string nombres = string.Empty;
 
         public MenuPrincipalForm()

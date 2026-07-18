@@ -30,7 +30,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
         private DateTime fechaInicio;
         private DateTime fechaFin;
         private DataTable dtCompleto;
-        private object da;
         private static readonly string RutaLogo = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Images", "LogoFinal2.png");
 
         public ReporteReservacionesPeriodo()
