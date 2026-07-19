@@ -31,6 +31,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.btnTabNuevo = new System.Windows.Forms.Button();
             this.btnTabHistorial = new System.Windows.Forms.Button();
             this.pnlCuerpo = new System.Windows.Forms.Panel();
+            this.pnlHistorial = new System.Windows.Forms.Panel();
+            this.dgvHistorial = new System.Windows.Forms.DataGridView();
+            this.pnlFiltroHistorial = new System.Windows.Forms.Panel();
+            this.lblBuscarH = new System.Windows.Forms.Label();
+            this.txtBusquedaH = new System.Windows.Forms.TextBox();
+            this.btnBuscarH = new System.Windows.Forms.Button();
             this.pnlNuevoContrato = new System.Windows.Forms.Panel();
             this.pnlTipoSelector = new System.Windows.Forms.TableLayoutPanel();
             this.pnlFormWrapper = new System.Windows.Forms.Panel();
@@ -124,17 +130,16 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.btnTipoLocal = new System.Windows.Forms.Button();
             this.btnTipoCasa = new System.Windows.Forms.Button();
             this.btnTipoSala = new System.Windows.Forms.Button();
-            this.pnlHistorial = new System.Windows.Forms.Panel();
-            this.pnlFiltroHistorial = new System.Windows.Forms.Panel();
-            this.lblBuscarH = new System.Windows.Forms.Label();
-            this.txtBusquedaH = new System.Windows.Forms.TextBox();
-            this.btnBuscarH = new System.Windows.Forms.Button();
             this.pnlAccion = new System.Windows.Forms.Panel();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnGenerar = new System.Windows.Forms.Button();
-            this.dgvHistorial = new System.Windows.Forms.DataGridView();
+            this.lblDepositoC = new System.Windows.Forms.Label();
+            this.txtDepositoC = new System.Windows.Forms.TextBox();
             this.pnlCuerpo.SuspendLayout();
+            this.pnlHistorial.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHistorial)).BeginInit();
+            this.pnlFiltroHistorial.SuspendLayout();
             this.pnlNuevoContrato.SuspendLayout();
             this.pnlTipoSelector.SuspendLayout();
             this.pnlFormWrapper.SuspendLayout();
@@ -143,10 +148,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.pnlFormLocal.SuspendLayout();
             this.pnlFormCasa.SuspendLayout();
             this.pnlBotonesTipo.SuspendLayout();
-            this.pnlHistorial.SuspendLayout();
-            this.pnlFiltroHistorial.SuspendLayout();
             this.pnlAccion.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvHistorial)).BeginInit();
             this.SuspendLayout();
             // 
             // btnTabNuevo
@@ -177,12 +179,81 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             // 
             // pnlCuerpo
             // 
-            this.pnlCuerpo.Controls.Add(this.pnlHistorial);
             this.pnlCuerpo.Controls.Add(this.pnlNuevoContrato);
+            this.pnlCuerpo.Controls.Add(this.pnlHistorial);
             this.pnlCuerpo.Location = new System.Drawing.Point(38, 58);
             this.pnlCuerpo.Name = "pnlCuerpo";
             this.pnlCuerpo.Size = new System.Drawing.Size(1042, 520);
             this.pnlCuerpo.TabIndex = 2;
+            // 
+            // pnlHistorial
+            // 
+            this.pnlHistorial.Controls.Add(this.dgvHistorial);
+            this.pnlHistorial.Controls.Add(this.pnlFiltroHistorial);
+            this.pnlHistorial.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlHistorial.Location = new System.Drawing.Point(0, 0);
+            this.pnlHistorial.Name = "pnlHistorial";
+            this.pnlHistorial.Size = new System.Drawing.Size(1042, 520);
+            this.pnlHistorial.TabIndex = 1;
+            this.pnlHistorial.Visible = false;
+            // 
+            // dgvHistorial
+            // 
+            this.dgvHistorial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvHistorial.Location = new System.Drawing.Point(0, 58);
+            this.dgvHistorial.Name = "dgvHistorial";
+            this.dgvHistorial.Size = new System.Drawing.Size(1042, 462);
+            this.dgvHistorial.TabIndex = 1;
+            this.dgvHistorial.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvHistorial_CellFormatting);
+            // 
+            // pnlFiltroHistorial
+            // 
+            this.pnlFiltroHistorial.BackColor = System.Drawing.Color.White;
+            this.pnlFiltroHistorial.Controls.Add(this.lblBuscarH);
+            this.pnlFiltroHistorial.Controls.Add(this.txtBusquedaH);
+            this.pnlFiltroHistorial.Controls.Add(this.btnBuscarH);
+            this.pnlFiltroHistorial.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlFiltroHistorial.Location = new System.Drawing.Point(0, 0);
+            this.pnlFiltroHistorial.Name = "pnlFiltroHistorial";
+            this.pnlFiltroHistorial.Padding = new System.Windows.Forms.Padding(16, 12, 16, 12);
+            this.pnlFiltroHistorial.Size = new System.Drawing.Size(1042, 60);
+            this.pnlFiltroHistorial.TabIndex = 0;
+            // 
+            // lblBuscarH
+            // 
+            this.lblBuscarH.AutoSize = true;
+            this.lblBuscarH.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBuscarH.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblBuscarH.Location = new System.Drawing.Point(16, 18);
+            this.lblBuscarH.Name = "lblBuscarH";
+            this.lblBuscarH.Size = new System.Drawing.Size(52, 17);
+            this.lblBuscarH.TabIndex = 0;
+            this.lblBuscarH.Text = "Buscar:";
+            // 
+            // txtBusquedaH
+            // 
+            this.txtBusquedaH.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtBusquedaH.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtBusquedaH.Location = new System.Drawing.Point(76, 14);
+            this.txtBusquedaH.Name = "txtBusquedaH";
+            this.txtBusquedaH.Size = new System.Drawing.Size(320, 23);
+            this.txtBusquedaH.TabIndex = 1;
+            this.txtBusquedaH.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBusquedaH_KeyDown);
+            // 
+            // btnBuscarH
+            // 
+            this.btnBuscarH.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(214)))), ((int)(((byte)(122)))), ((int)(((byte)(49)))));
+            this.btnBuscarH.FlatAppearance.BorderSize = 0;
+            this.btnBuscarH.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuscarH.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBuscarH.ForeColor = System.Drawing.Color.White;
+            this.btnBuscarH.Location = new System.Drawing.Point(408, 13);
+            this.btnBuscarH.Name = "btnBuscarH";
+            this.btnBuscarH.Size = new System.Drawing.Size(90, 27);
+            this.btnBuscarH.TabIndex = 2;
+            this.btnBuscarH.Text = "Buscar";
+            this.btnBuscarH.UseVisualStyleBackColor = false;
+            this.btnBuscarH.Click += new System.EventHandler(this.btnBuscarH_Click);
             // 
             // pnlNuevoContrato
             // 
@@ -210,10 +281,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             // 
             // pnlFormWrapper
             // 
+            this.pnlFormWrapper.Controls.Add(this.pnlFormCasa);
             this.pnlFormWrapper.Controls.Add(this.pnlFormSala);
             this.pnlFormWrapper.Controls.Add(this.pnlFormApartamento);
             this.pnlFormWrapper.Controls.Add(this.pnlFormLocal);
-            this.pnlFormWrapper.Controls.Add(this.pnlFormCasa);
             this.pnlFormWrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlFormWrapper.Location = new System.Drawing.Point(3, 103);
             this.pnlFormWrapper.Name = "pnlFormWrapper";
@@ -342,6 +413,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.txtNumeroHorasS.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtNumeroHorasS.Location = new System.Drawing.Point(308, 128);
             this.txtNumeroHorasS.Name = "txtNumeroHorasS";
+            this.txtNumeroHorasS.ReadOnly = true;
             this.txtNumeroHorasS.Size = new System.Drawing.Size(220, 23);
             this.txtNumeroHorasS.TabIndex = 0;
             // 
@@ -378,8 +450,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             // 
             // dtpHoraInicioS
             // 
+            this.dtpHoraInicioS.CustomFormat = "HH:mm";
             this.dtpHoraInicioS.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.dtpHoraInicioS.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtpHoraInicioS.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpHoraInicioS.Location = new System.Drawing.Point(308, 186);
             this.dtpHoraInicioS.Name = "dtpHoraInicioS";
             this.dtpHoraInicioS.ShowUpDown = true;
@@ -399,8 +472,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             // 
             // dtpHoraFinalS
             // 
+            this.dtpHoraFinalS.CustomFormat = "HH:mm";
             this.dtpHoraFinalS.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.dtpHoraFinalS.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtpHoraFinalS.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpHoraFinalS.Location = new System.Drawing.Point(24, 244);
             this.dtpHoraFinalS.Name = "dtpHoraFinalS";
             this.dtpHoraFinalS.ShowUpDown = true;
@@ -967,6 +1041,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             // 
             this.pnlFormCasa.AutoScroll = true;
             this.pnlFormCasa.BackColor = System.Drawing.Color.White;
+            this.pnlFormCasa.Controls.Add(this.lblDepositoC);
+            this.pnlFormCasa.Controls.Add(this.txtDepositoC);
             this.pnlFormCasa.Controls.Add(this.lblTituloC);
             this.pnlFormCasa.Controls.Add(this.lblNombreHuespedC);
             this.pnlFormCasa.Controls.Add(this.txtNombreHuespedC);
@@ -1121,8 +1197,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             // 
             // dtpHoraInicialC
             // 
+            this.dtpHoraInicialC.CustomFormat = "HH:mm";
             this.dtpHoraInicialC.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.dtpHoraInicialC.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtpHoraInicialC.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpHoraInicialC.Location = new System.Drawing.Point(308, 186);
             this.dtpHoraInicialC.Name = "dtpHoraInicialC";
             this.dtpHoraInicialC.ShowUpDown = true;
@@ -1146,6 +1223,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.txtDiasC.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtDiasC.Location = new System.Drawing.Point(24, 244);
             this.txtDiasC.Name = "txtDiasC";
+            this.txtDiasC.ReadOnly = true;
             this.txtDiasC.Size = new System.Drawing.Size(220, 23);
             this.txtDiasC.TabIndex = 0;
             // 
@@ -1275,66 +1353,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.btnTipoSala.UseVisualStyleBackColor = false;
             this.btnTipoSala.Click += new System.EventHandler(this.btnTipoSala_Click);
             // 
-            // pnlHistorial
-            // 
-            this.pnlHistorial.Controls.Add(this.dgvHistorial);
-            this.pnlHistorial.Controls.Add(this.pnlFiltroHistorial);
-            this.pnlHistorial.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlHistorial.Location = new System.Drawing.Point(0, 0);
-            this.pnlHistorial.Name = "pnlHistorial";
-            this.pnlHistorial.Size = new System.Drawing.Size(1042, 520);
-            this.pnlHistorial.TabIndex = 1;
-            this.pnlHistorial.Visible = false;
-            // 
-            // pnlFiltroHistorial
-            // 
-            this.pnlFiltroHistorial.BackColor = System.Drawing.Color.White;
-            this.pnlFiltroHistorial.Controls.Add(this.lblBuscarH);
-            this.pnlFiltroHistorial.Controls.Add(this.txtBusquedaH);
-            this.pnlFiltroHistorial.Controls.Add(this.btnBuscarH);
-            this.pnlFiltroHistorial.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlFiltroHistorial.Location = new System.Drawing.Point(0, 0);
-            this.pnlFiltroHistorial.Name = "pnlFiltroHistorial";
-            this.pnlFiltroHistorial.Padding = new System.Windows.Forms.Padding(16, 12, 16, 12);
-            this.pnlFiltroHistorial.Size = new System.Drawing.Size(1042, 60);
-            this.pnlFiltroHistorial.TabIndex = 0;
-            // 
-            // lblBuscarH
-            // 
-            this.lblBuscarH.AutoSize = true;
-            this.lblBuscarH.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBuscarH.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblBuscarH.Location = new System.Drawing.Point(16, 18);
-            this.lblBuscarH.Name = "lblBuscarH";
-            this.lblBuscarH.Size = new System.Drawing.Size(52, 17);
-            this.lblBuscarH.TabIndex = 0;
-            this.lblBuscarH.Text = "Buscar:";
-            // 
-            // txtBusquedaH
-            // 
-            this.txtBusquedaH.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtBusquedaH.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtBusquedaH.Location = new System.Drawing.Point(76, 14);
-            this.txtBusquedaH.Name = "txtBusquedaH";
-            this.txtBusquedaH.Size = new System.Drawing.Size(320, 23);
-            this.txtBusquedaH.TabIndex = 1;
-            this.txtBusquedaH.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBusquedaH_KeyDown);
-            // 
-            // btnBuscarH
-            // 
-            this.btnBuscarH.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(214)))), ((int)(((byte)(122)))), ((int)(((byte)(49)))));
-            this.btnBuscarH.FlatAppearance.BorderSize = 0;
-            this.btnBuscarH.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBuscarH.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBuscarH.ForeColor = System.Drawing.Color.White;
-            this.btnBuscarH.Location = new System.Drawing.Point(408, 13);
-            this.btnBuscarH.Name = "btnBuscarH";
-            this.btnBuscarH.Size = new System.Drawing.Size(90, 27);
-            this.btnBuscarH.TabIndex = 2;
-            this.btnBuscarH.Text = "Buscar";
-            this.btnBuscarH.UseVisualStyleBackColor = false;
-            this.btnBuscarH.Click += new System.EventHandler(this.btnBuscarH_Click);
-            // 
             // pnlAccion
             // 
             this.pnlAccion.BackColor = System.Drawing.Color.White;
@@ -1391,14 +1409,25 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.btnGenerar.UseVisualStyleBackColor = false;
             this.btnGenerar.Click += new System.EventHandler(this.btnGenerar_Click);
             // 
-            // dgvHistorial
+            // lblDepositoC
             // 
-            this.dgvHistorial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvHistorial.Location = new System.Drawing.Point(0, 58);
-            this.dgvHistorial.Name = "dgvHistorial";
-            this.dgvHistorial.Size = new System.Drawing.Size(1042, 462);
-            this.dgvHistorial.TabIndex = 1;
-            this.dgvHistorial.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvHistorial_CellFormatting);
+            this.lblDepositoC.AutoSize = true;
+            this.lblDepositoC.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDepositoC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblDepositoC.Location = new System.Drawing.Point(308, 283);
+            this.lblDepositoC.Name = "lblDepositoC";
+            this.lblDepositoC.Size = new System.Drawing.Size(60, 17);
+            this.lblDepositoC.TabIndex = 1;
+            this.lblDepositoC.Text = "Depósito";
+            // 
+            // txtDepositoC
+            // 
+            this.txtDepositoC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtDepositoC.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtDepositoC.Location = new System.Drawing.Point(308, 303);
+            this.txtDepositoC.Name = "txtDepositoC";
+            this.txtDepositoC.Size = new System.Drawing.Size(220, 23);
+            this.txtDepositoC.TabIndex = 2;
             // 
             // ContratosForm
             // 
@@ -1413,6 +1442,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.Text = "Contratos";
             this.Load += new System.EventHandler(this.ContratosForm_Load);
             this.pnlCuerpo.ResumeLayout(false);
+            this.pnlHistorial.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHistorial)).EndInit();
+            this.pnlFiltroHistorial.ResumeLayout(false);
+            this.pnlFiltroHistorial.PerformLayout();
             this.pnlNuevoContrato.ResumeLayout(false);
             this.pnlTipoSelector.ResumeLayout(false);
             this.pnlFormWrapper.ResumeLayout(false);
@@ -1426,11 +1459,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.pnlFormCasa.PerformLayout();
             this.pnlBotonesTipo.ResumeLayout(false);
             this.pnlBotonesTipo.PerformLayout();
-            this.pnlHistorial.ResumeLayout(false);
-            this.pnlFiltroHistorial.ResumeLayout(false);
-            this.pnlFiltroHistorial.PerformLayout();
             this.pnlAccion.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvHistorial)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1558,5 +1587,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private System.Windows.Forms.TextBox txtTotalPersonasC;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dgvHistorial;
+        private System.Windows.Forms.Label lblDepositoC;
+        private System.Windows.Forms.TextBox txtDepositoC;
     }
 }

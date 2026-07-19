@@ -305,13 +305,24 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
 
             string rutaEscritorio = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string rutaFinal = rutaEscritorio + $@"\Contrato_{tipoSeleccionado}_{DateTime.Now.Ticks}.docx";
+            string marcaTiempo = DateTime.Now.Ticks.ToString();
+
+            string rutaDocx = rutaEscritorio + $@"\Contrato_{tipoSeleccionado}_{marcaTiempo}.docx";
+            string rutaPdf = rutaEscritorio + $@"\Contrato_{tipoSeleccionado}_{marcaTiempo}.pdf";
 
             try
             {
                 GeneradorContratos generador = new GeneradorContratos();
-                generador.GenerarDocumento(tipoSeleccionado, datosContrato, rutaFinal);
-                MessageBox.Show("Contrato generado con éxito en:\n" + rutaFinal, "Éxito");
+                generador.GenerarDocumento(tipoSeleccionado, datosContrato, rutaDocx);
+
+                ConvertirWordAPdf(rutaDocx, rutaPdf);
+
+                if (System.IO.File.Exists(rutaDocx))
+                {
+                    System.IO.File.Delete(rutaDocx);
+                }
+
+                MessageBox.Show("Contrato generado con éxito en PDF en:\n" + rutaPdf, "Éxito");
             }
             catch (Exception ex)
             {
@@ -342,7 +353,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             return new Dictionary<string, string>
             {
-                { "${nombre_arrendatario}", txtNombreArrendatarioA.Text },
+                { "${nombre_arrendatario}", txtNombreArrendatarioA.Text.ToUpper()},
                 { "${identidad_arrendatario}", txtIdentidadA.Text },
                 { "${numero_departamento}", cmbNumeroDepartamento.Text },
                 { "${clave_contador}", txtClaveContadorA.Text },
@@ -350,10 +361,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 { "${mes_arrendamiento}", fechaSeleccionada.ToString("MMMM").ToUpper()},
                 { "{anio_arrendamiento}", fechaSeleccionada.Year.ToString("0000")},
                 { "${precio_unitario}", txtPrecioAlquilerA.Text },
-                { "${precio_letras}", precioEnPalabras },
+                { "${precio_letras}", precioEnPalabras.ToUpper() },
                 { "${dia_mensualidad}", txtDiaMensualidadA.Text },
                 { "${deposito_unitario}", txtDepositoUnitarioA.Text },
-                { "${deposito_letras}", depositoEnPalabras },
+                { "${deposito_letras}", depositoEnPalabras.ToUpper()},
                 { "${dia_actual}", DateTime.Now.Day.ToString() },
                 { "${mes_actual}", DateTime.Now.ToString("MMMM") },
                 { "${anio_actual}", DateTime.Now.Year.ToString() }
@@ -384,7 +395,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 { "${nacionalidad_arrendatario}", txtNacionalidadL.Text },
                 { "{numero_local}", cmbNumeroLocal.Text },
                 { "${duracion_numeros}", txtDuracionAlquilerL.Text },
-                { "${duracion_arrendamiento}", duracionEnPalabras },
+                { "${duracion_arrendamiento}", duracionEnPalabras.ToUpper()},
                 { "${dia_arrendamiento}", fechaSeleccionada.Day.ToString("00")},
                 { "${mes_arrendamiento}", fechaSeleccionada.ToString("MMMM").ToUpper()},
                 { "${anio_arrendamiento}", fechaSeleccionada.Year.ToString("0000")},
@@ -399,51 +410,64 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private Dictionary<string, string> ObtenerDatosSala()
         {
-            int numHoras = 0;
             decimal precioHora = 0;
-            int.TryParse(txtNumeroHorasS.Text, out numHoras);
             decimal.TryParse(txtPrecioHoraS.Text, out precioHora);
-            decimal precioTotal = numHoras * precioHora;
+
+            TimeSpan diferencia = dtpHoraFinalS.Value - dtpHoraInicioS.Value;
+            double totalHoras = diferencia.TotalHours > 0 ? diferencia.TotalHours : 0;
+            txtNumeroHorasS.Text = totalHoras.ToString("0.##");
+
+            decimal precioTotal = (decimal)totalHoras * precioHora;
 
             return new Dictionary<string, string>
             {
-                { "${seleccion}", cmbSeleccionSala.Text },
-                { "${nombre_arrendatario}", txtNombreArrendatarioS.Text },
+                { "${seleccion}", cmbSeleccionSala.Text.ToUpper() },
+                { "${nombre_arrendatario}", txtNombreArrendatarioS.Text.ToUpper() },
                 { "${numero_identidad}", txtIdentidadS.Text },
-                { "${numero_horas}", numHoras.ToString() },
-                { "${fecha_arrendamiento}", dtpFechaArrendamientoS.Value.ToString() },
-                { "${hora_inicio}", dtpHoraInicioS.Value.ToString()},
-                { "${hora_final}", dtpHoraFinalS.Value.ToString() },
-                { "${precio_hora}", precioHora.ToString() },
+                { "${numero_horas}", totalHoras.ToString("0.##") },
+                { "${fecha_arrendamiento}", dtpFechaArrendamientoS.Value.ToString("dd/MM/yyyy") },       
+                { "${hora_inicio}", dtpHoraInicioS.Value.ToString("hh:mm tt") },
+                { "${hora_final}", dtpHoraFinalS.Value.ToString("hh:mm tt") },
+                { "${precio_hora}", precioHora.ToString("N2") },
                 { "${cantidad_personas}", cmbCantidadPersonasS.Text },
-                { "${dia_creacion}", DateTime.Now.Day.ToString() },
+                { "${dia_creacion}", DateTime.Now.Day.ToString().ToUpper()},
                 { "${mes_creacion}", DateTime.Now.ToString("MMMM") },
-                { "${anio_creacion}", DateTime.Now.Year.ToString() }
-                //Hacer que "${precio_total}" sea la multiplicacion de preciohora y numerohoras
-                //Arreglar numero de personas, mostrar 200 Auditorio, 100 para Sala de Juntas
+                { "${anio_creacion}", DateTime.Now.Year.ToString() },
+                { "${precio_total}", precioTotal.ToString("N2") }
             };
         }
 
         private Dictionary<string, string> ObtenerDatosCasa()
         {
+            decimal tarifaNoche = 0;
+            decimal.TryParse(txtTarifaC.Text, out tarifaNoche);
+
+            decimal deposito = 0;
+            decimal.TryParse(txtDepositoC.Text, out deposito);
+
+            TimeSpan diferenciaDias = dtpFechaFinalC.Value.Date - dtpFechaInicialC.Value.Date;
+            int totalNoches = diferenciaDias.Days > 0 ? diferenciaDias.Days : 1;
+            txtDiasC.Text = totalNoches.ToString();
+
+            decimal totalTarifa = tarifaNoche * totalNoches;
+
             return new Dictionary<string, string>
-            {
-                { "${nombre_huesped}", txtNombreHuespedC.Text },
-                { "${identidad_huesped}", txtIdentidadHuespedC.Text },
-                { "${seleccion}", cmbSeleccionCasa.Text },
-                { "${fecha_inicial}", dtpFechaInicialC.Value.ToString() },
-                { "${fecha_final}", dtpFechaFinalC.Value.ToString() },
-                { "${hora_inicial}", dtpHoraInicialC.Value.ToString() },
-                { "${dias}", txtDiasC.Text },
-                { "${tarifa}", txtTarifaC.Text },
-                { "${total_personas}", txtTotalPersonasC.Text },
-                { "${dia_actual}", DateTime.Now.Day.ToString() },
-                { "${mes_actual}", DateTime.Now.ToString("MMMM") },
-                { "${anio_actual}", DateTime.Now.Year.ToString() }
-                //Agregar deposito, esta en el documento pero no lo puse en el formulario
-                //${total_tarifa} hacer que sea la multiplicacion de dias * tarifa
-                //arreglar fecha arrendamiento en documento?? Si se quita o se deja
-            };
+                {
+                    { "${nombre_huesped}", txtNombreHuespedC.Text.ToUpper() },
+                    { "${identidad_huesped}", txtIdentidadHuespedC.Text },
+                    { "${seleccion}", cmbSeleccionCasa.Text.ToUpper() },
+                    { "${fecha_inicial}", dtpFechaInicialC.Value.ToString("dd/MM/yyyy") },
+                    { "${fecha_final}", dtpFechaFinalC.Value.ToString("dd/MM/yyyy") },
+                    { "${hora_inicial}", dtpHoraInicialC.Value.ToString("hh:mm tt") },
+                    { "${tarifa}", tarifaNoche.ToString("N2") },
+                    { "${dias}", totalNoches.ToString() },
+                    { "${total_tarifa}", totalTarifa.ToString("N2") },
+                    { "${total_personas}", txtTotalPersonasC.Text },
+                    { "${deposito}", deposito.ToString("N2") },
+                    { "${dia_actual}", DateTime.Now.Day.ToString() },
+                    { "${mes_actual}", DateTime.Now.ToString("MMMM") },
+                    { "${anio_actual}", DateTime.Now.Year.ToString() }
+                };
         }
 
         private void dgvHistorial_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -469,6 +493,31 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 }
 
                 e.CellStyle.Font = new Font("Microsoft Sans Serif", 9, FontStyle.Bold);
+            }
+        }
+        private void ConvertirWordAPdf(string rutaOrigenDocx, string rutaDestinoPdf)
+        {
+            Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();
+            wordApp.Visible = false;
+            Microsoft.Office.Interop.Word.Document doc = null;
+
+            try
+            {
+                doc = wordApp.Documents.Open(rutaOrigenDocx);
+                doc.ExportAsFixedFormat(rutaDestinoPdf, Microsoft.Office.Interop.Word.WdExportFormat.wdExportFormatPDF, OpenAfterExport: true);
+            }
+            finally
+            {
+                if (doc != null)
+                {
+                    doc.Close(Microsoft.Office.Interop.Word.WdSaveOptions.wdDoNotSaveChanges);
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(doc);
+                }
+                if (wordApp != null)
+                {
+                    wordApp.Quit();
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(wordApp);
+                }
             }
         }
     }

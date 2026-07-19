@@ -15,7 +15,6 @@ namespace ProyectoInversion // Pon el nombre exacto de tu proyecto aquí
 
     public class GeneradorContratos
     {
-        [Obsolete]
         public void GenerarDocumento(TipoContrato tipo, Dictionary<string, string> valores, string rutaDestinoDocx)
         {
             string rutaBase = AppDomain.CurrentDomain.BaseDirectory + @"Plantillas\";
