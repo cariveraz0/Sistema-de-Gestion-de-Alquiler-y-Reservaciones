@@ -401,6 +401,9 @@
     <EmbeddedResource Include="MenuPrincipalForm.resx">
       <DependentUpon>MenuPrincipalForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PagosForm.resx">
+      <DependentUpon>PagosForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
