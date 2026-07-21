@@ -32,6 +32,10 @@
             this.btnHistorial = new System.Windows.Forms.Button();
             this.pnlCuerpo = new System.Windows.Forms.Panel();
             this.pnlNueva = new System.Windows.Forms.Panel();
+            this.lblOFecha = new System.Windows.Forms.Label();
+            this.lblOTipo = new System.Windows.Forms.Label();
+            this.lblOTecnico = new System.Windows.Forms.Label();
+            this.lblOPropiedad = new System.Windows.Forms.Label();
             this.dtpProgramada = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -59,9 +63,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.cboTecnicoActu = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.cboPropiedadActu = new System.Windows.Forms.ComboBox();
             this.txtDescripcionActu = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -72,10 +74,8 @@
             this.pnlActualizar = new System.Windows.Forms.Panel();
             this.btnActualizarSoli = new System.Windows.Forms.Button();
             this.btnLimpiarActu = new System.Windows.Forms.Button();
-            this.lblOPropiedad = new System.Windows.Forms.Label();
-            this.lblOTecnico = new System.Windows.Forms.Label();
-            this.lblOTipo = new System.Windows.Forms.Label();
-            this.lblOFecha = new System.Windows.Forms.Label();
+            this.txtPropiedadActu = new System.Windows.Forms.TextBox();
+            this.txtTecnicoActu = new System.Windows.Forms.TextBox();
             this.pnlCuerpo.SuspendLayout();
             this.pnlNueva.SuspendLayout();
             this.pnlHistorial.SuspendLayout();
@@ -119,9 +119,9 @@
             // pnlCuerpo
             // 
             this.pnlCuerpo.BackColor = System.Drawing.Color.White;
+            this.pnlCuerpo.Controls.Add(this.pnlEditar);
             this.pnlCuerpo.Controls.Add(this.pnlNueva);
             this.pnlCuerpo.Controls.Add(this.pnlHistorial);
-            this.pnlCuerpo.Controls.Add(this.pnlEditar);
             this.pnlCuerpo.Location = new System.Drawing.Point(51, 92);
             this.pnlCuerpo.Margin = new System.Windows.Forms.Padding(4);
             this.pnlCuerpo.Name = "pnlCuerpo";
@@ -151,6 +151,50 @@
             this.pnlNueva.Size = new System.Drawing.Size(1381, 591);
             this.pnlNueva.TabIndex = 0;
             // 
+            // lblOFecha
+            // 
+            this.lblOFecha.AutoSize = true;
+            this.lblOFecha.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblOFecha.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblOFecha.Location = new System.Drawing.Point(325, 433);
+            this.lblOFecha.Name = "lblOFecha";
+            this.lblOFecha.Size = new System.Drawing.Size(93, 22);
+            this.lblOFecha.TabIndex = 17;
+            this.lblOFecha.Text = "Obligatorio";
+            // 
+            // lblOTipo
+            // 
+            this.lblOTipo.AutoSize = true;
+            this.lblOTipo.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblOTipo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblOTipo.Location = new System.Drawing.Point(449, 262);
+            this.lblOTipo.Name = "lblOTipo";
+            this.lblOTipo.Size = new System.Drawing.Size(93, 22);
+            this.lblOTipo.TabIndex = 16;
+            this.lblOTipo.Text = "Obligatorio";
+            // 
+            // lblOTecnico
+            // 
+            this.lblOTecnico.AutoSize = true;
+            this.lblOTecnico.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblOTecnico.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblOTecnico.Location = new System.Drawing.Point(449, 185);
+            this.lblOTecnico.Name = "lblOTecnico";
+            this.lblOTecnico.Size = new System.Drawing.Size(93, 22);
+            this.lblOTecnico.TabIndex = 15;
+            this.lblOTecnico.Text = "Obligatorio";
+            // 
+            // lblOPropiedad
+            // 
+            this.lblOPropiedad.AutoSize = true;
+            this.lblOPropiedad.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblOPropiedad.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblOPropiedad.Location = new System.Drawing.Point(449, 107);
+            this.lblOPropiedad.Name = "lblOPropiedad";
+            this.lblOPropiedad.Size = new System.Drawing.Size(93, 22);
+            this.lblOPropiedad.TabIndex = 14;
+            this.lblOPropiedad.Text = "Obligatorio";
+            // 
             // dtpProgramada
             // 
             this.dtpProgramada.AccessibleName = "dtpProgramada";
@@ -159,6 +203,7 @@
             this.dtpProgramada.Name = "dtpProgramada";
             this.dtpProgramada.Size = new System.Drawing.Size(265, 22);
             this.dtpProgramada.TabIndex = 10;
+            this.dtpProgramada.ValueChanged += new System.EventHandler(this.dtpProgramada_ValueChanged);
             // 
             // label6
             // 
@@ -188,11 +233,14 @@
             // 
             this.cboTipo.AccessibleName = "cboTipo";
             this.cboTipo.FormattingEnabled = true;
+            this.cboTipo.Items.AddRange(new object[] {
+            "--Seleccionar--"});
             this.cboTipo.Location = new System.Drawing.Point(53, 265);
             this.cboTipo.Margin = new System.Windows.Forms.Padding(4);
             this.cboTipo.Name = "cboTipo";
             this.cboTipo.Size = new System.Drawing.Size(389, 24);
             this.cboTipo.TabIndex = 7;
+            this.cboTipo.SelectedIndexChanged += new System.EventHandler(this.cboTipo_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -210,11 +258,14 @@
             // 
             this.cboTecnico.AccessibleName = "cboTecnico";
             this.cboTecnico.FormattingEnabled = true;
+            this.cboTecnico.Items.AddRange(new object[] {
+            "--Seleccionar--"});
             this.cboTecnico.Location = new System.Drawing.Point(53, 185);
             this.cboTecnico.Margin = new System.Windows.Forms.Padding(4);
             this.cboTecnico.Name = "cboTecnico";
             this.cboTecnico.Size = new System.Drawing.Size(389, 24);
             this.cboTecnico.TabIndex = 5;
+            this.cboTecnico.SelectedIndexChanged += new System.EventHandler(this.cboTecnico_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -232,11 +283,14 @@
             // 
             this.cboPropiedad.AccessibleName = "cboPropiedad";
             this.cboPropiedad.FormattingEnabled = true;
+            this.cboPropiedad.Items.AddRange(new object[] {
+            "--Seleccionar--"});
             this.cboPropiedad.Location = new System.Drawing.Point(53, 107);
             this.cboPropiedad.Margin = new System.Windows.Forms.Padding(4);
             this.cboPropiedad.Name = "cboPropiedad";
             this.cboPropiedad.Size = new System.Drawing.Size(389, 24);
             this.cboPropiedad.TabIndex = 3;
+            this.cboPropiedad.SelectedIndexChanged += new System.EventHandler(this.cboPropiedad_SelectedIndexChanged);
             // 
             // txtDescripcion
             // 
@@ -351,6 +405,8 @@
             // 
             // pnlEditar
             // 
+            this.pnlEditar.Controls.Add(this.txtTecnicoActu);
+            this.pnlEditar.Controls.Add(this.txtPropiedadActu);
             this.pnlEditar.Controls.Add(this.cmbEstado);
             this.pnlEditar.Controls.Add(this.label15);
             this.pnlEditar.Controls.Add(this.txtCosto);
@@ -360,9 +416,7 @@
             this.pnlEditar.Controls.Add(this.label8);
             this.pnlEditar.Controls.Add(this.label9);
             this.pnlEditar.Controls.Add(this.label10);
-            this.pnlEditar.Controls.Add(this.cboTecnicoActu);
             this.pnlEditar.Controls.Add(this.label11);
-            this.pnlEditar.Controls.Add(this.cboPropiedadActu);
             this.pnlEditar.Controls.Add(this.txtDescripcionActu);
             this.pnlEditar.Controls.Add(this.label12);
             this.pnlEditar.Controls.Add(this.label13);
@@ -376,7 +430,7 @@
             // 
             this.cmbEstado.AccessibleName = "cmbEstado";
             this.cmbEstado.FormattingEnabled = true;
-            this.cmbEstado.Location = new System.Drawing.Point(53, 496);
+            this.cmbEstado.Location = new System.Drawing.Point(53, 534);
             this.cmbEstado.Margin = new System.Windows.Forms.Padding(4);
             this.cmbEstado.Name = "cmbEstado";
             this.cmbEstado.Size = new System.Drawing.Size(265, 24);
@@ -387,7 +441,7 @@
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.label15.Location = new System.Drawing.Point(49, 471);
+            this.label15.Location = new System.Drawing.Point(49, 509);
             this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(64, 22);
@@ -421,16 +475,19 @@
             // 
             this.cboSolicitud.AccessibleName = "cboSolicitud";
             this.cboSolicitud.FormattingEnabled = true;
+            this.cboSolicitud.Items.AddRange(new object[] {
+            "--Seleccionar--"});
             this.cboSolicitud.Location = new System.Drawing.Point(775, 30);
             this.cboSolicitud.Margin = new System.Windows.Forms.Padding(4);
             this.cboSolicitud.Name = "cboSolicitud";
             this.cboSolicitud.Size = new System.Drawing.Size(253, 24);
             this.cboSolicitud.TabIndex = 22;
+            this.cboSolicitud.SelectedIndexChanged += new System.EventHandler(this.cboSolicitud_SelectedIndexChanged);
             // 
             // dtpConclusion
             // 
             this.dtpConclusion.AccessibleName = "dtpConclusion";
-            this.dtpConclusion.Location = new System.Drawing.Point(53, 420);
+            this.dtpConclusion.Location = new System.Drawing.Point(53, 458);
             this.dtpConclusion.Margin = new System.Windows.Forms.Padding(4);
             this.dtpConclusion.Name = "dtpConclusion";
             this.dtpConclusion.Size = new System.Drawing.Size(265, 22);
@@ -441,7 +498,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.label8.Location = new System.Drawing.Point(49, 395);
+            this.label8.Location = new System.Drawing.Point(49, 433);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(144, 22);
@@ -472,16 +529,6 @@
             this.label10.TabIndex = 17;
             this.label10.Text = "Costo:";
             // 
-            // cboTecnicoActu
-            // 
-            this.cboTecnicoActu.AccessibleName = "cboTecnicoActu";
-            this.cboTecnicoActu.FormattingEnabled = true;
-            this.cboTecnicoActu.Location = new System.Drawing.Point(53, 185);
-            this.cboTecnicoActu.Margin = new System.Windows.Forms.Padding(4);
-            this.cboTecnicoActu.Name = "cboTecnicoActu";
-            this.cboTecnicoActu.Size = new System.Drawing.Size(389, 24);
-            this.cboTecnicoActu.TabIndex = 16;
-            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -494,16 +541,6 @@
             this.label11.TabIndex = 15;
             this.label11.Text = "Técnico Asignado:";
             // 
-            // cboPropiedadActu
-            // 
-            this.cboPropiedadActu.AccessibleName = "cboPropiedadActu";
-            this.cboPropiedadActu.FormattingEnabled = true;
-            this.cboPropiedadActu.Location = new System.Drawing.Point(53, 107);
-            this.cboPropiedadActu.Margin = new System.Windows.Forms.Padding(4);
-            this.cboPropiedadActu.Name = "cboPropiedadActu";
-            this.cboPropiedadActu.Size = new System.Drawing.Size(389, 24);
-            this.cboPropiedadActu.TabIndex = 14;
-            // 
             // txtDescripcionActu
             // 
             this.txtDescripcionActu.AccessibleName = "txtDescripcionActu";
@@ -511,8 +548,9 @@
             this.txtDescripcionActu.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.txtDescripcionActu.Location = new System.Drawing.Point(53, 341);
             this.txtDescripcionActu.Margin = new System.Windows.Forms.Padding(4);
+            this.txtDescripcionActu.Multiline = true;
             this.txtDescripcionActu.Name = "txtDescripcionActu";
-            this.txtDescripcionActu.Size = new System.Drawing.Size(769, 26);
+            this.txtDescripcionActu.Size = new System.Drawing.Size(769, 84);
             this.txtDescripcionActu.TabIndex = 13;
             // 
             // label12
@@ -565,6 +603,7 @@
             this.btnGuardar.TabIndex = 1;
             this.btnGuardar.Text = "Guardar Solicitud";
             this.btnGuardar.UseVisualStyleBackColor = false;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // btnLimpiar
             // 
@@ -638,50 +677,31 @@
             this.btnLimpiarActu.TabIndex = 2;
             this.btnLimpiarActu.Text = "Limpiar Formulario";
             this.btnLimpiarActu.UseVisualStyleBackColor = false;
+            this.btnLimpiarActu.Click += new System.EventHandler(this.btnLimpiarActu_Click);
             // 
-            // lblOPropiedad
+            // txtPropiedadActu
             // 
-            this.lblOPropiedad.AutoSize = true;
-            this.lblOPropiedad.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
-            this.lblOPropiedad.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblOPropiedad.Location = new System.Drawing.Point(449, 107);
-            this.lblOPropiedad.Name = "lblOPropiedad";
-            this.lblOPropiedad.Size = new System.Drawing.Size(93, 22);
-            this.lblOPropiedad.TabIndex = 14;
-            this.lblOPropiedad.Text = "Obligatorio";
+            this.txtPropiedadActu.AccessibleName = "txtPropiedadActu";
+            this.txtPropiedadActu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtPropiedadActu.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.txtPropiedadActu.Location = new System.Drawing.Point(53, 108);
+            this.txtPropiedadActu.Margin = new System.Windows.Forms.Padding(4);
+            this.txtPropiedadActu.Name = "txtPropiedadActu";
+            this.txtPropiedadActu.ReadOnly = true;
+            this.txtPropiedadActu.Size = new System.Drawing.Size(389, 26);
+            this.txtPropiedadActu.TabIndex = 27;
             // 
-            // lblOTecnico
+            // txtTecnicoActu
             // 
-            this.lblOTecnico.AutoSize = true;
-            this.lblOTecnico.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
-            this.lblOTecnico.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblOTecnico.Location = new System.Drawing.Point(449, 185);
-            this.lblOTecnico.Name = "lblOTecnico";
-            this.lblOTecnico.Size = new System.Drawing.Size(93, 22);
-            this.lblOTecnico.TabIndex = 15;
-            this.lblOTecnico.Text = "Obligatorio";
-            // 
-            // lblOTipo
-            // 
-            this.lblOTipo.AutoSize = true;
-            this.lblOTipo.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
-            this.lblOTipo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblOTipo.Location = new System.Drawing.Point(449, 262);
-            this.lblOTipo.Name = "lblOTipo";
-            this.lblOTipo.Size = new System.Drawing.Size(93, 22);
-            this.lblOTipo.TabIndex = 16;
-            this.lblOTipo.Text = "Obligatorio";
-            // 
-            // lblOFecha
-            // 
-            this.lblOFecha.AutoSize = true;
-            this.lblOFecha.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
-            this.lblOFecha.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblOFecha.Location = new System.Drawing.Point(325, 433);
-            this.lblOFecha.Name = "lblOFecha";
-            this.lblOFecha.Size = new System.Drawing.Size(93, 22);
-            this.lblOFecha.TabIndex = 17;
-            this.lblOFecha.Text = "Obligatorio";
+            this.txtTecnicoActu.AccessibleName = "txtTecnicoActu";
+            this.txtTecnicoActu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtTecnicoActu.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.txtTecnicoActu.Location = new System.Drawing.Point(53, 186);
+            this.txtTecnicoActu.Margin = new System.Windows.Forms.Padding(4);
+            this.txtTecnicoActu.Name = "txtTecnicoActu";
+            this.txtTecnicoActu.ReadOnly = true;
+            this.txtTecnicoActu.Size = new System.Drawing.Size(389, 26);
+            this.txtTecnicoActu.TabIndex = 28;
             // 
             // MantenimientoForm
             // 
@@ -689,8 +709,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1493, 798);
             this.Controls.Add(this.pnlActualizar);
-            this.Controls.Add(this.btnActualizar);
             this.Controls.Add(this.pnlAccion);
+            this.Controls.Add(this.btnActualizar);
             this.Controls.Add(this.pnlCuerpo);
             this.Controls.Add(this.btnHistorial);
             this.Controls.Add(this.btnSolicitud);
@@ -747,9 +767,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.ComboBox cboTecnicoActu;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.ComboBox cboPropiedadActu;
         private System.Windows.Forms.TextBox txtDescripcionActu;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
@@ -763,5 +781,7 @@
         private System.Windows.Forms.Label lblOTecnico;
         private System.Windows.Forms.Label lblOPropiedad;
         private System.Windows.Forms.Label lblOFecha;
+        private System.Windows.Forms.TextBox txtTecnicoActu;
+        private System.Windows.Forms.TextBox txtPropiedadActu;
     }
 }

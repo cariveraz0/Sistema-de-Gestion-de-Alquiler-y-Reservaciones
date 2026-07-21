@@ -83,7 +83,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(
+                    ex.Message,
+                    "Algos salió mal",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -145,7 +150,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 MessageBox.Show(
                     ex.Message,
-                    "Error",
+                    "Algos salió mal",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
@@ -188,7 +193,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 MessageBox.Show(
                     ex.Message,
-                    "Error",
+                    "Algos salió mal",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );

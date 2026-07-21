@@ -291,12 +291,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 return;
             }
 
-            // 4. Si la tecla es válida y no es de borrado, agregar guiones si corresponde
-            //if (!esControl)
-            //{
-            //    agregarGionesIdentidad();
-            //}
-
             if (txtIdentidad.Text.Length >= 16 && !esControl)
             {
                 e.SuppressKeyPress = true; 
