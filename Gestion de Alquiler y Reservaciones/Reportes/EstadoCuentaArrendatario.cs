@@ -39,6 +39,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             CargarSugerenciasArrendatarios();
 
             AgregarNotaMora();
+
+            cbxContrato.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         // Sobrecarga para abrir el reporte directamente con un contrato ya conocido

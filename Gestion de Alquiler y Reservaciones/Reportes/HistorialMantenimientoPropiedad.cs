@@ -39,6 +39,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             ConfigurarDataGridView(dgvMantenimiento);
             CargarComboPropiedades();
 
+            cboPropiedades.DropDownStyle = ComboBoxStyle.DropDownList;
         }
         public void ConfigurarDataGridView(DataGridView grid)
         {
@@ -491,6 +492,11 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
                 e.CellStyle.Font = new Font("Montserrat", 9, FontStyle.Bold);
             }
+        }
+
+        private void HistorialMantenimientoPropiedad_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

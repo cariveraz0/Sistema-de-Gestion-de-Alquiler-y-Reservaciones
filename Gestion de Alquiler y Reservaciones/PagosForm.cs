@@ -50,6 +50,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
             CargarGridCuotas();
             CargarDatosBD();
+            cmbMetodoPago.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbMetodoPagoR.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         public void ConfigurarDataGridView(DataGridView grid)
@@ -662,6 +664,11 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 MessageBox.Show("Error al filtrar los datos: " + ex.Message, "Error de Filtro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void PagosForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

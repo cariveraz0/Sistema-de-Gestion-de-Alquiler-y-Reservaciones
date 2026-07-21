@@ -84,12 +84,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            txtNombre.Clear();
-            txtIdentidad.Clear();
-            txtTelefono.Clear();
-            txtCorreo.Clear();
-            txtEmpresa.Clear();
-            txtRtn.Clear();
+            limpiarCampos();
         }
 
         private void CargarDatosBD()
@@ -162,6 +157,201 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             catch (Exception ex)
             {
                 MessageBox.Show("Error al filtrar los datos: " + ex.Message, "Error de Filtro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            if (txtNombre.Text == String.Empty || txtIdentidad.Text == String.Empty)
+            {
+                MessageBox.Show(
+                    "Los campos obligatorios no deben de estar vacíos",
+                    "Campos vacíos", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+            else
+            {
+                //Esto solo va a estar aqui hasta que esté la funcion de insertar el cliente
+                MessageBox.Show(
+                    "Cleinte agregado exitosamente",
+                    "Exito", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+                limpiarCampos();
+            }
+        }
+
+        private void ClientesForm_Load(object sender, EventArgs e)
+        {
+            btnGuardar.Enabled = false;
+        }
+
+        private void limpiarCampos()
+        {
+            txtNombre.Clear();
+            txtIdentidad.Clear();
+            txtTelefono.Clear();
+            txtCorreo.Clear();
+            txtEmpresa.Clear();
+            txtRtn.Clear();
+        }
+
+        private void txtNombre_TextChanged(object sender, EventArgs e)
+        {
+            if(txtNombre.Text.Length > 0)
+            {
+                if(txtNombre.Text.Length < 8)
+                {
+                    lblONombre.Visible = true;
+                    lblONombre.Text = "Debe ingresar un nombre valido";
+                    btnGuardar.Enabled = false;
+                }
+                else
+                {
+                    lblONombre.Visible = false;
+                }
+            }
+            else
+            {
+                lblONombre.Visible = true;
+                lblONombre.Text = "Obligatorio";
+                btnGuardar.Enabled = false;
+            }
+
+            if (lblONombre.Visible == false && lblOIdentidad.Visible == false)
+            {
+                btnGuardar.Enabled = true;
+            }
+        }
+
+        private void txtIdentidad_TextChanged(object sender, EventArgs e)
+        {
+            if (txtIdentidad.Text.Length > 0)
+            {
+                if (txtIdentidad.Text.Length < 15)
+                {
+                    lblOIdentidad.Visible = true;
+                    lblOIdentidad.Text = "Debe ingresar un numero de identidad valido";
+                    btnGuardar.Enabled = false;
+                }
+                else
+                {
+                    lblOIdentidad.Visible = false;
+                }
+            }
+            else
+            {
+                lblOIdentidad.Visible = true;
+                lblOIdentidad.Text = "Obligatorio";
+                btnGuardar.Enabled = false;
+            }
+
+            if(lblONombre.Visible == false && lblOIdentidad.Visible == false)
+            {
+                btnGuardar.Enabled = true;
+            }
+        }
+
+        private void agregarGionesIdentidad()
+        {
+            if (txtIdentidad.Text.Length == 4 || txtIdentidad.Text.Length == 9)
+            {
+                txtIdentidad.Text += "-";
+
+                // Mueve el cursor al final del texto
+                txtIdentidad.SelectionStart = txtIdentidad.Text.Length;
+            }
+        }
+        private void agregarGionTelefono()
+        {
+            if (txtTelefono.Text.Length == 4)
+            {
+                txtTelefono.Text += "-";
+
+                // Mueve el cursor al final del texto
+                txtTelefono.SelectionStart = txtTelefono.Text.Length;
+            }
+        }
+
+        private void txtIdentidad_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 1. Detectar si la tecla presionado es un número (teclado principal o numérico)
+            bool esNumero = (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9) ||
+                            (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9);
+
+            // 2. Permitir teclas de navegación y borrado
+            bool esControl = e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete ||
+                             e.KeyCode == Keys.Left || e.KeyCode == Keys.Right || e.KeyCode == Keys.Tab;
+
+            // 3. Bloquear si NO es número NI tecla de control
+            if (!esNumero && !esControl)
+            {
+                e.SuppressKeyPress = true; // Cancela la tecla no numérica
+                return;
+            }
+
+            // 4. Si la tecla es válida y no es de borrado, agregar guiones si corresponde
+            //if (!esControl)
+            //{
+            //    agregarGionesIdentidad();
+            //}
+
+            if (txtIdentidad.Text.Length >= 16 && !esControl)
+            {
+                e.SuppressKeyPress = true; 
+            }
+            else if (!esControl)
+            {
+                agregarGionesIdentidad();
+            }
+        }
+
+        private void txtTelefono_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 1. Detectar si es número
+            bool esNumero = (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9) ||
+                            (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9);
+
+            // 2. Teclas de navegación y borrado
+            bool esControl = e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete ||
+                             e.KeyCode == Keys.Left || e.KeyCode == Keys.Right || e.KeyCode == Keys.Tab;
+
+            // 3. Bloquear letras/símbolos
+            if (!esNumero && !esControl)
+            {
+                e.SuppressKeyPress = true;
+                return;
+            }
+
+            // 4. Limitar longitud máxima (9 caracteres contando el guion: XXXX-XXXX)
+            if (txtTelefono.Text.Length >= 9 && !esControl)
+            {
+                e.SuppressKeyPress = true; // No permite escribir más de 8 números + 1 guion
+            }
+            else if (!esControl)
+            {
+                agregarGionTelefono();
+            }
+        }
+
+        private void txtCorreo_TextChanged(object sender, EventArgs e)
+        {
+            if(txtCorreo.Text.Length > 0)
+            {
+                if(!txtCorreo.Text.Contains(".") || !txtCorreo.Text.Contains("@"))
+                {
+                    lblVCorreo.Visible = true;
+                    lblVCorreo.Text = "El correo debe estar en formato valido";
+                }
+                else
+                {
+                    lblVCorreo.Visible = false;
+                }
+            }
+            else
+            {
+                lblVCorreo.Visible = false;
             }
         }
     }

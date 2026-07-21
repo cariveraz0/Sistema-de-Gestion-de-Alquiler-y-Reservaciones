@@ -31,6 +31,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             ConfigurarDataGridView();
             CargarDatosDesdeBD();
             ActivarTabNuevo();
+
+            cmbSeleccionCasa.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbSeleccionSala.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbCantidadPersonasS.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbNumeroDepartamento.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbNumeroLocal.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         // ═══════════════════════════════════════════════════════════

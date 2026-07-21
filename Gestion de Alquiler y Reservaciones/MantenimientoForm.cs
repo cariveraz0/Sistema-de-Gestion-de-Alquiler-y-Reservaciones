@@ -25,6 +25,14 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             ConfigurarDataGridView(dgvHistorial);
             ActivarTabNuevo();
             CargarDatosBD();
+
+            cboPropiedad.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboPropiedadActu.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboSolicitud.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboTecnico.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboTecnicoActu.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboTipo.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbEstado.DropDownStyle = ComboBoxStyle.DropDownList;
         }
         public void ConfigurarDataGridView(DataGridView grid)
         {
@@ -202,6 +210,11 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
                 e.CellStyle.Font = new Font("Microsoft Sans Serif", 9, FontStyle.Bold);
             }
+        }
+
+        private void MantenimientoForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

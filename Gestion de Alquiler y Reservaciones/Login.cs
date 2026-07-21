@@ -87,11 +87,16 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
         }
 
+        /// <summary>
+        /// Verifica si el usuario o contraseña proporcionados existen en la DB y luego compara si
+        /// son exactamente iguales 
+        /// </summary>
         private void validarCredenciales()
         {
             try
             {
-                string queryPrueba = "select * from Credenciales where Usuario = @usuario and Contra = @contra;";
+                string usuarioDB, contraDB;
+                string queryPrueba = "select * from Credenciales where Usuario = @usuario or Contra = @contra;";
                 using (SqlConnection conectar = Conexion.ObtenerConexion())
                 {
                     conectar.Open();
@@ -101,16 +106,30 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     SqlDataReader readerQueryPrueba = cmdQueryPrueba.ExecuteReader();
                     if (readerQueryPrueba.Read())
                     {
-                        empleadoID = readerQueryPrueba["Empleado_ID"].ToString();
-                        nombreCompleto = obtenerDatosEmpleado(empleadoID);
-                        readerQueryPrueba.Close();
+                        //Consultamos en la DB las credenciales del usuario que coinciden con alguno de
+                        //los dos datos proporcionados
+                        usuarioDB = readerQueryPrueba["Usuario"].ToString();
+                        contraDB = readerQueryPrueba["Contra"].ToString();
 
-                        this.Hide();
+                        if(txtUsuario.Text == usuarioDB && txtContra.Text == contraDB)
+                        {
+                            empleadoID = readerQueryPrueba["Empleado_ID"].ToString();
+                            nombreCompleto = obtenerDatosEmpleado(empleadoID);
+                            readerQueryPrueba.Close();
 
-                        MenuPrincipalForm frm = new MenuPrincipalForm();
-                        frm.ShowDialog();
-
-                        this.Show();
+                            this.Hide();
+                            MenuPrincipalForm frm = new MenuPrincipalForm();
+                            frm.ShowDialog();
+                            this.Show();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Usuario o contraseña incorrecta. Intente de nuevo",
+                                "Credenciales invalidas",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error
+                            );
+                        }
                     }
                     else
                     {

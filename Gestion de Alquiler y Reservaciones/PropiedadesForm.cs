@@ -214,5 +214,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 MessageBox.Show("Error al cargar Reservaciones: " + ex.Message);
             }
         }
+
+        private void PropiedadesForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

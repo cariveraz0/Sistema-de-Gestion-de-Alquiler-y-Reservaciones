@@ -103,6 +103,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             // Rango por defecto: semana actual (lunes a hoy)
             dtpFin.Value = DateTime.Today;
             dtpInicio.Value = DateTime.Today.AddDays(-365);
+
+            cBxEstados.DropDownStyle = ComboBoxStyle.DropDownList;
+            cBxPropiedades.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void btnGenerar_Click(object sender, EventArgs e)

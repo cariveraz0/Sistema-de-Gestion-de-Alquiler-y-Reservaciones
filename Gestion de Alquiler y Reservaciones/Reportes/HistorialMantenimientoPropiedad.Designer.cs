@@ -45,39 +45,45 @@
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(245, 44);
-            this.label1.Size = new System.Drawing.Size(516, 30);
+            this.label1.Location = new System.Drawing.Point(327, 54);
+            this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label1.Size = new System.Drawing.Size(675, 39);
             this.label1.Text = "HISTORIAL DE MANTENIMIENTO POR PROPIEDAD";
             // 
             // lblPagina
             // 
-            this.lblPagina.Location = new System.Drawing.Point(840, 23);
+            this.lblPagina.Location = new System.Drawing.Point(1120, 28);
+            this.lblPagina.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Montserrat Medium", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(224, 34);
+            this.label3.Location = new System.Drawing.Point(299, 42);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(192, 18);
+            this.label3.Size = new System.Drawing.Size(236, 24);
             this.label3.TabIndex = 0;
             this.label3.Text = "Seleccione una Propiedad:";
             // 
             // cboPropiedades
             // 
             this.cboPropiedades.FormattingEnabled = true;
-            this.cboPropiedades.Location = new System.Drawing.Point(444, 33);
+            this.cboPropiedades.Location = new System.Drawing.Point(592, 41);
+            this.cboPropiedades.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cboPropiedades.Name = "cboPropiedades";
-            this.cboPropiedades.Size = new System.Drawing.Size(223, 21);
+            this.cboPropiedades.Size = new System.Drawing.Size(296, 24);
             this.cboPropiedades.TabIndex = 1;
             this.cboPropiedades.SelectedIndexChanged += new System.EventHandler(this.cboPropiedades_SelectedIndexChanged);
             // 
             // dgvMantenimiento
             // 
             this.dgvMantenimiento.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMantenimiento.Location = new System.Drawing.Point(20, 75);
+            this.dgvMantenimiento.Location = new System.Drawing.Point(27, 92);
+            this.dgvMantenimiento.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dgvMantenimiento.Name = "dgvMantenimiento";
-            this.dgvMantenimiento.Size = new System.Drawing.Size(943, 280);
+            this.dgvMantenimiento.RowHeadersWidth = 51;
+            this.dgvMantenimiento.Size = new System.Drawing.Size(1257, 345);
             this.dgvMantenimiento.TabIndex = 2;
             this.dgvMantenimiento.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvMantenimiento_CellFormatting);
             // 
@@ -87,9 +93,10 @@
             this.btnImprimir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnImprimir.Font = new System.Drawing.Font("Montserrat SemiBold", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnImprimir.ForeColor = System.Drawing.Color.White;
-            this.btnImprimir.Location = new System.Drawing.Point(444, 444);
+            this.btnImprimir.Location = new System.Drawing.Point(592, 546);
+            this.btnImprimir.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnImprimir.Name = "btnImprimir";
-            this.btnImprimir.Size = new System.Drawing.Size(160, 35);
+            this.btnImprimir.Size = new System.Drawing.Size(213, 43);
             this.btnImprimir.TabIndex = 3;
             this.btnImprimir.Text = "Imprimir";
             this.btnImprimir.UseVisualStyleBackColor = false;
@@ -97,12 +104,14 @@
             // 
             // HistorialMantenimientoPropiedad
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 661);
+            this.ClientSize = new System.Drawing.Size(1312, 814);
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.Name = "HistorialMantenimientoPropiedad";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Historial de Mantenimiento por Propiedad";
+            this.Load += new System.EventHandler(this.HistorialMantenimientoPropiedad_Load);
             this.pnlPrincipal.ResumeLayout(false);
             this.pnlPrincipal.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMantenimiento)).EndInit();

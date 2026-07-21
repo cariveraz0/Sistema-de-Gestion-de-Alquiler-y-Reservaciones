@@ -26,6 +26,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             ConfigurarDataGridView(dgvHistorial);
             CargarDatosBD();
 
+            cboPropiedad.DropDownStyle = ComboBoxStyle.DropDownList;
         }
         public void ConfigurarDataGridView(DataGridView grid)
         {
@@ -197,6 +198,11 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
                 e.CellStyle.Font = new Font("Microsoft Sans Serif", 9, FontStyle.Bold);
             }
+        }
+
+        private void ReservacionesForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
