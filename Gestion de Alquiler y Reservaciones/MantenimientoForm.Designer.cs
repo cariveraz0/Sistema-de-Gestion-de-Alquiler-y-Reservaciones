@@ -119,8 +119,8 @@
             // pnlCuerpo
             // 
             this.pnlCuerpo.BackColor = System.Drawing.Color.White;
-            this.pnlCuerpo.Controls.Add(this.pnlEditar);
             this.pnlCuerpo.Controls.Add(this.pnlNueva);
+            this.pnlCuerpo.Controls.Add(this.pnlEditar);
             this.pnlCuerpo.Controls.Add(this.pnlHistorial);
             this.pnlCuerpo.Location = new System.Drawing.Point(51, 92);
             this.pnlCuerpo.Margin = new System.Windows.Forms.Padding(4);
@@ -167,7 +167,7 @@
             this.lblOTipo.AutoSize = true;
             this.lblOTipo.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
             this.lblOTipo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblOTipo.Location = new System.Drawing.Point(449, 262);
+            this.lblOTipo.Location = new System.Drawing.Point(449, 265);
             this.lblOTipo.Name = "lblOTipo";
             this.lblOTipo.Size = new System.Drawing.Size(93, 22);
             this.lblOTipo.TabIndex = 16;
@@ -708,8 +708,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1493, 798);
-            this.Controls.Add(this.pnlActualizar);
             this.Controls.Add(this.pnlAccion);
+            this.Controls.Add(this.pnlActualizar);
             this.Controls.Add(this.btnActualizar);
             this.Controls.Add(this.pnlCuerpo);
             this.Controls.Add(this.btnHistorial);

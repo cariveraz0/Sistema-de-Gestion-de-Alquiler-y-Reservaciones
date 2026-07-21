@@ -205,7 +205,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 {
                     lblONombre.Visible = true;
                     lblONombre.Text = "Debe ingresar un nombre valido";
-                    btnGuardar.Enabled = false;
                 }
                 else
                 {
@@ -216,13 +215,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblONombre.Visible = true;
                 lblONombre.Text = "Obligatorio";
-                btnGuardar.Enabled = false;
             }
 
-            if (lblONombre.Visible == false && lblOIdentidad.Visible == false)
-            {
-                btnGuardar.Enabled = true;
-            }
+            revisarAntesDeGuardar();
         }
 
         private void txtIdentidad_TextChanged(object sender, EventArgs e)
@@ -233,7 +228,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 {
                     lblOIdentidad.Visible = true;
                     lblOIdentidad.Text = "Debe ingresar un numero de identidad valido";
-                    btnGuardar.Enabled = false;
                 }
                 else
                 {
@@ -244,13 +238,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblOIdentidad.Visible = true;
                 lblOIdentidad.Text = "Obligatorio";
-                btnGuardar.Enabled = false;
             }
 
-            if(lblONombre.Visible == false && lblOIdentidad.Visible == false)
-            {
-                btnGuardar.Enabled = true;
-            }
+            revisarAntesDeGuardar();
         }
 
         private void agregarGionesIdentidad()
@@ -329,6 +319,27 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
         }
 
+        private void txtTelefono_TextChanged(object sender, EventArgs e)
+        {
+            if (txtTelefono.Text.Length > 0)
+            {
+                if (!txtTelefono.Text.Contains("-") || txtTelefono.Text.Length < 9)
+                {
+                    lblVTelefono.Visible = true;
+                    lblVTelefono.Text = "El telefono debe estar en formato valido";
+                }
+                else
+                {
+                    lblVTelefono.Visible = false;
+                }
+            }
+            else
+            {
+                lblVTelefono.Visible = false;
+            }
+            revisarAntesDeGuardar();
+        }
+
         private void txtCorreo_TextChanged(object sender, EventArgs e)
         {
             if(txtCorreo.Text.Length > 0)
@@ -347,6 +358,24 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblVCorreo.Visible = false;
             }
+            revisarAntesDeGuardar();
         }
+
+        private void revisarAntesDeGuardar()
+        {
+            if (lblONombre.Visible == true ||
+                lblOIdentidad.Visible == true ||
+                lblVCorreo.Visible == true ||
+                lblVTelefono.Visible == true)
+            {
+                btnGuardar.Enabled = false;
+            }
+            else
+            {
+                btnGuardar.Enabled = true;
+            }
+        }
+
+        
     }
 }

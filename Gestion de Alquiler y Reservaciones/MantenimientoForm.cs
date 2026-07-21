@@ -307,90 +307,60 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
         }
 
-        private void btnGuardar_Click(object sender, EventArgs e)
+        private void btnGuardar_Click(object sender, EventArgs e) 
         {
-            if (cboPropiedad.SelectedIndex == 0 || 
-                cboTecnico.SelectedIndex == 0 || 
-                cboTipo.SelectedIndex == 0)
-            {
-                MessageBox.Show(
-                    "Los campos obligatorios no deben de estar vacíos",
-                    "Campos vacíos", MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
-            }
+            //if (cboPropiedad.SelectedIndex == 0 || 
+            //    cboTecnico.SelectedIndex == 0 || 
+            //    cboTipo.SelectedIndex == 0)
+            //{
+            //    MessageBox.Show(
+            //        "Los campos obligatorios no deben de estar vacíos",
+            //        "Campos vacíos", MessageBoxButtons.OK,
+            //        MessageBoxIcon.Error
+            //    );
+            //}
         }
 
         private void cboPropiedad_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboPropiedad.SelectedIndex > 0)
-            {
-                lblOPropiedad.Visible = false;
-            }
-            else
+            if (cboPropiedad.SelectedIndex == 0)
             {
                 lblOPropiedad.Visible = true;
             }
-
-            if (lblOPropiedad.Visible == false && 
-                lblOTecnico.Visible == false && 
-                lblOTipo.Visible == false &&
-                lblOFecha.Visible == false)
-            {
-                btnGuardar.Enabled = true;
-            }
             else
             {
-                btnGuardar.Enabled = false;
+                lblOPropiedad.Visible = false;
             }
+
+            validarCamposParaGuardar();
         }
 
         private void cboTecnico_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboTecnico.SelectedIndex > 0)
-            {
-                lblOTecnico.Visible = false;
-            }
-            else
+            if (cboTecnico.SelectedIndex == 0)
             {
                 lblOTecnico.Visible = true;
             }
-
-            if (lblOPropiedad.Visible == false &&
-                lblOTecnico.Visible == false &&
-                lblOTipo.Visible == false &&
-                lblOFecha.Visible == false)
-            {
-                btnGuardar.Enabled = true;
-            }
             else
             {
-                btnGuardar.Enabled = false;
+                lblOTecnico.Visible = false;
             }
+
+            validarCamposParaGuardar();
         }
 
         private void cboTipo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboTecnico.SelectedIndex > 0)
-            {
-                lblOTipo.Visible = false;
-            }
-            else
+            if (cboTipo.SelectedIndex == 0)
             {
                 lblOTipo.Visible = true;
             }
-
-            if (lblOPropiedad.Visible == false &&
-                lblOTecnico.Visible == false &&
-                lblOTipo.Visible == false &&
-                lblOFecha.Visible == false)
-            {
-                btnGuardar.Enabled = true;
-            }
             else
             {
-                btnGuardar.Enabled = false;
+                lblOTipo.Visible = false;
             }
+
+            validarCamposParaGuardar();
         }
 
         private void dtpProgramada_ValueChanged(object sender, EventArgs e)
@@ -405,17 +375,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 lblOFecha.Visible = false;
             }
 
-            if (lblOPropiedad.Visible == false &&
-                lblOTecnico.Visible == false &&
-                lblOTipo.Visible == false &&
-                lblOFecha.Visible == false)
-            {
-                btnGuardar.Enabled = true;
-            }
-            else
-            {
-                btnGuardar.Enabled = false;
-            }
+            validarCamposParaGuardar();
         }
 
         private void llenarcboSolicitud()
@@ -555,6 +515,21 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private void btnLimpiarActu_Click(object sender, EventArgs e)
         {
             limpiarcampos();
+        }
+
+        private void validarCamposParaGuardar()
+        {
+            if (lblOPropiedad.Visible == true ||
+                lblOTecnico.Visible == true ||
+                lblOTipo.Visible == true ||
+                lblOFecha.Visible == true)
+            {
+                btnGuardar.Enabled = false;
+            }
+            else
+            {
+                btnGuardar.Enabled = true;
+            }
         }
     }
 }

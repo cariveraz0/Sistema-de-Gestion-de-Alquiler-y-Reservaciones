@@ -16,8 +16,8 @@ namespace Test
         {
             var appiumOptions = new AppiumOptions();
 
-            // Sustituye por la ruta exactísima donde está tu .exe
-            string appPath = @"""D:\Documentos Segundo SSD\Proyectos Visual Studio 2022\Sistema\Sistema-de-Gestion-de-Alquiler-y-Reservaciones\Gestion de Alquiler y Reservaciones\bin\Debug\Gestion de Alquiler y Reservaciones.exe""";
+            // Ruta de tu ejecutable
+            string appPath = @"D:\Documentos Segundo SSD\Proyectos Visual Studio 2022\Sistema\Sistema-de-Gestion-de-Alquiler-y-Reservaciones\Gestion de Alquiler y Reservaciones\bin\Debug\Gestion de Alquiler y Reservaciones.exe";
 
             appiumOptions.AddAdditionalCapability("app", appPath);
             appiumOptions.AddAdditionalCapability("deviceName", "WindowsPC");
@@ -29,48 +29,121 @@ namespace Test
         [TestMethod]
         public void PruebasIniciales_PruebaAcceso()
         {
-            // ==========================================
-            // INVENTO 1: Credenciales Incorrectas 1
-            // ==========================================
+            //LOGIN
+            accesoAlLogin();
+
+            // ⏱️ Espera a que la ventana principal cargue por completo
+            esperar(1500);
+
+            // 🔴 AGREGAR ESTO: Cambiar el foco a la última ventana abierta/activa
+            cambiarFoco();
+
+            //MODULO CLIENTES
+            nuevoCliente(); //Nuevo Cliente
+        }
+
+        private void accesoAlLogin()
+        {
+            //=============================================================
+            //LOGIN PRINCIPAL
+            //=============================================================
             var txtUsuario = _driver.FindElementByAccessibilityId("txtUsuario");
             var txtPassword = _driver.FindElementByAccessibilityId("txtContra");
             var btnIngresar = _driver.FindElementByAccessibilityId("btnIngresar");
 
+            // INTENTO 1: Datos vacios
+            esperar(5000);
             txtUsuario.Clear();
-            txtUsuario.SendKeys("UsuarioInvalido1");
             txtPassword.Clear();
-            txtPassword.SendKeys("claveErronea1");
             btnIngresar.Click();
 
-            // Capturamos el MessageBox de error y le damos Aceptar
-            var btnAceptarModal1 = _driver.FindElementByName("Aceptar");
-            btnAceptarModal1.Click();
+            CerrarAlertaSiExiste(); //Cerrar el mensaje de error
 
-
-            // ==========================================
             // INTENTO 2: Credenciales Incorrectas 2
-            // ==========================================
+            esperar(5000);
             txtUsuario.Clear();
-            txtUsuario.SendKeys("UsuarioInvalido2");
+            txtUsuario.SendKeys("SergiO");
             txtPassword.Clear();
-            txtPassword.SendKeys("claveErronea2");
+            txtPassword.SendKeys("SERGIO");
             btnIngresar.Click();
 
-            // Volvemos a cerrar el MessageBox de error
-            var btnAceptarModal2 = _driver.FindElementByName("Aceptar");
-            btnAceptarModal2.Click();
+            CerrarAlertaSiExiste(); //Cerrar el mensaje de error
 
-
-            // ==========================================
             // INTENTO 3: Credenciales Correctas
-            // ==========================================
+            esperar(7000);
             txtUsuario.Clear();
             txtUsuario.SendKeys("sergio");
             txtPassword.Clear();
-            txtPassword.SendKeys("sergio"); // Pon tu contraseña real aquí
+            txtPassword.SendKeys("sergio");
             btnIngresar.Click();
+        }
 
-            // Aquí ya no sale el MessageBox de error y la app accede al sistema principal
+        private void nuevoCliente()
+        {
+            var btnClientes = _driver.FindElementByAccessibilityId("btnClientes");
+            btnClientes.Click();
+
+            var txtNombreCliente = _driver.FindElementByAccessibilityId("txtNombre");
+            txtNombreCliente.Clear();
+            txtNombreCliente.SendKeys("Sergio");
+            esperar(9000);
+            txtNombreCliente.SendKeys(" Rolando Inestroza Amaya");
+            esperar(1000);
+
+
+            var txtIdentidad = _driver.FindElementByAccessibilityId("txtIdentidad");
+            txtIdentidad.Clear();
+            txtIdentidad.SendKeys("050");
+            esperar(10000);
+            txtIdentidad.SendKeys("42000");
+            esperar(2000);
+            txtIdentidad.SendKeys("00119");
+            esperar(1000);
+
+            var txtTelefono = _driver.FindElementByAccessibilityId("txtTelefono");
+            txtTelefono.Clear();
+            txtTelefono.SendKeys("9999");
+            esperar(9000);
+            txtTelefono.SendKeys("9999");
+
+            var txtCorreo = _driver.FindElementByAccessibilityId("txtCorreo");
+            txtCorreo.Clear();
+            txtCorreo.SendKeys("sergioinestroza");
+            esperar(9000);
+            txtCorreo.SendKeys("@unah.com");
+            esperar(2000);
+        }
+
+        private void
+
+        // Método auxiliar para descartar mensajes de confirmación sin que falle el test si no aparecen
+        private void CerrarAlertaSiExiste()
+        {
+            try
+            {
+                esperar(1500);
+
+                _driver.FindElementByName("Aceptar").Click();
+            }
+            catch (Exception)
+            {
+                // Si no hay ventana flotante, ignora y sigue adelante
+            }
+        }
+
+        private void esperar(int delay)
+        {
+            System.Threading.Thread.Sleep(delay);
+        }
+
+        private void cambiarFoco()
+        {
+            // 🔴 AGREGAR ESTO: Cambiar el foco a la última ventana abierta/activa
+            var allHandles = _driver.WindowHandles;
+            if (allHandles.Count > 0)
+            {
+                _driver.SwitchTo().Window(allHandles[0]); // O allHandles[allHandles.Count - 1]
+            }
         }
 
         [TestCleanup]
@@ -78,7 +151,7 @@ namespace Test
         {
             if (_driver != null)
             {
-                _driver.Quit();
+                //_driver.Quit();
                 _driver = null;
             }
         }

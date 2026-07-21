@@ -32,6 +32,11 @@
             this.btnClienteHistorial = new System.Windows.Forms.Button();
             this.pnlCuerpo = new System.Windows.Forms.Panel();
             this.pnlCliente = new System.Windows.Forms.Panel();
+            this.lblVCorreo = new System.Windows.Forms.Label();
+            this.txtIdentidad = new System.Windows.Forms.TextBox();
+            this.txtTelefono = new System.Windows.Forms.TextBox();
+            this.lblOIdentidad = new System.Windows.Forms.Label();
+            this.lblONombre = new System.Windows.Forms.Label();
             this.txtRtn = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtEmpresa = new System.Windows.Forms.TextBox();
@@ -52,11 +57,7 @@
             this.pnlAccion = new System.Windows.Forms.Panel();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
-            this.lblONombre = new System.Windows.Forms.Label();
-            this.lblOIdentidad = new System.Windows.Forms.Label();
-            this.txtTelefono = new System.Windows.Forms.TextBox();
-            this.txtIdentidad = new System.Windows.Forms.TextBox();
-            this.lblVCorreo = new System.Windows.Forms.Label();
+            this.lblVTelefono = new System.Windows.Forms.Label();
             this.pnlCuerpo.SuspendLayout();
             this.pnlCliente.SuspendLayout();
             this.pnlHistorial.SuspendLayout();
@@ -108,6 +109,7 @@
             // pnlCliente
             // 
             this.pnlCliente.BackColor = System.Drawing.Color.White;
+            this.pnlCliente.Controls.Add(this.lblVTelefono);
             this.pnlCliente.Controls.Add(this.lblVCorreo);
             this.pnlCliente.Controls.Add(this.txtIdentidad);
             this.pnlCliente.Controls.Add(this.txtTelefono);
@@ -129,6 +131,66 @@
             this.pnlCliente.Name = "pnlCliente";
             this.pnlCliente.Size = new System.Drawing.Size(1381, 598);
             this.pnlCliente.TabIndex = 0;
+            // 
+            // lblVCorreo
+            // 
+            this.lblVCorreo.AutoSize = true;
+            this.lblVCorreo.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVCorreo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVCorreo.Location = new System.Drawing.Point(419, 338);
+            this.lblVCorreo.Name = "lblVCorreo";
+            this.lblVCorreo.Size = new System.Drawing.Size(48, 22);
+            this.lblVCorreo.TabIndex = 19;
+            this.lblVCorreo.Text = "texto";
+            this.lblVCorreo.Visible = false;
+            // 
+            // txtIdentidad
+            // 
+            this.txtIdentidad.AccessibleName = "txtIdentidad";
+            this.txtIdentidad.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtIdentidad.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtIdentidad.Location = new System.Drawing.Point(53, 181);
+            this.txtIdentidad.Margin = new System.Windows.Forms.Padding(4);
+            this.txtIdentidad.Name = "txtIdentidad";
+            this.txtIdentidad.Size = new System.Drawing.Size(286, 27);
+            this.txtIdentidad.TabIndex = 18;
+            this.txtIdentidad.TextChanged += new System.EventHandler(this.txtIdentidad_TextChanged);
+            this.txtIdentidad.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtIdentidad_KeyDown);
+            // 
+            // txtTelefono
+            // 
+            this.txtTelefono.AccessibleName = "txtTelefono";
+            this.txtTelefono.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtTelefono.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTelefono.Location = new System.Drawing.Point(53, 261);
+            this.txtTelefono.Margin = new System.Windows.Forms.Padding(4);
+            this.txtTelefono.Name = "txtTelefono";
+            this.txtTelefono.Size = new System.Drawing.Size(286, 27);
+            this.txtTelefono.TabIndex = 17;
+            this.txtTelefono.TextChanged += new System.EventHandler(this.txtTelefono_TextChanged);
+            this.txtTelefono.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtTelefono_KeyDown);
+            // 
+            // lblOIdentidad
+            // 
+            this.lblOIdentidad.AutoSize = true;
+            this.lblOIdentidad.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblOIdentidad.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblOIdentidad.Location = new System.Drawing.Point(346, 178);
+            this.lblOIdentidad.Name = "lblOIdentidad";
+            this.lblOIdentidad.Size = new System.Drawing.Size(93, 22);
+            this.lblOIdentidad.TabIndex = 14;
+            this.lblOIdentidad.Text = "Obligatorio";
+            // 
+            // lblONombre
+            // 
+            this.lblONombre.AutoSize = true;
+            this.lblONombre.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblONombre.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblONombre.Location = new System.Drawing.Point(476, 98);
+            this.lblONombre.Name = "lblONombre";
+            this.lblONombre.Size = new System.Drawing.Size(93, 22);
+            this.lblONombre.TabIndex = 13;
+            this.lblONombre.Text = "Obligatorio";
             // 
             // txtRtn
             // 
@@ -381,64 +443,17 @@
             this.btnLimpiar.UseVisualStyleBackColor = false;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
-            // lblONombre
+            // lblVTelefono
             // 
-            this.lblONombre.AutoSize = true;
-            this.lblONombre.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
-            this.lblONombre.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblONombre.Location = new System.Drawing.Point(476, 98);
-            this.lblONombre.Name = "lblONombre";
-            this.lblONombre.Size = new System.Drawing.Size(93, 22);
-            this.lblONombre.TabIndex = 13;
-            this.lblONombre.Text = "Obligatorio";
-            // 
-            // lblOIdentidad
-            // 
-            this.lblOIdentidad.AutoSize = true;
-            this.lblOIdentidad.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
-            this.lblOIdentidad.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblOIdentidad.Location = new System.Drawing.Point(346, 178);
-            this.lblOIdentidad.Name = "lblOIdentidad";
-            this.lblOIdentidad.Size = new System.Drawing.Size(93, 22);
-            this.lblOIdentidad.TabIndex = 14;
-            this.lblOIdentidad.Text = "Obligatorio";
-            // 
-            // txtTelefono
-            // 
-            this.txtTelefono.AccessibleName = "txtTelefono";
-            this.txtTelefono.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtTelefono.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTelefono.Location = new System.Drawing.Point(53, 261);
-            this.txtTelefono.Margin = new System.Windows.Forms.Padding(4);
-            this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(286, 27);
-            this.txtTelefono.TabIndex = 17;
-            this.txtTelefono.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtTelefono_KeyDown);
-            // 
-            // txtIdentidad
-            // 
-            this.txtIdentidad.AccessibleName = "txtIdentidad";
-            this.txtIdentidad.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtIdentidad.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtIdentidad.Location = new System.Drawing.Point(53, 181);
-            this.txtIdentidad.Margin = new System.Windows.Forms.Padding(4);
-            this.txtIdentidad.Name = "txtIdentidad";
-            this.txtIdentidad.Size = new System.Drawing.Size(286, 27);
-            this.txtIdentidad.TabIndex = 18;
-            this.txtIdentidad.TextChanged += new System.EventHandler(this.txtIdentidad_TextChanged);
-            this.txtIdentidad.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtIdentidad_KeyDown);
-            // 
-            // lblVCorreo
-            // 
-            this.lblVCorreo.AutoSize = true;
-            this.lblVCorreo.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
-            this.lblVCorreo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblVCorreo.Location = new System.Drawing.Point(419, 338);
-            this.lblVCorreo.Name = "lblVCorreo";
-            this.lblVCorreo.Size = new System.Drawing.Size(48, 22);
-            this.lblVCorreo.TabIndex = 19;
-            this.lblVCorreo.Text = "texto";
-            this.lblVCorreo.Visible = false;
+            this.lblVTelefono.AutoSize = true;
+            this.lblVTelefono.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVTelefono.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVTelefono.Location = new System.Drawing.Point(351, 261);
+            this.lblVTelefono.Name = "lblVTelefono";
+            this.lblVTelefono.Size = new System.Drawing.Size(48, 22);
+            this.lblVTelefono.TabIndex = 20;
+            this.lblVTelefono.Text = "texto";
+            this.lblVTelefono.Visible = false;
             // 
             // ClientesForm
             // 
@@ -496,5 +511,6 @@
         private System.Windows.Forms.TextBox txtIdentidad;
         private System.Windows.Forms.TextBox txtTelefono;
         private System.Windows.Forms.Label lblVCorreo;
+        private System.Windows.Forms.Label lblVTelefono;
     }
 }
