@@ -309,16 +309,24 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void btnGuardar_Click(object sender, EventArgs e) 
         {
-            //if (cboPropiedad.SelectedIndex == 0 || 
-            //    cboTecnico.SelectedIndex == 0 || 
-            //    cboTipo.SelectedIndex == 0)
-            //{
-            //    MessageBox.Show(
-            //        "Los campos obligatorios no deben de estar vacíos",
-            //        "Campos vacíos", MessageBoxButtons.OK,
-            //        MessageBoxIcon.Error
-            //    );
-            //}
+            if (cboPropiedad.SelectedIndex == 0 ||
+                cboTecnico.SelectedIndex == 0 ||
+                cboTipo.SelectedIndex == 0)
+            {
+                MessageBox.Show(
+                    "Los campos obligatorios no deben de estar vacíos",
+                    "Campos vacíos", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Solicitud creada con éxito",
+                    "Éxito", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            }
         }
 
         private void cboPropiedad_SelectedIndexChanged(object sender, EventArgs e)
@@ -390,7 +398,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     SqlDataReader readerLlenarcboSolicitud = cmdLlenarcboSolicitud.ExecuteReader();
                     while (readerLlenarcboSolicitud.Read())
                     {
-                        cboSolicitud.Items.Add(readerLlenarcboSolicitud["IdMantenimiento"].ToString());
+                        cboSolicitud.Items.Add(readerLlenarcboSolicitud["NumeroOrden"].ToString());
                     }
                 }
                 cboSolicitud.SelectedItem = 0;
@@ -443,18 +451,18 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     "INNER JOIN Propiedades as P on M.IdPropiedad = P.IdPropiedad " +
                     "INNER JOIN Empleado as Emp on M.IdTecnicoAsignado = Emp.IdEmpleado " +
                     "INNER JOIN EstadosMantenimiento as Est on M.IdEstadoMantenimiento = Est.IdEstadoMantenimiento " +
-                    "where M.IdMantenimiento = @id";
+                    "where M.NumeroOrden = @orden";
                 using (SqlConnection conectar = Conexion.ObtenerConexion())
                 {
                     conectar.Open();
                     SqlCommand cmdbuscarDatosEnDB = new SqlCommand(querybuscarDatosEnDB, conectar);
-                    cmdbuscarDatosEnDB.Parameters.AddWithValue("@id", cboSolicitud.SelectedItem);
+                    cmdbuscarDatosEnDB.Parameters.AddWithValue("@orden", cboSolicitud.SelectedItem);
                     SqlDataReader readerbuscarDatosEnDB = cmdbuscarDatosEnDB.ExecuteReader();
                     while (readerbuscarDatosEnDB.Read())
                     {
                         txtPropiedadActu.Text = readerbuscarDatosEnDB["Codigo"].ToString();
                         txtTecnicoActu.Text = readerbuscarDatosEnDB["NombreCompleto"].ToString();
-                        txtCosto.Text = readerbuscarDatosEnDB["Costo"].ToString();
+                        txtCosto.Text = readerbuscarDatosEnDB["Costo"].ToString() == string.Empty ? "0" : readerbuscarDatosEnDB["Costo"].ToString();
                         txtDescripcionActu.Text = readerbuscarDatosEnDB["Descripcion"].ToString();
                         dtpConclusion.Value = DateTime.Parse(readerbuscarDatosEnDB["FechaConclusion"].ToString());
                         string estado = readerbuscarDatosEnDB["Nombre"].ToString();
@@ -529,6 +537,38 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             else
             {
                 btnGuardar.Enabled = true;
+            }
+        }
+
+        private void txtCosto_TextChanged(object sender, EventArgs e)
+        {
+            if(txtCosto.Text == string.Empty)
+            {
+                txtCosto.Text = "0";
+                txtCosto.SelectionStart = txtCosto.Text.Length;
+            }
+            else
+            {
+                if (decimal.Parse(txtCosto.Text) <= 0)
+                {
+                    lblVCosto.Text = "El valor debe ser un número mayor que 0.";
+                    lblVCosto.Visible = true;
+                    btnActualizar.Enabled = true;
+                }
+                else
+                {
+                    lblVCosto.Visible = false;
+                    btnActualizar.Enabled = false;
+                }
+            }
+        }
+
+        private void txtCosto_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la tecla presionada (no la escribe)
             }
         }
     }

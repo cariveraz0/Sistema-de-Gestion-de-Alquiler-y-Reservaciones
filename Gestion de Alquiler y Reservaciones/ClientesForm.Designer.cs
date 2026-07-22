@@ -32,6 +32,7 @@
             this.btnClienteHistorial = new System.Windows.Forms.Button();
             this.pnlCuerpo = new System.Windows.Forms.Panel();
             this.pnlCliente = new System.Windows.Forms.Panel();
+            this.lblVTelefono = new System.Windows.Forms.Label();
             this.lblVCorreo = new System.Windows.Forms.Label();
             this.txtIdentidad = new System.Windows.Forms.TextBox();
             this.txtTelefono = new System.Windows.Forms.TextBox();
@@ -57,7 +58,6 @@
             this.pnlAccion = new System.Windows.Forms.Panel();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
-            this.lblVTelefono = new System.Windows.Forms.Label();
             this.pnlCuerpo.SuspendLayout();
             this.pnlCliente.SuspendLayout();
             this.pnlHistorial.SuspendLayout();
@@ -132,6 +132,18 @@
             this.pnlCliente.Size = new System.Drawing.Size(1381, 598);
             this.pnlCliente.TabIndex = 0;
             // 
+            // lblVTelefono
+            // 
+            this.lblVTelefono.AutoSize = true;
+            this.lblVTelefono.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVTelefono.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVTelefono.Location = new System.Drawing.Point(351, 261);
+            this.lblVTelefono.Name = "lblVTelefono";
+            this.lblVTelefono.Size = new System.Drawing.Size(48, 22);
+            this.lblVTelefono.TabIndex = 20;
+            this.lblVTelefono.Text = "texto";
+            this.lblVTelefono.Visible = false;
+            // 
             // lblVCorreo
             // 
             this.lblVCorreo.AutoSize = true;
@@ -153,7 +165,7 @@
             this.txtIdentidad.Margin = new System.Windows.Forms.Padding(4);
             this.txtIdentidad.Name = "txtIdentidad";
             this.txtIdentidad.Size = new System.Drawing.Size(286, 27);
-            this.txtIdentidad.TabIndex = 18;
+            this.txtIdentidad.TabIndex = 3;
             this.txtIdentidad.TextChanged += new System.EventHandler(this.txtIdentidad_TextChanged);
             this.txtIdentidad.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtIdentidad_KeyDown);
             // 
@@ -166,7 +178,7 @@
             this.txtTelefono.Margin = new System.Windows.Forms.Padding(4);
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.Size = new System.Drawing.Size(286, 27);
-            this.txtTelefono.TabIndex = 17;
+            this.txtTelefono.TabIndex = 4;
             this.txtTelefono.TextChanged += new System.EventHandler(this.txtTelefono_TextChanged);
             this.txtTelefono.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtTelefono_KeyDown);
             // 
@@ -201,7 +213,7 @@
             this.txtRtn.Margin = new System.Windows.Forms.Padding(4);
             this.txtRtn.Name = "txtRtn";
             this.txtRtn.Size = new System.Drawing.Size(287, 27);
-            this.txtRtn.TabIndex = 12;
+            this.txtRtn.TabIndex = 7;
             // 
             // label7
             // 
@@ -224,7 +236,7 @@
             this.txtEmpresa.Margin = new System.Windows.Forms.Padding(4);
             this.txtEmpresa.Name = "txtEmpresa";
             this.txtEmpresa.Size = new System.Drawing.Size(347, 27);
-            this.txtEmpresa.TabIndex = 10;
+            this.txtEmpresa.TabIndex = 6;
             // 
             // label6
             // 
@@ -247,7 +259,7 @@
             this.txtCorreo.Margin = new System.Windows.Forms.Padding(4);
             this.txtCorreo.Name = "txtCorreo";
             this.txtCorreo.Size = new System.Drawing.Size(347, 27);
-            this.txtCorreo.TabIndex = 8;
+            this.txtCorreo.TabIndex = 5;
             this.txtCorreo.TextChanged += new System.EventHandler(this.txtCorreo_TextChanged);
             // 
             // label5
@@ -421,7 +433,7 @@
             this.btnGuardar.Margin = new System.Windows.Forms.Padding(4);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(267, 37);
-            this.btnGuardar.TabIndex = 1;
+            this.btnGuardar.TabIndex = 8;
             this.btnGuardar.Text = "Guardar Cliente";
             this.btnGuardar.UseVisualStyleBackColor = false;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
@@ -438,22 +450,10 @@
             this.btnLimpiar.Margin = new System.Windows.Forms.Padding(4);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(267, 37);
-            this.btnLimpiar.TabIndex = 0;
+            this.btnLimpiar.TabIndex = 9;
             this.btnLimpiar.Text = "Limpiar Formulario";
             this.btnLimpiar.UseVisualStyleBackColor = false;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
-            // 
-            // lblVTelefono
-            // 
-            this.lblVTelefono.AutoSize = true;
-            this.lblVTelefono.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
-            this.lblVTelefono.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblVTelefono.Location = new System.Drawing.Point(351, 261);
-            this.lblVTelefono.Name = "lblVTelefono";
-            this.lblVTelefono.Size = new System.Drawing.Size(48, 22);
-            this.lblVTelefono.TabIndex = 20;
-            this.lblVTelefono.Text = "texto";
-            this.lblVTelefono.Visible = false;
             // 
             // ClientesForm
             // 

@@ -130,7 +130,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                         else
                         {
                             MessageBox.Show("Usuario o contraseña incorrecta. Intente de nuevo",
-                                "Credenciales invalidas",
+                                "Credenciales inválidas",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Error
                             );
@@ -139,7 +139,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     else
                     {
                         MessageBox.Show("Usuario o contraseña incorrecta. Intente de nuevo",
-                            "Credenciales invalidas",
+                            "Credenciales inválidas",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error
                         );
@@ -182,7 +182,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     else
                     {
                         MessageBox.Show("Usuario o contraseña incorrecta. Intente de nuevo",
-                            "Credenciales invalidas",
+                            "Credenciales inválidas",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error
                         );

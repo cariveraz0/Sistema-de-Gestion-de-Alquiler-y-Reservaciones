@@ -1,7 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium;
+﻿using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
-using System;
 
 namespace Test
 {
@@ -39,7 +37,13 @@ namespace Test
             cambiarFoco();
 
             //MODULO CLIENTES
-            nuevoCliente(); //Nuevo Cliente
+            //nuevoCliente(); //Nuevo Cliente
+
+            // 🔴 AGREGAR ESTO: Cambiar el foco a la última ventana abierta/activa
+            cambiarFoco();
+
+            //MODULO MANTENIMIENTO
+            nuevoMantenimiento(); //Nuevo mantenimiento
         }
 
         private void accesoAlLogin()
@@ -55,6 +59,7 @@ namespace Test
             esperar(5000);
             txtUsuario.Clear();
             txtPassword.Clear();
+            esperar(1000);
             btnIngresar.Click();
 
             CerrarAlertaSiExiste(); //Cerrar el mensaje de error
@@ -65,6 +70,7 @@ namespace Test
             txtUsuario.SendKeys("SergiO");
             txtPassword.Clear();
             txtPassword.SendKeys("SERGIO");
+            esperar(1000);
             btnIngresar.Click();
 
             CerrarAlertaSiExiste(); //Cerrar el mensaje de error
@@ -75,6 +81,7 @@ namespace Test
             txtUsuario.SendKeys("sergio");
             txtPassword.Clear();
             txtPassword.SendKeys("sergio");
+            esperar(1000);
             btnIngresar.Click();
         }
 
@@ -114,7 +121,68 @@ namespace Test
             esperar(2000);
         }
 
-        private void
+        private void nuevoMantenimiento()
+        {
+            var btnMantenimiento = _driver.FindElementByAccessibilityId("btnMantenimiento");
+            btnMantenimiento.Click();
+            cambiarFoco();
+            esperar(1000);
+
+            var cboPropiedad = _driver.FindElementByAccessibilityId("cboPropiedad");
+            cboPropiedad.Click();
+            // Método B: Si prefieres navegar con las flechas
+            cboPropiedad.SendKeys(OpenQA.Selenium.Keys.Down); // Baja a la primera opción
+            cboPropiedad.SendKeys(OpenQA.Selenium.Keys.Enter); // Confirma la selección
+            esperar(1000);
+
+            var cboTecnico = _driver.FindElementByAccessibilityId("cboTecnico");
+            cboTecnico.Click();
+            cboTecnico.SendKeys(OpenQA.Selenium.Keys.Down);
+            cboTecnico.SendKeys(OpenQA.Selenium.Keys.Down);
+            cboTecnico.SendKeys(OpenQA.Selenium.Keys.Enter);
+            esperar(1000);
+
+            var cboTipo = _driver.FindElementByAccessibilityId("cboTipo");
+            cboTipo.Click();
+            cboTipo.SendKeys(OpenQA.Selenium.Keys.Down);
+            cboTipo.SendKeys(OpenQA.Selenium.Keys.Enter);
+            esperar(1000);
+
+            var txtDescripcion = _driver.FindElementByAccessibilityId("txtDescripcion");
+            txtDescripcion.SendKeys("Esto solo es una prueba de los Analistas.");
+            esperar(1000);
+
+            //Para dtpProgramada
+            var dtpProgramada = _driver.FindElementByAccessibilityId("dtpProgramada");
+
+            // 1. Dar clic para enfocar el control
+            dtpProgramada.Click();
+
+            // 2. Limpiar o seleccionar el contenido existente enviando combinación de teclas (opcional pero seguro)
+            // Envía la fecha deseada respetando el formato de tu sistema (ej. 21072026 para 21/07/2026)
+            dtpProgramada.SendKeys("10");
+
+            // 3. Confirmar con Enter o Tab para mover el foco fuera
+            dtpProgramada.SendKeys(OpenQA.Selenium.Keys.Enter);
+            esperar(1000);
+
+            //Para realizar una ultima validacion antes del error con el cbotipo
+            cboTipo.Click();
+            cboTipo.SendKeys(OpenQA.Selenium.Keys.Up);
+            cboTipo.SendKeys(OpenQA.Selenium.Keys.Enter);
+            esperar(1000);
+
+            //Regresarlo como estaba
+            cboTipo.Click();
+            cboTipo.SendKeys(OpenQA.Selenium.Keys.Down);
+            cboTipo.SendKeys(OpenQA.Selenium.Keys.Enter);
+            esperar(1000);
+
+            var btnGuardar = _driver.FindElementByAccessibilityId("btnGuardar");
+            btnGuardar.Click();
+            esperar(2000);
+            CerrarAlertaSiExiste();
+        }
 
         // Método auxiliar para descartar mensajes de confirmación sin que falle el test si no aparecen
         private void CerrarAlertaSiExiste()
@@ -133,7 +201,7 @@ namespace Test
 
         private void esperar(int delay)
         {
-            System.Threading.Thread.Sleep(delay);
+            System.Threading.Thread.Sleep(1000);
         }
 
         private void cambiarFoco()

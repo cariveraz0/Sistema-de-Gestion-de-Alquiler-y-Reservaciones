@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Data.SqlClient;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace Gestion_de_Alquiler_y_Reservaciones
 {
@@ -172,13 +173,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             else
             {
-                //Esto solo va a estar aqui hasta que esté la funcion de insertar el cliente
-                MessageBox.Show(
-                    "Cleinte agregado exitosamente",
-                    "Exito", MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
-                limpiarCampos();
+                insertarClientEenDB();
             }
         }
 
@@ -376,6 +371,82 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
         }
 
-        
+        private void insertarClientEenDB()
+        {
+            try
+            {
+                string queryInsertarClientEenDB = "insert into Clientes (CodigoCliente, NombreCompleto, Identidad, Telefono, CorreoElectronico, NombreEmpresa, RTN) " +
+                    "values (@codigocliente, @nombrecompleto, @identidad, @telefono, @correo, @nombreempresa, @rtnempresa)";
+                using (SqlConnection conectar = Conexion.ObtenerConexion())
+                {
+                    conectar.Open();
+                    SqlCommand cmdInsertarClientEenDB = new SqlCommand(queryInsertarClientEenDB, conectar);
+                    cmdInsertarClientEenDB.Parameters.AddWithValue("@codigocliente", obtenerCodigoCliente());
+                    cmdInsertarClientEenDB.Parameters.AddWithValue("@nombrecompleto", txtNombre.Text);
+                    cmdInsertarClientEenDB.Parameters.AddWithValue("@identidad", txtIdentidad.Text);
+                    cmdInsertarClientEenDB.Parameters.AddWithValue("@telefono", txtTelefono.Text);
+                    cmdInsertarClientEenDB.Parameters.AddWithValue("@correo", txtCorreo.Text);
+                    cmdInsertarClientEenDB.Parameters.AddWithValue("@nombreempresa", txtEmpresa.Text);
+                    cmdInsertarClientEenDB.Parameters.AddWithValue("@rtnempresa", txtRtn.Text);
+                    if(cmdInsertarClientEenDB.ExecuteNonQuery() == 1)
+                    {
+                        MessageBox.Show(
+                            "Cliente agregado éxitosamente",
+                            "Éxito", MessageBoxButtons.OK,
+                            MessageBoxIcon.Information
+                        );
+                        limpiarCampos();
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            "Hubo un error, no se pudo agregar el registro. Intente de nuevo.",
+                            "Algos salió mal",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Algos salió mal",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+
+        private string obtenerCodigoCliente()
+        {
+            string codigo = string.Empty;
+            try
+            {
+                //Esta es la estructura para generar el codigo de cada cliente ingreasdo
+                string [] nombrePartes = txtNombre.Text.Split(' ');
+                string[] identidadPartes = txtIdentidad.Text.Split('-');
+                string parte = string.Empty;
+                codigo = "CLI-";
+                parte = string.Empty;
+                parte += nombrePartes[0].Substring(0, 1).ToUpper();
+                parte += nombrePartes[2].Substring(0, 1).ToUpper();
+                parte += identidadPartes[2].Substring(3, 2);
+                parte += "-";
+                parte += DateTime.Now.Year.ToString().Substring(2, 2);
+                codigo += parte;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Algos salió mal",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+            return codigo;
+        }
     }
 }
