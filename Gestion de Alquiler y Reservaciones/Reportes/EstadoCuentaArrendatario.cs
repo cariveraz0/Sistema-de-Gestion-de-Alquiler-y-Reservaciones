@@ -107,8 +107,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar las sugerencias de arrendatarios: {ex.Message}", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Error al cargar las sugerencias de arrendatarios: {ex.Message}", 
+                    "Error.",
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error
+                );
             }
 
             filtroNombre.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
@@ -138,8 +142,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
             if (string.IsNullOrEmpty(texto))
             {
-                MessageBox.Show("Ingrese el nombre del arrendatario a buscar.", "Búsqueda",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                    "Ingrese el nombre del arrendatario a buscar.", 
+                    "Búsqueda.",
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Information
+                );
                 return;
             }
 
@@ -165,15 +173,23 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al buscar el arrendatario: {ex.Message}", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Error al buscar el arrendatario: {ex.Message}", 
+                    "Error.",
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error
+                );
                 return;
             }
 
             if (dt.Rows.Count == 0)
             {
-                MessageBox.Show("No se encontraron contratos para ese arrendatario.", "Búsqueda",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                    "No se encontraron contratos para ese arrendatario.", 
+                    "Búsqueda",
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Information
+                );
                 cbxContrato.DataSource = null;
                 cbxContrato.Items.Clear();
                 LimpiarReporte();
@@ -221,8 +237,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             DataRow contrato = ObtenerDatosContrato(idContrato);
             if (contrato == null)
             {
-                MessageBox.Show("No se encontró información del contrato.", "Aviso",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "No se encontró información del contrato.", 
+                    "Aviso.",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
                 return;
             }
 
@@ -493,14 +513,24 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
         {
             if (idContratoActual == 0)
             {
-                MessageBox.Show("Seleccione un contrato primero para imprimir su estado de cuenta.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Seleccione un contrato primero para imprimir su estado de cuenta.", 
+                    "Aviso.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning
+                );
                 return;
             }
 
             DataTable dt = dataGridView1.DataSource as DataTable;
             if (dt == null || dt.Rows.Count == 0)
             {
-                MessageBox.Show("No hay datos para imprimir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "No hay datos para imprimir.", 
+                    "Aviso.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning
+                );
                 return;
             }
 
@@ -517,7 +547,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
                         var abrir = MessageBox.Show(
                             "Reporte generado correctamente. ¿Desea abrirlo ahora?",
-                            "Éxito", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                            "Éxito.", 
+                            MessageBoxButtons.YesNo, 
+                            MessageBoxIcon.Information
+                        );
 
                         if (abrir == DialogResult.Yes)
                         {
@@ -529,7 +562,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error al generar el PDF: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(
+                            "Error al generar el PDF: " + ex.Message, 
+                            "Error.", 
+                            MessageBoxButtons.OK, 
+                            MessageBoxIcon.Error
+                        );
                     }
                 }
             }

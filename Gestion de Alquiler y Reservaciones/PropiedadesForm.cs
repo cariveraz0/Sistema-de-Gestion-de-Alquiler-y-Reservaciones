@@ -67,7 +67,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar KPIs: " + ex.Message);
+                MessageBox.Show(
+                    "Error al cargar KPIs: " + ex.Message
+                );
             }
         }
 
@@ -169,7 +171,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar Propiedades: " + ex.Message);
+                MessageBox.Show(
+                    "Error al cargar Propiedades: " + ex.Message
+                );
             }
         }
         private void CargarDataGridReservaciones()
@@ -211,7 +215,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar Reservaciones: " + ex.Message);
+                MessageBox.Show(
+                    "Error al cargar Reservaciones: " + ex.Message
+                );
             }
         }
 

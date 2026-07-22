@@ -137,7 +137,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar el historial de solicitudes de mantenimiento: " + ex.Message, "Error de Datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Error al cargar el historial de solicitudes de mantenimiento: " + ex.Message, 
+                    "Error de datos.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error
+                );
             }
         }
         private void txtBuscar_KeyDown(object sender, KeyEventArgs e)
@@ -175,7 +180,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al filtrar los datos: " + ex.Message, "Error de Filtro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Error al filtrar los datos: " + ex.Message, 
+                    "Error de filtro.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning
+                );
             }
         }
 
@@ -239,7 +249,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 MessageBox.Show(
                     ex.Message,
-                    "Algos salió mal",
+                    "Algo salió mal.",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
@@ -272,7 +282,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 MessageBox.Show(
                     ex.Message,
-                    "Algos salió mal",
+                    "Algo salió mal.",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
@@ -300,7 +310,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 MessageBox.Show(
                     ex.Message,
-                    "Algos salió mal",
+                    "Algo salió mal.",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
@@ -314,16 +324,18 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 cboTipo.SelectedIndex == 0)
             {
                 MessageBox.Show(
-                    "Los campos obligatorios no deben de estar vacíos",
-                    "Campos vacíos", MessageBoxButtons.OK,
+                    "Los campos obligatorios no deben de estar vacíos.",
+                    "Campos vacíos.", 
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
             }
             else
             {
                 MessageBox.Show(
-                    "Solicitud creada con éxito",
-                    "Éxito", MessageBoxButtons.OK,
+                    "Solicitud creada con éxito.",
+                    "Éxito.", 
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Information
                 );
             }
@@ -407,7 +419,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 MessageBox.Show(
                     ex.Message,
-                    "Algos salió mal",
+                    "Algo salió mal.",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
@@ -435,7 +447,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 MessageBox.Show(
                     ex.Message,
-                    "Algos salió mal",
+                    "Algo salió mal.",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
@@ -474,7 +486,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 MessageBox.Show(
                     ex.Message,
-                    "Algos salió mal",
+                    "Algo salió mal.",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );

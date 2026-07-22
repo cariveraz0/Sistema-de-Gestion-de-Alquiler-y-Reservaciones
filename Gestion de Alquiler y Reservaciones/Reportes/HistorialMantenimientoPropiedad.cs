@@ -96,7 +96,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar las propiedades: " + ex.Message, "Error de Datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Error al cargar las propiedades: " + ex.Message, 
+                    "Error de datos.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -226,7 +231,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             {
                 if (dtCompleto == null || dtCompleto.Rows.Count == 0)
                 {
-                    MessageBox.Show("No hay órdenes de mantenimiento para imprimir en esta propiedad.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(
+                        "No hay órdenes de mantenimiento para imprimir en esta propiedad.", 
+                        "Aviso.", 
+                        MessageBoxButtons.OK, 
+                        MessageBoxIcon.Warning
+                    );
                     return;
                 }
 
@@ -241,17 +251,30 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                         {
                             GenerarPdfHistorial(sfd.FileName);
 
-                            MessageBox.Show("Reporte generado y guardado con éxito.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show(
+                                "Reporte generado y guardado con éxito.", 
+                                "Información.", 
+                                MessageBoxButtons.OK, 
+                                MessageBoxIcon.Information
+                            );
                         }
                         catch (IOException)
                         {
                             MessageBox.Show(
                                 "No se pudo guardar el archivo porque está abierto en otro programa (por ejemplo, su lector de PDF). Ciérrelo e intente de nuevo.",
-                                "Archivo en uso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                "Archivo en uso.", 
+                                MessageBoxButtons.OK, 
+                                MessageBoxIcon.Warning
+                            );
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show("Error al generar el PDF: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(
+                                "Error al generar el PDF: " + ex.Message, 
+                                "Error.", 
+                                MessageBoxButtons.OK, 
+                                MessageBoxIcon.Error
+                            );
                         }
                     }
                 }
@@ -270,7 +293,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
                         var abrir = MessageBox.Show(
                             "Reporte generado correctamente. ¿Desea abrirlo ahora?",
-                            "Éxito", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                            "Éxito.", 
+                            MessageBoxButtons.YesNo, 
+                            MessageBoxIcon.Information
+                        );
 
                         if (abrir == DialogResult.Yes)
                         {
@@ -282,7 +308,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error al generar el PDF: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(
+                            "Error al generar el PDF: " + ex.Message, 
+                            "Error.", 
+                            MessageBoxButtons.OK, 
+                            MessageBoxIcon.Error
+                        );
                     }
                 }
             }

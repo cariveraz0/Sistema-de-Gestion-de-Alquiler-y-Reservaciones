@@ -199,7 +199,11 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar las cuotas: " + ex.Message, "Error de Datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al cargar las cuotas: " + ex.Message, 
+                    "Error de datos.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -257,7 +261,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar las reservaciones: " + ex.Message, "Error de Datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Error al cargar las reservaciones: " + ex.Message, 
+                    "Error de datos.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -376,7 +385,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar métodos de pago: " + ex.Message, "Error de Datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Error al cargar métodos de pago: " + ex.Message, 
+                    "Error de datos.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -392,17 +406,32 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             if (idCuotaSeleccionada == null)
             {
-                MessageBox.Show("Selecciona una cuota de la lista antes de registrar el pago.", "Falta selección", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Selecciona una cuota de la lista antes de registrar el pago.", 
+                    "Falta selección.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning
+                );
                 return;
             }
             if (cmbMetodoPago.SelectedValue == null)
             {
-                MessageBox.Show("Selecciona un método de pago.", "Falta selección", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Selecciona un método de pago.", 
+                    "Falta selección.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning
+                );
                 return;
             }
             if (numMontoPagar.Value <= 0)
             {
-                MessageBox.Show("El monto a pagar debe ser mayor a cero.", "Monto inválido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "El monto a pagar debe ser mayor a cero.", 
+                    "Monto inválido.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning
+                );
                 return;
             }
 
@@ -461,8 +490,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
                     transaccion.Commit();
 
-                    MessageBox.Show($"Pago registrado correctamente.\nRecibo: {numeroRecibo}\nEstado de la cuota: {nuevoEstado}",
-                        "Pago registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(
+                        $"Pago registrado correctamente.\nRecibo: {numeroRecibo}\nEstado de la cuota: {nuevoEstado}",
+                        "Pago registrado.", 
+                        MessageBoxButtons.OK, 
+                        MessageBoxIcon.Information
+                    );
 
                     CargarGridCuotas();
                     CargarDatosBD();
@@ -470,7 +503,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 catch (Exception ex)
                 {
                     transaccion.Rollback();
-                    MessageBox.Show("Error al registrar el pago: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(
+                        "Error al registrar el pago: " + ex.Message, 
+                        "Error.", 
+                        MessageBoxButtons.OK, 
+                        MessageBoxIcon.Error
+                    );
                 }
             }
         }
@@ -479,17 +517,32 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             if (idReservacionSeleccionada == null)
             {
-                MessageBox.Show("Selecciona una reservación de la lista antes de registrar el pago.", "Falta selección", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Selecciona una reservación de la lista antes de registrar el pago.", 
+                    "Falta selección.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning
+                );
                 return;
             }
             if (cmbMetodoPagoR.SelectedValue == null)
             {
-                MessageBox.Show("Selecciona un método de pago.", "Falta selección", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Selecciona un método de pago.", 
+                    "Falta selección.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning
+                );
                 return;
             }
             if (numMontoPagarR.Value <= 0)
             {
-                MessageBox.Show("El monto a pagar debe ser mayor a cero.", "Monto inválido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "El monto a pagar debe ser mayor a cero.", 
+                    "Monto inválido.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning
+                );
                 return;
             }
 
@@ -520,8 +573,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
                     transaccion.Commit();
 
-                    MessageBox.Show($"Pago registrado correctamente.\nRecibo: {numeroRecibo}",
-                        "Pago registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(
+                        $"Pago registrado correctamente.\nRecibo: {numeroRecibo}",
+                        "Pago registrado.", 
+                        MessageBoxButtons.OK, 
+                        MessageBoxIcon.Information
+                    );
 
                     CargarGridReservaciones();
                     CargarDatosBD();
@@ -529,7 +586,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 catch (Exception ex)
                 {
                     transaccion.Rollback();
-                    MessageBox.Show("Error al registrar el pago: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(
+                        "Error al registrar el pago: " + ex.Message, 
+                        "Error.", 
+                        MessageBoxButtons.OK, 
+                        MessageBoxIcon.Error
+                    );
                 }
             }
         }
@@ -622,7 +684,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar el historial de pagos: " + ex.Message, "Error de Datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Error al cargar el historial de pagos: " + ex.Message, 
+                    "Error de datos.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -662,7 +729,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al filtrar los datos: " + ex.Message, "Error de Filtro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Error al filtrar los datos: " + ex.Message, 
+                    "Error de filtro.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning
+                );
             }
         }
 

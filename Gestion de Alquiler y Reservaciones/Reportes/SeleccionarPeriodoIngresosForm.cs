@@ -93,7 +93,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
         {
             if (dtpInicio.Value.Date > dtpFin.Value.Date)
             {
-                MessageBox.Show("La fecha inicial no puede ser mayor que la fecha final.");
+                MessageBox.Show(
+                    "La fecha inicial no puede ser mayor que la fecha final."
+                );
                 return;
             }
 

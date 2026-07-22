@@ -77,7 +77,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Algo salió mal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    ex.Message, 
+                    "Algo salió mal.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -137,7 +142,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Algo salió mal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    ex.Message, 
+                    "Algo salió mal.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error
+                );
             }
         }
         private void AplicarEstilosColumnas(DataGridView grid)
@@ -192,7 +202,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar los años: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Error al cargar los años: " + ex.Message, 
+                    "Error.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error
+                );
             }
         }
     }

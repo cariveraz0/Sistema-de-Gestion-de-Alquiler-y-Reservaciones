@@ -57,11 +57,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             try
             {
-                if (txtUsuario.Text == String.Empty || txtContra.Text == String.Empty)
+                if (txtUsuario.Text == string.Empty || txtContra.Text == string.Empty)
                 {
                     MessageBox.Show(
-                        "Los campos no deben de estar vacíos",
-                        "Campos vacíos", MessageBoxButtons.OK,
+                        "Los campos no deben de estar vacíos.",
+                        "Campos vacíos.", 
+                        MessageBoxButtons.OK,
                         MessageBoxIcon.Error
                     );
                 }
@@ -69,8 +70,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 {
                     if (txtContra.Text.Length < 4)
                     {
-                        MessageBox.Show("La contraseña debe tener al menos 4 caracteres",
-                            "Contraseña no segura",
+                        MessageBox.Show(
+                            "La contraseña debe tener al menos 4 caracteres.",
+                            "Contraseña no segura.",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error
                         );
@@ -85,7 +87,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 MessageBox.Show(
                     ex.Message,
-                    "Algos salió mal",
+                    "Algo salió mal.",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
@@ -129,8 +131,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                         }
                         else
                         {
-                            MessageBox.Show("Usuario o contraseña incorrecta. Intente de nuevo",
-                                "Credenciales inválidas",
+                            MessageBox.Show(
+                                "Usuario o contraseña incorrecta. Intente de nuevo.",
+                                "Credenciales inválidas.",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Error
                             );
@@ -138,8 +141,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     }
                     else
                     {
-                        MessageBox.Show("Usuario o contraseña incorrecta. Intente de nuevo",
-                            "Credenciales inválidas",
+                        MessageBox.Show(
+                            "Usuario o contraseña incorrecta. Intente de nuevo.",
+                            "Credenciales inválidas.",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error
                         );
@@ -150,7 +154,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 MessageBox.Show(
                     ex.Message,
-                    "Algos salió mal",
+                    "Algo salió mal.",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
@@ -181,8 +185,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     }
                     else
                     {
-                        MessageBox.Show("Usuario o contraseña incorrecta. Intente de nuevo",
-                            "Credenciales inválidas",
+                        MessageBox.Show(
+                            "Usuario o contraseña incorrecta. Intente de nuevo.",
+                            "Credenciales inválidas.",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error
                         );
@@ -193,7 +198,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 MessageBox.Show(
                     ex.Message,
-                    "Algos salió mal",
+                    "Algo salió mal.",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );

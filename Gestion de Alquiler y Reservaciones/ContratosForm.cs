@@ -191,7 +191,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar el historial de contratos: " + ex.Message, "Error de Datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Error al cargar el historial de contratos: " + ex.Message, 
+                    "Error de datos.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -275,7 +280,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             if (_tipoActivo == null)
             {
-                MessageBox.Show("Por favor, seleccione un tipo de contrato.", "Aviso");
+                MessageBox.Show(
+                    "Por favor, seleccione un tipo de contrato.", 
+                    "Aviso"
+                );
                 return;
             }
 
@@ -306,7 +314,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Faltan datos o tienen un formato incorrecto: " + ex.Message, "Error");
+                MessageBox.Show(
+                    "Faltan datos o tienen un formato incorrecto: " + ex.Message, 
+                    "Error."
+                );
                 return;
             }
 
@@ -328,11 +339,17 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     System.IO.File.Delete(rutaDocx);
                 }
 
-                MessageBox.Show("Contrato generado con éxito en PDF en:\n" + rutaPdf, "Éxito");
+                MessageBox.Show(
+                    "Contrato generado con éxito en PDF en:\n" + rutaPdf, 
+                    "Éxito."
+                );
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al generar: " + ex.Message, "Error");
+                MessageBox.Show(
+                    "Error al generar: " + ex.Message, 
+                    "Error."
+                );
             }
         }
 

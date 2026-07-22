@@ -118,7 +118,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar el historial de clientes: " + ex.Message, "Error de Datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Error al cargar el historial de clientes: " + ex.Message, 
+                    "Error de datos.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -157,7 +162,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al filtrar los datos: " + ex.Message, "Error de Filtro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Error al filtrar los datos: " + ex.Message, 
+                    "Error de filtro.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning
+                );
             }
         }
 
@@ -166,8 +176,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             if (txtNombre.Text == String.Empty || txtIdentidad.Text == String.Empty)
             {
                 MessageBox.Show(
-                    "Los campos obligatorios no deben de estar vacíos",
-                    "Campos vacíos", MessageBoxButtons.OK,
+                    "Los campos obligatorios no deben de estar vacíos.",
+                    "Campos vacíos.", 
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
             }
@@ -391,8 +402,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     if(cmdInsertarClientEenDB.ExecuteNonQuery() == 1)
                     {
                         MessageBox.Show(
-                            "Cliente agregado éxitosamente",
-                            "Éxito", MessageBoxButtons.OK,
+                            "Cliente agregado éxitosamente.",
+                            "Éxito.", 
+                            MessageBoxButtons.OK,
                             MessageBoxIcon.Information
                         );
                         limpiarCampos();
@@ -401,7 +413,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     {
                         MessageBox.Show(
                             "Hubo un error, no se pudo agregar el registro. Intente de nuevo.",
-                            "Algos salió mal",
+                            "Algo salió mal.",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error
                         );
@@ -412,7 +424,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 MessageBox.Show(
                     ex.Message,
-                    "Algos salió mal",
+                    "Algo salió mal.",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
@@ -430,7 +442,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 string parte = string.Empty;
                 codigo = "CLI-";
                 parte = string.Empty;
-                parte += nombrePartes[0].Substring(0, 1).ToUpper();
+                parte += nombrePartes[0].Substring(0, 1).ToUpper(); 
                 parte += nombrePartes[2].Substring(0, 1).ToUpper();
                 parte += identidadPartes[2].Substring(3, 2);
                 parte += "-";
@@ -441,7 +453,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 MessageBox.Show(
                     ex.Message,
-                    "Algos salió mal",
+                    "Algo salió mal.",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );

@@ -54,8 +54,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar estados: {ex.Message}", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Error al cargar estados: {ex.Message}", 
+                    "Error.",
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -89,8 +93,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar las propiedades: {ex.Message}", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Error al cargar las propiedades: {ex.Message}", 
+                    "Error.",
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -124,8 +132,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al generar el reporte: {ex.Message}", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Error al generar el reporte: {ex.Message}", 
+                    "Error.",
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error
+                );
             }
         }
         // Obtiene las solicitudes de mantenimiento aplicando los filtros de fecha, estado y propiedad
@@ -515,7 +527,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
         {
             if (dtPivotPDF == null || dtPivotPDF.Rows.Count == 0)
             {
-                MessageBox.Show("No hay datos para imprimir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "No hay datos para imprimir.", 
+                    "Aviso.", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning
+                );
                 return;
             }
 
@@ -532,7 +549,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
                         var abrir = MessageBox.Show(
                             "Reporte generado correctamente. ¿Desea abrirlo ahora?",
-                            "Éxito", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                            "Éxito.", 
+                            MessageBoxButtons.YesNo, 
+                            MessageBoxIcon.Information
+                        );
 
                         if (abrir == DialogResult.Yes)
                         {
@@ -544,7 +564,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error al generar el PDF: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(
+                            "Error al generar el PDF: " + ex.Message, 
+                            "Error.", 
+                            MessageBoxButtons.OK, 
+                            MessageBoxIcon.Error
+                        );
                     }
                 }
 
