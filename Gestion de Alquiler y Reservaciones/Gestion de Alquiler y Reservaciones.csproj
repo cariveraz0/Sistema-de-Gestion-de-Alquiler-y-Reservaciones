@@ -247,6 +247,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActividadesItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ActividadesItem.Designer.cs">
+      <DependentUpon>ActividadesItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AlertaItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AlertaItem.Designer.cs">
+      <DependentUpon>AlertaItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="BaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -384,6 +396,12 @@
     <Compile Include="ReservacionesForm.Designer.cs">
       <DependentUpon>ReservacionesForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ActividadesItem.resx">
+      <DependentUpon>ActividadesItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AlertaItem.resx">
+      <DependentUpon>AlertaItem.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </EmbeddedResource>

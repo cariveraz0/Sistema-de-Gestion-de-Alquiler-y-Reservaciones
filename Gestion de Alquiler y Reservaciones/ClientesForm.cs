@@ -204,7 +204,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     }
                     else
                     {
-                        insertarClientEenDB();
+                        InsertarCliente();
                         limpiarCampos();
                     }
                     
@@ -447,7 +447,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             return existe;
         }
 
-        private void insertarClientEenDB()
+        private void InsertarCliente()
         {
             try
             {

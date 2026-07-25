@@ -2,6 +2,7 @@
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 
 namespace Gestion_de_Alquiler_y_Reservaciones
@@ -13,6 +14,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private static readonly Color ColorInactivo = ColorTranslator.FromHtml("#E0DBD2");
         private static readonly Color TextoInactivo = ColorTranslator.FromHtml("#666666");
         private DataTable tablalocal;
+        private Dictionary<string, string> PropiedadesReservacion = new Dictionary<string, string>();
+        private Dictionary<string, int> ClientesDic = new Dictionary<string, int>();  
+        private int IdReservacionSeleccionada = -1;
+        private bool LimpiandoCamposActu = false;
 
         public ReservacionesForm()
         {
@@ -20,6 +25,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             ActivarTabNuevo();
             ConfigurarDataGridView(dgvHistorial);
             CargarDatosBD();
+            AplicarEstilosColumnas(dgvHistorial);
 
             cboPropiedad.DropDownStyle = ComboBoxStyle.DropDownList;
         }
@@ -45,29 +51,60 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             grid.DefaultCellStyle.Font = new Font("Segoe UI", 7, FontStyle.Regular);
             grid.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(225, 225, 225);
         }
+        private void AplicarEstilosColumnas(DataGridView grid)
+        {
+            grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            if (grid.Columns["Monto Total"] != null)
+            {
+                grid.Columns["Monto Total"].DefaultCellStyle.FormatProvider = System.Globalization.CultureInfo.CreateSpecificCulture("es-HN");
+                grid.Columns["Monto Total"].DefaultCellStyle.Format = "C2";
+                grid.Columns["Monto Total"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            }
+        }
 
         private void btnNuevaReservacion_Click(object sender, EventArgs e) => ActivarTabNuevo();
+        private void btnActualizarReservacion_Click(object sender, EventArgs e) => ActivarTabEditar();
         private void btnHistorialReservaciones_Click(object sender, EventArgs e) => ActivarTabHistorial();
+
 
         private void ActivarTabNuevo()
         {
             pnlReservacion.Visible = true;
             pnlHistorial.Visible = false;
+            pnlEditar.Visible = false;
             pnlAccion.Visible = true;
+            pnlActualizar.Visible = false;
 
             EstiloTabActivo(btnNuevaReservacion);
+            EstiloTabInactivo(btnActualizarReservacion);
+            EstiloTabInactivo(btnHistorialReservaciones);
+        }
+        private void ActivarTabEditar()
+        {
+            pnlEditar.Visible = true;
+            pnlHistorial.Visible = false;
+            pnlReservacion.Visible = false;
+            pnlAccion.Visible = false;
+            pnlActualizar.Visible = true;
+
+            EstiloTabActivo(btnActualizarReservacion);
+            EstiloTabInactivo(btnNuevaReservacion);
             EstiloTabInactivo(btnHistorialReservaciones);
         }
         private void ActivarTabHistorial()
         {
             pnlHistorial.Visible = true;
             pnlReservacion.Visible = false;
+            pnlEditar.Visible = false;
             pnlAccion.Visible = false;
+            pnlActualizar.Visible = false;
 
             EstiloTabActivo(btnHistorialReservaciones);
+            EstiloTabInactivo(btnActualizarReservacion);
             EstiloTabInactivo(btnNuevaReservacion);
         }
-
+        
         private void EstiloTabActivo(Button btn)
         {
             btn.BackColor = ColorActivo;
@@ -82,7 +119,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            limpiarControles();
+            LimpiarControles();
         }
         private void CargarDatosBD()
         {
@@ -172,7 +209,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
         }
 
-        private void limpiarControles()
+        private void LimpiarControles()
         {
             cboPropiedad.SelectedIndex = 0;
             txtCliente.Clear();
@@ -181,7 +218,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             txtMonto.Clear();
             txtObservaciones.Clear();
 
-            validarParaGuardar();
+            ValidarParaGuardar();
         }
 
         private void dgvHistorial_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -215,9 +252,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void ReservacionesForm_Load(object sender, EventArgs e)
         {
-            obtenerPropiedades();
-            cargarClientes();
-            validarParaGuardar();
+            ObtenerPropiedades();
+            CargarClientes();
+            LlenarCboReservacion();
+            LlenarCboEstadoReservacion();
+            CambiarEstadoCamposActu(false);
+            ValidarParaGuardar();
         }
 
         private void txtMonto_KeyPress(object sender, KeyPressEventArgs e)
@@ -229,30 +269,41 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
         }
 
-        private void obtenerPropiedades()
+        private void ObtenerPropiedades()
         {
             try
             {
-                string queryObtenerPropiedades = "select * from Propiedades where Codigo like '%Apartamento%' or Codigo like '%Casa%' or Codigo like '%Sala%' order by Codigo asc";
+                cboPropiedad.Items.Clear();
+                cboPropiedad.Items.Add("--Seleccionar--");
+                PropiedadesReservacion.Clear();
+
+                string query = @"
+            SELECT P.IdPropiedad, P.Codigo
+            FROM Propiedades P
+            INNER JOIN TiposPropiedad T ON P.IdTipoPropiedad = T.IdTipoPropiedad
+            WHERE T.Nombre IN ('Auditorio', 'Sala de Juntas', 'Casa de Playa/Montaña')
+            ORDER BY P.Codigo";
+
                 using (SqlConnection conectar = Conexion.ObtenerConexion())
                 {
                     conectar.Open();
-                    SqlCommand cmdObtenerPropiedades = new SqlCommand(queryObtenerPropiedades, conectar);
-                    SqlDataReader readerObtenerPropiedades = cmdObtenerPropiedades.ExecuteReader();
-                    while (readerObtenerPropiedades.Read())
+                    SqlCommand cmd = new SqlCommand(query, conectar);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        cboPropiedad.Items.Add(readerObtenerPropiedades["Codigo"].ToString());
+                        while (reader.Read())
+                        {
+                            string codigo = reader["Codigo"].ToString();
+                            string idPropiedad = reader["IdPropiedad"].ToString();
+                            cboPropiedad.Items.Add(codigo);
+                            PropiedadesReservacion[codigo] = idPropiedad;
+                        }
                     }
                 }
+                cboPropiedad.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Algo salió mal.",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show(ex.Message, "Algo salió mal.", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -267,63 +318,64 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblVPropiedad.Visible = false;
             }
-            validarParaGuardar();
+            ValidarDisponibilidad();
         }
 
-        private void cargarClientes()
+        private void CargarClientes()
         {
             try
             {
-                string queryCargarClientes = "SELECT * from Clientes order by NombreCompleto asc;";
+                ClientesDic.Clear();
+                string query = "SELECT IdCliente, NombreCompleto FROM Clientes ORDER BY NombreCompleto ASC";
 
                 var sugerencias = new AutoCompleteStringCollection();
                 using (SqlConnection conexion = Conexion.ObtenerConexion())
                 {
                     conexion.Open();
-                    SqlCommand cmdCargarClientes = new SqlCommand(queryCargarClientes, conexion);
-                    SqlDataReader readerCargarClientes = cmdCargarClientes.ExecuteReader();
-                    while(readerCargarClientes.Read())
+                    SqlCommand cmd = new SqlCommand(query, conexion);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        sugerencias.Add(readerCargarClientes["NombreCompleto"].ToString());
+                        while (reader.Read())
+                        {
+                            string nombre = reader["NombreCompleto"].ToString();
+                            int idCliente = Convert.ToInt32(reader["IdCliente"]);
+                            sugerencias.Add(nombre);
+                            ClientesDic[nombre] = idCliente;
+                        }
                     }
                     txtCliente.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                     txtCliente.AutoCompleteSource = AutoCompleteSource.CustomSource;
                     txtCliente.AutoCompleteCustomSource = sugerencias;
                 }
-
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Algo salió mal.",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show(ex.Message, "Algo salió mal.", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void txtCliente_TextChanged(object sender, EventArgs e)
         {
-            if (txtCliente.Text == string.Empty || txtCliente.Text.Length < 7)
+            if (txtCliente.Text == string.Empty || !ClientesDic.ContainsKey(txtCliente.Text))
             {
-                lblVCliente.Text = "Debe seleccionar un cliente.";
+                lblVCliente.Text = "Debe seleccionar un cliente válido.";
                 lblVCliente.Visible = true;
             }
             else
             {
                 lblVCliente.Visible = false;
             }
-            validarParaGuardar();
+            ValidarParaGuardar();
         }
 
-        private void validarParaGuardar()
+        private void ValidarParaGuardar()
         {
             if(lblVPropiedad.Visible == true ||
                 lblVCliente.Visible == true ||
                 lblVFechaEntrada.Visible == true ||
                 lblVFechaSalida.Visible == true ||
-                lblVMonto.Visible == true)
+                lblVMonto.Visible == true ||
+                lblVDisponibilidad.Visible == true)
             {
                 btnGuardar.Enabled = false;
             }
@@ -344,7 +396,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblVFechaEntrada.Visible = false;
             }
-            validarParaGuardar();
+            ValidarDisponibilidad();
         }
 
         private void dtpSalida_ValueChanged(object sender, EventArgs e)
@@ -358,7 +410,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblVFechaSalida.Visible = false;
             }
-            validarParaGuardar();
+            ValidarDisponibilidad();
         }
 
         private void txtMonto_TextChanged(object sender, EventArgs e)
@@ -381,7 +433,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     lblVMonto.Visible = false;
                 }
             }
-            validarParaGuardar();
+            ValidarParaGuardar();
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -393,22 +445,331 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 MessageBoxIcon.Question
             );
 
-            if (result == DialogResult.Yes)
+            if (result != DialogResult.Yes) return;
+
+            if (GuardarReservacion())
             {
-                //Esto estará aqui por mientras se termina la funcion de guardar
                 MessageBox.Show(
                     "Reservación creada éxitosamente.",
                     "Éxito.",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information
                 );
-                limpiarControles();
+                LimpiarControles();
+                CargarDatosBD();
+                LlenarCboReservacion();
             }
         }
 
-        private void guardarReservacion()
+        private bool GuardarReservacion()
         {
+            try
+            {
+                if (!VerificarDisponibilidad())
+                {
+                    MessageBox.Show(
+                        "La propiedad seleccionada ya tiene una reservación en esas fechas.",
+                        "Fechas no disponibles.",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                    return false;
+                }
 
+                string idPropiedad = PropiedadesReservacion[cboPropiedad.SelectedItem.ToString()];
+                int idCliente = ClientesDic[txtCliente.Text];
+                string prefijo = idPropiedad.Split('-')[0]; // AUD, SAL, CVM, CVP
+                string fechaStr = DateTime.Now.ToString("yyMMdd");
+
+                using (SqlConnection conectar = Conexion.ObtenerConexion())
+                {
+                    conectar.Open();
+
+                    string patron = $"RES-{prefijo}-{fechaStr}%";
+                    SqlCommand cmdCount = new SqlCommand(
+                        "SELECT COUNT(*) FROM Reservaciones WHERE NumeroReservacion LIKE @patron", conectar);
+                    cmdCount.Parameters.AddWithValue("@patron", patron);
+                    int consecutivo = (int)cmdCount.ExecuteScalar() + 1;
+
+                    // Sigue el mismo patrón de tus datos de prueba: RES-AUD-260510 (sin sufijo la primera vez del día)
+                    string numeroReservacion = consecutivo == 1
+                        ? $"RES-{prefijo}-{fechaStr}"
+                        : $"RES-{prefijo}-{fechaStr}-{consecutivo:D2}";
+
+                    string queryInsert = @"
+                INSERT INTO Reservaciones
+                    (NumeroReservacion, IdPropiedad, IdCliente, FechaEntrada, FechaSalida,
+                     NumeroPersonas, MontoTotal, IdEstadoReservacion, Observaciones)
+                VALUES
+                    (@numero, @idPropiedad, @idCliente, @fechaEntrada, @fechaSalida,
+                     NULL, @monto,
+                     (SELECT IdEstadoReservacion FROM EstadosReservacion WHERE Nombre = 'Pendiente'),
+                     @observaciones)";
+
+                    SqlCommand cmdInsert = new SqlCommand(queryInsert, conectar);
+                    cmdInsert.Parameters.AddWithValue("@numero", numeroReservacion);
+                    cmdInsert.Parameters.AddWithValue("@idPropiedad", idPropiedad);
+                    cmdInsert.Parameters.AddWithValue("@idCliente", idCliente);
+                    cmdInsert.Parameters.AddWithValue("@fechaEntrada", dtpEntrada.Value);
+                    cmdInsert.Parameters.AddWithValue("@fechaSalida", dtpSalida.Value);
+                    cmdInsert.Parameters.AddWithValue("@monto", decimal.Parse(txtMonto.Text));
+                    cmdInsert.Parameters.AddWithValue("@observaciones",
+                        string.IsNullOrWhiteSpace(txtObservaciones.Text) ? (object)DBNull.Value : txtObservaciones.Text.Trim());
+
+                    cmdInsert.ExecuteNonQuery();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al crear la reservación: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+        private void LlenarCboReservacion()
+        {
+            try
+            {
+                cboReservacion.Items.Clear();
+                cboReservacion.Items.Add("--Seleccionar--");
+
+                string query = @"
+            SELECT R.NumeroReservacion
+            FROM Reservaciones R
+            INNER JOIN EstadosReservacion E ON R.IdEstadoReservacion = E.IdEstadoReservacion
+            WHERE E.Nombre IN ('Pendiente', 'Confirmada', 'En Curso')
+            ORDER BY R.NumeroReservacion";
+
+                using (SqlConnection conectar = Conexion.ObtenerConexion())
+                {
+                    conectar.Open();
+                    SqlCommand cmd = new SqlCommand(query, conectar);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            cboReservacion.Items.Add(reader["NumeroReservacion"].ToString());
+                        }
+                    }
+                }
+                cboReservacion.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Algo salió mal.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LlenarCboEstadoReservacion()
+        {
+            try
+            {
+                cboEstado.Items.Clear();
+                string query = "SELECT Nombre FROM EstadosReservacion ORDER BY IdEstadoReservacion";
+                using (SqlConnection conectar = Conexion.ObtenerConexion())
+                {
+                    conectar.Open();
+                    SqlCommand cmd = new SqlCommand(query, conectar);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            cboEstado.Items.Add(reader["Nombre"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Algo salió mal.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void BuscarReservacionEnDB()
+        {
+            try
+            {
+                string query = @"
+            SELECT R.IdReservacion, P.Codigo, C.NombreCompleto, R.FechaEntrada, R.FechaSalida,
+                   R.MontoTotal, R.Observaciones, E.Nombre
+            FROM Reservaciones R
+            INNER JOIN Propiedades P ON R.IdPropiedad = P.IdPropiedad
+            INNER JOIN Clientes C ON R.IdCliente = C.IdCliente
+            INNER JOIN EstadosReservacion E ON R.IdEstadoReservacion = E.IdEstadoReservacion
+            WHERE R.NumeroReservacion = @numero";
+
+                using (SqlConnection conectar = Conexion.ObtenerConexion())
+                {
+                    conectar.Open();
+                    SqlCommand cmd = new SqlCommand(query, conectar);
+                    cmd.Parameters.AddWithValue("@numero", cboReservacion.SelectedItem.ToString());
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            IdReservacionSeleccionada = Convert.ToInt32(reader["IdReservacion"]);
+                            txtPropiedadActu.Text = reader["Codigo"].ToString();
+                            txtClienteActu.Text = reader["NombreCompleto"].ToString();
+                            txtFechaEntrada.Text = Convert.ToDateTime(reader["FechaEntrada"]).ToString("dd/MM/yyyy HH:mm");
+                            txtFechaSalida.Text = Convert.ToDateTime(reader["FechaSalida"]).ToString("dd/MM/yyyy HH:mm");
+                            txtMontoPagarActu.Text = reader["MontoTotal"] == DBNull.Value ? "0" : reader["MontoTotal"].ToString();
+                            txtObservacionesActu.Text = reader["Observaciones"] == DBNull.Value ? string.Empty : reader["Observaciones"].ToString();
+                            cboEstado.Text = reader["Nombre"].ToString();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Algo salió mal.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void cboReservacion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (LimpiandoCamposActu) return;
+
+            if (cboReservacion.SelectedIndex <= 0)
+            {
+                btnActualizar.Enabled = false;
+                CambiarEstadoCamposActu(false);
+                IdReservacionSeleccionada = -1;
+            }
+            else
+            {
+                BuscarReservacionEnDB();
+                CambiarEstadoCamposActu(true);
+                btnActualizar.Enabled = true;
+            }
+        }
+        private void CambiarEstadoCamposActu(bool estado)
+        {
+            txtObservacionesActu.Enabled = estado;
+            cboEstado.Enabled = estado;
+        }
+        private void LimpiarCamposActu()
+        {
+            LimpiandoCamposActu = true;
+            txtPropiedadActu.Clear();
+            txtClienteActu.Clear();
+            txtFechaEntrada.Clear();
+            txtFechaSalida.Clear();
+            txtMontoPagarActu.Clear();
+            txtObservacionesActu.Clear();
+            cboEstado.SelectedIndex = -1;
+            cboReservacion.SelectedIndex = -1;
+            IdReservacionSeleccionada = -1;
+            CambiarEstadoCamposActu(false);
+            btnActualizar.Enabled = false;
+            LimpiandoCamposActu = false;
+        }
+
+        private void btnLimpiarActu_Click(object sender, EventArgs e)
+        {
+            LimpiarCamposActu();
+        }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            if (cboReservacion.SelectedIndex <= 0 || IdReservacionSeleccionada <= 0)
+            {
+                MessageBox.Show("Seleccione una reservación válida para actualizar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (cboEstado.SelectedIndex < 0)
+            {
+                MessageBox.Show("Seleccione un estado.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult result = MessageBox.Show(
+                "¿Está seguro de actualizar esta reservación?",
+                "Actualizar Reservación.",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result != DialogResult.Yes) return;
+
+            try
+            {
+                string query = @"
+            UPDATE Reservaciones
+            SET Observaciones = @observaciones,
+                IdEstadoReservacion = (SELECT IdEstadoReservacion FROM EstadosReservacion WHERE Nombre = @estado)
+            WHERE IdReservacion = @id";
+
+                using (SqlConnection conectar = Conexion.ObtenerConexion())
+                {
+                    conectar.Open();
+                    SqlCommand cmd = new SqlCommand(query, conectar);
+                    cmd.Parameters.AddWithValue("@observaciones",
+                        string.IsNullOrWhiteSpace(txtObservacionesActu.Text) ? (object)DBNull.Value : txtObservacionesActu.Text.Trim());
+                    cmd.Parameters.AddWithValue("@estado", cboEstado.Text);
+                    cmd.Parameters.AddWithValue("@id", IdReservacionSeleccionada);
+                    cmd.ExecuteNonQuery();
+                }
+
+                MessageBox.Show("Reservación actualizada con éxito.", "Éxito.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LimpiarCamposActu();
+                LlenarCboReservacion();
+                CargarDatosBD();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar la reservación: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private bool VerificarDisponibilidad()
+        {
+            if (cboPropiedad.SelectedIndex <= 0) return true; // aún no hay propiedad seleccionada
+
+            try
+            {
+                string idPropiedad = PropiedadesReservacion[cboPropiedad.SelectedItem.ToString()];
+
+                string query = @"
+            SELECT COUNT(*) 
+            FROM Reservaciones R
+            INNER JOIN EstadosReservacion E ON R.IdEstadoReservacion = E.IdEstadoReservacion
+            WHERE R.IdPropiedad = @idPropiedad
+              AND E.Nombre <> 'Cancelada'
+              AND R.FechaEntrada < @fechaSalida
+              AND R.FechaSalida > @fechaEntrada";
+
+                using (SqlConnection conectar = Conexion.ObtenerConexion())
+                {
+                    conectar.Open();
+                    SqlCommand cmd = new SqlCommand(query, conectar);
+                    cmd.Parameters.AddWithValue("@idPropiedad", idPropiedad);
+                    cmd.Parameters.AddWithValue("@fechaEntrada", dtpEntrada.Value);
+                    cmd.Parameters.AddWithValue("@fechaSalida", dtpSalida.Value);
+                    int conflictos = (int)cmd.ExecuteScalar();
+                    return conflictos == 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Algo salió mal.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+        private void ValidarDisponibilidad()
+        {
+            if (cboPropiedad.SelectedIndex <= 0 || dtpSalida.Value.Date <= dtpEntrada.Value.Date)
+            {
+                lblVDisponibilidad.Visible = false;
+            }
+            else if (!VerificarDisponibilidad())
+            {
+                lblVDisponibilidad.Text = "La propiedad ya está reservada en esas fechas.";
+                lblVDisponibilidad.Visible = true;
+            }
+            else
+            {
+                lblVDisponibilidad.Visible = false;
+            }
+            ValidarParaGuardar();
         }
     }
 }

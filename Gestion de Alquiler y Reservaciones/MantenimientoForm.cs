@@ -2,6 +2,7 @@
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 
 namespace Gestion_de_Alquiler_y_Reservaciones
@@ -13,6 +14,11 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private static readonly Color ColorInactivo = ColorTranslator.FromHtml("#E0DBD2");
         private static readonly Color TextoInactivo = ColorTranslator.FromHtml("#666666");
         private DataTable tablalocal;
+        private Dictionary<string, string> PropiedadesDisponibles = new Dictionary<string, string>();
+        private Dictionary<string, int> TecnicosDic = new Dictionary<string, int>();
+        private Dictionary<string, int> TiposDic = new Dictionary<string, int>();
+        private int idMantenimientoSeleccionado = -1;
+        private bool LimpiandoCampos = false;
 
         public MantenimientoForm()
         {
@@ -20,6 +26,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             ConfigurarDataGridView(dgvHistorial);
             ActivarTabNuevo();
             CargarDatosBD();
+            AplicarEstilosColumnas(dgvHistorial);
 
             cboPropiedad.DropDownStyle = ComboBoxStyle.DropDownList;
             cboSolicitud.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -47,6 +54,17 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
             grid.DefaultCellStyle.Font = new Font("Segoe UI", 8, FontStyle.Regular);
             grid.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(225, 225, 225);
+        }
+        private void AplicarEstilosColumnas(DataGridView grid)
+        {
+            grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            if (grid.Columns["Costo"] != null)
+            {
+                grid.Columns["Costo"].DefaultCellStyle.FormatProvider = System.Globalization.CultureInfo.CreateSpecificCulture("es-HN");
+                grid.Columns["Costo"].DefaultCellStyle.Format = "C2";
+                grid.Columns["Costo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            }
         }
         private void btnSolicitud_Click(object sender, EventArgs e) => ActivarTabNuevo();
         private void btnActualizar_Click(object sender, EventArgs e) => ActivarTabEditar();
@@ -145,6 +163,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 );
             }
         }
+
         private void txtBuscar_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -217,145 +236,216 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void MantenimientoForm_Load(object sender, EventArgs e)
         {
-            cboPropiedad.SelectedIndex = 0;
-            cboTecnico.SelectedIndex = 0;
-            cboTipo.SelectedIndex = 0;
-            llenarTipoMantenimiento();
-            llenarTecnicoAsignado();
-            llenarPropiedades();
+            LlenarTipoMantenimiento();
+            LlenarTecnicoAsignado();
+            LlenarPropiedades();
 
-            llenarcboSolicitud();
-            cambiarEstadoCampos(false);
-            validarCamposParaGuardar();
+            LlenarCboSolicitud();
+            LlenarCmbEstado();
+            CambiarEstadoCampos(false);
+            ValidarCamposParaGuardar();
         }
 
-        private void llenarTipoMantenimiento()
+        private void LlenarTipoMantenimiento()
         {
             try
             {
-                string queryLlenarTipoMantenimiento = "select * from TiposMantenimiento";
+                cboTipo.Items.Clear();
+                cboTipo.Items.Add("--Seleccionar--");
+                TiposDic.Clear();
+
+                string query = "SELECT IdTipoMantenimiento, Nombre FROM TiposMantenimiento";
                 using (SqlConnection conectar = Conexion.ObtenerConexion())
                 {
                     conectar.Open();
-                    SqlCommand cmdLlenarTipoMantenimiento = new SqlCommand(queryLlenarTipoMantenimiento, conectar);
-                    SqlDataReader readerLlenarTipoMantenimiento = cmdLlenarTipoMantenimiento.ExecuteReader();
-                    while (readerLlenarTipoMantenimiento.Read())
+                    SqlCommand cmd = new SqlCommand(query, conectar);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        cboTipo.Items.Add(readerLlenarTipoMantenimiento["Nombre"].ToString());
+                        while (reader.Read())
+                        {
+                            string nombre = reader["Nombre"].ToString();
+                            int id = Convert.ToInt32(reader["IdTipoMantenimiento"]);
+                            cboTipo.Items.Add(nombre);
+                            TiposDic[nombre] = id;
+                        }
                     }
                 }
+                cboTipo.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Algo salió mal.",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show(ex.Message, "Algo salió mal.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void LlenarTecnicoAsignado()
+        {
+            try
+            {
+                cboTecnico.Items.Clear();
+                cboTecnico.Items.Add("--Seleccionar--");
+                TecnicosDic.Clear();
+
+                string query = "SELECT IdEmpleado, NombreCompleto FROM Empleado WHERE IdEmpleado = 6 OR IdEmpleado = 7";
+                using (SqlConnection conectar = Conexion.ObtenerConexion())
+                {
+                    conectar.Open();
+                    SqlCommand cmd = new SqlCommand(query, conectar);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int idEmpleado = Convert.ToInt32(reader["IdEmpleado"]);
+                            string[] partes = reader["NombreCompleto"].ToString().Split(' ');
+                            string nombreMostrado = partes[0] + ' ' + partes[2];
+
+                            cboTecnico.Items.Add(nombreMostrado);
+                            TecnicosDic[nombreMostrado] = idEmpleado;
+                        }
+                    }
+                }
+                cboTecnico.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Algo salió mal.", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void llenarTecnicoAsignado()
+        private void LlenarPropiedades()
         {
-            //Esto solo es por mientras, para hacer la validacion, estos nombres cambiarán
             try
             {
-                string queryllenarTecnicoAsignado = "select * from Empleados";
+                cboPropiedad.Items.Clear();
+                cboPropiedad.Items.Add("--Seleccionar--");
+                PropiedadesDisponibles.Clear();
+
+                string queryLlenarPropiedades = @"
+                    SELECT P.IdPropiedad, P.Codigo
+                    FROM Propiedades P
+                    WHERE NOT EXISTS (
+                        SELECT 1 FROM Mantenimiento M
+                        INNER JOIN EstadosMantenimiento EM ON M.IdEstadoMantenimiento = EM.IdEstadoMantenimiento
+                        WHERE M.IdPropiedad = P.IdPropiedad
+                          AND EM.Nombre IN ('Pendiente', 'En Proceso')
+                    )
+                    ORDER BY P.Codigo";
+
                 using (SqlConnection conectar = Conexion.ObtenerConexion())
                 {
                     conectar.Open();
-                    SqlCommand cmdllenarTecnicoAsignado = new SqlCommand(queryllenarTecnicoAsignado, conectar);
-                    SqlDataReader readerllenarTecnicoAsignado = cmdllenarTecnicoAsignado.ExecuteReader();
-                    while (readerllenarTecnicoAsignado.Read())
+                    SqlCommand cmd = new SqlCommand(queryLlenarPropiedades, conectar);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        string nombrecompleto;
-                        string[] nombrepartes;
-                        nombrecompleto = readerllenarTecnicoAsignado["Nombre"].ToString();
-                        nombrepartes = nombrecompleto.Split(' ');
-
-                        cboTecnico.Items.Add(nombrepartes[0] + ' ' + nombrepartes[2]);
+                        while (reader.Read())
+                        {
+                            string codigo = reader["Codigo"].ToString();
+                            string idPropiedad = reader["IdPropiedad"].ToString();
+                            cboPropiedad.Items.Add(codigo);
+                            PropiedadesDisponibles[codigo] = idPropiedad;
+                        }
                     }
                 }
+                cboPropiedad.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Algo salió mal.",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
-            }
-        }
-
-        private void llenarPropiedades()
-        {
-            //Esto lo pongo solo para hacer las validaciones, no sé si así seria
-            try
-            {
-                string queryLlenarPropiedades = "select * from Propiedades";
-                using (SqlConnection conectar = Conexion.ObtenerConexion())
-                {
-                    conectar.Open();
-                    SqlCommand cmdLlenarPropiedades = new SqlCommand(queryLlenarPropiedades, conectar);
-                    SqlDataReader readerLlenarPropiedades = cmdLlenarPropiedades.ExecuteReader();
-                    while (readerLlenarPropiedades.Read())
-                    {
-                        cboPropiedad.Items.Add(readerLlenarPropiedades["Codigo"].ToString());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    ex.Message,
-                    "Algo salió mal.",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show(ex.Message, "Algo salió mal.", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnGuardar_Click(object sender, EventArgs e) 
         {
-            if (cboPropiedad.SelectedIndex == 0 ||
-                cboTecnico.SelectedIndex == 0 ||
-                cboTipo.SelectedIndex == 0)
+            if (cboPropiedad.SelectedIndex <= 0 ||
+        cboTecnico.SelectedIndex <= 0 ||
+        cboTipo.SelectedIndex <= 0 ||
+        string.IsNullOrWhiteSpace(txtDescripcion.Text))
             {
                 MessageBox.Show(
                     "Los campos obligatorios no deben de estar vacíos.",
-                    "Campos vacíos.", 
+                    "Campos vacíos.",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
+                return;
             }
-            else
-            {
-                DialogResult result = MessageBox.Show(
-                    "¿Está seguro de crear esta solicitud?",
-                    "Crear Solicitud.",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
 
-                if (result == DialogResult.Yes)
-                {
-                    //Esto estará aqui por mientras se termina la funcion de crear solicitud
-                    MessageBox.Show(
-                        "Solicitud creada con éxito.",
-                        "Éxito.",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
-                    limpiarCampos();
-                }
+            DialogResult result = MessageBox.Show(
+                "¿Está seguro de crear esta solicitud?",
+                "Crear Solicitud.",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result != DialogResult.Yes) return;
+
+            if (CrearSolicitud())
+            {
+                MessageBox.Show(
+                    "Solicitud creada con éxito.",
+                    "Éxito.",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+                LimpiarCampos();
+                LlenarPropiedades();
+                LlenarCboSolicitud(); 
+                CargarDatosBD();
             }
         }
 
-        private void crearSolicitud()
+        private bool CrearSolicitud()
         {
+            try
+            {
+                string idPropiedad = PropiedadesDisponibles[cboPropiedad.SelectedItem.ToString()];
+                int idTecnico = TecnicosDic[cboTecnico.SelectedItem.ToString()];
+                int idTipo = TiposDic[cboTipo.SelectedItem.ToString()];
+                string tipoAbrev = cboTipo.SelectedItem.ToString()
+                    .StartsWith("Prev", StringComparison.OrdinalIgnoreCase) ? "PRE" : "COR";
+                string fechaStr = DateTime.Now.ToString("yyMMdd");
 
+                using (SqlConnection conectar = Conexion.ObtenerConexion())
+                {
+                    conectar.Open();
+
+                    string patron = $"MTC-{tipoAbrev}-{fechaStr}%";
+                    SqlCommand cmdCount = new SqlCommand(
+                        "SELECT COUNT(*) FROM Mantenimiento WHERE NumeroOrden LIKE @patron", conectar);
+                    cmdCount.Parameters.AddWithValue("@patron", patron);
+                    int consecutivo = (int)cmdCount.ExecuteScalar() + 1;
+                    string numeroOrden = $"MTC-{tipoAbrev}-{fechaStr}-{consecutivo:D2}";
+
+                    string queryInsert = @"
+                INSERT INTO Mantenimiento
+                    (NumeroOrden, IdPropiedad, IdTipoMantenimiento, IdTecnicoAsignado,
+                     Descripcion, FechaSolicitud, FechaProgramada, IdEstadoMantenimiento)
+                VALUES
+                    (@numeroOrden, @idPropiedad, @idTipo, @idTecnico,
+                     @descripcion, CAST(GETDATE() AS DATE), @fechaProgramada,
+                     (SELECT IdEstadoMantenimiento FROM EstadosMantenimiento WHERE Nombre = 'Pendiente'))";
+
+                    SqlCommand cmdInsert = new SqlCommand(queryInsert, conectar);
+                    cmdInsert.Parameters.AddWithValue("@numeroOrden", numeroOrden);
+                    cmdInsert.Parameters.AddWithValue("@idPropiedad", idPropiedad);
+                    cmdInsert.Parameters.AddWithValue("@idTipo", idTipo);
+                    cmdInsert.Parameters.AddWithValue("@idTecnico", idTecnico);
+                    cmdInsert.Parameters.AddWithValue("@descripcion", txtDescripcion.Text.Trim());
+                    cmdInsert.Parameters.AddWithValue("@fechaProgramada", dtpProgramada.Value.Date);
+
+                    cmdInsert.ExecuteNonQuery();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al crear la solicitud: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return false;
+            }
         }
 
         private void cboPropiedad_SelectedIndexChanged(object sender, EventArgs e)
@@ -369,7 +459,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 lblOPropiedad.Visible = false;
             }
 
-            validarCamposParaGuardar();
+            ValidarCamposParaGuardar();
         }
 
         private void cboTecnico_SelectedIndexChanged(object sender, EventArgs e)
@@ -383,7 +473,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 lblOTecnico.Visible = false;
             }
 
-            validarCamposParaGuardar();
+            ValidarCamposParaGuardar();
         }
 
         private void cboTipo_SelectedIndexChanged(object sender, EventArgs e)
@@ -397,14 +487,14 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 lblOTipo.Visible = false;
             }
 
-            validarCamposParaGuardar();
+            ValidarCamposParaGuardar();
         }
 
         private void dtpProgramada_ValueChanged(object sender, EventArgs e)
         {
             if(dtpProgramada.Value.Date < DateTime.Now.Date)
             {
-                lblOFecha.Text = "Seleccione una fecha valida";
+                lblOFecha.Text = "Seleccione una fecha válida";
                 lblOFecha.Visible = true;
             }
             else
@@ -412,122 +502,129 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 lblOFecha.Visible = false;
             }
 
-            validarCamposParaGuardar();
+            ValidarCamposParaGuardar();
         }
 
-        private void llenarcboSolicitud()
+        private void LlenarCboSolicitud()
         {
             try
             {
-                string queryLlenarcboSolicitud = "select * from Mantenimiento";
+                cboSolicitud.Items.Clear();
+                cboSolicitud.Items.Add("--Seleccionar--");
+
+                string query = @"
+            SELECT M.NumeroOrden
+            FROM Mantenimiento M
+            INNER JOIN EstadosMantenimiento EM ON M.IdEstadoMantenimiento = EM.IdEstadoMantenimiento
+            WHERE EM.Nombre <> 'Completado'
+            ORDER BY M.NumeroOrden";
+
                 using (SqlConnection conectar = Conexion.ObtenerConexion())
                 {
                     conectar.Open();
-                    SqlCommand cmdLlenarcboSolicitud = new SqlCommand(queryLlenarcboSolicitud, conectar);
-                    SqlDataReader readerLlenarcboSolicitud = cmdLlenarcboSolicitud.ExecuteReader();
-                    while (readerLlenarcboSolicitud.Read())
+                    SqlCommand cmd = new SqlCommand(query, conectar);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        cboSolicitud.Items.Add(readerLlenarcboSolicitud["NumeroOrden"].ToString());
+                        while (reader.Read())
+                        {
+                            cboSolicitud.Items.Add(reader["NumeroOrden"].ToString());
+                        }
                     }
                 }
-                cboSolicitud.SelectedItem = 0;
+                cboSolicitud.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Algo salió mal.",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show(ex.Message, "Algo salió mal.", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void llenarcmbEstado()
+        private void LlenarCmbEstado()
         {
             try
             {
-                string queryllenarcmbEstado = "select * from EstadosMantenimiento";
+                cmbEstado.Items.Clear();
+                string query = "SELECT Nombre FROM EstadosMantenimiento ORDER BY IdEstadoMantenimiento";
                 using (SqlConnection conectar = Conexion.ObtenerConexion())
                 {
                     conectar.Open();
-                    SqlCommand cmdllenarcmbEstado = new SqlCommand(queryllenarcmbEstado, conectar);
-                    SqlDataReader readerllenarcmbEstado = cmdllenarcmbEstado.ExecuteReader();
-                    while (readerllenarcmbEstado.Read())
+                    SqlCommand cmd = new SqlCommand(query, conectar);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        cmbEstado.Items.Add(readerllenarcmbEstado["Nombre"].ToString());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    ex.Message,
-                    "Algo salió mal.",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
-            }
-        }
-
-        private void buscarDatosEnDB()
-        {
-            try
-            {
-                string querybuscarDatosEnDB = "select M.IdMantenimiento, P.Codigo, Emp.NombreCompleto, M.Costo, " +
-                    "M.Descripcion, M.FechaConclusion, Est.Nombre from Mantenimiento as M " +
-                    "INNER JOIN Propiedades as P on M.IdPropiedad = P.IdPropiedad " +
-                    "INNER JOIN Empleado as Emp on M.IdTecnicoAsignado = Emp.IdEmpleado " +
-                    "INNER JOIN EstadosMantenimiento as Est on M.IdEstadoMantenimiento = Est.IdEstadoMantenimiento " +
-                    "where M.NumeroOrden = @orden";
-                using (SqlConnection conectar = Conexion.ObtenerConexion())
-                {
-                    conectar.Open();
-                    SqlCommand cmdbuscarDatosEnDB = new SqlCommand(querybuscarDatosEnDB, conectar);
-                    cmdbuscarDatosEnDB.Parameters.AddWithValue("@orden", cboSolicitud.SelectedItem);
-                    SqlDataReader readerbuscarDatosEnDB = cmdbuscarDatosEnDB.ExecuteReader();
-                    while (readerbuscarDatosEnDB.Read())
-                    {
-                        txtPropiedadActu.Text = readerbuscarDatosEnDB["Codigo"].ToString();
-                        txtTecnicoActu.Text = readerbuscarDatosEnDB["NombreCompleto"].ToString();
-                        txtCosto.Text = readerbuscarDatosEnDB["Costo"].ToString() == string.Empty ? "0" : readerbuscarDatosEnDB["Costo"].ToString();
-                        txtDescripcionActu.Text = readerbuscarDatosEnDB["Descripcion"].ToString();
-                        dtpConclusion.Value = DateTime.Parse(readerbuscarDatosEnDB["FechaConclusion"].ToString());
-                        string estado = readerbuscarDatosEnDB["Nombre"].ToString();
-                        cmbEstado.Text = estado;
+                        while (reader.Read())
+                        {
+                            cmbEstado.Items.Add(reader["Nombre"].ToString());
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Algo salió mal.",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show(ex.Message, "Algo salió mal.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void BuscarDatosEnDB()
+        {
+            try
+            {
+                string query = @"
+                SELECT M.IdMantenimiento, P.Codigo, Emp.NombreCompleto, M.Costo,
+                       M.Descripcion, M.FechaConclusion, Est.Nombre
+                FROM Mantenimiento AS M
+                INNER JOIN Propiedades AS P ON M.IdPropiedad = P.IdPropiedad
+                INNER JOIN Empleado AS Emp ON M.IdTecnicoAsignado = Emp.IdEmpleado
+                INNER JOIN EstadosMantenimiento AS Est ON M.IdEstadoMantenimiento = Est.IdEstadoMantenimiento
+                WHERE M.NumeroOrden = @orden";
+
+                using (SqlConnection conectar = Conexion.ObtenerConexion())
+                {
+                    conectar.Open();
+                    SqlCommand cmd = new SqlCommand(query, conectar);
+                    cmd.Parameters.AddWithValue("@orden", cboSolicitud.SelectedItem.ToString());
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            idMantenimientoSeleccionado = Convert.ToInt32(reader["IdMantenimiento"]);
+                            txtPropiedadActu.Text = reader["Codigo"].ToString();
+                            txtTecnicoActu.Text = reader["NombreCompleto"].ToString();
+                            txtCosto.Text = reader["Costo"] == DBNull.Value ? "0" : reader["Costo"].ToString();
+                            txtDescripcionActu.Text = reader["Descripcion"].ToString();
+                            dtpConclusion.Value = reader["FechaConclusion"] == DBNull.Value
+                                ? DateTime.Now
+                                : Convert.ToDateTime(reader["FechaConclusion"]);
+                            cmbEstado.Text = reader["Nombre"].ToString();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Algo salió mal.", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void cboSolicitud_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(cboSolicitud.SelectedIndex == 0)
+            if (LimpiandoCampos) return;
+
+            if (cboSolicitud.SelectedIndex <= 0)
             {
                 btnActualizarSoli.Enabled = false;
-                cambiarEstadoCampos(false);
-                limpiarCampos();
+                CambiarEstadoCampos(false);
+                idMantenimientoSeleccionado = -1;
             }
             else
             {
-                llenarcmbEstado();
-                buscarDatosEnDB();
-                cambiarEstadoCampos(true);
+                BuscarDatosEnDB();
+                CambiarEstadoCampos(true);
                 btnActualizarSoli.Enabled = true;
             }
         }
         
 
-        private void cambiarEstadoCampos(bool estado)
+        private void CambiarEstadoCampos(bool estado)
         {
             txtPropiedadActu.Enabled = estado;
             txtTecnicoActu.Enabled = estado;
@@ -536,33 +633,38 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             dtpConclusion.Enabled = estado;
             cmbEstado.Enabled = estado;
         }
-        
-        
-        private void limpiarCampos()
+        private void LimpiarCampos()
         {
-            //Crear mantenimiento
+            // Crear mantenimiento
             cboPropiedad.SelectedIndex = 0;
             cboTecnico.SelectedIndex = 0;
             cboTipo.SelectedIndex = 0;
             dtpProgramada.ResetText();
+            txtDescripcion.Text = string.Empty;
 
-            //Actualar mantenimiento
+            // Actualizar mantenimiento
+            LimpiandoCampos = true;
             txtPropiedadActu.Text = string.Empty;
-            txtPropiedadActu.Text = string.Empty;
+            txtTecnicoActu.Text = string.Empty;
             txtCosto.Text = string.Empty;
             txtDescripcionActu.Text = string.Empty;
-            dtpConclusion.Text = string.Empty;
+            dtpConclusion.Value = DateTime.Now;
             cmbEstado.SelectedIndex = -1;
+            cboSolicitud.SelectedIndex = -1;
+            idMantenimientoSeleccionado = -1;
+            CambiarEstadoCampos(false);
+            btnActualizarSoli.Enabled = false;
+            LimpiandoCampos = false;
 
-            validarCamposParaGuardar();
+            ValidarCamposParaGuardar();
         }
 
         private void btnLimpiarActu_Click(object sender, EventArgs e)
         {
-            limpiarCampos();
+            LimpiarCampos();
         }
 
-        private void validarCamposParaGuardar()
+        private void ValidarCamposParaGuardar()
         {
             if (lblOPropiedad.Visible == true ||
                 lblOTecnico.Visible == true ||
@@ -611,7 +713,85 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            limpiarCampos();
+            LimpiarCampos();
+        }
+
+        private void btnActualizarSoli_Click(object sender, EventArgs e)
+        {
+            if (cboSolicitud.SelectedIndex <= 0 || idMantenimientoSeleccionado <= 0)
+            {
+                MessageBox.Show(
+                    "Seleccione una solicitud válida para actualizar.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
+            }
+
+            if (cmbEstado.SelectedIndex < 0)
+            {
+                MessageBox.Show(
+                    "Seleccione un estado.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
+            }
+
+            DialogResult result = MessageBox.Show(
+                "¿Está seguro de actualizar esta solicitud?",
+                "Actualizar Solicitud.",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result != DialogResult.Yes) return;
+
+            try
+            {
+                string query = @"
+                UPDATE Mantenimiento
+                SET Costo = @costo,
+                    Descripcion = @descripcion,
+                    FechaConclusion = @fechaConclusion,
+                    IdEstadoMantenimiento = (SELECT IdEstadoMantenimiento FROM EstadosMantenimiento WHERE Nombre = @estado)
+                WHERE IdMantenimiento = @id";
+
+                using (SqlConnection conectar = Conexion.ObtenerConexion())
+                {
+                    conectar.Open();
+                    SqlCommand cmd = new SqlCommand(query, conectar);
+                    cmd.Parameters.AddWithValue("@costo", decimal.Parse(txtCosto.Text));
+                    cmd.Parameters.AddWithValue("@descripcion", txtDescripcionActu.Text.Trim());
+                    cmd.Parameters.AddWithValue("@fechaConclusion", dtpConclusion.Value.Date);
+                    cmd.Parameters.AddWithValue("@estado", cmbEstado.Text);
+                    cmd.Parameters.AddWithValue("@id", idMantenimientoSeleccionado);
+                    cmd.ExecuteNonQuery();
+                }
+
+                MessageBox.Show(
+                    "Solicitud actualizada con éxito.",
+                    "Éxito.",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
+                LimpiarCampos();
+                LlenarCboSolicitud();
+                LlenarPropiedades();
+                CargarDatosBD();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al actualizar la solicitud: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
         }
     }
 }
