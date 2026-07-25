@@ -226,7 +226,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
             llenarcboSolicitud();
             cambiarEstadoCampos(false);
-            btnActualizarSoli.Enabled = false;
+            validarCamposParaGuardar();
         }
 
         private void llenarTipoMantenimiento()
@@ -332,13 +332,30 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             else
             {
-                MessageBox.Show(
-                    "Solicitud creada con éxito.",
-                    "Éxito.", 
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
+                DialogResult result = MessageBox.Show(
+                    "¿Está seguro de crear esta solicitud?",
+                    "Crear Solicitud.",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
                 );
+
+                if (result == DialogResult.Yes)
+                {
+                    //Esto estará aqui por mientras se termina la funcion de crear solicitud
+                    MessageBox.Show(
+                        "Solicitud creada con éxito.",
+                        "Éxito.",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                    limpiarCampos();
+                }
             }
+        }
+
+        private void crearSolicitud()
+        {
+
         }
 
         private void cboPropiedad_SelectedIndexChanged(object sender, EventArgs e)
@@ -441,7 +458,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                         cmbEstado.Items.Add(readerllenarcmbEstado["Nombre"].ToString());
                     }
                 }
-                cboSolicitud.SelectedItem = 0;
             }
             catch (Exception ex)
             {
@@ -499,7 +515,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 btnActualizarSoli.Enabled = false;
                 cambiarEstadoCampos(false);
-                limpiarcampos();
+                limpiarCampos();
             }
             else
             {
@@ -522,19 +538,28 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         }
         
         
-        private void limpiarcampos()
+        private void limpiarCampos()
         {
+            //Crear mantenimiento
+            cboPropiedad.SelectedIndex = 0;
+            cboTecnico.SelectedIndex = 0;
+            cboTipo.SelectedIndex = 0;
+            dtpProgramada.ResetText();
+
+            //Actualar mantenimiento
             txtPropiedadActu.Text = string.Empty;
             txtPropiedadActu.Text = string.Empty;
             txtCosto.Text = string.Empty;
             txtDescripcionActu.Text = string.Empty;
             dtpConclusion.Text = string.Empty;
             cmbEstado.SelectedIndex = -1;
+
+            validarCamposParaGuardar();
         }
 
         private void btnLimpiarActu_Click(object sender, EventArgs e)
         {
-            limpiarcampos();
+            limpiarCampos();
         }
 
         private void validarCamposParaGuardar()
@@ -554,7 +579,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void txtCosto_TextChanged(object sender, EventArgs e)
         {
-            if(txtCosto.Text == string.Empty)
+            if(txtCosto.Text.Trim() == string.Empty)
             {
                 txtCosto.Text = "0";
                 txtCosto.SelectionStart = txtCosto.Text.Length;
@@ -582,6 +607,11 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 e.Handled = true; // Cancela la tecla presionada (no la escribe)
             }
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            limpiarCampos();
         }
     }
 }

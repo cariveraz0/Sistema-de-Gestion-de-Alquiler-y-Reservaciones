@@ -446,6 +446,9 @@
     <EmbeddedResource Include="Reportes\ResumenMantenimientoEstado.resx">
       <DependentUpon>ResumenMantenimientoEstado.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\SeleccionarPeriodoForm.resx">
+      <DependentUpon>SeleccionarPeriodoForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ReservacionesForm.resx">
       <DependentUpon>ReservacionesForm.cs</DependentUpon>
     </EmbeddedResource>

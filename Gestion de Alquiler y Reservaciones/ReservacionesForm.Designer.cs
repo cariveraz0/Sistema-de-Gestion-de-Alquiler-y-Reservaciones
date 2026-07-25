@@ -54,6 +54,11 @@
             this.pnlAccion = new System.Windows.Forms.Panel();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
+            this.lblVPropiedad = new System.Windows.Forms.Label();
+            this.lblVCliente = new System.Windows.Forms.Label();
+            this.lblVFechaEntrada = new System.Windows.Forms.Label();
+            this.lblVFechaSalida = new System.Windows.Forms.Label();
+            this.lblVMonto = new System.Windows.Forms.Label();
             this.pnlCuerpo.SuspendLayout();
             this.pnlReservacion.SuspendLayout();
             this.pnlHistorial.SuspendLayout();
@@ -68,7 +73,7 @@
             this.btnNuevaReservacion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNuevaReservacion.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNuevaReservacion.Location = new System.Drawing.Point(51, 15);
-            this.btnNuevaReservacion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnNuevaReservacion.Margin = new System.Windows.Forms.Padding(4);
             this.btnNuevaReservacion.Name = "btnNuevaReservacion";
             this.btnNuevaReservacion.Size = new System.Drawing.Size(227, 42);
             this.btnNuevaReservacion.TabIndex = 0;
@@ -82,7 +87,7 @@
             this.btnHistorialReservaciones.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnHistorialReservaciones.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHistorialReservaciones.Location = new System.Drawing.Point(285, 15);
-            this.btnHistorialReservaciones.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnHistorialReservaciones.Margin = new System.Windows.Forms.Padding(4);
             this.btnHistorialReservaciones.Name = "btnHistorialReservaciones";
             this.btnHistorialReservaciones.Size = new System.Drawing.Size(251, 42);
             this.btnHistorialReservaciones.TabIndex = 1;
@@ -96,13 +101,18 @@
             this.pnlCuerpo.Controls.Add(this.pnlReservacion);
             this.pnlCuerpo.Controls.Add(this.pnlHistorial);
             this.pnlCuerpo.Location = new System.Drawing.Point(51, 92);
-            this.pnlCuerpo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlCuerpo.Margin = new System.Windows.Forms.Padding(4);
             this.pnlCuerpo.Name = "pnlCuerpo";
             this.pnlCuerpo.Size = new System.Drawing.Size(1389, 598);
             this.pnlCuerpo.TabIndex = 2;
             // 
             // pnlReservacion
             // 
+            this.pnlReservacion.Controls.Add(this.lblVMonto);
+            this.pnlReservacion.Controls.Add(this.lblVFechaSalida);
+            this.pnlReservacion.Controls.Add(this.lblVFechaEntrada);
+            this.pnlReservacion.Controls.Add(this.lblVCliente);
+            this.pnlReservacion.Controls.Add(this.lblVPropiedad);
             this.pnlReservacion.Controls.Add(this.txtObservaciones);
             this.pnlReservacion.Controls.Add(this.label7);
             this.pnlReservacion.Controls.Add(this.txtMonto);
@@ -117,7 +127,7 @@
             this.pnlReservacion.Controls.Add(this.label1);
             this.pnlReservacion.Controls.Add(this.txtCliente);
             this.pnlReservacion.Location = new System.Drawing.Point(0, 0);
-            this.pnlReservacion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlReservacion.Margin = new System.Windows.Forms.Padding(4);
             this.pnlReservacion.Name = "pnlReservacion";
             this.pnlReservacion.Size = new System.Drawing.Size(1381, 591);
             this.pnlReservacion.TabIndex = 0;
@@ -127,7 +137,7 @@
             this.txtObservaciones.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtObservaciones.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtObservaciones.Location = new System.Drawing.Point(53, 496);
-            this.txtObservaciones.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtObservaciones.Margin = new System.Windows.Forms.Padding(4);
             this.txtObservaciones.Name = "txtObservaciones";
             this.txtObservaciones.Size = new System.Drawing.Size(769, 26);
             this.txtObservaciones.TabIndex = 12;
@@ -149,10 +159,12 @@
             this.txtMonto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtMonto.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMonto.Location = new System.Drawing.Point(53, 416);
-            this.txtMonto.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtMonto.Margin = new System.Windows.Forms.Padding(4);
             this.txtMonto.Name = "txtMonto";
             this.txtMonto.Size = new System.Drawing.Size(266, 26);
             this.txtMonto.TabIndex = 10;
+            this.txtMonto.TextChanged += new System.EventHandler(this.txtMonto_TextChanged);
+            this.txtMonto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMonto_KeyPress);
             // 
             // label6
             // 
@@ -169,10 +181,11 @@
             // dtpSalida
             // 
             this.dtpSalida.Location = new System.Drawing.Point(53, 340);
-            this.dtpSalida.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dtpSalida.Margin = new System.Windows.Forms.Padding(4);
             this.dtpSalida.Name = "dtpSalida";
             this.dtpSalida.Size = new System.Drawing.Size(265, 22);
             this.dtpSalida.TabIndex = 8;
+            this.dtpSalida.ValueChanged += new System.EventHandler(this.dtpSalida_ValueChanged);
             // 
             // label5
             // 
@@ -189,10 +202,11 @@
             // dtpEntrada
             // 
             this.dtpEntrada.Location = new System.Drawing.Point(53, 263);
-            this.dtpEntrada.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dtpEntrada.Margin = new System.Windows.Forms.Padding(4);
             this.dtpEntrada.Name = "dtpEntrada";
             this.dtpEntrada.Size = new System.Drawing.Size(265, 22);
             this.dtpEntrada.TabIndex = 6;
+            this.dtpEntrada.ValueChanged += new System.EventHandler(this.dtpEntrada_ValueChanged);
             // 
             // label4
             // 
@@ -221,11 +235,15 @@
             // cboPropiedad
             // 
             this.cboPropiedad.FormattingEnabled = true;
+            this.cboPropiedad.Items.AddRange(new object[] {
+            "--Seleccionar--"});
             this.cboPropiedad.Location = new System.Drawing.Point(53, 107);
-            this.cboPropiedad.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cboPropiedad.Margin = new System.Windows.Forms.Padding(4);
             this.cboPropiedad.Name = "cboPropiedad";
             this.cboPropiedad.Size = new System.Drawing.Size(389, 24);
             this.cboPropiedad.TabIndex = 3;
+            this.cboPropiedad.SelectedIndexChanged += new System.EventHandler(this.cboPropiedad_SelectedIndexChanged);
+            this.cboPropiedad.SelectedIndex = 0;
             // 
             // label2
             // 
@@ -256,10 +274,11 @@
             this.txtCliente.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtCliente.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCliente.Location = new System.Drawing.Point(53, 185);
-            this.txtCliente.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtCliente.Margin = new System.Windows.Forms.Padding(4);
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.Size = new System.Drawing.Size(417, 26);
             this.txtCliente.TabIndex = 0;
+            this.txtCliente.TextChanged += new System.EventHandler(this.txtCliente_TextChanged);
             // 
             // pnlHistorial
             // 
@@ -267,7 +286,7 @@
             this.pnlHistorial.Controls.Add(this.dgvHistorial);
             this.pnlHistorial.Controls.Add(this.pnlBuscar);
             this.pnlHistorial.Location = new System.Drawing.Point(0, 0);
-            this.pnlHistorial.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlHistorial.Margin = new System.Windows.Forms.Padding(4);
             this.pnlHistorial.Name = "pnlHistorial";
             this.pnlHistorial.Size = new System.Drawing.Size(1381, 591);
             this.pnlHistorial.TabIndex = 13;
@@ -276,7 +295,7 @@
             // 
             this.dgvHistorial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvHistorial.Location = new System.Drawing.Point(4, 79);
-            this.dgvHistorial.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvHistorial.Margin = new System.Windows.Forms.Padding(4);
             this.dgvHistorial.Name = "dgvHistorial";
             this.dgvHistorial.RowHeadersWidth = 51;
             this.dgvHistorial.Size = new System.Drawing.Size(1377, 512);
@@ -290,7 +309,7 @@
             this.pnlBuscar.Controls.Add(this.txtBuscar);
             this.pnlBuscar.Controls.Add(this.label8);
             this.pnlBuscar.Location = new System.Drawing.Point(4, 4);
-            this.pnlBuscar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlBuscar.Margin = new System.Windows.Forms.Padding(4);
             this.pnlBuscar.Name = "pnlBuscar";
             this.pnlBuscar.Size = new System.Drawing.Size(1377, 74);
             this.pnlBuscar.TabIndex = 0;
@@ -303,7 +322,7 @@
             this.btnBuscar.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBuscar.ForeColor = System.Drawing.Color.White;
             this.btnBuscar.Location = new System.Drawing.Point(544, 20);
-            this.btnBuscar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBuscar.Margin = new System.Windows.Forms.Padding(4);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(120, 33);
             this.btnBuscar.TabIndex = 2;
@@ -316,7 +335,7 @@
             this.txtBuscar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtBuscar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBuscar.Location = new System.Drawing.Point(97, 23);
-            this.txtBuscar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBuscar.Margin = new System.Windows.Forms.Padding(4);
             this.txtBuscar.Name = "txtBuscar";
             this.txtBuscar.Size = new System.Drawing.Size(426, 27);
             this.txtBuscar.TabIndex = 1;
@@ -340,7 +359,7 @@
             this.pnlAccion.Controls.Add(this.btnGuardar);
             this.pnlAccion.Controls.Add(this.btnLimpiar);
             this.pnlAccion.Location = new System.Drawing.Point(51, 703);
-            this.pnlAccion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlAccion.Margin = new System.Windows.Forms.Padding(4);
             this.pnlAccion.Name = "pnlAccion";
             this.pnlAccion.Padding = new System.Windows.Forms.Padding(13, 10, 13, 10);
             this.pnlAccion.Size = new System.Drawing.Size(1389, 57);
@@ -354,12 +373,13 @@
             this.btnGuardar.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGuardar.ForeColor = System.Drawing.Color.White;
             this.btnGuardar.Location = new System.Drawing.Point(332, 10);
-            this.btnGuardar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnGuardar.Margin = new System.Windows.Forms.Padding(4);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(267, 37);
             this.btnGuardar.TabIndex = 1;
             this.btnGuardar.Text = "Guardar Reservación";
             this.btnGuardar.UseVisualStyleBackColor = false;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // btnLimpiar
             // 
@@ -369,13 +389,68 @@
             this.btnLimpiar.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLimpiar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
             this.btnLimpiar.Location = new System.Drawing.Point(57, 10);
-            this.btnLimpiar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLimpiar.Margin = new System.Windows.Forms.Padding(4);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(267, 37);
             this.btnLimpiar.TabIndex = 0;
             this.btnLimpiar.Text = "Limpiar Formulario";
             this.btnLimpiar.UseVisualStyleBackColor = false;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
+            // 
+            // lblVPropiedad
+            // 
+            this.lblVPropiedad.AutoSize = true;
+            this.lblVPropiedad.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVPropiedad.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVPropiedad.Location = new System.Drawing.Point(449, 107);
+            this.lblVPropiedad.Name = "lblVPropiedad";
+            this.lblVPropiedad.Size = new System.Drawing.Size(93, 22);
+            this.lblVPropiedad.TabIndex = 14;
+            this.lblVPropiedad.Text = "Obligatorio";
+            // 
+            // lblVCliente
+            // 
+            this.lblVCliente.AutoSize = true;
+            this.lblVCliente.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVCliente.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVCliente.Location = new System.Drawing.Point(477, 185);
+            this.lblVCliente.Name = "lblVCliente";
+            this.lblVCliente.Size = new System.Drawing.Size(93, 22);
+            this.lblVCliente.TabIndex = 15;
+            this.lblVCliente.Text = "Obligatorio";
+            // 
+            // lblVFechaEntrada
+            // 
+            this.lblVFechaEntrada.AutoSize = true;
+            this.lblVFechaEntrada.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVFechaEntrada.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVFechaEntrada.Location = new System.Drawing.Point(335, 263);
+            this.lblVFechaEntrada.Name = "lblVFechaEntrada";
+            this.lblVFechaEntrada.Size = new System.Drawing.Size(93, 22);
+            this.lblVFechaEntrada.TabIndex = 16;
+            this.lblVFechaEntrada.Text = "Obligatorio";
+            // 
+            // lblVFechaSalida
+            // 
+            this.lblVFechaSalida.AutoSize = true;
+            this.lblVFechaSalida.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVFechaSalida.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVFechaSalida.Location = new System.Drawing.Point(335, 340);
+            this.lblVFechaSalida.Name = "lblVFechaSalida";
+            this.lblVFechaSalida.Size = new System.Drawing.Size(93, 22);
+            this.lblVFechaSalida.TabIndex = 17;
+            this.lblVFechaSalida.Text = "Obligatorio";
+            // 
+            // lblVMonto
+            // 
+            this.lblVMonto.AutoSize = true;
+            this.lblVMonto.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVMonto.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVMonto.Location = new System.Drawing.Point(335, 417);
+            this.lblVMonto.Name = "lblVMonto";
+            this.lblVMonto.Size = new System.Drawing.Size(93, 22);
+            this.lblVMonto.TabIndex = 18;
+            this.lblVMonto.Text = "Obligatorio";
             // 
             // ReservacionesForm
             // 
@@ -386,7 +461,7 @@
             this.Controls.Add(this.pnlAccion);
             this.Controls.Add(this.btnHistorialReservaciones);
             this.Controls.Add(this.btnNuevaReservacion);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ReservacionesForm";
             this.Text = "ReservacionesForm";
             this.Load += new System.EventHandler(this.ReservacionesForm_Load);
@@ -430,5 +505,10 @@
         private System.Windows.Forms.TextBox txtBuscar;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.DataGridView dgvHistorial;
+        private System.Windows.Forms.Label lblVPropiedad;
+        private System.Windows.Forms.Label lblVCliente;
+        private System.Windows.Forms.Label lblVMonto;
+        private System.Windows.Forms.Label lblVFechaSalida;
+        private System.Windows.Forms.Label lblVFechaEntrada;
     }
 }

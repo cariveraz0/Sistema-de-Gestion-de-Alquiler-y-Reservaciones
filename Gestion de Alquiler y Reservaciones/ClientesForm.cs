@@ -173,7 +173,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (txtNombre.Text == String.Empty || txtIdentidad.Text == String.Empty)
+            if (txtNombre.Text == string.Empty || txtIdentidad.Text == string.Empty)
             {
                 MessageBox.Show(
                     "Los campos obligatorios no deben de estar vacíos.",
@@ -184,7 +184,31 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             else
             {
-                insertarClientEenDB();
+                DialogResult result = MessageBox.Show(
+                    "¿Está seguro de de agregar a este cliente?",
+                    "Crear cliente.",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (result == DialogResult.Yes)
+                {
+                    if(buscarSiClienteExiste())
+                    {
+                        MessageBox.Show(
+                            "Ese cliente ya existe en el sistema.",
+                            "Cliente duplicado.",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                    }
+                    else
+                    {
+                        insertarClientEenDB();
+                        limpiarCampos();
+                    }
+                    
+                }
             }
         }
 
@@ -201,6 +225,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             txtCorreo.Clear();
             txtEmpresa.Clear();
             txtRtn.Clear();
+
+            revisarAntesDeGuardar();
         }
 
         private void txtNombre_TextChanged(object sender, EventArgs e)
@@ -382,6 +408,45 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
         }
 
+        private bool buscarSiClienteExiste()
+        {
+            bool existe = false;
+            try
+            {
+                string queryBuscarSiClienteExiste = $"select * from Clientes where Identidad = @identidad";
+                using (SqlConnection conectar = Conexion.ObtenerConexion())
+                {
+                    conectar.Open();
+                    SqlCommand cmdBuscarSiClienteExiste = new SqlCommand(queryBuscarSiClienteExiste, conectar);
+                    cmdBuscarSiClienteExiste.Parameters.AddWithValue("@identidad", txtIdentidad.Text.Trim());
+                    SqlDataReader readerBuscarSiClienteExiste = cmdBuscarSiClienteExiste.ExecuteReader();
+                    if (readerBuscarSiClienteExiste.Read())
+                    {
+                        existe = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            "Usuario o contraseña incorrecta. Intente de nuevo.",
+                            "Credenciales inválidas.",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Algo salió mal.",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+            return existe;
+        }
+
         private void insertarClientEenDB()
         {
             try
@@ -399,7 +464,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     cmdInsertarClientEenDB.Parameters.AddWithValue("@correo", txtCorreo.Text);
                     cmdInsertarClientEenDB.Parameters.AddWithValue("@nombreempresa", txtEmpresa.Text);
                     cmdInsertarClientEenDB.Parameters.AddWithValue("@rtnempresa", txtRtn.Text);
-                    if(cmdInsertarClientEenDB.ExecuteNonQuery() == 1)
+                    int resultado = cmdInsertarClientEenDB.ExecuteNonQuery();
+                    if (resultado == 1)
                     {
                         MessageBox.Show(
                             "Cliente agregado éxitosamente.",

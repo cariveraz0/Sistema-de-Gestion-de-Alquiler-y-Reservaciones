@@ -37,7 +37,7 @@ namespace Test
             cambiarFoco();
 
             //MODULO CLIENTES
-            //nuevoCliente(); //Nuevo Cliente
+            nuevoCliente(); //Nuevo Cliente
 
             // 🔴 AGREGAR ESTO: Cambiar el foco a la última ventana abierta/activa
             cambiarFoco();

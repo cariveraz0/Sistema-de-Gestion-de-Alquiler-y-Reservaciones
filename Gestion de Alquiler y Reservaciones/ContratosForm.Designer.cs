@@ -34,49 +34,14 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.pnlNuevoContrato = new System.Windows.Forms.Panel();
             this.pnlTipoSelector = new System.Windows.Forms.TableLayoutPanel();
             this.pnlFormWrapper = new System.Windows.Forms.Panel();
-            this.pnlFormCasa = new System.Windows.Forms.Panel();
-            this.lblDepositoC = new System.Windows.Forms.Label();
-            this.txtDepositoC = new System.Windows.Forms.TextBox();
-            this.lblTituloC = new System.Windows.Forms.Label();
-            this.lblNombreHuespedC = new System.Windows.Forms.Label();
-            this.txtNombreHuespedC = new System.Windows.Forms.TextBox();
-            this.lblIdentidadHuespedC = new System.Windows.Forms.Label();
-            this.txtIdentidadHuespedC = new System.Windows.Forms.TextBox();
-            this.lblSeleccionCasa = new System.Windows.Forms.Label();
-            this.cmbSeleccionCasa = new System.Windows.Forms.ComboBox();
-            this.lblFechaInicialC = new System.Windows.Forms.Label();
-            this.dtpFechaInicialC = new System.Windows.Forms.DateTimePicker();
-            this.lblFechaFinalC = new System.Windows.Forms.Label();
-            this.dtpFechaFinalC = new System.Windows.Forms.DateTimePicker();
-            this.lblHoraInicialC = new System.Windows.Forms.Label();
-            this.dtpHoraInicialC = new System.Windows.Forms.DateTimePicker();
-            this.lblDiasC = new System.Windows.Forms.Label();
-            this.txtDiasC = new System.Windows.Forms.TextBox();
-            this.lblTarifaC = new System.Windows.Forms.Label();
-            this.txtTarifaC = new System.Windows.Forms.TextBox();
-            this.lblTotalPersonasC = new System.Windows.Forms.Label();
-            this.txtTotalPersonasC = new System.Windows.Forms.TextBox();
-            this.pnlFormSala = new System.Windows.Forms.Panel();
-            this.lblTituloS = new System.Windows.Forms.Label();
-            this.lblSeleccionSala = new System.Windows.Forms.Label();
-            this.cmbSeleccionSala = new System.Windows.Forms.ComboBox();
-            this.lblNombreArrendatarioS = new System.Windows.Forms.Label();
-            this.txtNombreArrendatarioS = new System.Windows.Forms.TextBox();
-            this.lblIdentidadS = new System.Windows.Forms.Label();
-            this.txtIdentidadS = new System.Windows.Forms.TextBox();
-            this.lblNumeroHorasS = new System.Windows.Forms.Label();
-            this.txtNumeroHorasS = new System.Windows.Forms.TextBox();
-            this.lblFechaArrendamientoS = new System.Windows.Forms.Label();
-            this.dtpFechaArrendamientoS = new System.Windows.Forms.DateTimePicker();
-            this.lblHoraInicioS = new System.Windows.Forms.Label();
-            this.dtpHoraInicioS = new System.Windows.Forms.DateTimePicker();
-            this.lblHoraFinalS = new System.Windows.Forms.Label();
-            this.dtpHoraFinalS = new System.Windows.Forms.DateTimePicker();
-            this.lblPrecioHoraS = new System.Windows.Forms.Label();
-            this.txtPrecioHoraS = new System.Windows.Forms.TextBox();
-            this.lblCantidadPersonasS = new System.Windows.Forms.Label();
-            this.cmbCantidadPersonasS = new System.Windows.Forms.ComboBox();
             this.pnlFormApartamento = new System.Windows.Forms.Panel();
+            this.lblVNumeroA = new System.Windows.Forms.Label();
+            this.lblVDiaM = new System.Windows.Forms.Label();
+            this.lblVFechaA = new System.Windows.Forms.Label();
+            this.lblVDepositoUnitario = new System.Windows.Forms.Label();
+            this.lblVPrecioAlquiler = new System.Windows.Forms.Label();
+            this.lblVClaveContador = new System.Windows.Forms.Label();
+            this.lblVNombreA = new System.Windows.Forms.Label();
             this.lblTituloA = new System.Windows.Forms.Label();
             this.lblNombreArrendatarioA = new System.Windows.Forms.Label();
             this.txtNombreArrendatarioA = new System.Windows.Forms.TextBox();
@@ -93,7 +58,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.lblDepositoUnitarioA = new System.Windows.Forms.Label();
             this.txtDepositoUnitarioA = new System.Windows.Forms.TextBox();
             this.lblNumeroDepartamento = new System.Windows.Forms.Label();
-            this.cmbNumeroDepartamento = new System.Windows.Forms.ComboBox();
+            this.cmbNumeroApartamento = new System.Windows.Forms.ComboBox();
             this.pnlFormLocal = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.lblTituloL = new System.Windows.Forms.Label();
@@ -120,6 +85,48 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.lblDepositoUnitarioL = new System.Windows.Forms.Label();
             this.txtDepositoUnitarioL = new System.Windows.Forms.TextBox();
             this.cmbNumeroLocal = new System.Windows.Forms.ComboBox();
+            this.pnlFormSala = new System.Windows.Forms.Panel();
+            this.lblTituloS = new System.Windows.Forms.Label();
+            this.lblSeleccionSala = new System.Windows.Forms.Label();
+            this.cmbSeleccionSala = new System.Windows.Forms.ComboBox();
+            this.lblNombreArrendatarioS = new System.Windows.Forms.Label();
+            this.txtNombreArrendatarioS = new System.Windows.Forms.TextBox();
+            this.lblIdentidadS = new System.Windows.Forms.Label();
+            this.txtIdentidadS = new System.Windows.Forms.TextBox();
+            this.lblNumeroHorasS = new System.Windows.Forms.Label();
+            this.txtNumeroHorasS = new System.Windows.Forms.TextBox();
+            this.lblFechaArrendamientoS = new System.Windows.Forms.Label();
+            this.dtpFechaArrendamientoS = new System.Windows.Forms.DateTimePicker();
+            this.lblHoraInicioS = new System.Windows.Forms.Label();
+            this.dtpHoraInicioS = new System.Windows.Forms.DateTimePicker();
+            this.lblHoraFinalS = new System.Windows.Forms.Label();
+            this.dtpHoraFinalS = new System.Windows.Forms.DateTimePicker();
+            this.lblPrecioHoraS = new System.Windows.Forms.Label();
+            this.txtPrecioHoraS = new System.Windows.Forms.TextBox();
+            this.lblCantidadPersonasS = new System.Windows.Forms.Label();
+            this.cmbCantidadPersonasS = new System.Windows.Forms.ComboBox();
+            this.pnlFormCasa = new System.Windows.Forms.Panel();
+            this.lblDepositoC = new System.Windows.Forms.Label();
+            this.txtDepositoC = new System.Windows.Forms.TextBox();
+            this.lblTituloC = new System.Windows.Forms.Label();
+            this.lblNombreHuespedC = new System.Windows.Forms.Label();
+            this.txtNombreHuespedC = new System.Windows.Forms.TextBox();
+            this.lblIdentidadHuespedC = new System.Windows.Forms.Label();
+            this.txtIdentidadHuespedC = new System.Windows.Forms.TextBox();
+            this.lblSeleccionCasa = new System.Windows.Forms.Label();
+            this.cmbSeleccionCasa = new System.Windows.Forms.ComboBox();
+            this.lblFechaInicialC = new System.Windows.Forms.Label();
+            this.dtpFechaInicialC = new System.Windows.Forms.DateTimePicker();
+            this.lblFechaFinalC = new System.Windows.Forms.Label();
+            this.dtpFechaFinalC = new System.Windows.Forms.DateTimePicker();
+            this.lblHoraInicialC = new System.Windows.Forms.Label();
+            this.dtpHoraInicialC = new System.Windows.Forms.DateTimePicker();
+            this.lblDiasC = new System.Windows.Forms.Label();
+            this.txtDiasC = new System.Windows.Forms.TextBox();
+            this.lblTarifaC = new System.Windows.Forms.Label();
+            this.txtTarifaC = new System.Windows.Forms.TextBox();
+            this.lblTotalPersonasC = new System.Windows.Forms.Label();
+            this.txtTotalPersonasC = new System.Windows.Forms.TextBox();
             this.pnlBotonesTipo = new System.Windows.Forms.Panel();
             this.lblTipoPropiedad = new System.Windows.Forms.Label();
             this.btnTipoApartamento = new System.Windows.Forms.Button();
@@ -140,10 +147,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.pnlNuevoContrato.SuspendLayout();
             this.pnlTipoSelector.SuspendLayout();
             this.pnlFormWrapper.SuspendLayout();
-            this.pnlFormCasa.SuspendLayout();
-            this.pnlFormSala.SuspendLayout();
             this.pnlFormApartamento.SuspendLayout();
             this.pnlFormLocal.SuspendLayout();
+            this.pnlFormSala.SuspendLayout();
+            this.pnlFormCasa.SuspendLayout();
             this.pnlBotonesTipo.SuspendLayout();
             this.pnlHistorial.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHistorial)).BeginInit();
@@ -230,555 +237,17 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.pnlFormWrapper.Size = new System.Drawing.Size(1381, 509);
             this.pnlFormWrapper.TabIndex = 1;
             // 
-            // pnlFormCasa
-            // 
-            this.pnlFormCasa.AutoScroll = true;
-            this.pnlFormCasa.BackColor = System.Drawing.Color.White;
-            this.pnlFormCasa.Controls.Add(this.lblDepositoC);
-            this.pnlFormCasa.Controls.Add(this.txtDepositoC);
-            this.pnlFormCasa.Controls.Add(this.lblTituloC);
-            this.pnlFormCasa.Controls.Add(this.lblNombreHuespedC);
-            this.pnlFormCasa.Controls.Add(this.txtNombreHuespedC);
-            this.pnlFormCasa.Controls.Add(this.lblIdentidadHuespedC);
-            this.pnlFormCasa.Controls.Add(this.txtIdentidadHuespedC);
-            this.pnlFormCasa.Controls.Add(this.lblSeleccionCasa);
-            this.pnlFormCasa.Controls.Add(this.cmbSeleccionCasa);
-            this.pnlFormCasa.Controls.Add(this.lblFechaInicialC);
-            this.pnlFormCasa.Controls.Add(this.dtpFechaInicialC);
-            this.pnlFormCasa.Controls.Add(this.lblFechaFinalC);
-            this.pnlFormCasa.Controls.Add(this.dtpFechaFinalC);
-            this.pnlFormCasa.Controls.Add(this.lblHoraInicialC);
-            this.pnlFormCasa.Controls.Add(this.dtpHoraInicialC);
-            this.pnlFormCasa.Controls.Add(this.lblDiasC);
-            this.pnlFormCasa.Controls.Add(this.txtDiasC);
-            this.pnlFormCasa.Controls.Add(this.lblTarifaC);
-            this.pnlFormCasa.Controls.Add(this.txtTarifaC);
-            this.pnlFormCasa.Controls.Add(this.lblTotalPersonasC);
-            this.pnlFormCasa.Controls.Add(this.txtTotalPersonasC);
-            this.pnlFormCasa.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlFormCasa.Location = new System.Drawing.Point(0, 0);
-            this.pnlFormCasa.Margin = new System.Windows.Forms.Padding(4);
-            this.pnlFormCasa.Name = "pnlFormCasa";
-            this.pnlFormCasa.Padding = new System.Windows.Forms.Padding(32, 20, 32, 20);
-            this.pnlFormCasa.Size = new System.Drawing.Size(1381, 509);
-            this.pnlFormCasa.TabIndex = 2;
-            this.pnlFormCasa.Visible = false;
-            // 
-            // lblDepositoC
-            // 
-            this.lblDepositoC.AutoSize = true;
-            this.lblDepositoC.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDepositoC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblDepositoC.Location = new System.Drawing.Point(411, 348);
-            this.lblDepositoC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblDepositoC.Name = "lblDepositoC";
-            this.lblDepositoC.Size = new System.Drawing.Size(76, 22);
-            this.lblDepositoC.TabIndex = 1;
-            this.lblDepositoC.Text = "Depósito";
-            // 
-            // txtDepositoC
-            // 
-            this.txtDepositoC.AccessibleName = "txtDepositoC";
-            this.txtDepositoC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtDepositoC.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtDepositoC.Location = new System.Drawing.Point(411, 373);
-            this.txtDepositoC.Margin = new System.Windows.Forms.Padding(4);
-            this.txtDepositoC.Name = "txtDepositoC";
-            this.txtDepositoC.Size = new System.Drawing.Size(293, 27);
-            this.txtDepositoC.TabIndex = 2;
-            // 
-            // lblTituloC
-            // 
-            this.lblTituloC.AutoSize = true;
-            this.lblTituloC.Font = new System.Drawing.Font("Montserrat", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTituloC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(79)))), ((int)(((byte)(36)))));
-            this.lblTituloC.Location = new System.Drawing.Point(32, 20);
-            this.lblTituloC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblTituloC.Name = "lblTituloC";
-            this.lblTituloC.Size = new System.Drawing.Size(368, 27);
-            this.lblTituloC.TabIndex = 0;
-            this.lblTituloC.Text = "CONTRATO DE CASA MONTAÑA / PLAYA";
-            // 
-            // lblNombreHuespedC
-            // 
-            this.lblNombreHuespedC.AutoSize = true;
-            this.lblNombreHuespedC.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNombreHuespedC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblNombreHuespedC.Location = new System.Drawing.Point(32, 62);
-            this.lblNombreHuespedC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblNombreHuespedC.Name = "lblNombreHuespedC";
-            this.lblNombreHuespedC.Size = new System.Drawing.Size(167, 22);
-            this.lblNombreHuespedC.TabIndex = 0;
-            this.lblNombreHuespedC.Text = "Nombre del Huésped";
-            // 
-            // txtNombreHuespedC
-            // 
-            this.txtNombreHuespedC.AccessibleName = "txtNombreHuespedC";
-            this.txtNombreHuespedC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtNombreHuespedC.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtNombreHuespedC.Location = new System.Drawing.Point(32, 86);
-            this.txtNombreHuespedC.Margin = new System.Windows.Forms.Padding(4);
-            this.txtNombreHuespedC.Name = "txtNombreHuespedC";
-            this.txtNombreHuespedC.Size = new System.Drawing.Size(346, 27);
-            this.txtNombreHuespedC.TabIndex = 0;
-            // 
-            // lblIdentidadHuespedC
-            // 
-            this.lblIdentidadHuespedC.AutoSize = true;
-            this.lblIdentidadHuespedC.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblIdentidadHuespedC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblIdentidadHuespedC.Location = new System.Drawing.Point(411, 62);
-            this.lblIdentidadHuespedC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblIdentidadHuespedC.Name = "lblIdentidadHuespedC";
-            this.lblIdentidadHuespedC.Size = new System.Drawing.Size(180, 22);
-            this.lblIdentidadHuespedC.TabIndex = 0;
-            this.lblIdentidadHuespedC.Text = "Identidad del Huésped";
-            // 
-            // txtIdentidadHuespedC
-            // 
-            this.txtIdentidadHuespedC.AccessibleName = "txtIdentidadHuespedC";
-            this.txtIdentidadHuespedC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtIdentidadHuespedC.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtIdentidadHuespedC.Location = new System.Drawing.Point(411, 86);
-            this.txtIdentidadHuespedC.Margin = new System.Windows.Forms.Padding(4);
-            this.txtIdentidadHuespedC.Name = "txtIdentidadHuespedC";
-            this.txtIdentidadHuespedC.Size = new System.Drawing.Size(346, 27);
-            this.txtIdentidadHuespedC.TabIndex = 0;
-            // 
-            // lblSeleccionCasa
-            // 
-            this.lblSeleccionCasa.AutoSize = true;
-            this.lblSeleccionCasa.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSeleccionCasa.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblSeleccionCasa.Location = new System.Drawing.Point(32, 133);
-            this.lblSeleccionCasa.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblSeleccionCasa.Name = "lblSeleccionCasa";
-            this.lblSeleccionCasa.Size = new System.Drawing.Size(80, 22);
-            this.lblSeleccionCasa.TabIndex = 0;
-            this.lblSeleccionCasa.Text = "Selección";
-            // 
-            // cmbSeleccionCasa
-            // 
-            this.cmbSeleccionCasa.AccessibleName = "cmbSeleccionCasa";
-            this.cmbSeleccionCasa.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbSeleccionCasa.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.cmbSeleccionCasa.Items.AddRange(new object[] {
-            "Barrio el Paraiso, Tela",
-            "Las Peñitas"});
-            this.cmbSeleccionCasa.Location = new System.Drawing.Point(32, 158);
-            this.cmbSeleccionCasa.Margin = new System.Windows.Forms.Padding(4);
-            this.cmbSeleccionCasa.Name = "cmbSeleccionCasa";
-            this.cmbSeleccionCasa.Size = new System.Drawing.Size(292, 28);
-            this.cmbSeleccionCasa.TabIndex = 0;
-            // 
-            // lblFechaInicialC
-            // 
-            this.lblFechaInicialC.AutoSize = true;
-            this.lblFechaInicialC.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFechaInicialC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblFechaInicialC.Location = new System.Drawing.Point(411, 133);
-            this.lblFechaInicialC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblFechaInicialC.Name = "lblFechaInicialC";
-            this.lblFechaInicialC.Size = new System.Drawing.Size(103, 22);
-            this.lblFechaInicialC.TabIndex = 0;
-            this.lblFechaInicialC.Text = "Fecha Inicial";
-            // 
-            // dtpFechaInicialC
-            // 
-            this.dtpFechaInicialC.AccessibleName = "dtpFechaInicialC";
-            this.dtpFechaInicialC.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.dtpFechaInicialC.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFechaInicialC.Location = new System.Drawing.Point(411, 158);
-            this.dtpFechaInicialC.Margin = new System.Windows.Forms.Padding(4);
-            this.dtpFechaInicialC.Name = "dtpFechaInicialC";
-            this.dtpFechaInicialC.Size = new System.Drawing.Size(292, 27);
-            this.dtpFechaInicialC.TabIndex = 0;
-            // 
-            // lblFechaFinalC
-            // 
-            this.lblFechaFinalC.AutoSize = true;
-            this.lblFechaFinalC.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFechaFinalC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblFechaFinalC.Location = new System.Drawing.Point(32, 204);
-            this.lblFechaFinalC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblFechaFinalC.Name = "lblFechaFinalC";
-            this.lblFechaFinalC.Size = new System.Drawing.Size(95, 22);
-            this.lblFechaFinalC.TabIndex = 0;
-            this.lblFechaFinalC.Text = "Fecha Final";
-            // 
-            // dtpFechaFinalC
-            // 
-            this.dtpFechaFinalC.AccessibleName = "dtpFechaFinalC";
-            this.dtpFechaFinalC.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.dtpFechaFinalC.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFechaFinalC.Location = new System.Drawing.Point(32, 229);
-            this.dtpFechaFinalC.Margin = new System.Windows.Forms.Padding(4);
-            this.dtpFechaFinalC.Name = "dtpFechaFinalC";
-            this.dtpFechaFinalC.Size = new System.Drawing.Size(292, 27);
-            this.dtpFechaFinalC.TabIndex = 0;
-            // 
-            // lblHoraInicialC
-            // 
-            this.lblHoraInicialC.AutoSize = true;
-            this.lblHoraInicialC.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHoraInicialC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblHoraInicialC.Location = new System.Drawing.Point(411, 204);
-            this.lblHoraInicialC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblHoraInicialC.Name = "lblHoraInicialC";
-            this.lblHoraInicialC.Size = new System.Drawing.Size(92, 22);
-            this.lblHoraInicialC.TabIndex = 0;
-            this.lblHoraInicialC.Text = "Hora Inicial";
-            // 
-            // dtpHoraInicialC
-            // 
-            this.dtpHoraInicialC.AccessibleName = "dtpHoraInicialC";
-            this.dtpHoraInicialC.CustomFormat = "HH:mm";
-            this.dtpHoraInicialC.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.dtpHoraInicialC.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpHoraInicialC.Location = new System.Drawing.Point(411, 229);
-            this.dtpHoraInicialC.Margin = new System.Windows.Forms.Padding(4);
-            this.dtpHoraInicialC.Name = "dtpHoraInicialC";
-            this.dtpHoraInicialC.ShowUpDown = true;
-            this.dtpHoraInicialC.Size = new System.Drawing.Size(292, 27);
-            this.dtpHoraInicialC.TabIndex = 0;
-            // 
-            // lblDiasC
-            // 
-            this.lblDiasC.AutoSize = true;
-            this.lblDiasC.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDiasC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblDiasC.Location = new System.Drawing.Point(32, 276);
-            this.lblDiasC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblDiasC.Name = "lblDiasC";
-            this.lblDiasC.Size = new System.Drawing.Size(42, 22);
-            this.lblDiasC.TabIndex = 0;
-            this.lblDiasC.Text = "Días";
-            // 
-            // txtDiasC
-            // 
-            this.txtDiasC.AccessibleName = "txtDiasC";
-            this.txtDiasC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtDiasC.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtDiasC.Location = new System.Drawing.Point(32, 300);
-            this.txtDiasC.Margin = new System.Windows.Forms.Padding(4);
-            this.txtDiasC.Name = "txtDiasC";
-            this.txtDiasC.ReadOnly = true;
-            this.txtDiasC.Size = new System.Drawing.Size(293, 27);
-            this.txtDiasC.TabIndex = 0;
-            // 
-            // lblTarifaC
-            // 
-            this.lblTarifaC.AutoSize = true;
-            this.lblTarifaC.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTarifaC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblTarifaC.Location = new System.Drawing.Point(411, 276);
-            this.lblTarifaC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblTarifaC.Name = "lblTarifaC";
-            this.lblTarifaC.Size = new System.Drawing.Size(52, 22);
-            this.lblTarifaC.TabIndex = 0;
-            this.lblTarifaC.Text = "Tarifa";
-            // 
-            // txtTarifaC
-            // 
-            this.txtTarifaC.AccessibleName = "txtTarifaC";
-            this.txtTarifaC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtTarifaC.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtTarifaC.Location = new System.Drawing.Point(411, 300);
-            this.txtTarifaC.Margin = new System.Windows.Forms.Padding(4);
-            this.txtTarifaC.Name = "txtTarifaC";
-            this.txtTarifaC.Size = new System.Drawing.Size(293, 27);
-            this.txtTarifaC.TabIndex = 0;
-            // 
-            // lblTotalPersonasC
-            // 
-            this.lblTotalPersonasC.AutoSize = true;
-            this.lblTotalPersonasC.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalPersonasC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblTotalPersonasC.Location = new System.Drawing.Point(32, 347);
-            this.lblTotalPersonasC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblTotalPersonasC.Name = "lblTotalPersonasC";
-            this.lblTotalPersonasC.Size = new System.Drawing.Size(117, 22);
-            this.lblTotalPersonasC.TabIndex = 0;
-            this.lblTotalPersonasC.Text = "Total Personas";
-            // 
-            // txtTotalPersonasC
-            // 
-            this.txtTotalPersonasC.AccessibleName = "txtTotalPersonasC";
-            this.txtTotalPersonasC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtTotalPersonasC.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtTotalPersonasC.Location = new System.Drawing.Point(32, 372);
-            this.txtTotalPersonasC.Margin = new System.Windows.Forms.Padding(4);
-            this.txtTotalPersonasC.Name = "txtTotalPersonasC";
-            this.txtTotalPersonasC.Size = new System.Drawing.Size(293, 27);
-            this.txtTotalPersonasC.TabIndex = 0;
-            // 
-            // pnlFormSala
-            // 
-            this.pnlFormSala.AutoScroll = true;
-            this.pnlFormSala.BackColor = System.Drawing.Color.White;
-            this.pnlFormSala.Controls.Add(this.lblTituloS);
-            this.pnlFormSala.Controls.Add(this.lblSeleccionSala);
-            this.pnlFormSala.Controls.Add(this.cmbSeleccionSala);
-            this.pnlFormSala.Controls.Add(this.lblNombreArrendatarioS);
-            this.pnlFormSala.Controls.Add(this.txtNombreArrendatarioS);
-            this.pnlFormSala.Controls.Add(this.lblIdentidadS);
-            this.pnlFormSala.Controls.Add(this.txtIdentidadS);
-            this.pnlFormSala.Controls.Add(this.lblNumeroHorasS);
-            this.pnlFormSala.Controls.Add(this.txtNumeroHorasS);
-            this.pnlFormSala.Controls.Add(this.lblFechaArrendamientoS);
-            this.pnlFormSala.Controls.Add(this.dtpFechaArrendamientoS);
-            this.pnlFormSala.Controls.Add(this.lblHoraInicioS);
-            this.pnlFormSala.Controls.Add(this.dtpHoraInicioS);
-            this.pnlFormSala.Controls.Add(this.lblHoraFinalS);
-            this.pnlFormSala.Controls.Add(this.dtpHoraFinalS);
-            this.pnlFormSala.Controls.Add(this.lblPrecioHoraS);
-            this.pnlFormSala.Controls.Add(this.txtPrecioHoraS);
-            this.pnlFormSala.Controls.Add(this.lblCantidadPersonasS);
-            this.pnlFormSala.Controls.Add(this.cmbCantidadPersonasS);
-            this.pnlFormSala.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlFormSala.Location = new System.Drawing.Point(0, 0);
-            this.pnlFormSala.Margin = new System.Windows.Forms.Padding(4);
-            this.pnlFormSala.Name = "pnlFormSala";
-            this.pnlFormSala.Padding = new System.Windows.Forms.Padding(32, 20, 32, 20);
-            this.pnlFormSala.Size = new System.Drawing.Size(1381, 509);
-            this.pnlFormSala.TabIndex = 3;
-            this.pnlFormSala.Visible = false;
-            // 
-            // lblTituloS
-            // 
-            this.lblTituloS.AutoSize = true;
-            this.lblTituloS.Font = new System.Drawing.Font("Montserrat", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTituloS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(79)))), ((int)(((byte)(36)))));
-            this.lblTituloS.Location = new System.Drawing.Point(32, 20);
-            this.lblTituloS.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblTituloS.Name = "lblTituloS";
-            this.lblTituloS.Size = new System.Drawing.Size(418, 27);
-            this.lblTituloS.TabIndex = 0;
-            this.lblTituloS.Text = "CONTRATO DE SALA DE JUNTAS / AUDITORIO";
-            // 
-            // lblSeleccionSala
-            // 
-            this.lblSeleccionSala.AutoSize = true;
-            this.lblSeleccionSala.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSeleccionSala.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblSeleccionSala.Location = new System.Drawing.Point(32, 62);
-            this.lblSeleccionSala.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblSeleccionSala.Name = "lblSeleccionSala";
-            this.lblSeleccionSala.Size = new System.Drawing.Size(80, 22);
-            this.lblSeleccionSala.TabIndex = 0;
-            this.lblSeleccionSala.Text = "Selección";
-            // 
-            // cmbSeleccionSala
-            // 
-            this.cmbSeleccionSala.AccessibleName = "cmbSeleccionSala";
-            this.cmbSeleccionSala.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbSeleccionSala.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.cmbSeleccionSala.Items.AddRange(new object[] {
-            "Auditorio Los Zorzales",
-            "Sala de Juntas"});
-            this.cmbSeleccionSala.Location = new System.Drawing.Point(32, 86);
-            this.cmbSeleccionSala.Margin = new System.Windows.Forms.Padding(4);
-            this.cmbSeleccionSala.Name = "cmbSeleccionSala";
-            this.cmbSeleccionSala.Size = new System.Drawing.Size(345, 28);
-            this.cmbSeleccionSala.TabIndex = 0;
-            // 
-            // lblNombreArrendatarioS
-            // 
-            this.lblNombreArrendatarioS.AutoSize = true;
-            this.lblNombreArrendatarioS.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNombreArrendatarioS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblNombreArrendatarioS.Location = new System.Drawing.Point(411, 62);
-            this.lblNombreArrendatarioS.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblNombreArrendatarioS.Name = "lblNombreArrendatarioS";
-            this.lblNombreArrendatarioS.Size = new System.Drawing.Size(196, 22);
-            this.lblNombreArrendatarioS.TabIndex = 0;
-            this.lblNombreArrendatarioS.Text = "Nombre del Arrendatario";
-            // 
-            // txtNombreArrendatarioS
-            // 
-            this.txtNombreArrendatarioS.AccessibleName = "txtNombreArrendatarioS";
-            this.txtNombreArrendatarioS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtNombreArrendatarioS.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtNombreArrendatarioS.Location = new System.Drawing.Point(411, 86);
-            this.txtNombreArrendatarioS.Margin = new System.Windows.Forms.Padding(4);
-            this.txtNombreArrendatarioS.Name = "txtNombreArrendatarioS";
-            this.txtNombreArrendatarioS.Size = new System.Drawing.Size(346, 27);
-            this.txtNombreArrendatarioS.TabIndex = 0;
-            // 
-            // lblIdentidadS
-            // 
-            this.lblIdentidadS.AutoSize = true;
-            this.lblIdentidadS.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblIdentidadS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblIdentidadS.Location = new System.Drawing.Point(32, 133);
-            this.lblIdentidadS.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblIdentidadS.Name = "lblIdentidadS";
-            this.lblIdentidadS.Size = new System.Drawing.Size(170, 22);
-            this.lblIdentidadS.TabIndex = 0;
-            this.lblIdentidadS.Text = "Número de Identidad";
-            // 
-            // txtIdentidadS
-            // 
-            this.txtIdentidadS.AccessibleName = "txtIdentidadS";
-            this.txtIdentidadS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtIdentidadS.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtIdentidadS.Location = new System.Drawing.Point(32, 158);
-            this.txtIdentidadS.Margin = new System.Windows.Forms.Padding(4);
-            this.txtIdentidadS.Name = "txtIdentidadS";
-            this.txtIdentidadS.Size = new System.Drawing.Size(293, 27);
-            this.txtIdentidadS.TabIndex = 0;
-            // 
-            // lblNumeroHorasS
-            // 
-            this.lblNumeroHorasS.AutoSize = true;
-            this.lblNumeroHorasS.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNumeroHorasS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblNumeroHorasS.Location = new System.Drawing.Point(411, 133);
-            this.lblNumeroHorasS.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblNumeroHorasS.Name = "lblNumeroHorasS";
-            this.lblNumeroHorasS.Size = new System.Drawing.Size(138, 22);
-            this.lblNumeroHorasS.TabIndex = 0;
-            this.lblNumeroHorasS.Text = "Número de Horas";
-            // 
-            // txtNumeroHorasS
-            // 
-            this.txtNumeroHorasS.AccessibleName = "txtNumeroHorasS";
-            this.txtNumeroHorasS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtNumeroHorasS.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtNumeroHorasS.Location = new System.Drawing.Point(411, 158);
-            this.txtNumeroHorasS.Margin = new System.Windows.Forms.Padding(4);
-            this.txtNumeroHorasS.Name = "txtNumeroHorasS";
-            this.txtNumeroHorasS.ReadOnly = true;
-            this.txtNumeroHorasS.Size = new System.Drawing.Size(293, 27);
-            this.txtNumeroHorasS.TabIndex = 0;
-            // 
-            // lblFechaArrendamientoS
-            // 
-            this.lblFechaArrendamientoS.AutoSize = true;
-            this.lblFechaArrendamientoS.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFechaArrendamientoS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblFechaArrendamientoS.Location = new System.Drawing.Point(32, 204);
-            this.lblFechaArrendamientoS.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblFechaArrendamientoS.Name = "lblFechaArrendamientoS";
-            this.lblFechaArrendamientoS.Size = new System.Drawing.Size(196, 22);
-            this.lblFechaArrendamientoS.TabIndex = 0;
-            this.lblFechaArrendamientoS.Text = "Fecha de Arrendamiento";
-            // 
-            // dtpFechaArrendamientoS
-            // 
-            this.dtpFechaArrendamientoS.AccessibleName = "dtpFechaArrendamientoS";
-            this.dtpFechaArrendamientoS.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.dtpFechaArrendamientoS.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFechaArrendamientoS.Location = new System.Drawing.Point(32, 229);
-            this.dtpFechaArrendamientoS.Margin = new System.Windows.Forms.Padding(4);
-            this.dtpFechaArrendamientoS.Name = "dtpFechaArrendamientoS";
-            this.dtpFechaArrendamientoS.Size = new System.Drawing.Size(292, 27);
-            this.dtpFechaArrendamientoS.TabIndex = 0;
-            // 
-            // lblHoraInicioS
-            // 
-            this.lblHoraInicioS.AutoSize = true;
-            this.lblHoraInicioS.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHoraInicioS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblHoraInicioS.Location = new System.Drawing.Point(411, 204);
-            this.lblHoraInicioS.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblHoraInicioS.Name = "lblHoraInicioS";
-            this.lblHoraInicioS.Size = new System.Drawing.Size(111, 22);
-            this.lblHoraInicioS.TabIndex = 0;
-            this.lblHoraInicioS.Text = "Hora de Inicio";
-            // 
-            // dtpHoraInicioS
-            // 
-            this.dtpHoraInicioS.AccessibleName = "dtpHoraInicioS";
-            this.dtpHoraInicioS.CustomFormat = "HH:mm";
-            this.dtpHoraInicioS.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.dtpHoraInicioS.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpHoraInicioS.Location = new System.Drawing.Point(411, 229);
-            this.dtpHoraInicioS.Margin = new System.Windows.Forms.Padding(4);
-            this.dtpHoraInicioS.Name = "dtpHoraInicioS";
-            this.dtpHoraInicioS.ShowUpDown = true;
-            this.dtpHoraInicioS.Size = new System.Drawing.Size(292, 27);
-            this.dtpHoraInicioS.TabIndex = 0;
-            // 
-            // lblHoraFinalS
-            // 
-            this.lblHoraFinalS.AutoSize = true;
-            this.lblHoraFinalS.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHoraFinalS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblHoraFinalS.Location = new System.Drawing.Point(32, 276);
-            this.lblHoraFinalS.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblHoraFinalS.Name = "lblHoraFinalS";
-            this.lblHoraFinalS.Size = new System.Drawing.Size(84, 22);
-            this.lblHoraFinalS.TabIndex = 0;
-            this.lblHoraFinalS.Text = "Hora Final";
-            // 
-            // dtpHoraFinalS
-            // 
-            this.dtpHoraFinalS.AccessibleName = "dtpHoraFinalS";
-            this.dtpHoraFinalS.CustomFormat = "HH:mm";
-            this.dtpHoraFinalS.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.dtpHoraFinalS.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpHoraFinalS.Location = new System.Drawing.Point(32, 300);
-            this.dtpHoraFinalS.Margin = new System.Windows.Forms.Padding(4);
-            this.dtpHoraFinalS.Name = "dtpHoraFinalS";
-            this.dtpHoraFinalS.ShowUpDown = true;
-            this.dtpHoraFinalS.Size = new System.Drawing.Size(292, 27);
-            this.dtpHoraFinalS.TabIndex = 0;
-            // 
-            // lblPrecioHoraS
-            // 
-            this.lblPrecioHoraS.AutoSize = true;
-            this.lblPrecioHoraS.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPrecioHoraS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblPrecioHoraS.Location = new System.Drawing.Point(411, 276);
-            this.lblPrecioHoraS.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblPrecioHoraS.Name = "lblPrecioHoraS";
-            this.lblPrecioHoraS.Size = new System.Drawing.Size(123, 22);
-            this.lblPrecioHoraS.TabIndex = 0;
-            this.lblPrecioHoraS.Text = "Precio por Hora";
-            // 
-            // txtPrecioHoraS
-            // 
-            this.txtPrecioHoraS.AccessibleName = "txtPrecioHoraS";
-            this.txtPrecioHoraS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtPrecioHoraS.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtPrecioHoraS.Location = new System.Drawing.Point(411, 300);
-            this.txtPrecioHoraS.Margin = new System.Windows.Forms.Padding(4);
-            this.txtPrecioHoraS.Name = "txtPrecioHoraS";
-            this.txtPrecioHoraS.Size = new System.Drawing.Size(293, 27);
-            this.txtPrecioHoraS.TabIndex = 0;
-            // 
-            // lblCantidadPersonasS
-            // 
-            this.lblCantidadPersonasS.AutoSize = true;
-            this.lblCantidadPersonasS.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCantidadPersonasS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblCantidadPersonasS.Location = new System.Drawing.Point(32, 347);
-            this.lblCantidadPersonasS.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblCantidadPersonasS.Name = "lblCantidadPersonasS";
-            this.lblCantidadPersonasS.Size = new System.Drawing.Size(172, 22);
-            this.lblCantidadPersonasS.TabIndex = 0;
-            this.lblCantidadPersonasS.Text = "Cantidad de Personas";
-            // 
-            // cmbCantidadPersonasS
-            // 
-            this.cmbCantidadPersonasS.AccessibleName = "cmbCantidadPersonasS";
-            this.cmbCantidadPersonasS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbCantidadPersonasS.Enabled = false;
-            this.cmbCantidadPersonasS.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.cmbCantidadPersonasS.Items.AddRange(new object[] {
-            "200",
-            "100"});
-            this.cmbCantidadPersonasS.Location = new System.Drawing.Point(32, 372);
-            this.cmbCantidadPersonasS.Margin = new System.Windows.Forms.Padding(4);
-            this.cmbCantidadPersonasS.Name = "cmbCantidadPersonasS";
-            this.cmbCantidadPersonasS.Size = new System.Drawing.Size(292, 28);
-            this.cmbCantidadPersonasS.TabIndex = 0;
-            // 
             // pnlFormApartamento
             // 
             this.pnlFormApartamento.AutoScroll = true;
             this.pnlFormApartamento.BackColor = System.Drawing.Color.White;
+            this.pnlFormApartamento.Controls.Add(this.lblVNumeroA);
+            this.pnlFormApartamento.Controls.Add(this.lblVDiaM);
+            this.pnlFormApartamento.Controls.Add(this.lblVFechaA);
+            this.pnlFormApartamento.Controls.Add(this.lblVDepositoUnitario);
+            this.pnlFormApartamento.Controls.Add(this.lblVPrecioAlquiler);
+            this.pnlFormApartamento.Controls.Add(this.lblVClaveContador);
+            this.pnlFormApartamento.Controls.Add(this.lblVNombreA);
             this.pnlFormApartamento.Controls.Add(this.lblTituloA);
             this.pnlFormApartamento.Controls.Add(this.lblNombreArrendatarioA);
             this.pnlFormApartamento.Controls.Add(this.txtNombreArrendatarioA);
@@ -795,7 +264,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.pnlFormApartamento.Controls.Add(this.lblDepositoUnitarioA);
             this.pnlFormApartamento.Controls.Add(this.txtDepositoUnitarioA);
             this.pnlFormApartamento.Controls.Add(this.lblNumeroDepartamento);
-            this.pnlFormApartamento.Controls.Add(this.cmbNumeroDepartamento);
+            this.pnlFormApartamento.Controls.Add(this.cmbNumeroApartamento);
             this.pnlFormApartamento.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlFormApartamento.Location = new System.Drawing.Point(0, 0);
             this.pnlFormApartamento.Margin = new System.Windows.Forms.Padding(4);
@@ -804,6 +273,83 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.pnlFormApartamento.Size = new System.Drawing.Size(1381, 509);
             this.pnlFormApartamento.TabIndex = 0;
             this.pnlFormApartamento.Visible = false;
+            // 
+            // lblVNumeroA
+            // 
+            this.lblVNumeroA.AutoSize = true;
+            this.lblVNumeroA.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVNumeroA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVNumeroA.Location = new System.Drawing.Point(994, 305);
+            this.lblVNumeroA.Name = "lblVNumeroA";
+            this.lblVNumeroA.Size = new System.Drawing.Size(93, 22);
+            this.lblVNumeroA.TabIndex = 21;
+            this.lblVNumeroA.Text = "Obligatorio";
+            // 
+            // lblVDiaM
+            // 
+            this.lblVDiaM.AutoSize = true;
+            this.lblVDiaM.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVDiaM.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVDiaM.Location = new System.Drawing.Point(994, 236);
+            this.lblVDiaM.Name = "lblVDiaM";
+            this.lblVDiaM.Size = new System.Drawing.Size(93, 22);
+            this.lblVDiaM.TabIndex = 20;
+            this.lblVDiaM.Text = "Obligatorio";
+            // 
+            // lblVFechaA
+            // 
+            this.lblVFechaA.AutoSize = true;
+            this.lblVFechaA.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVFechaA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVFechaA.Location = new System.Drawing.Point(1020, 162);
+            this.lblVFechaA.Name = "lblVFechaA";
+            this.lblVFechaA.Size = new System.Drawing.Size(93, 22);
+            this.lblVFechaA.TabIndex = 19;
+            this.lblVFechaA.Text = "Obligatorio";
+            // 
+            // lblVDepositoUnitario
+            // 
+            this.lblVDepositoUnitario.AutoSize = true;
+            this.lblVDepositoUnitario.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVDepositoUnitario.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVDepositoUnitario.Location = new System.Drawing.Point(312, 310);
+            this.lblVDepositoUnitario.Name = "lblVDepositoUnitario";
+            this.lblVDepositoUnitario.Size = new System.Drawing.Size(93, 22);
+            this.lblVDepositoUnitario.TabIndex = 18;
+            this.lblVDepositoUnitario.Text = "Obligatorio";
+            // 
+            // lblVPrecioAlquiler
+            // 
+            this.lblVPrecioAlquiler.AutoSize = true;
+            this.lblVPrecioAlquiler.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVPrecioAlquiler.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVPrecioAlquiler.Location = new System.Drawing.Point(312, 234);
+            this.lblVPrecioAlquiler.Name = "lblVPrecioAlquiler";
+            this.lblVPrecioAlquiler.Size = new System.Drawing.Size(93, 22);
+            this.lblVPrecioAlquiler.TabIndex = 17;
+            this.lblVPrecioAlquiler.Text = "Obligatorio";
+            // 
+            // lblVClaveContador
+            // 
+            this.lblVClaveContador.AutoSize = true;
+            this.lblVClaveContador.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVClaveContador.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVClaveContador.Location = new System.Drawing.Point(332, 161);
+            this.lblVClaveContador.Name = "lblVClaveContador";
+            this.lblVClaveContador.Size = new System.Drawing.Size(93, 22);
+            this.lblVClaveContador.TabIndex = 16;
+            this.lblVClaveContador.Text = "Obligatorio";
+            // 
+            // lblVNombreA
+            // 
+            this.lblVNombreA.AutoSize = true;
+            this.lblVNombreA.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVNombreA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVNombreA.Location = new System.Drawing.Point(411, 89);
+            this.lblVNombreA.Name = "lblVNombreA";
+            this.lblVNombreA.Size = new System.Drawing.Size(93, 22);
+            this.lblVNombreA.TabIndex = 15;
+            this.lblVNombreA.Text = "Obligatorio";
             // 
             // lblTituloA
             // 
@@ -839,13 +385,14 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.txtNombreArrendatarioA.Name = "txtNombreArrendatarioA";
             this.txtNombreArrendatarioA.Size = new System.Drawing.Size(373, 27);
             this.txtNombreArrendatarioA.TabIndex = 2;
+            this.txtNombreArrendatarioA.TextChanged += new System.EventHandler(this.txtNombreArrendatarioA_TextChanged);
             // 
             // lblIdentidadA
             // 
             this.lblIdentidadA.AutoSize = true;
             this.lblIdentidadA.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblIdentidadA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblIdentidadA.Location = new System.Drawing.Point(523, 62);
+            this.lblIdentidadA.Location = new System.Drawing.Point(744, 62);
             this.lblIdentidadA.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblIdentidadA.Name = "lblIdentidadA";
             this.lblIdentidadA.Size = new System.Drawing.Size(209, 22);
@@ -857,9 +404,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.txtIdentidadA.AccessibleName = "txtIdentidadA";
             this.txtIdentidadA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtIdentidadA.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtIdentidadA.Location = new System.Drawing.Point(527, 89);
+            this.txtIdentidadA.Location = new System.Drawing.Point(748, 89);
             this.txtIdentidadA.Margin = new System.Windows.Forms.Padding(4);
             this.txtIdentidadA.Name = "txtIdentidadA";
+            this.txtIdentidadA.ReadOnly = true;
             this.txtIdentidadA.Size = new System.Drawing.Size(293, 27);
             this.txtIdentidadA.TabIndex = 4;
             // 
@@ -885,13 +433,15 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.txtClaveContadorA.Name = "txtClaveContadorA";
             this.txtClaveContadorA.Size = new System.Drawing.Size(293, 27);
             this.txtClaveContadorA.TabIndex = 6;
+            this.txtClaveContadorA.TextChanged += new System.EventHandler(this.txtClaveContadorA_TextChanged);
+            this.txtClaveContadorA.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtClaveContadorA_KeyPress);
             // 
             // lblFechaArrendamientoA
             // 
             this.lblFechaArrendamientoA.AutoSize = true;
             this.lblFechaArrendamientoA.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFechaArrendamientoA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblFechaArrendamientoA.Location = new System.Drawing.Point(523, 133);
+            this.lblFechaArrendamientoA.Location = new System.Drawing.Point(744, 133);
             this.lblFechaArrendamientoA.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblFechaArrendamientoA.Name = "lblFechaArrendamientoA";
             this.lblFechaArrendamientoA.Size = new System.Drawing.Size(196, 22);
@@ -903,11 +453,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.dtpFechaArrendamientoA.AccessibleName = "dtpFechaArrendamientoA";
             this.dtpFechaArrendamientoA.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dtpFechaArrendamientoA.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFechaArrendamientoA.Location = new System.Drawing.Point(527, 162);
+            this.dtpFechaArrendamientoA.Location = new System.Drawing.Point(748, 162);
             this.dtpFechaArrendamientoA.Margin = new System.Windows.Forms.Padding(4);
             this.dtpFechaArrendamientoA.Name = "dtpFechaArrendamientoA";
             this.dtpFechaArrendamientoA.Size = new System.Drawing.Size(265, 27);
             this.dtpFechaArrendamientoA.TabIndex = 8;
+            this.dtpFechaArrendamientoA.ValueChanged += new System.EventHandler(this.dtpFechaArrendamientoA_ValueChanged);
             // 
             // lblPrecioAlquilerA
             // 
@@ -931,13 +482,15 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.txtPrecioAlquilerA.Name = "txtPrecioAlquilerA";
             this.txtPrecioAlquilerA.Size = new System.Drawing.Size(266, 27);
             this.txtPrecioAlquilerA.TabIndex = 10;
+            this.txtPrecioAlquilerA.TextChanged += new System.EventHandler(this.txtPrecioAlquilerA_TextChanged);
+            this.txtPrecioAlquilerA.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPrecioAlquilerA_KeyPress);
             // 
             // lblDiaMensualidadA
             // 
             this.lblDiaMensualidadA.AutoSize = true;
             this.lblDiaMensualidadA.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDiaMensualidadA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblDiaMensualidadA.Location = new System.Drawing.Point(523, 204);
+            this.lblDiaMensualidadA.Location = new System.Drawing.Point(744, 204);
             this.lblDiaMensualidadA.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDiaMensualidadA.Name = "lblDiaMensualidadA";
             this.lblDiaMensualidadA.Size = new System.Drawing.Size(157, 22);
@@ -949,11 +502,13 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.txtDiaMensualidadA.AccessibleName = "txtDiaMensualidadA";
             this.txtDiaMensualidadA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtDiaMensualidadA.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtDiaMensualidadA.Location = new System.Drawing.Point(527, 236);
+            this.txtDiaMensualidadA.Location = new System.Drawing.Point(748, 236);
             this.txtDiaMensualidadA.Margin = new System.Windows.Forms.Padding(4);
             this.txtDiaMensualidadA.Name = "txtDiaMensualidadA";
             this.txtDiaMensualidadA.Size = new System.Drawing.Size(239, 27);
             this.txtDiaMensualidadA.TabIndex = 12;
+            this.txtDiaMensualidadA.TextChanged += new System.EventHandler(this.txtDiaMensualidadA_TextChanged);
+            this.txtDiaMensualidadA.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDiaMensualidadA_KeyPress);
             // 
             // lblDepositoUnitarioA
             // 
@@ -977,34 +532,38 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.txtDepositoUnitarioA.Name = "txtDepositoUnitarioA";
             this.txtDepositoUnitarioA.Size = new System.Drawing.Size(266, 27);
             this.txtDepositoUnitarioA.TabIndex = 14;
+            this.txtDepositoUnitarioA.TextChanged += new System.EventHandler(this.txtDepositoUnitarioA_TextChanged);
+            this.txtDepositoUnitarioA.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDepositoUnitarioA_KeyPress);
             // 
             // lblNumeroDepartamento
             // 
             this.lblNumeroDepartamento.AutoSize = true;
             this.lblNumeroDepartamento.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNumeroDepartamento.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lblNumeroDepartamento.Location = new System.Drawing.Point(527, 286);
+            this.lblNumeroDepartamento.Location = new System.Drawing.Point(748, 286);
             this.lblNumeroDepartamento.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblNumeroDepartamento.Name = "lblNumeroDepartamento";
             this.lblNumeroDepartamento.Size = new System.Drawing.Size(197, 22);
             this.lblNumeroDepartamento.TabIndex = 0;
             this.lblNumeroDepartamento.Text = "Número de Apartamento";
             // 
-            // cmbNumeroDepartamento
+            // cmbNumeroApartamento
             // 
-            this.cmbNumeroDepartamento.AccessibleName = "cmbNumeroDepartamento";
-            this.cmbNumeroDepartamento.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbNumeroDepartamento.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.cmbNumeroDepartamento.Items.AddRange(new object[] {
+            this.cmbNumeroApartamento.AccessibleName = "cmbNumeroApartamento";
+            this.cmbNumeroApartamento.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbNumeroApartamento.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.cmbNumeroApartamento.Items.AddRange(new object[] {
+            "--Seleccionar--",
             "1",
             "2",
             "3",
             "4"});
-            this.cmbNumeroDepartamento.Location = new System.Drawing.Point(527, 310);
-            this.cmbNumeroDepartamento.Margin = new System.Windows.Forms.Padding(4);
-            this.cmbNumeroDepartamento.Name = "cmbNumeroDepartamento";
-            this.cmbNumeroDepartamento.Size = new System.Drawing.Size(239, 28);
-            this.cmbNumeroDepartamento.TabIndex = 0;
+            this.cmbNumeroApartamento.Location = new System.Drawing.Point(748, 310);
+            this.cmbNumeroApartamento.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbNumeroApartamento.Name = "cmbNumeroApartamento";
+            this.cmbNumeroApartamento.Size = new System.Drawing.Size(239, 28);
+            this.cmbNumeroApartamento.TabIndex = 0;
+            this.cmbNumeroApartamento.SelectedIndexChanged += new System.EventHandler(this.cmbNumeroDepartamento_SelectedIndexChanged);
             // 
             // pnlFormLocal
             // 
@@ -1351,6 +910,551 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.cmbNumeroLocal.Size = new System.Drawing.Size(265, 28);
             this.cmbNumeroLocal.TabIndex = 0;
             // 
+            // pnlFormSala
+            // 
+            this.pnlFormSala.AutoScroll = true;
+            this.pnlFormSala.BackColor = System.Drawing.Color.White;
+            this.pnlFormSala.Controls.Add(this.lblTituloS);
+            this.pnlFormSala.Controls.Add(this.lblSeleccionSala);
+            this.pnlFormSala.Controls.Add(this.cmbSeleccionSala);
+            this.pnlFormSala.Controls.Add(this.lblNombreArrendatarioS);
+            this.pnlFormSala.Controls.Add(this.txtNombreArrendatarioS);
+            this.pnlFormSala.Controls.Add(this.lblIdentidadS);
+            this.pnlFormSala.Controls.Add(this.txtIdentidadS);
+            this.pnlFormSala.Controls.Add(this.lblNumeroHorasS);
+            this.pnlFormSala.Controls.Add(this.txtNumeroHorasS);
+            this.pnlFormSala.Controls.Add(this.lblFechaArrendamientoS);
+            this.pnlFormSala.Controls.Add(this.dtpFechaArrendamientoS);
+            this.pnlFormSala.Controls.Add(this.lblHoraInicioS);
+            this.pnlFormSala.Controls.Add(this.dtpHoraInicioS);
+            this.pnlFormSala.Controls.Add(this.lblHoraFinalS);
+            this.pnlFormSala.Controls.Add(this.dtpHoraFinalS);
+            this.pnlFormSala.Controls.Add(this.lblPrecioHoraS);
+            this.pnlFormSala.Controls.Add(this.txtPrecioHoraS);
+            this.pnlFormSala.Controls.Add(this.lblCantidadPersonasS);
+            this.pnlFormSala.Controls.Add(this.cmbCantidadPersonasS);
+            this.pnlFormSala.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlFormSala.Location = new System.Drawing.Point(0, 0);
+            this.pnlFormSala.Margin = new System.Windows.Forms.Padding(4);
+            this.pnlFormSala.Name = "pnlFormSala";
+            this.pnlFormSala.Padding = new System.Windows.Forms.Padding(32, 20, 32, 20);
+            this.pnlFormSala.Size = new System.Drawing.Size(1381, 509);
+            this.pnlFormSala.TabIndex = 3;
+            this.pnlFormSala.Visible = false;
+            // 
+            // lblTituloS
+            // 
+            this.lblTituloS.AutoSize = true;
+            this.lblTituloS.Font = new System.Drawing.Font("Montserrat", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTituloS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(79)))), ((int)(((byte)(36)))));
+            this.lblTituloS.Location = new System.Drawing.Point(32, 20);
+            this.lblTituloS.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTituloS.Name = "lblTituloS";
+            this.lblTituloS.Size = new System.Drawing.Size(418, 27);
+            this.lblTituloS.TabIndex = 0;
+            this.lblTituloS.Text = "CONTRATO DE SALA DE JUNTAS / AUDITORIO";
+            // 
+            // lblSeleccionSala
+            // 
+            this.lblSeleccionSala.AutoSize = true;
+            this.lblSeleccionSala.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSeleccionSala.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblSeleccionSala.Location = new System.Drawing.Point(32, 62);
+            this.lblSeleccionSala.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSeleccionSala.Name = "lblSeleccionSala";
+            this.lblSeleccionSala.Size = new System.Drawing.Size(80, 22);
+            this.lblSeleccionSala.TabIndex = 0;
+            this.lblSeleccionSala.Text = "Selección";
+            // 
+            // cmbSeleccionSala
+            // 
+            this.cmbSeleccionSala.AccessibleName = "cmbSeleccionSala";
+            this.cmbSeleccionSala.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSeleccionSala.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.cmbSeleccionSala.Items.AddRange(new object[] {
+            "Auditorio Los Zorzales",
+            "Sala de Juntas"});
+            this.cmbSeleccionSala.Location = new System.Drawing.Point(32, 86);
+            this.cmbSeleccionSala.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbSeleccionSala.Name = "cmbSeleccionSala";
+            this.cmbSeleccionSala.Size = new System.Drawing.Size(345, 28);
+            this.cmbSeleccionSala.TabIndex = 0;
+            // 
+            // lblNombreArrendatarioS
+            // 
+            this.lblNombreArrendatarioS.AutoSize = true;
+            this.lblNombreArrendatarioS.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNombreArrendatarioS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblNombreArrendatarioS.Location = new System.Drawing.Point(411, 62);
+            this.lblNombreArrendatarioS.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblNombreArrendatarioS.Name = "lblNombreArrendatarioS";
+            this.lblNombreArrendatarioS.Size = new System.Drawing.Size(196, 22);
+            this.lblNombreArrendatarioS.TabIndex = 0;
+            this.lblNombreArrendatarioS.Text = "Nombre del Arrendatario";
+            // 
+            // txtNombreArrendatarioS
+            // 
+            this.txtNombreArrendatarioS.AccessibleName = "txtNombreArrendatarioS";
+            this.txtNombreArrendatarioS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNombreArrendatarioS.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtNombreArrendatarioS.Location = new System.Drawing.Point(411, 86);
+            this.txtNombreArrendatarioS.Margin = new System.Windows.Forms.Padding(4);
+            this.txtNombreArrendatarioS.Name = "txtNombreArrendatarioS";
+            this.txtNombreArrendatarioS.Size = new System.Drawing.Size(346, 27);
+            this.txtNombreArrendatarioS.TabIndex = 0;
+            // 
+            // lblIdentidadS
+            // 
+            this.lblIdentidadS.AutoSize = true;
+            this.lblIdentidadS.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblIdentidadS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblIdentidadS.Location = new System.Drawing.Point(32, 133);
+            this.lblIdentidadS.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblIdentidadS.Name = "lblIdentidadS";
+            this.lblIdentidadS.Size = new System.Drawing.Size(170, 22);
+            this.lblIdentidadS.TabIndex = 0;
+            this.lblIdentidadS.Text = "Número de Identidad";
+            // 
+            // txtIdentidadS
+            // 
+            this.txtIdentidadS.AccessibleName = "txtIdentidadS";
+            this.txtIdentidadS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtIdentidadS.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtIdentidadS.Location = new System.Drawing.Point(32, 158);
+            this.txtIdentidadS.Margin = new System.Windows.Forms.Padding(4);
+            this.txtIdentidadS.Name = "txtIdentidadS";
+            this.txtIdentidadS.Size = new System.Drawing.Size(293, 27);
+            this.txtIdentidadS.TabIndex = 0;
+            // 
+            // lblNumeroHorasS
+            // 
+            this.lblNumeroHorasS.AutoSize = true;
+            this.lblNumeroHorasS.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNumeroHorasS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblNumeroHorasS.Location = new System.Drawing.Point(411, 133);
+            this.lblNumeroHorasS.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblNumeroHorasS.Name = "lblNumeroHorasS";
+            this.lblNumeroHorasS.Size = new System.Drawing.Size(138, 22);
+            this.lblNumeroHorasS.TabIndex = 0;
+            this.lblNumeroHorasS.Text = "Número de Horas";
+            // 
+            // txtNumeroHorasS
+            // 
+            this.txtNumeroHorasS.AccessibleName = "txtNumeroHorasS";
+            this.txtNumeroHorasS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNumeroHorasS.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtNumeroHorasS.Location = new System.Drawing.Point(411, 158);
+            this.txtNumeroHorasS.Margin = new System.Windows.Forms.Padding(4);
+            this.txtNumeroHorasS.Name = "txtNumeroHorasS";
+            this.txtNumeroHorasS.ReadOnly = true;
+            this.txtNumeroHorasS.Size = new System.Drawing.Size(293, 27);
+            this.txtNumeroHorasS.TabIndex = 0;
+            // 
+            // lblFechaArrendamientoS
+            // 
+            this.lblFechaArrendamientoS.AutoSize = true;
+            this.lblFechaArrendamientoS.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFechaArrendamientoS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblFechaArrendamientoS.Location = new System.Drawing.Point(32, 204);
+            this.lblFechaArrendamientoS.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFechaArrendamientoS.Name = "lblFechaArrendamientoS";
+            this.lblFechaArrendamientoS.Size = new System.Drawing.Size(196, 22);
+            this.lblFechaArrendamientoS.TabIndex = 0;
+            this.lblFechaArrendamientoS.Text = "Fecha de Arrendamiento";
+            // 
+            // dtpFechaArrendamientoS
+            // 
+            this.dtpFechaArrendamientoS.AccessibleName = "dtpFechaArrendamientoS";
+            this.dtpFechaArrendamientoS.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.dtpFechaArrendamientoS.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFechaArrendamientoS.Location = new System.Drawing.Point(32, 229);
+            this.dtpFechaArrendamientoS.Margin = new System.Windows.Forms.Padding(4);
+            this.dtpFechaArrendamientoS.Name = "dtpFechaArrendamientoS";
+            this.dtpFechaArrendamientoS.Size = new System.Drawing.Size(292, 27);
+            this.dtpFechaArrendamientoS.TabIndex = 0;
+            // 
+            // lblHoraInicioS
+            // 
+            this.lblHoraInicioS.AutoSize = true;
+            this.lblHoraInicioS.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHoraInicioS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblHoraInicioS.Location = new System.Drawing.Point(411, 204);
+            this.lblHoraInicioS.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblHoraInicioS.Name = "lblHoraInicioS";
+            this.lblHoraInicioS.Size = new System.Drawing.Size(111, 22);
+            this.lblHoraInicioS.TabIndex = 0;
+            this.lblHoraInicioS.Text = "Hora de Inicio";
+            // 
+            // dtpHoraInicioS
+            // 
+            this.dtpHoraInicioS.AccessibleName = "dtpHoraInicioS";
+            this.dtpHoraInicioS.CustomFormat = "HH:mm";
+            this.dtpHoraInicioS.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.dtpHoraInicioS.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpHoraInicioS.Location = new System.Drawing.Point(411, 229);
+            this.dtpHoraInicioS.Margin = new System.Windows.Forms.Padding(4);
+            this.dtpHoraInicioS.Name = "dtpHoraInicioS";
+            this.dtpHoraInicioS.ShowUpDown = true;
+            this.dtpHoraInicioS.Size = new System.Drawing.Size(292, 27);
+            this.dtpHoraInicioS.TabIndex = 0;
+            // 
+            // lblHoraFinalS
+            // 
+            this.lblHoraFinalS.AutoSize = true;
+            this.lblHoraFinalS.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHoraFinalS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblHoraFinalS.Location = new System.Drawing.Point(32, 276);
+            this.lblHoraFinalS.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblHoraFinalS.Name = "lblHoraFinalS";
+            this.lblHoraFinalS.Size = new System.Drawing.Size(84, 22);
+            this.lblHoraFinalS.TabIndex = 0;
+            this.lblHoraFinalS.Text = "Hora Final";
+            // 
+            // dtpHoraFinalS
+            // 
+            this.dtpHoraFinalS.AccessibleName = "dtpHoraFinalS";
+            this.dtpHoraFinalS.CustomFormat = "HH:mm";
+            this.dtpHoraFinalS.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.dtpHoraFinalS.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpHoraFinalS.Location = new System.Drawing.Point(32, 300);
+            this.dtpHoraFinalS.Margin = new System.Windows.Forms.Padding(4);
+            this.dtpHoraFinalS.Name = "dtpHoraFinalS";
+            this.dtpHoraFinalS.ShowUpDown = true;
+            this.dtpHoraFinalS.Size = new System.Drawing.Size(292, 27);
+            this.dtpHoraFinalS.TabIndex = 0;
+            // 
+            // lblPrecioHoraS
+            // 
+            this.lblPrecioHoraS.AutoSize = true;
+            this.lblPrecioHoraS.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPrecioHoraS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblPrecioHoraS.Location = new System.Drawing.Point(411, 276);
+            this.lblPrecioHoraS.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblPrecioHoraS.Name = "lblPrecioHoraS";
+            this.lblPrecioHoraS.Size = new System.Drawing.Size(123, 22);
+            this.lblPrecioHoraS.TabIndex = 0;
+            this.lblPrecioHoraS.Text = "Precio por Hora";
+            // 
+            // txtPrecioHoraS
+            // 
+            this.txtPrecioHoraS.AccessibleName = "txtPrecioHoraS";
+            this.txtPrecioHoraS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtPrecioHoraS.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtPrecioHoraS.Location = new System.Drawing.Point(411, 300);
+            this.txtPrecioHoraS.Margin = new System.Windows.Forms.Padding(4);
+            this.txtPrecioHoraS.Name = "txtPrecioHoraS";
+            this.txtPrecioHoraS.Size = new System.Drawing.Size(293, 27);
+            this.txtPrecioHoraS.TabIndex = 0;
+            // 
+            // lblCantidadPersonasS
+            // 
+            this.lblCantidadPersonasS.AutoSize = true;
+            this.lblCantidadPersonasS.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCantidadPersonasS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblCantidadPersonasS.Location = new System.Drawing.Point(32, 347);
+            this.lblCantidadPersonasS.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblCantidadPersonasS.Name = "lblCantidadPersonasS";
+            this.lblCantidadPersonasS.Size = new System.Drawing.Size(172, 22);
+            this.lblCantidadPersonasS.TabIndex = 0;
+            this.lblCantidadPersonasS.Text = "Cantidad de Personas";
+            // 
+            // cmbCantidadPersonasS
+            // 
+            this.cmbCantidadPersonasS.AccessibleName = "cmbCantidadPersonasS";
+            this.cmbCantidadPersonasS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCantidadPersonasS.Enabled = false;
+            this.cmbCantidadPersonasS.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.cmbCantidadPersonasS.Items.AddRange(new object[] {
+            "200",
+            "100"});
+            this.cmbCantidadPersonasS.Location = new System.Drawing.Point(32, 372);
+            this.cmbCantidadPersonasS.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbCantidadPersonasS.Name = "cmbCantidadPersonasS";
+            this.cmbCantidadPersonasS.Size = new System.Drawing.Size(292, 28);
+            this.cmbCantidadPersonasS.TabIndex = 0;
+            // 
+            // pnlFormCasa
+            // 
+            this.pnlFormCasa.AutoScroll = true;
+            this.pnlFormCasa.BackColor = System.Drawing.Color.White;
+            this.pnlFormCasa.Controls.Add(this.lblDepositoC);
+            this.pnlFormCasa.Controls.Add(this.txtDepositoC);
+            this.pnlFormCasa.Controls.Add(this.lblTituloC);
+            this.pnlFormCasa.Controls.Add(this.lblNombreHuespedC);
+            this.pnlFormCasa.Controls.Add(this.txtNombreHuespedC);
+            this.pnlFormCasa.Controls.Add(this.lblIdentidadHuespedC);
+            this.pnlFormCasa.Controls.Add(this.txtIdentidadHuespedC);
+            this.pnlFormCasa.Controls.Add(this.lblSeleccionCasa);
+            this.pnlFormCasa.Controls.Add(this.cmbSeleccionCasa);
+            this.pnlFormCasa.Controls.Add(this.lblFechaInicialC);
+            this.pnlFormCasa.Controls.Add(this.dtpFechaInicialC);
+            this.pnlFormCasa.Controls.Add(this.lblFechaFinalC);
+            this.pnlFormCasa.Controls.Add(this.dtpFechaFinalC);
+            this.pnlFormCasa.Controls.Add(this.lblHoraInicialC);
+            this.pnlFormCasa.Controls.Add(this.dtpHoraInicialC);
+            this.pnlFormCasa.Controls.Add(this.lblDiasC);
+            this.pnlFormCasa.Controls.Add(this.txtDiasC);
+            this.pnlFormCasa.Controls.Add(this.lblTarifaC);
+            this.pnlFormCasa.Controls.Add(this.txtTarifaC);
+            this.pnlFormCasa.Controls.Add(this.lblTotalPersonasC);
+            this.pnlFormCasa.Controls.Add(this.txtTotalPersonasC);
+            this.pnlFormCasa.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlFormCasa.Location = new System.Drawing.Point(0, 0);
+            this.pnlFormCasa.Margin = new System.Windows.Forms.Padding(4);
+            this.pnlFormCasa.Name = "pnlFormCasa";
+            this.pnlFormCasa.Padding = new System.Windows.Forms.Padding(32, 20, 32, 20);
+            this.pnlFormCasa.Size = new System.Drawing.Size(1381, 509);
+            this.pnlFormCasa.TabIndex = 2;
+            this.pnlFormCasa.Visible = false;
+            // 
+            // lblDepositoC
+            // 
+            this.lblDepositoC.AutoSize = true;
+            this.lblDepositoC.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDepositoC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblDepositoC.Location = new System.Drawing.Point(411, 348);
+            this.lblDepositoC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDepositoC.Name = "lblDepositoC";
+            this.lblDepositoC.Size = new System.Drawing.Size(76, 22);
+            this.lblDepositoC.TabIndex = 1;
+            this.lblDepositoC.Text = "Depósito";
+            // 
+            // txtDepositoC
+            // 
+            this.txtDepositoC.AccessibleName = "txtDepositoC";
+            this.txtDepositoC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtDepositoC.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtDepositoC.Location = new System.Drawing.Point(411, 373);
+            this.txtDepositoC.Margin = new System.Windows.Forms.Padding(4);
+            this.txtDepositoC.Name = "txtDepositoC";
+            this.txtDepositoC.Size = new System.Drawing.Size(293, 27);
+            this.txtDepositoC.TabIndex = 2;
+            // 
+            // lblTituloC
+            // 
+            this.lblTituloC.AutoSize = true;
+            this.lblTituloC.Font = new System.Drawing.Font("Montserrat", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTituloC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(79)))), ((int)(((byte)(36)))));
+            this.lblTituloC.Location = new System.Drawing.Point(32, 20);
+            this.lblTituloC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTituloC.Name = "lblTituloC";
+            this.lblTituloC.Size = new System.Drawing.Size(368, 27);
+            this.lblTituloC.TabIndex = 0;
+            this.lblTituloC.Text = "CONTRATO DE CASA MONTAÑA / PLAYA";
+            // 
+            // lblNombreHuespedC
+            // 
+            this.lblNombreHuespedC.AutoSize = true;
+            this.lblNombreHuespedC.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNombreHuespedC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblNombreHuespedC.Location = new System.Drawing.Point(32, 62);
+            this.lblNombreHuespedC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblNombreHuespedC.Name = "lblNombreHuespedC";
+            this.lblNombreHuespedC.Size = new System.Drawing.Size(167, 22);
+            this.lblNombreHuespedC.TabIndex = 0;
+            this.lblNombreHuespedC.Text = "Nombre del Huésped";
+            // 
+            // txtNombreHuespedC
+            // 
+            this.txtNombreHuespedC.AccessibleName = "txtNombreHuespedC";
+            this.txtNombreHuespedC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNombreHuespedC.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtNombreHuespedC.Location = new System.Drawing.Point(32, 86);
+            this.txtNombreHuespedC.Margin = new System.Windows.Forms.Padding(4);
+            this.txtNombreHuespedC.Name = "txtNombreHuespedC";
+            this.txtNombreHuespedC.Size = new System.Drawing.Size(346, 27);
+            this.txtNombreHuespedC.TabIndex = 0;
+            // 
+            // lblIdentidadHuespedC
+            // 
+            this.lblIdentidadHuespedC.AutoSize = true;
+            this.lblIdentidadHuespedC.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblIdentidadHuespedC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblIdentidadHuespedC.Location = new System.Drawing.Point(411, 62);
+            this.lblIdentidadHuespedC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblIdentidadHuespedC.Name = "lblIdentidadHuespedC";
+            this.lblIdentidadHuespedC.Size = new System.Drawing.Size(180, 22);
+            this.lblIdentidadHuespedC.TabIndex = 0;
+            this.lblIdentidadHuespedC.Text = "Identidad del Huésped";
+            // 
+            // txtIdentidadHuespedC
+            // 
+            this.txtIdentidadHuespedC.AccessibleName = "txtIdentidadHuespedC";
+            this.txtIdentidadHuespedC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtIdentidadHuespedC.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtIdentidadHuespedC.Location = new System.Drawing.Point(411, 86);
+            this.txtIdentidadHuespedC.Margin = new System.Windows.Forms.Padding(4);
+            this.txtIdentidadHuespedC.Name = "txtIdentidadHuespedC";
+            this.txtIdentidadHuespedC.Size = new System.Drawing.Size(346, 27);
+            this.txtIdentidadHuespedC.TabIndex = 0;
+            // 
+            // lblSeleccionCasa
+            // 
+            this.lblSeleccionCasa.AutoSize = true;
+            this.lblSeleccionCasa.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSeleccionCasa.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblSeleccionCasa.Location = new System.Drawing.Point(32, 133);
+            this.lblSeleccionCasa.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSeleccionCasa.Name = "lblSeleccionCasa";
+            this.lblSeleccionCasa.Size = new System.Drawing.Size(80, 22);
+            this.lblSeleccionCasa.TabIndex = 0;
+            this.lblSeleccionCasa.Text = "Selección";
+            // 
+            // cmbSeleccionCasa
+            // 
+            this.cmbSeleccionCasa.AccessibleName = "cmbSeleccionCasa";
+            this.cmbSeleccionCasa.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSeleccionCasa.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.cmbSeleccionCasa.Items.AddRange(new object[] {
+            "Barrio el Paraiso, Tela",
+            "Las Peñitas"});
+            this.cmbSeleccionCasa.Location = new System.Drawing.Point(32, 158);
+            this.cmbSeleccionCasa.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbSeleccionCasa.Name = "cmbSeleccionCasa";
+            this.cmbSeleccionCasa.Size = new System.Drawing.Size(292, 28);
+            this.cmbSeleccionCasa.TabIndex = 0;
+            // 
+            // lblFechaInicialC
+            // 
+            this.lblFechaInicialC.AutoSize = true;
+            this.lblFechaInicialC.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFechaInicialC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblFechaInicialC.Location = new System.Drawing.Point(411, 133);
+            this.lblFechaInicialC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFechaInicialC.Name = "lblFechaInicialC";
+            this.lblFechaInicialC.Size = new System.Drawing.Size(103, 22);
+            this.lblFechaInicialC.TabIndex = 0;
+            this.lblFechaInicialC.Text = "Fecha Inicial";
+            // 
+            // dtpFechaInicialC
+            // 
+            this.dtpFechaInicialC.AccessibleName = "dtpFechaInicialC";
+            this.dtpFechaInicialC.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.dtpFechaInicialC.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFechaInicialC.Location = new System.Drawing.Point(411, 158);
+            this.dtpFechaInicialC.Margin = new System.Windows.Forms.Padding(4);
+            this.dtpFechaInicialC.Name = "dtpFechaInicialC";
+            this.dtpFechaInicialC.Size = new System.Drawing.Size(292, 27);
+            this.dtpFechaInicialC.TabIndex = 0;
+            // 
+            // lblFechaFinalC
+            // 
+            this.lblFechaFinalC.AutoSize = true;
+            this.lblFechaFinalC.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFechaFinalC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblFechaFinalC.Location = new System.Drawing.Point(32, 204);
+            this.lblFechaFinalC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFechaFinalC.Name = "lblFechaFinalC";
+            this.lblFechaFinalC.Size = new System.Drawing.Size(95, 22);
+            this.lblFechaFinalC.TabIndex = 0;
+            this.lblFechaFinalC.Text = "Fecha Final";
+            // 
+            // dtpFechaFinalC
+            // 
+            this.dtpFechaFinalC.AccessibleName = "dtpFechaFinalC";
+            this.dtpFechaFinalC.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.dtpFechaFinalC.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFechaFinalC.Location = new System.Drawing.Point(32, 229);
+            this.dtpFechaFinalC.Margin = new System.Windows.Forms.Padding(4);
+            this.dtpFechaFinalC.Name = "dtpFechaFinalC";
+            this.dtpFechaFinalC.Size = new System.Drawing.Size(292, 27);
+            this.dtpFechaFinalC.TabIndex = 0;
+            // 
+            // lblHoraInicialC
+            // 
+            this.lblHoraInicialC.AutoSize = true;
+            this.lblHoraInicialC.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHoraInicialC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblHoraInicialC.Location = new System.Drawing.Point(411, 204);
+            this.lblHoraInicialC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblHoraInicialC.Name = "lblHoraInicialC";
+            this.lblHoraInicialC.Size = new System.Drawing.Size(92, 22);
+            this.lblHoraInicialC.TabIndex = 0;
+            this.lblHoraInicialC.Text = "Hora Inicial";
+            // 
+            // dtpHoraInicialC
+            // 
+            this.dtpHoraInicialC.AccessibleName = "dtpHoraInicialC";
+            this.dtpHoraInicialC.CustomFormat = "HH:mm";
+            this.dtpHoraInicialC.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.dtpHoraInicialC.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpHoraInicialC.Location = new System.Drawing.Point(411, 229);
+            this.dtpHoraInicialC.Margin = new System.Windows.Forms.Padding(4);
+            this.dtpHoraInicialC.Name = "dtpHoraInicialC";
+            this.dtpHoraInicialC.ShowUpDown = true;
+            this.dtpHoraInicialC.Size = new System.Drawing.Size(292, 27);
+            this.dtpHoraInicialC.TabIndex = 0;
+            // 
+            // lblDiasC
+            // 
+            this.lblDiasC.AutoSize = true;
+            this.lblDiasC.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDiasC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblDiasC.Location = new System.Drawing.Point(32, 276);
+            this.lblDiasC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDiasC.Name = "lblDiasC";
+            this.lblDiasC.Size = new System.Drawing.Size(42, 22);
+            this.lblDiasC.TabIndex = 0;
+            this.lblDiasC.Text = "Días";
+            // 
+            // txtDiasC
+            // 
+            this.txtDiasC.AccessibleName = "txtDiasC";
+            this.txtDiasC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtDiasC.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtDiasC.Location = new System.Drawing.Point(32, 300);
+            this.txtDiasC.Margin = new System.Windows.Forms.Padding(4);
+            this.txtDiasC.Name = "txtDiasC";
+            this.txtDiasC.ReadOnly = true;
+            this.txtDiasC.Size = new System.Drawing.Size(293, 27);
+            this.txtDiasC.TabIndex = 0;
+            // 
+            // lblTarifaC
+            // 
+            this.lblTarifaC.AutoSize = true;
+            this.lblTarifaC.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTarifaC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblTarifaC.Location = new System.Drawing.Point(411, 276);
+            this.lblTarifaC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTarifaC.Name = "lblTarifaC";
+            this.lblTarifaC.Size = new System.Drawing.Size(52, 22);
+            this.lblTarifaC.TabIndex = 0;
+            this.lblTarifaC.Text = "Tarifa";
+            // 
+            // txtTarifaC
+            // 
+            this.txtTarifaC.AccessibleName = "txtTarifaC";
+            this.txtTarifaC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtTarifaC.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtTarifaC.Location = new System.Drawing.Point(411, 300);
+            this.txtTarifaC.Margin = new System.Windows.Forms.Padding(4);
+            this.txtTarifaC.Name = "txtTarifaC";
+            this.txtTarifaC.Size = new System.Drawing.Size(293, 27);
+            this.txtTarifaC.TabIndex = 0;
+            // 
+            // lblTotalPersonasC
+            // 
+            this.lblTotalPersonasC.AutoSize = true;
+            this.lblTotalPersonasC.Font = new System.Drawing.Font("Montserrat", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalPersonasC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.lblTotalPersonasC.Location = new System.Drawing.Point(32, 347);
+            this.lblTotalPersonasC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTotalPersonasC.Name = "lblTotalPersonasC";
+            this.lblTotalPersonasC.Size = new System.Drawing.Size(117, 22);
+            this.lblTotalPersonasC.TabIndex = 0;
+            this.lblTotalPersonasC.Text = "Total Personas";
+            // 
+            // txtTotalPersonasC
+            // 
+            this.txtTotalPersonasC.AccessibleName = "txtTotalPersonasC";
+            this.txtTotalPersonasC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtTotalPersonasC.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtTotalPersonasC.Location = new System.Drawing.Point(32, 372);
+            this.txtTotalPersonasC.Margin = new System.Windows.Forms.Padding(4);
+            this.txtTotalPersonasC.Name = "txtTotalPersonasC";
+            this.txtTotalPersonasC.Size = new System.Drawing.Size(293, 27);
+            this.txtTotalPersonasC.TabIndex = 0;
+            // 
             // pnlBotonesTipo
             // 
             this.pnlBotonesTipo.BackColor = System.Drawing.Color.White;
@@ -1606,14 +1710,14 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.pnlNuevoContrato.ResumeLayout(false);
             this.pnlTipoSelector.ResumeLayout(false);
             this.pnlFormWrapper.ResumeLayout(false);
-            this.pnlFormCasa.ResumeLayout(false);
-            this.pnlFormCasa.PerformLayout();
-            this.pnlFormSala.ResumeLayout(false);
-            this.pnlFormSala.PerformLayout();
             this.pnlFormApartamento.ResumeLayout(false);
             this.pnlFormApartamento.PerformLayout();
             this.pnlFormLocal.ResumeLayout(false);
             this.pnlFormLocal.PerformLayout();
+            this.pnlFormSala.ResumeLayout(false);
+            this.pnlFormSala.PerformLayout();
+            this.pnlFormCasa.ResumeLayout(false);
+            this.pnlFormCasa.PerformLayout();
             this.pnlBotonesTipo.ResumeLayout(false);
             this.pnlBotonesTipo.PerformLayout();
             this.pnlHistorial.ResumeLayout(false);
@@ -1708,7 +1812,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private System.Windows.Forms.TextBox txtBusquedaH;
         private System.Windows.Forms.Button btnBuscarH;
             private System.Windows.Forms.Label lblNumeroDepartamento;
-        private System.Windows.Forms.ComboBox cmbNumeroDepartamento;
+        private System.Windows.Forms.ComboBox cmbNumeroApartamento;
         private System.Windows.Forms.ComboBox cmbNumeroLocal;
         private System.Windows.Forms.Label lblSeleccionSala;
         private System.Windows.Forms.ComboBox cmbSeleccionSala;
@@ -1750,5 +1854,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private System.Windows.Forms.DataGridView dgvHistorial;
         private System.Windows.Forms.Label lblDepositoC;
         private System.Windows.Forms.TextBox txtDepositoC;
+        private System.Windows.Forms.Label lblVDepositoUnitario;
+        private System.Windows.Forms.Label lblVPrecioAlquiler;
+        private System.Windows.Forms.Label lblVClaveContador;
+        private System.Windows.Forms.Label lblVNombreA;
+        private System.Windows.Forms.Label lblVNumeroA;
+        private System.Windows.Forms.Label lblVDiaM;
+        private System.Windows.Forms.Label lblVFechaA;
     }
 }

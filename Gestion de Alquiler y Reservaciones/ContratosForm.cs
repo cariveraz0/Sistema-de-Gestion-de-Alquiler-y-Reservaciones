@@ -25,6 +25,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         // Tipo de propiedad seleccionado actualmente
         private Button _tipoActivo = null;
 
+        AutoCompleteStringCollection sugerencias = new AutoCompleteStringCollection();
+
         public ContratosForm()
         {
             InitializeComponent();
@@ -35,7 +37,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             cmbSeleccionCasa.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbSeleccionSala.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbCantidadPersonasS.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbNumeroDepartamento.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbNumeroApartamento.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbNumeroLocal.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
@@ -55,6 +57,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                         cmbCantidadPersonasS.Text = "100";
                 };
             }
+
+            cargarArrendatarios();
         }
 
         // ═══════════════════════════════════════════════════════════
@@ -144,6 +148,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             LimpiarPanelControles(pnlFormLocal);
             LimpiarPanelControles(pnlFormCasa);
             LimpiarPanelControles(pnlFormSala);
+
+            validarParaGenerar();
         }
 
         private void LimpiarPanelControles(Panel panel)
@@ -151,8 +157,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             foreach (Control c in panel.Controls)
             {
                 if (c is TextBox txt) txt.Clear();
-                if (c is ComboBox cmb) cmb.SelectedIndex = -1;
-                if (c is DateTimePicker dtp) dtp.Value = DateTime.Today;
+                if (c is ComboBox cmb) cmb.SelectedIndex = 0;
+                if (c is DateTimePicker dtp) dtp.ResetText();
             }
         }
         private void CargarDatosDesdeBD()
@@ -378,7 +384,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 { "${nombre_arrendatario}", txtNombreArrendatarioA.Text.ToUpper()},
                 { "${identidad_arrendatario}", txtIdentidadA.Text },
-                { "${numero_departamento}", cmbNumeroDepartamento.Text },
+                { "${numero_departamento}", cmbNumeroApartamento.Text },
                 { "${clave_contador}", txtClaveContadorA.Text },
                 { "${dia_arrendamiento}", fechaSeleccionada.Day.ToString("00")},
                 { "${mes_arrendamiento}", fechaSeleccionada.ToString("MMMM").ToUpper()},
@@ -542,6 +548,254 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     System.Runtime.InteropServices.Marshal.ReleaseComObject(wordApp);
                 }
             }
+        }
+
+        private void cargarArrendatarios() //Los mismos clientes
+        {
+            try
+            {
+                string queryCargarArrendatarios = "SELECT NombreCompleto from Clientes order by NombreCompleto asc;";
+                sugerencias.Clear();
+                
+                using (SqlConnection conexion = Conexion.ObtenerConexion())
+                {
+                    conexion.Open();
+                    SqlCommand cmdCargarArrendatarios = new SqlCommand(queryCargarArrendatarios, conexion);
+                    SqlDataReader readerCargarArrendatarios = cmdCargarArrendatarios.ExecuteReader();
+                    while (readerCargarArrendatarios.Read())
+                    {
+                        sugerencias.Add(readerCargarArrendatarios["NombreCompleto"].ToString());
+                    }
+                    txtNombreArrendatarioA.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                    txtNombreArrendatarioA.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                    txtNombreArrendatarioA.AutoCompleteCustomSource = sugerencias;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Algo salió mal.",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+
+        private string devolverIdentidadArrendatario(string nombre)
+        {
+            string identidad = string.Empty;
+            try
+            {
+                string queryDevolverIdentidadArrendatario = "SELECT Identidad from Clientes where NombreCompleto = @nombre;";
+
+                using (SqlConnection conexion = Conexion.ObtenerConexion())
+                {
+                    conexion.Open();
+                    SqlCommand cmdDevolverIdentidadArrendatario = new SqlCommand(queryDevolverIdentidadArrendatario, conexion);
+                    cmdDevolverIdentidadArrendatario.Parameters.AddWithValue("@nombre", nombre);
+                    SqlDataReader readerDevolverIdentidadArrendatario = cmdDevolverIdentidadArrendatario.ExecuteReader();
+                    while (readerDevolverIdentidadArrendatario.Read())
+                    {
+                        identidad = readerDevolverIdentidadArrendatario["Identidad"].ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Algo salió mal.",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+            return identidad;
+        }
+
+        private void txtNombreArrendatarioA_TextChanged(object sender, EventArgs e)
+        {
+            txtIdentidadA.Clear();
+            if (sugerencias.Contains(txtNombreArrendatarioA.Text))
+            {
+                txtIdentidadA.Text = devolverIdentidadArrendatario(txtNombreArrendatarioA.Text);
+            }
+
+            if (txtIdentidadA.Text.Length < 15)
+            {
+                lblVNombreA.Text = "Seleccione un arrendatario.";
+                lblVNombreA.Visible = true;
+            }
+            else
+            {
+                lblVNombreA.Visible = false;
+            }
+
+            validarParaGenerar();
+        }
+
+        private void validarParaGenerar()
+        {
+            if(lblVNombreA.Visible == true ||
+                lblVClaveContador.Visible == true || 
+                lblVPrecioAlquiler.Visible == true || 
+                lblVDepositoUnitario.Visible == true || 
+                lblVFechaA.Visible == true ||
+                lblVDiaM.Visible == true ||
+                lblVNumeroA.Visible == true)
+            {
+                btnGuardar.Enabled = false;
+                btnGenerar.Enabled = false;
+            }
+            else
+            {
+                btnGuardar.Enabled = true;
+                btnGenerar.Enabled = true;
+            }
+        }
+
+        private void txtClaveContadorA_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+            }
+        }
+
+        private void txtPrecioAlquilerA_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+            }
+        }
+
+        private void txtDepositoUnitarioA_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+            }
+        }
+
+        private void txtDiaMensualidadA_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+            }
+        }
+
+        private void txtClaveContadorA_TextChanged(object sender, EventArgs e)
+        {
+            if(txtClaveContadorA.Text.Length < 5)
+            {
+                lblVClaveContador.Text = "Debe ingresar un valor numerico.";
+                lblVClaveContador.Visible = true;
+            }
+            else
+            {
+                lblVClaveContador.Visible = false;
+            }
+            validarParaGenerar();
+        }
+
+        private void dtpFechaArrendamientoA_ValueChanged(object sender, EventArgs e)
+        {
+            if (dtpFechaArrendamientoA.Value.Date < DateTime.Now.Date)
+            {
+                lblVFechaA.Text = "Debe seleccionar una fecha mayor o igual a la actual.";
+                lblVFechaA.Visible = true;
+            }
+            else
+            {
+                lblVFechaA.Visible = false;
+            }
+            validarParaGenerar();
+        }
+
+        private void txtPrecioAlquilerA_TextChanged(object sender, EventArgs e)
+        {
+            if (txtPrecioAlquilerA.Text.Trim() == string.Empty)
+            {
+                txtPrecioAlquilerA.Text = "0";
+                txtPrecioAlquilerA.SelectionStart = txtPrecioAlquilerA.Text.Length;
+            }
+            else
+            {
+                if (int.Parse(txtPrecioAlquilerA.Text) <= 0)
+                {
+                    lblVPrecioAlquiler.Text = "Debe intriducir un monto mayor que 0.";
+                    lblVPrecioAlquiler.Visible = true;
+                }
+                else
+                {
+                    lblVPrecioAlquiler.Visible = false;
+                }
+            }
+            validarParaGenerar();
+        }
+
+        private void txtDepositoUnitarioA_TextChanged(object sender, EventArgs e)
+        {
+            if (txtDepositoUnitarioA.Text.Trim() == string.Empty)
+            {
+                txtDepositoUnitarioA.Text = "0";
+                txtDepositoUnitarioA.SelectionStart = txtDepositoUnitarioA.Text.Length;
+            }
+            else
+            {
+                if (int.Parse(txtDepositoUnitarioA.Text) <= 0)
+                {
+                    lblVDepositoUnitario.Text = "Debe intriducir un monto mayor que 0.";
+                    lblVDepositoUnitario.Visible = true;
+                }
+                else
+                {
+                    lblVDepositoUnitario.Visible = false;
+                }
+            }
+            validarParaGenerar();
+        }
+
+        private void cmbNumeroDepartamento_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbNumeroApartamento.SelectedIndex == 0)
+            {
+                lblVNumeroA.Text = "Debe intriducir un monto mayor que 0.";
+                lblVNumeroA.Visible = true;
+            }
+            else
+            {
+                lblVNumeroA.Visible = false;
+            }
+            validarParaGenerar();
+        }
+
+        private void txtDiaMensualidadA_TextChanged(object sender, EventArgs e)
+        {
+            if (txtDiaMensualidadA.Text.Trim() == string.Empty)
+            {
+                txtDiaMensualidadA.Text = "0";
+                txtDiaMensualidadA.SelectionStart = txtDiaMensualidadA.Text.Length;
+            }
+            else
+            {
+                if (int.Parse(txtDiaMensualidadA.Text) <= 0)
+                {
+                    lblVDiaM.Text = "Debe intriducir un numero mayor que 0.";
+                    lblVDiaM.Visible = true;
+                }
+                else
+                {
+                    lblVDiaM.Visible = false;
+                }
+            }
+            validarParaGenerar();
         }
     }
 }
