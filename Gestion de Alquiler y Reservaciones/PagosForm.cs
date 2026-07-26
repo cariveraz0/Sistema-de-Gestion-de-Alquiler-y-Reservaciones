@@ -15,7 +15,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private static readonly NumberFormatInfo FormatoLempiras = new NumberFormatInfo
         {
-            CurrencySymbol = "L. ",
+            CurrencySymbol = "L",
             CurrencyDecimalDigits = 2,
             CurrencyGroupSeparator = ",",
             CurrencyDecimalSeparator = "."
@@ -26,6 +26,35 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private int? idCuotaSeleccionada = null;
         private int? idReservacionSeleccionada = null;
 
+        private class ResultadoCuota
+        {
+            public int IdCuota { get; set; }
+            public string Cliente { get; set; }
+            public string Propiedad { get; set; }
+            public DateTime Periodo { get; set; }
+            public decimal MontoCuota { get; set; }
+            public decimal Mora { get; set; }
+            public decimal Saldo { get; set; }
+            public string Estado { get; set; }
+
+            public override string ToString() =>
+                $"{Cliente} — {Propiedad} · {Periodo.ToString("MMMM yyyy", new CultureInfo("es-HN"))} · {Estado} · Saldo {Saldo.ToString("C", FormatoLempiras)}";
+        }
+
+        private class ResultadoReservacion
+        {
+            public int IdReservacion { get; set; }
+            public string Cliente { get; set; }
+            public string Propiedad { get; set; }
+            public DateTime Entrada { get; set; }
+            public DateTime Salida { get; set; }
+            public decimal MontoTotal { get; set; }
+            public decimal Saldo { get; set; }
+            public string Estado { get; set; }
+
+            public override string ToString() =>
+                $"{Cliente} — {Propiedad} · {Entrada:dd/MM/yyyy} al {Salida:dd/MM/yyyy} · {Estado} · Saldo {Saldo.ToString("C", FormatoLempiras)}";
+        }
         public PagosForm()
         {
             InitializeComponent();
@@ -33,14 +62,17 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             ActivarTabNuevo();
 
             ConfigurarDataGridView(dgvHistorial);
-            ConfigurarDataGridView(dataGridView1);
-            ConfigurarDataGridView(dataGridView2);
 
-            dataGridView1.CellClick += dataGridView1_CellClick;
-            dataGridView2.CellClick += dataGridView2_CellClick;
+            cmbResultadosCuota.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbResultadosReserv.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbResultadosCuota.SelectedIndexChanged += cmbResultadosCuota_SelectedIndexChanged;
+            cmbResultadosReserv.SelectedIndexChanged += cmbResultadosReserv_SelectedIndexChanged;
 
-            btnBuscarCuota.Click += (s, e) => CargarGridCuotas(txtBuscarCuota.Text);
-            btnBuscarReserv.Click += (s, e) => CargarGridReservaciones(txtBuscarReserv.Text);
+            btnBuscarCuota.Click += (s, e) => CargarResultadosCuotas(txtBuscarCuota.Text);
+            btnBuscarReserv.Click += (s, e) => CargarResultadosReservaciones(txtBuscarReserv.Text);
+
+            txtBuscarCuota.KeyDown += (s, e) => { if (e.KeyCode == Keys.Enter) { CargarResultadosCuotas(txtBuscarCuota.Text); e.SuppressKeyPress = true; } };
+            txtBuscarReserv.KeyDown += (s, e) => { if (e.KeyCode == Keys.Enter) { CargarResultadosReservaciones(txtBuscarReserv.Text); e.SuppressKeyPress = true; } };
 
             btnGuardar.Click += btnGuardar_Click;
             btnLimpiar.Click += btnLimpiar_Click;
@@ -48,10 +80,14 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             CargarComboMetodoPago(cmbMetodoPago);
             CargarComboMetodoPago(cmbMetodoPagoR);
 
-            CargarGridCuotas();
             CargarDatosBD();
             cmbMetodoPago.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbMetodoPagoR.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            LimpiarDetalleCuota();
+            LimpiarDetalleReservacion();
+            lblResultadosCuota.Text = "Escribe un cliente, contrato o propiedad y presiona Buscar.";
+            lblResultadosReserv.Text = "Escribe un cliente, reservación o propiedad y presiona Buscar.";
         }
 
         public void ConfigurarDataGridView(DataGridView grid)
@@ -131,142 +167,180 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             pnlPagodeCuota.Visible = true;
             pnlPagoReservacion.Visible = false;
-            CargarGridCuotas();
         }
 
         private void MostrarPanelReservacion()
         {
             pnlPagodeCuota.Visible = false;
             pnlPagoReservacion.Visible = true;
-            CargarGridReservaciones();
         }
 
-        private void CargarGridCuotas(string filtro = null)
+        private void CargarResultadosCuotas(string filtro)
         {
+            cmbResultadosCuota.Items.Clear();
+            LimpiarDetalleCuota();
+
+            if (string.IsNullOrWhiteSpace(filtro))
+            {
+                lblResultadosCuota.Text = "Escribe un cliente, contrato o propiedad y presiona Buscar.";
+                return;
+            }
+
             string query = @"
-                SELECT
-                    cc.IdCuota,
-                    cc.NumeroReciboCuota AS [Recibo Cuota],
-                    c.NumeroContrato     AS Contrato,
-                    cl.NombreCompleto    AS Cliente,
-                    p.Codigo             AS Propiedad,
-                    cc.PeriodoCorrespondiente AS Periodo,
-                    cc.FechaVencimiento  AS Vencimiento,
-                    cc.MontoCuota        AS [Monto Cuota],
-                    cc.MontoMora         AS Mora,
-                    (cc.MontoCuota + cc.MontoMora) - ISNULL(pg.TotalPagado, 0) AS Saldo,
-                    ep.Nombre            AS Estado
-                FROM CuotasContrato cc
-                INNER JOIN Contratos c    ON c.IdContrato = cc.IdContrato
-                INNER JOIN Clientes cl    ON cl.IdCliente = c.IdArrendatario
-                INNER JOIN Propiedades p  ON p.IdPropiedad = c.IdPropiedad
-                INNER JOIN EstadosPago ep ON ep.IdEstadoPago = cc.IdEstadoPago
-                LEFT JOIN (
-                    SELECT IdCuota, SUM(Monto) AS TotalPagado
-                    FROM Pagos WHERE IdCuota IS NOT NULL GROUP BY IdCuota
-                ) pg ON pg.IdCuota = cc.IdCuota
-                WHERE ep.Nombre IN ('Pendiente', 'Vencida', 'Pagada Parcial')
-                  AND (@Busqueda IS NULL OR c.NumeroContrato LIKE '%' + @Busqueda + '%'
-                       OR cl.NombreCompleto LIKE '%' + @Busqueda + '%'
-                       OR p.Codigo LIKE '%' + @Busqueda + '%')
-                ORDER BY cc.FechaVencimiento;";
+        SELECT
+            cc.IdCuota,
+            cl.NombreCompleto    AS Cliente,
+            p.Codigo             AS Propiedad,
+            cc.PeriodoCorrespondiente AS Periodo,
+            cc.MontoCuota,
+            cc.MontoMora,
+            (cc.MontoCuota + cc.MontoMora) - ISNULL(pg.TotalPagado, 0) AS Saldo,
+            ep.Nombre AS Estado
+        FROM CuotasContrato cc
+        INNER JOIN Contratos c    ON c.IdContrato = cc.IdContrato
+        INNER JOIN Clientes cl    ON cl.IdCliente = c.IdArrendatario
+        INNER JOIN Propiedades p  ON p.IdPropiedad = c.IdPropiedad
+        INNER JOIN EstadosPago ep ON ep.IdEstadoPago = cc.IdEstadoPago
+        LEFT JOIN (
+            SELECT IdCuota, SUM(Monto) AS TotalPagado
+            FROM Pagos WHERE IdCuota IS NOT NULL GROUP BY IdCuota
+        ) pg ON pg.IdCuota = cc.IdCuota
+        WHERE ep.Nombre IN ('Pendiente', 'Vencida', 'Pagada Parcial')
+          AND (c.NumeroContrato LIKE '%' + @Busqueda + '%'
+               OR cl.NombreCompleto LIKE '%' + @Busqueda + '%'
+               OR p.Codigo LIKE '%' + @Busqueda + '%')
+        ORDER BY cc.FechaVencimiento;";
 
             try
             {
                 using (SqlConnection conexion = Conexion.ObtenerConexion())
-                using (SqlCommand comando = new SqlCommand(query, conexion))
                 {
-                    comando.Parameters.AddWithValue("@Busqueda",
-                        string.IsNullOrWhiteSpace(filtro) ? (object)DBNull.Value : filtro.Trim());
-
-                    SqlDataAdapter adaptador = new SqlDataAdapter(comando);
-                    DataTable tabla = new DataTable();
-                    adaptador.Fill(tabla);
-
-                    dataGridView1.DataSource = tabla;
-
-                    if (dataGridView1.Columns["IdCuota"] != null)
-                        dataGridView1.Columns["IdCuota"].Visible = false;
-
-                    AplicarFormatoColumna(dataGridView1, "Vencimiento", "dd/MM/yyyy");
-                    AplicarFormatoColumna(dataGridView1, "Periodo", "MMMM yyyy");
-                    AplicarFormatoMoneda(dataGridView1, "Monto Cuota");
-                    AplicarFormatoMoneda(dataGridView1, "Mora");
-                    AplicarFormatoMoneda(dataGridView1, "Saldo");
+                    conexion.Open();
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
+                    {
+                        comando.Parameters.AddWithValue("@Busqueda", filtro.Trim());
+                        using (SqlDataReader reader = comando.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                cmbResultadosCuota.Items.Add(new ResultadoCuota
+                                {
+                                    IdCuota = Convert.ToInt32(reader["IdCuota"]),
+                                    Cliente = reader["Cliente"].ToString(),
+                                    Propiedad = reader["Propiedad"].ToString(),
+                                    Periodo = Convert.ToDateTime(reader["Periodo"]),
+                                    MontoCuota = Convert.ToDecimal(reader["MontoCuota"]),
+                                    Mora = Convert.ToDecimal(reader["MontoMora"]),
+                                    Saldo = Convert.ToDecimal(reader["Saldo"]),
+                                    Estado = reader["Estado"].ToString()
+                                });
+                            }
+                        }
+                    }
                 }
 
-                LimpiarDetalleCuota();
+                if (cmbResultadosCuota.Items.Count == 0)
+                {
+                    lblResultadosCuota.Text = "No se encontraron cuotas pendientes con ese criterio.";
+                }
+                else if (cmbResultadosCuota.Items.Count == 1)
+                {
+                    lblResultadosCuota.Text = "1 resultado encontrado.";
+                    cmbResultadosCuota.SelectedIndex = 0; // se autoselecciona si es el único resultado
+                }
+                else
+                {
+                    lblResultadosCuota.Text = $"{cmbResultadosCuota.Items.Count} resultados encontrados. Selecciónalo de la lista.";
+                    cmbResultadosCuota.DroppedDown = true; // abre el desplegable de una vez
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar las cuotas: " + ex.Message, 
-                    "Error de datos.", 
-                    MessageBoxButtons.OK, 
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show("Error al cargar las cuotas: " + ex.Message, "Error de datos.", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void CargarGridReservaciones(string filtro = null)
+        private void CargarResultadosReservaciones(string filtro)
         {
+            cmbResultadosReserv.Items.Clear();
+            LimpiarDetalleReservacion();
+
+            if (string.IsNullOrWhiteSpace(filtro))
+            {
+                lblResultadosReserv.Text = "Escribe un cliente, reservación o propiedad y presiona Buscar.";
+                return;
+            }
+
             string query = @"
-                SELECT
-                    r.IdReservacion,
-                    r.NumeroReservacion AS Reservación,
-                    cl.NombreCompleto   AS Cliente,
-                    p.Codigo            AS Propiedad,
-                    r.FechaEntrada      AS Entrada,
-                    r.FechaSalida       AS Salida,
-                    r.MontoTotal        AS [Monto Total],
-                    r.MontoTotal - ISNULL(pg.TotalPagado, 0) AS Saldo,
-                    er.Nombre           AS Estado
-                FROM Reservaciones r
-                INNER JOIN Clientes cl   ON cl.IdCliente = r.IdCliente
-                INNER JOIN Propiedades p ON p.IdPropiedad = r.IdPropiedad
-                INNER JOIN EstadosReservacion er ON er.IdEstadoReservacion = r.IdEstadoReservacion
-                LEFT JOIN (
-                    SELECT IdReservacion, SUM(Monto) AS TotalPagado
-                    FROM Pagos WHERE IdReservacion IS NOT NULL GROUP BY IdReservacion
-                ) pg ON pg.IdReservacion = r.IdReservacion
-                WHERE er.Nombre IN ('Pendiente', 'Confirmada', 'En Curso')
-                  AND (@Busqueda IS NULL OR r.NumeroReservacion LIKE '%' + @Busqueda + '%'
-                       OR cl.NombreCompleto LIKE '%' + @Busqueda + '%'
-                       OR p.Codigo LIKE '%' + @Busqueda + '%')
-                ORDER BY r.FechaEntrada;";
+        SELECT
+            r.IdReservacion,
+            cl.NombreCompleto AS Cliente,
+            p.Codigo          AS Propiedad,
+            r.FechaEntrada,
+            r.FechaSalida,
+            r.MontoTotal,
+            r.MontoTotal - ISNULL(pg.TotalPagado, 0) AS Saldo,
+            er.Nombre AS Estado
+        FROM Reservaciones r
+        INNER JOIN Clientes cl   ON cl.IdCliente = r.IdCliente
+        INNER JOIN Propiedades p ON p.IdPropiedad = r.IdPropiedad
+        INNER JOIN EstadosReservacion er ON er.IdEstadoReservacion = r.IdEstadoReservacion
+        LEFT JOIN (
+            SELECT IdReservacion, SUM(Monto) AS TotalPagado
+            FROM Pagos WHERE IdReservacion IS NOT NULL GROUP BY IdReservacion
+        ) pg ON pg.IdReservacion = r.IdReservacion
+        WHERE er.Nombre IN ('Pendiente', 'Confirmada', 'En Curso')
+          AND (r.NumeroReservacion LIKE '%' + @Busqueda + '%'
+               OR cl.NombreCompleto LIKE '%' + @Busqueda + '%'
+               OR p.Codigo LIKE '%' + @Busqueda + '%')
+        ORDER BY r.FechaEntrada;";
 
             try
             {
                 using (SqlConnection conexion = Conexion.ObtenerConexion())
-                using (SqlCommand comando = new SqlCommand(query, conexion))
                 {
-                    comando.Parameters.AddWithValue("@Busqueda",
-                        string.IsNullOrWhiteSpace(filtro) ? (object)DBNull.Value : filtro.Trim());
-
-                    SqlDataAdapter adaptador = new SqlDataAdapter(comando);
-                    DataTable tabla = new DataTable();
-                    adaptador.Fill(tabla);
-
-                    dataGridView2.DataSource = tabla;
-
-                    if (dataGridView2.Columns["IdReservacion"] != null)
-                        dataGridView2.Columns["IdReservacion"].Visible = false;
-
-                    AplicarFormatoColumna(dataGridView2, "Entrada", "dd/MM/yyyy HH:mm");
-                    AplicarFormatoColumna(dataGridView2, "Salida", "dd/MM/yyyy HH:mm");
-                    AplicarFormatoMoneda(dataGridView2, "Monto Total");
-                    AplicarFormatoMoneda(dataGridView2, "Saldo");
+                    conexion.Open();
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
+                    {
+                        comando.Parameters.AddWithValue("@Busqueda", filtro.Trim());
+                        using (SqlDataReader reader = comando.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                cmbResultadosReserv.Items.Add(new ResultadoReservacion
+                                {
+                                    IdReservacion = Convert.ToInt32(reader["IdReservacion"]),
+                                    Cliente = reader["Cliente"].ToString(),
+                                    Propiedad = reader["Propiedad"].ToString(),
+                                    Entrada = Convert.ToDateTime(reader["FechaEntrada"]),
+                                    Salida = Convert.ToDateTime(reader["FechaSalida"]),
+                                    MontoTotal = Convert.ToDecimal(reader["MontoTotal"]),
+                                    Saldo = Convert.ToDecimal(reader["Saldo"]),
+                                    Estado = reader["Estado"].ToString()
+                                });
+                            }
+                        }
+                    }
                 }
 
-                LimpiarDetalleReservacion();
+                if (cmbResultadosReserv.Items.Count == 0)
+                {
+                    lblResultadosReserv.Text = "No se encontraron reservaciones pendientes con ese criterio.";
+                }
+                else if (cmbResultadosReserv.Items.Count == 1)
+                {
+                    lblResultadosReserv.Text = "1 resultado encontrado.";
+                    cmbResultadosReserv.SelectedIndex = 0;
+                }
+                else
+                {
+                    lblResultadosReserv.Text = $"{cmbResultadosReserv.Items.Count} resultados encontrados. Selecciónalo de la lista.";
+                    cmbResultadosReserv.DroppedDown = true;
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Error al cargar las reservaciones: " + ex.Message, 
-                    "Error de datos.", 
-                    MessageBoxButtons.OK, 
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show("Error al cargar las reservaciones: " + ex.Message, "Error de datos.", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -282,57 +356,44 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             grid.Columns[nombreColumna].DefaultCellStyle.Format = "C";
             grid.Columns[nombreColumna].DefaultCellStyle.FormatProvider = FormatoLempiras;
         }
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void cmbResultadosCuota_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (e.RowIndex < 0) return;
+            if (!(cmbResultadosCuota.SelectedItem is ResultadoCuota seleccion)) return;
 
-            DataGridViewRow fila = dataGridView1.Rows[e.RowIndex];
-            if (fila.Cells["IdCuota"].Value == null || fila.Cells["IdCuota"].Value == DBNull.Value) return;
+            txtCliente.Text = seleccion.Cliente;
+            textBox1.Text = seleccion.Propiedad;
+            textBox2.Text = seleccion.Periodo.ToString("MMMM yyyy", new CultureInfo("es-HN"));
 
-            txtCliente.Text = fila.Cells["Cliente"].Value.ToString();
-            textBox1.Text = fila.Cells["Propiedad"].Value.ToString();
-            textBox2.Text = Convert.ToDateTime(fila.Cells["Periodo"].Value).ToString("MMMM yyyy", new CultureInfo("es-HN"));
+            txtMontoCuota.Text = seleccion.MontoCuota.ToString("C", FormatoLempiras);
+            txtMora.Text = seleccion.Mora.ToString("C", FormatoLempiras);
+            txtSaldoPendiente.Text = seleccion.Saldo.ToString("C", FormatoLempiras);
 
-            decimal montoCuota = Convert.ToDecimal(fila.Cells["Monto Cuota"].Value);
-            decimal mora = Convert.ToDecimal(fila.Cells["Mora"].Value);
-            decimal saldo = Convert.ToDecimal(fila.Cells["Saldo"].Value);
-
-            txtMontoCuota.Text = montoCuota.ToString("C", FormatoLempiras);
-            txtMora.Text = mora.ToString("C", FormatoLempiras);
-            txtSaldoPendiente.Text = saldo.ToString("C", FormatoLempiras);
-
-            numMontoPagar.Maximum = saldo > 0 ? saldo : 0;
-            numMontoPagar.Value = saldo > 0 ? saldo : 0;
+            numMontoPagar.Maximum = seleccion.Saldo > 0 ? seleccion.Saldo : 0;
+            numMontoPagar.Value = seleccion.Saldo > 0 ? seleccion.Saldo : 0;
 
             dtpFechaPago.Value = DateTime.Today;
             txtNumeroRecibo.Text = GenerarNumeroReciboPreview();
 
-            idCuotaSeleccionada = Convert.ToInt32(fila.Cells["IdCuota"].Value);
+            idCuotaSeleccionada = seleccion.IdCuota;
         }
 
-        private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void cmbResultadosReserv_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (e.RowIndex < 0) return;
+            if (!(cmbResultadosReserv.SelectedItem is ResultadoReservacion seleccion)) return;
 
-            DataGridViewRow fila = dataGridView2.Rows[e.RowIndex];
-            if (fila.Cells["IdReservacion"].Value == null || fila.Cells["IdReservacion"].Value == DBNull.Value) return;
+            txtClienteR.Text = seleccion.Cliente;
+            txtPropiedadR.Text = seleccion.Propiedad;
 
-            txtClienteR.Text = fila.Cells["Cliente"].Value.ToString();
-            txtPropiedadR.Text = fila.Cells["Propiedad"].Value.ToString();
+            txtMontoTotalR.Text = seleccion.MontoTotal.ToString("C", FormatoLempiras);
+            txtSaldoPendienteR.Text = seleccion.Saldo.ToString("C", FormatoLempiras);
 
-            decimal montoTotal = Convert.ToDecimal(fila.Cells["Monto Total"].Value);
-            decimal saldo = Convert.ToDecimal(fila.Cells["Saldo"].Value);
-
-            txtMontoTotalR.Text = montoTotal.ToString("C", FormatoLempiras);
-            txtSaldoPendienteR.Text = saldo.ToString("C", FormatoLempiras);
-
-            numMontoPagarR.Maximum = saldo > 0 ? saldo : 0;
-            numMontoPagarR.Value = saldo > 0 ? saldo : 0;
+            numMontoPagarR.Maximum = seleccion.Saldo > 0 ? seleccion.Saldo : 0;
+            numMontoPagarR.Value = seleccion.Saldo > 0 ? seleccion.Saldo : 0;
 
             dtpFechaPagoR.Value = DateTime.Today;
             txtNumeroReciboR.Text = GenerarNumeroReciboPreview();
 
-            idReservacionSeleccionada = Convert.ToInt32(fila.Cells["IdReservacion"].Value);
+            idReservacionSeleccionada = seleccion.IdReservacion;
         }
 
         private string GenerarNumeroReciboPreview()
@@ -497,7 +558,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                         MessageBoxIcon.Information
                     );
 
-                    CargarGridCuotas();
+                    CargarResultadosCuotas(txtBuscarCuota.Text);
                     CargarDatosBD();
                 }
                 catch (Exception ex)
@@ -580,7 +641,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                         MessageBoxIcon.Information
                     );
 
-                    CargarGridReservaciones();
+                    CargarResultadosReservaciones(txtBuscarReserv.Text);
                     CargarDatosBD();
                 }
                 catch (Exception ex)
@@ -621,12 +682,16 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             if (rbPagodeCuota.Checked)
             {
                 LimpiarDetalleCuota();
-                dataGridView1.ClearSelection();
+                cmbResultadosCuota.Items.Clear();
+                txtBuscarCuota.Clear();
+                lblResultadosCuota.Text = "Escribe un cliente, contrato o propiedad y presiona Buscar.";
             }
             else
             {
                 LimpiarDetalleReservacion();
-                dataGridView2.ClearSelection();
+                cmbResultadosReserv.Items.Clear();
+                txtBuscarReserv.Clear();
+                lblResultadosReserv.Text = "Escribe un cliente, reservación o propiedad y presiona Buscar.";
             }
         }
 

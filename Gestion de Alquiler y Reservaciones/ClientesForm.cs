@@ -193,16 +193,17 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
                 if (result == DialogResult.Yes)
                 {
-                    if(buscarSiClienteExiste())
-                    {
-                        MessageBox.Show(
-                            "Ese cliente ya existe en el sistema.",
-                            "Cliente duplicado.",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error
-                        );
-                    }
-                    else
+                
+                    ////if(buscarSiClienteExiste())
+                    ////{
+                    //    MessageBox.Show(
+                    //        "Ese cliente ya existe en el sistema.",
+                    //        "Cliente duplicado.",
+                    //        MessageBoxButtons.OK,
+                    //        MessageBoxIcon.Error
+                    //    );
+                    //}
+                    //else
                     {
                         InsertarCliente();
                         limpiarCampos();
@@ -408,44 +409,44 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
         }
 
-        private bool buscarSiClienteExiste()
-        {
-            bool existe = false;
-            try
-            {
-                string queryBuscarSiClienteExiste = $"select * from Clientes where Identidad = @identidad";
-                using (SqlConnection conectar = Conexion.ObtenerConexion())
-                {
-                    conectar.Open();
-                    SqlCommand cmdBuscarSiClienteExiste = new SqlCommand(queryBuscarSiClienteExiste, conectar);
-                    cmdBuscarSiClienteExiste.Parameters.AddWithValue("@identidad", txtIdentidad.Text.Trim());
-                    SqlDataReader readerBuscarSiClienteExiste = cmdBuscarSiClienteExiste.ExecuteReader();
-                    if (readerBuscarSiClienteExiste.Read())
-                    {
-                        existe = true;
-                    }
-                    else
-                    {
-                        MessageBox.Show(
-                            "Usuario o contraseña incorrecta. Intente de nuevo.",
-                            "Credenciales inválidas.",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error
-                        );
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    ex.Message,
-                    "Algo salió mal.",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
-            }
-            return existe;
-        }
+        //private bool buscarSiClienteExiste()
+        //{
+        //    bool existe = false;
+        //    try
+        //    {
+        //        string queryBuscarSiClienteExiste = $"select * from Clientes where Identidad = @identidad";
+        //        using (SqlConnection conectar = Conexion.ObtenerConexion())
+        //        {
+        //            conectar.Open();
+        //            SqlCommand cmdBuscarSiClienteExiste = new SqlCommand(queryBuscarSiClienteExiste, conectar);
+        //            cmdBuscarSiClienteExiste.Parameters.AddWithValue("@identidad", txtIdentidad.Text.Trim());
+        //            SqlDataReader readerBuscarSiClienteExiste = cmdBuscarSiClienteExiste.ExecuteReader();
+        //            if (readerBuscarSiClienteExiste.Read())
+        //            {
+        //                existe = true;
+        //            }
+        //            else
+        //            {
+        //                MessageBox.Show(
+        //                    "Usuario o contraseña incorrecta. Intente de nuevo.",
+        //                    "Credenciales inválidas.",
+        //                    MessageBoxButtons.OK,
+        //                    MessageBoxIcon.Error
+        //                );
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(
+        //            ex.Message,
+        //            "Algo salió mal.",
+        //            MessageBoxButtons.OK,
+        //            MessageBoxIcon.Error
+        //        );
+        //    }
+        //    return existe;
+        //}
 
         private void InsertarCliente()
         {

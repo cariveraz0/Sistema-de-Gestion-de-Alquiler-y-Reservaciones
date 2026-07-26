@@ -7,22 +7,26 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Humanizer;
 using Microsoft.Data.SqlClient;
+using System.Text.RegularExpressions;
 using ProyectoInversion;
 
 namespace Gestion_de_Alquiler_y_Reservaciones
 {
     public partial class ContratosForm : Form
     {
-        // Color activo (naranja principal)
         private static readonly Color ColorActivo   = ColorTranslator.FromHtml("#C84F24");
-        // Color inactivo (gris claro)
         private static readonly Color ColorInactivo = ColorTranslator.FromHtml("#E0DBD2");
         private static readonly Color TextoInactivo = ColorTranslator.FromHtml("#666666");
+        private class PropiedadDisponible
+        {
+            public string IdPropiedad { get; set; }
+            public string Codigo { get; set; }
+            public string Numero { get; set; }
+            public override string ToString() => Numero;
+        }
 
-        // Tabla fuente del historial (para filtrar sin perder datos)
         private DataTable _tablaHistorial;
 
-        // Tipo de propiedad seleccionado actualmente
         private Button _tipoActivo = null;
 
         AutoCompleteStringCollection sugerencias = new AutoCompleteStringCollection();
@@ -39,14 +43,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             cmbCantidadPersonasS.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbNumeroApartamento.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbNumeroLocal.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            CargarPropiedadesDisponibles();
         }
 
-        // ═══════════════════════════════════════════════════════════
-        //  Carga
-        // ═══════════════════════════════════════════════════════════
         private void ContratosForm_Load(object sender, EventArgs e)
         {
-            // Punto de extensión para carga de datos reales
             if (cmbSeleccionSala != null)
             {
                 cmbSeleccionSala.SelectedIndexChanged += (s, args) =>
@@ -58,33 +60,53 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 };
             }
 
-            cargarArrendatarios();
+            CargarArrendatarios();
         }
 
-        // ═══════════════════════════════════════════════════════════
-        //  Pestañas principales
-        // ═══════════════════════════════════════════════════════════
         private void btnTabNuevo_Click(object sender, EventArgs e)    => ActivarTabNuevo();
+        private void btnTabEditar_Click(object sender, EventArgs e)
+        {
+            ActivarTabEditar();
+            CargarContratosParaEdicion();
+        }
         private void btnTabHistorial_Click(object sender, EventArgs e) => ActivarTabHistorial();
 
         private void ActivarTabNuevo()
         {
             pnlNuevoContrato.Visible = true;
-            pnlHistorial.Visible     = false;
-            pnlAccion.Visible        = true;
+            pnlEditar.Visible = false;
+            pnlHistorial.Visible = false;
+            pnlAccion.Visible = true;
+            pnlActu.Visible = false;
 
             EstiloTabActivo(btnTabNuevo);
+            EstiloTabInactivo(btnTabEditar);
+            EstiloTabInactivo(btnTabHistorial);
+        }
+        private void ActivarTabEditar()
+        {
+            pnlEditar.Visible = true;
+            pnlHistorial.Visible = false;
+            pnlNuevoContrato.Visible = false;
+            pnlAccion.Visible = false;
+            pnlActu.Visible = true;
+
+            EstiloTabActivo(btnTabEditar);
+            EstiloTabInactivo(btnTabNuevo);
             EstiloTabInactivo(btnTabHistorial);
         }
 
         private void ActivarTabHistorial()
         {
-            pnlHistorial.Visible     = true;
+            pnlHistorial.Visible = true;
+            pnlEditar.Visible = false;
             pnlNuevoContrato.Visible = false;
-            pnlAccion.Visible        = false;
+            pnlAccion.Visible = false;
+            pnlActu.Visible = false;
 
             EstiloTabActivo(btnTabHistorial);
             EstiloTabInactivo(btnTabNuevo);
+            EstiloTabInactivo(btnTabEditar);
         }
 
         private void EstiloTabActivo(Button btn)
@@ -149,7 +171,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             LimpiarPanelControles(pnlFormCasa);
             LimpiarPanelControles(pnlFormSala);
 
-            validarParaGenerar();
+            ValidarParaGenerar();
         }
 
         private void LimpiarPanelControles(Panel panel)
@@ -249,16 +271,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
             if (dgvHistorial.Columns["Monto"] != null)
             {
-                // Formato Moneda de Honduras (como en tu reporte)
                 dgvHistorial.Columns["Monto"].DefaultCellStyle.FormatProvider = System.Globalization.CultureInfo.CreateSpecificCulture("es-HN");
                 dgvHistorial.Columns["Monto"].DefaultCellStyle.Format = "C2";
                 dgvHistorial.Columns["Monto"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             }
         }
 
-        // ═══════════════════════════════════════════════════════════
-        //  Historial — Búsqueda
-        // ═══════════════════════════════════════════════════════════
         private void btnBuscarH_Click(object sender, EventArgs e)      => FiltrarHistorial();
         private void txtBusquedaH_KeyDown(object sender, KeyEventArgs e)
         {
@@ -358,7 +376,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 );
             }
         }
-
         private Dictionary<string, string> ObtenerDatosApartamento()
         {
             DateTime fechaSeleccionada = dtpFechaArrendamientoA.Value;
@@ -550,7 +567,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
         }
 
-        private void cargarArrendatarios() //Los mismos clientes
+        private void CargarArrendatarios()
         {
             try
             {
@@ -569,6 +586,15 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     txtNombreArrendatarioA.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                     txtNombreArrendatarioA.AutoCompleteSource = AutoCompleteSource.CustomSource;
                     txtNombreArrendatarioA.AutoCompleteCustomSource = sugerencias;
+                    txtNombreArrendatarioL.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                    txtNombreArrendatarioL.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                    txtNombreArrendatarioL.AutoCompleteCustomSource = sugerencias;
+                    txtNombreArrendatarioS.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                    txtNombreArrendatarioS.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                    txtNombreArrendatarioS.AutoCompleteCustomSource = sugerencias;
+                    txtNombreHuespedC.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                    txtNombreHuespedC.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                    txtNombreHuespedC.AutoCompleteCustomSource = sugerencias;
                 }
             }
             catch (Exception ex)
@@ -581,7 +607,48 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 );
             }
         }
+        private void CargarPropiedadesDisponibles()
+        {
+            CargarComboPropiedad(cmbNumeroApartamento, "Apartamento");
+            CargarComboPropiedad(cmbNumeroLocal, "Local Comercial");
+        }
+        private void CargarComboPropiedad(ComboBox combo, string nombreTipo)
+        {
+            combo.Items.Clear();
+            combo.Items.Add(new PropiedadDisponible { IdPropiedad = "", Codigo = "", Numero = "--Seleccionar--" });
 
+            // Ajusta "EstadoActual" al nombre real de columna en tu vista si es distinto
+            string query = @"
+        SELECT p.IdPropiedad, p.Codigo
+        FROM Propiedades p
+        INNER JOIN TiposPropiedad tp ON p.IdTipoPropiedad = tp.IdTipoPropiedad
+        INNER JOIN vw_EstadoActualPropiedad v ON v.IdPropiedad = p.IdPropiedad
+        WHERE tp.Nombre = @tipo AND v.EstadoActual = 'Disponible'
+        ORDER BY p.Codigo";
+
+            using (SqlConnection con = Conexion.ObtenerConexion())
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@tipo", nombreTipo);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string codigo = reader["Codigo"].ToString();
+                            combo.Items.Add(new PropiedadDisponible
+                            {
+                                IdPropiedad = reader["IdPropiedad"].ToString(),
+                                Codigo = codigo,
+                                Numero = Regex.Match(codigo, @"\d+").Value
+                            });
+                        }
+                    }
+                }
+            }
+            combo.SelectedIndex = 0;
+        }
         private string devolverIdentidadArrendatario(string nombre)
         {
             string identidad = string.Empty;
@@ -612,7 +679,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             return identidad;
         }
-
         private void txtNombreArrendatarioA_TextChanged(object sender, EventArgs e)
         {
             txtIdentidadA.Clear();
@@ -631,10 +697,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 lblVNombreA.Visible = false;
             }
 
-            validarParaGenerar();
+            ValidarParaGenerar();
         }
-
-        private void validarParaGenerar()
+        private void ValidarParaGenerar()
         {
             if(lblVNombreA.Visible == true ||
                 lblVClaveContador.Visible == true || 
@@ -653,40 +718,35 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 btnGenerar.Enabled = true;
             }
         }
-
         private void txtClaveContadorA_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
-                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+                e.Handled = true;
             }
         }
 
         private void txtPrecioAlquilerA_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
-                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+                e.Handled = true;
             }
         }
 
         private void txtDepositoUnitarioA_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
-                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+                e.Handled = true;
             }
         }
 
         private void txtDiaMensualidadA_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
-                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+                e.Handled = true;
             }
         }
 
@@ -701,7 +761,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblVClaveContador.Visible = false;
             }
-            validarParaGenerar();
+            ValidarParaGenerar();
         }
 
         private void dtpFechaArrendamientoA_ValueChanged(object sender, EventArgs e)
@@ -715,7 +775,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblVFechaA.Visible = false;
             }
-            validarParaGenerar();
+            ValidarParaGenerar();
         }
 
         private void txtPrecioAlquilerA_TextChanged(object sender, EventArgs e)
@@ -737,7 +797,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     lblVPrecioAlquiler.Visible = false;
                 }
             }
-            validarParaGenerar();
+            ValidarParaGenerar();
         }
 
         private void txtDepositoUnitarioA_TextChanged(object sender, EventArgs e)
@@ -759,7 +819,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     lblVDepositoUnitario.Visible = false;
                 }
             }
-            validarParaGenerar();
+            ValidarParaGenerar();
         }
 
         private void cmbNumeroDepartamento_SelectedIndexChanged(object sender, EventArgs e)
@@ -773,7 +833,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblVNumeroA.Visible = false;
             }
-            validarParaGenerar();
+            ValidarParaGenerar();
         }
 
         private void txtDiaMensualidadA_TextChanged(object sender, EventArgs e)
@@ -795,7 +855,413 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     lblVDiaM.Visible = false;
                 }
             }
-            validarParaGenerar();
+            ValidarParaGenerar();
+        }
+
+        private void txtNombreArrendatarioL_TextChanged(object sender, EventArgs e)
+        {
+            txtIdentidadArrendatarioL.Clear();
+            txtNombreEmpresaL.Clear();
+            txtRTNEmpresaL.Clear();
+
+            if (sugerencias.Contains(txtNombreArrendatarioL.Text))
+            {
+                txtIdentidadArrendatarioL.Text = devolverIdentidadArrendatario(txtNombreArrendatarioL.Text);
+
+                ObtenerDatosEmpresaArrendatario(txtNombreArrendatarioL.Text, out string empresa, out string rtn);
+                txtNombreEmpresaL.Text = empresa;
+                txtRTNEmpresaL.Text = rtn;
+            }
+        }
+
+        private void txtNombreArrendatarioS_TextChanged(object sender, EventArgs e)
+        {
+            txtIdentidadS.Clear();
+            if (sugerencias.Contains(txtNombreArrendatarioS.Text))
+                txtIdentidadS.Text = devolverIdentidadArrendatario(txtNombreArrendatarioS.Text);
+        }
+
+        private void txtNombreHuespedC_TextChanged(object sender, EventArgs e)
+        {
+            txtIdentidadHuespedC.Clear();
+            if (sugerencias.Contains(txtNombreHuespedC.Text))
+                txtIdentidadHuespedC.Text = devolverIdentidadArrendatario(txtNombreHuespedC.Text);
+        }
+        private int ObtenerIdCliente(string identidad)
+        {
+            int idCliente = 0;
+            string query = "SELECT IdCliente FROM Clientes WHERE Identidad = @identidad";
+            using (SqlConnection conexion = Conexion.ObtenerConexion())
+            {
+                conexion.Open();
+                using (SqlCommand cmd = new SqlCommand(query, conexion))
+                {
+                    cmd.Parameters.AddWithValue("@identidad", identidad);
+                    var result = cmd.ExecuteScalar();
+                    if (result != null) idCliente = Convert.ToInt32(result);
+                }
+            }
+            return idCliente;
+        }
+        private string ObtenerIdPropiedad(string nombrePropiedad)
+        {
+            string idPropiedad = "";
+            string query = "SELECT IdPropiedad FROM Propiedades WHERE Codigo = @codigo";
+            using (SqlConnection conexion = Conexion.ObtenerConexion())
+            {
+                conexion.Open();
+                using (SqlCommand cmd = new SqlCommand(query, conexion))
+                {
+                    cmd.Parameters.AddWithValue("@codigo", nombrePropiedad);
+                    var result = cmd.ExecuteScalar();
+                    if (result != null) idPropiedad = result.ToString();
+                }
+            }
+            return idPropiedad;
+        }
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            if (_tipoActivo == null)
+            {
+                MessageBox.Show("Por favor, seleccione un tipo de contrato a generar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (_tipoActivo == btnTipoSala || _tipoActivo == btnTipoCasa)
+            {
+                MessageBox.Show(
+                    "Las reservaciones de Auditorio, Sala de Juntas y Casas Vacacionales se registran desde el módulo de Reservaciones.\n\n" +
+                    "Este apartado solo permite generar el documento en PDF. Para que la reservación quede guardada en la base de datos, créela en Reservaciones.",
+                    "Uso del módulo de Reservaciones",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                if (_tipoActivo == btnTipoApartamento) GuardarApartamento();
+                else if (_tipoActivo == btnTipoLocal) GuardarLocal();
+
+                CargarDatosDesdeBD();
+                CargarPropiedadesDisponibles();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void GuardarApartamento()
+        {
+            if (string.IsNullOrWhiteSpace(txtIdentidadA.Text) || cmbNumeroApartamento.SelectedIndex <= 0 ||
+                string.IsNullOrWhiteSpace(txtPrecioAlquilerA.Text) || string.IsNullOrWhiteSpace(txtDepositoUnitarioA.Text))
+            {
+                MessageBox.Show("Todos los campos del apartamento son obligatorios y debe seleccionar un cliente válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int idCliente = ObtenerIdCliente(txtIdentidadA.Text);
+            string idPropiedad = ((PropiedadDisponible)cmbNumeroApartamento.SelectedItem).IdPropiedad;
+            string numContrato = "APT-" + DateTime.Now.ToString("yyyyMMddHHmm");
+
+            if (idCliente == 0 || string.IsNullOrEmpty(idPropiedad)) { MessageBox.Show("Error al guardar en base de datos."); return; }
+
+            string query = @"INSERT INTO Contratos (NumeroContrato, IdPropiedad, IdArrendatario, FechaInicio, FechaFin, MontoMensual, DepositoGarantia, DiaPagoMensual, IdEstadoContrato, Observaciones) 
+                     VALUES (@num, @idProp, @idCli, @inicio, @fin, @monto, @deposito, @dia, 1, 'Contrato generado por sistema')";
+
+            using (SqlConnection con = Conexion.ObtenerConexion())
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@num", numContrato);
+                    cmd.Parameters.AddWithValue("@idProp", idPropiedad);
+                    cmd.Parameters.AddWithValue("@idCli", idCliente);
+                    cmd.Parameters.AddWithValue("@inicio", dtpFechaArrendamientoA.Value);
+                    cmd.Parameters.AddWithValue("@fin", dtpFechaArrendamientoA.Value.AddYears(1)); // Apartamentos asumen 1 año
+                    cmd.Parameters.AddWithValue("@monto", Convert.ToDecimal(txtPrecioAlquilerA.Text));
+                    cmd.Parameters.AddWithValue("@deposito", Convert.ToDecimal(txtDepositoUnitarioA.Text));
+                    cmd.Parameters.AddWithValue("@dia", Convert.ToInt32(txtDiaMensualidadA.Text));
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            MessageBox.Show("Contrato de Apartamento guardado exitosamente. Ahora puede Generar el documento.", "Éxito");
+        }
+
+        private void GuardarLocal()
+        {
+            if (string.IsNullOrWhiteSpace(txtIdentidadArrendatarioL.Text) || cmbNumeroLocal.SelectedIndex < 0 ||
+                string.IsNullOrWhiteSpace(txtDuracionAlquilerL.Text) || string.IsNullOrWhiteSpace(txtPrecioAlquilerL.Text))
+            {
+                MessageBox.Show("Todos los campos del local comercial son obligatorios.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int idCliente = ObtenerIdCliente(txtIdentidadArrendatarioL.Text);
+            string idPropiedad = ((PropiedadDisponible)cmbNumeroLocal.SelectedItem).IdPropiedad;
+            string numContrato = "LOC-" + DateTime.Now.ToString("yyyyMMddHHmm");
+
+            if (idCliente == 0 || string.IsNullOrEmpty(idPropiedad)) { MessageBox.Show("Cliente o Propiedad no encontrados en BD."); return; }
+
+            int mesesDuracion = Convert.ToInt32(txtDuracionAlquilerL.Text);
+
+            string query = @"INSERT INTO Contratos (NumeroContrato, IdPropiedad, IdArrendatario, FechaInicio, FechaFin, MontoMensual, DepositoGarantia, DiaPagoMensual, IdEstadoContrato, Observaciones) 
+                     VALUES (@num, @idProp, @idCli, @inicio, @fin, @monto, @deposito, 1, 1, 'Empresa: ' + @empresa)";
+
+            using (SqlConnection con = Conexion.ObtenerConexion())
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@num", numContrato);
+                    cmd.Parameters.AddWithValue("@idProp", idPropiedad);
+                    cmd.Parameters.AddWithValue("@idCli", idCliente);
+                    cmd.Parameters.AddWithValue("@inicio", dtpFechaArrendamientoL.Value);
+                    cmd.Parameters.AddWithValue("@fin", dtpFechaArrendamientoL.Value.AddMonths(mesesDuracion));
+                    cmd.Parameters.AddWithValue("@monto", Convert.ToDecimal(txtPrecioAlquilerL.Text));
+                    cmd.Parameters.AddWithValue("@deposito", Convert.ToDecimal(txtDepositoUnitarioL.Text));
+                    cmd.Parameters.AddWithValue("@empresa", txtNombreEmpresaL.Text);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            MessageBox.Show("Contrato de Local guardado exitosamente. Ahora puede Generar el documento.", "Éxito");
+        }
+
+        private void GuardarSala()
+        {
+            if (string.IsNullOrWhiteSpace(txtIdentidadS.Text) || cmbSeleccionSala.SelectedIndex < 0 || string.IsNullOrWhiteSpace(txtPrecioHoraS.Text))
+            {
+                MessageBox.Show("Todos los campos para la sala/auditorio son obligatorios.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int idCliente = ObtenerIdCliente(txtIdentidadS.Text);
+            string idPropiedad = ObtenerIdPropiedad(cmbSeleccionSala.Text);
+            string numReserva = "RES-" + DateTime.Now.ToString("yyyyMMddHHmm");
+
+            if (idCliente == 0 || string.IsNullOrEmpty(idPropiedad)) { MessageBox.Show("Error al guardar en base de datos."); return; }
+
+            TimeSpan diferencia = dtpHoraFinalS.Value - dtpHoraInicioS.Value;
+            decimal precioHora = Convert.ToDecimal(txtPrecioHoraS.Text);
+            decimal total = (decimal)diferencia.TotalHours * precioHora;
+
+            string query = @"INSERT INTO Reservaciones (NumeroReservacion, IdPropiedad, IdCliente, FechaEntrada, FechaSalida, NumeroPersonas, MontoTotal, IdEstadoReservacion) 
+                     VALUES (@num, @idProp, @idCli, @entrada, @salida, @personas, @monto, 2)"; // 2 = Confirmada
+
+            using (SqlConnection con = Conexion.ObtenerConexion())
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@num", numReserva);
+                    cmd.Parameters.AddWithValue("@idProp", idPropiedad);
+                    cmd.Parameters.AddWithValue("@idCli", idCliente);
+                    cmd.Parameters.AddWithValue("@entrada", dtpFechaArrendamientoS.Value.Date + dtpHoraInicioS.Value.TimeOfDay);
+                    cmd.Parameters.AddWithValue("@salida", dtpFechaArrendamientoS.Value.Date + dtpHoraFinalS.Value.TimeOfDay);
+                    cmd.Parameters.AddWithValue("@personas", Convert.ToInt16(cmbCantidadPersonasS.Text));
+                    cmd.Parameters.AddWithValue("@monto", total);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            MessageBox.Show("Reservación de Sala guardada exitosamente. Ahora puede Generar el documento.", "Éxito");
+        }
+
+        private void GuardarCasa()
+        {
+            if (string.IsNullOrWhiteSpace(txtIdentidadHuespedC.Text) || cmbSeleccionCasa.SelectedIndex < 0 ||
+                string.IsNullOrWhiteSpace(txtTarifaC.Text) || string.IsNullOrWhiteSpace(txtTotalPersonasC.Text))
+            {
+                MessageBox.Show("Todos los campos para la casa vacacional son obligatorios.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int idCliente = ObtenerIdCliente(txtIdentidadHuespedC.Text);
+            string idPropiedad = ObtenerIdPropiedad(cmbSeleccionCasa.Text);
+            string numReserva = "CAS-" + DateTime.Now.ToString("yyyyMMddHHmm");
+
+            if (idCliente == 0 || string.IsNullOrEmpty(idPropiedad)) { MessageBox.Show("Cliente o Propiedad no encontrados en BD."); return; }
+
+            TimeSpan diferenciaDias = dtpFechaFinalC.Value.Date - dtpFechaInicialC.Value.Date;
+            int totalNoches = diferenciaDias.Days > 0 ? diferenciaDias.Days : 1;
+            decimal total = Convert.ToDecimal(txtTarifaC.Text) * totalNoches;
+
+            string query = @"INSERT INTO Reservaciones (NumeroReservacion, IdPropiedad, IdCliente, FechaEntrada, FechaSalida, NumeroPersonas, MontoTotal, IdEstadoReservacion, Observaciones) 
+                     VALUES (@num, @idProp, @idCli, @entrada, @salida, @personas, @monto, 2, 'Depósito: ' + @deposito)";
+
+            using (SqlConnection con = Conexion.ObtenerConexion())
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@num", numReserva);
+                    cmd.Parameters.AddWithValue("@idProp", idPropiedad);
+                    cmd.Parameters.AddWithValue("@idCli", idCliente);
+                    cmd.Parameters.AddWithValue("@entrada", dtpFechaInicialC.Value.Date + dtpHoraInicialC.Value.TimeOfDay);
+                    cmd.Parameters.AddWithValue("@salida", dtpFechaFinalC.Value.Date + TimeSpan.FromHours(13)); // Check-out 1 PM
+                    cmd.Parameters.AddWithValue("@personas", Convert.ToInt16(txtTotalPersonasC.Text));
+                    cmd.Parameters.AddWithValue("@monto", total);
+                    cmd.Parameters.AddWithValue("@deposito", txtDepositoC.Text);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            MessageBox.Show("Reservación de Casa guardada exitosamente. Ahora puede Generar el documento.", "Éxito");
+        }
+        private void CargarContratosParaEdicion()
+        {
+            try
+            {
+                cboSolicitud.Items.Clear();
+                cboSolicitud.Items.Add("--Seleccionar--");
+
+                string query = @"
+                SELECT c.NumeroContrato 
+                FROM Contratos c
+                INNER JOIN EstadosContrato ec ON c.IdEstadoContrato = ec.IdEstadoContrato
+                WHERE ec.Nombre IN ('Vigente', 'Por Vencer')
+                ORDER BY c.FechaCreacion DESC";
+                using (SqlConnection conexion = Conexion.ObtenerConexion())
+                {
+                    conexion.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, conexion))
+                    {
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            cboSolicitud.Items.Add(reader["NumeroContrato"].ToString());
+                        }
+                    }
+                }
+                cboSolicitud.SelectedIndex = 0;
+
+                cmbEstadoActu.Items.Clear();
+                cmbEstadoActu.Items.Add("Finalizado");
+                cmbEstadoActu.Items.Add("Cancelado");
+                cmbEstadoActu.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar contratos: " + ex.Message, "Error");
+            }
+        }
+
+        private void cboSolicitud_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboSolicitud.SelectedIndex == 0)
+            {
+                txtPropiedadActu.Clear();
+                txtClienteEmpresa.Clear();
+                txtObservacionesActu.Clear();
+                return;
+            }
+
+            string query = @"SELECT p.Codigo as Propiedad, cl.NombreCompleto as Cliente, 
+                            c.FechaFin, c.Observaciones, ec.Nombre as Estado
+                     FROM Contratos c
+                     INNER JOIN Propiedades p ON c.IdPropiedad = p.IdPropiedad
+                     INNER JOIN Clientes cl ON c.IdArrendatario = cl.IdCliente
+                     INNER JOIN EstadosContrato ec ON c.IdEstadoContrato = ec.IdEstadoContrato
+                     WHERE c.NumeroContrato = @num";
+
+            using (SqlConnection conexion = Conexion.ObtenerConexion())
+            {
+                conexion.Open();
+                using (SqlCommand cmd = new SqlCommand(query, conexion))
+                {
+                    cmd.Parameters.AddWithValue("@num", cboSolicitud.Text);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            txtPropiedadActu.Text = reader["Propiedad"].ToString();
+                            txtClienteEmpresa.Text = reader["Cliente"].ToString();
+                            dtpFinalizacionActu.Value = Convert.ToDateTime(reader["FechaFin"]);
+                            txtObservacionesActu.Text = reader["Observaciones"].ToString();
+                            cmbEstadoActu.Text = reader["Estado"].ToString();
+                        }
+                    }
+                }
+            }
+        }
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            if (cboSolicitud.SelectedIndex == 0)
+            {
+                MessageBox.Show("Por favor seleccione un contrato válido para actualizar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            const int DiasParaPorVencer = 15;
+
+            string estadoSeleccionado = cmbEstadoActu.Text.Trim();
+            int idEstado;
+
+            if (estadoSeleccionado.Equals("Finalizado", StringComparison.OrdinalIgnoreCase))
+            {
+                idEstado = 3; // Finalizado
+            }
+            else if (estadoSeleccionado.Equals("Cancelado", StringComparison.OrdinalIgnoreCase))
+            {
+                idEstado = 4; // Cancelado
+            }
+            else
+            {
+                int diasRestantes = (dtpFinalizacionActu.Value.Date - DateTime.Now.Date).Days;
+                idEstado = diasRestantes <= DiasParaPorVencer ? 2 : 1;
+            }
+
+            string query = @"UPDATE Contratos 
+                 SET FechaFin = @fin, 
+                     IdEstadoContrato = @estado, 
+                     Observaciones = @obs 
+                 WHERE NumeroContrato = @num";
+
+            try
+            {
+                using (SqlConnection conexion = Conexion.ObtenerConexion())
+                {
+                    conexion.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, conexion))
+                    {
+                        cmd.Parameters.AddWithValue("@fin", dtpFinalizacionActu.Value);
+                        cmd.Parameters.AddWithValue("@estado", idEstado);
+                        cmd.Parameters.AddWithValue("@obs", txtObservacionesActu.Text);
+                        cmd.Parameters.AddWithValue("@num", cboSolicitud.Text);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                MessageBox.Show("¡Contrato actualizado exitosamente!", "Éxito");
+
+                CargarDatosDesdeBD();
+                CargarContratosParaEdicion();
+                cboSolicitud.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar: " + ex.Message, "Error");
+            }
+        }
+        private void ObtenerDatosEmpresaArrendatario(string nombre, out string empresa, out string rtn)
+        {
+            empresa = string.Empty;
+            rtn = string.Empty;
+            string query = "SELECT NombreEmpresa, RTN FROM Clientes WHERE NombreCompleto = @nombre";
+            using (SqlConnection conexion = Conexion.ObtenerConexion())
+            {
+                conexion.Open();
+                using (SqlCommand cmd = new SqlCommand(query, conexion))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", nombre);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            empresa = reader["NombreEmpresa"] == DBNull.Value ? string.Empty : reader["NombreEmpresa"].ToString();
+                            rtn = reader["RTN"] == DBNull.Value ? string.Empty : reader["RTN"].ToString();
+                        }
+                    }
+                }
+            }
         }
     }
 }

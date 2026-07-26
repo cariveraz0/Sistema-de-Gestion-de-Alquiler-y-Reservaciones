@@ -160,7 +160,7 @@
             this.lblVMonto.AutoSize = true;
             this.lblVMonto.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
             this.lblVMonto.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblVMonto.Location = new System.Drawing.Point(251, 342);
+            this.lblVMonto.Location = new System.Drawing.Point(251, 348);
             this.lblVMonto.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblVMonto.Name = "lblVMonto";
             this.lblVMonto.Size = new System.Drawing.Size(73, 17);
@@ -196,7 +196,7 @@
             this.lblVDisponibilidad.AutoSize = true;
             this.lblVDisponibilidad.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
             this.lblVDisponibilidad.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblVDisponibilidad.Location = new System.Drawing.Point(40, 296);
+            this.lblVDisponibilidad.Location = new System.Drawing.Point(39, 301);
             this.lblVDisponibilidad.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblVDisponibilidad.Name = "lblVDisponibilidad";
             this.lblVDisponibilidad.Size = new System.Drawing.Size(285, 17);
@@ -253,7 +253,7 @@
             // 
             this.txtMonto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtMonto.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMonto.Location = new System.Drawing.Point(40, 341);
+            this.txtMonto.Location = new System.Drawing.Point(40, 347);
             this.txtMonto.Name = "txtMonto";
             this.txtMonto.Size = new System.Drawing.Size(200, 22);
             this.txtMonto.TabIndex = 10;
@@ -265,7 +265,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.label6.Location = new System.Drawing.Point(37, 321);
+            this.label6.Location = new System.Drawing.Point(37, 327);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(97, 17);
             this.label6.TabIndex = 9;
