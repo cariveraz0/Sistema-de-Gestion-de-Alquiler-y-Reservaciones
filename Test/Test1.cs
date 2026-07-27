@@ -100,25 +100,43 @@ namespace Test
 
             var txtIdentidad = _driver.FindElementByAccessibilityId("txtIdentidad");
             txtIdentidad.Clear();
-            txtIdentidad.SendKeys("050");
+            txtIdentidad.SendKeys("0501");
             esperar(10000);
-            txtIdentidad.SendKeys("42000");
+            txtIdentidad.SendKeys("2000");
             esperar(2000);
             txtIdentidad.SendKeys("00119");
             esperar(1000);
 
             var txtTelefono = _driver.FindElementByAccessibilityId("txtTelefono");
             txtTelefono.Clear();
-            txtTelefono.SendKeys("9999");
+            txtTelefono.SendKeys("9482");
             esperar(9000);
-            txtTelefono.SendKeys("9999");
+            txtTelefono.SendKeys("5566");
 
             var txtCorreo = _driver.FindElementByAccessibilityId("txtCorreo");
             txtCorreo.Clear();
-            txtCorreo.SendKeys("sergioinestroza");
+            txtCorreo.SendKeys("amayasergio31");
             esperar(9000);
-            txtCorreo.SendKeys("@unah.com");
+            txtCorreo.SendKeys("@gmail.com");
             esperar(2000);
+
+            var btnGuardar = _driver.FindElementByAccessibilityId("btnGuardar");
+            btnGuardar.Click();
+            esperar(1000);
+
+            cambiarFoco();
+
+            var btnSi = _driver.FindElementByName("Sí");
+            btnSi.Click();
+            esperar(1000);
+
+            cambiarFoco();
+
+            var btnAceptar = _driver.FindElementByName("Aceptar");
+            btnAceptar.Click();
+            esperar(1000);
+
+            cambiarFoco();
         }
 
         private void nuevoMantenimiento()
@@ -201,7 +219,7 @@ namespace Test
 
         private void esperar(int delay)
         {
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(delay);
         }
 
         private void cambiarFoco()

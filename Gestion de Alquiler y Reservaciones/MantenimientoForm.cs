@@ -494,7 +494,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             if(dtpProgramada.Value.Date < DateTime.Now.Date)
             {
-                lblOFecha.Text = "Seleccione una fecha válida";
+                lblOFecha.Text = "Seleccione una fecha válida.";
                 lblOFecha.Visible = true;
             }
             else
