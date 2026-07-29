@@ -185,7 +185,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             else
             {
                 DialogResult result = MessageBox.Show(
-                    "¿Está seguro de de agregar a este cliente?",
+                    "¿Está seguro de agregar a este cliente?",
                     "Crear cliente.",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question
@@ -225,7 +225,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             txtEmpresa.Clear();
             txtRtn.Clear();
 
-            revisarAntesDeGuardar();
+            validarAntesDeGuardar();
         }
 
         private void txtNombre_TextChanged(object sender, EventArgs e)
@@ -234,21 +234,21 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 if(txtNombre.Text.Length < 8)
                 {
-                    lblONombre.Visible = true;
-                    lblONombre.Text = "Debe ingresar un nombre valido";
+                    lblVNombre.Visible = true;
+                    lblVNombre.Text = "Debe ingresar un nombre valido";
                 }
                 else
                 {
-                    lblONombre.Visible = false;
+                    lblVNombre.Visible = false;
                 }
             }
             else
             {
-                lblONombre.Visible = true;
-                lblONombre.Text = "Obligatorio";
+                lblVNombre.Visible = true;
+                lblVNombre.Text = "Obligatorio";
             }
 
-            revisarAntesDeGuardar();
+            validarAntesDeGuardar();
         }
 
         private void txtIdentidad_TextChanged(object sender, EventArgs e)
@@ -257,31 +257,31 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 if (txtIdentidad.Text.Length < 15)
                 {
-                    lblOIdentidad.Visible = true;
-                    lblOIdentidad.Text = "Debe ingresar un numero de identidad valido";
+                    lblVIdentidad.Visible = true;
+                    lblVIdentidad.Text = "Debe ingresar un numero de identidad valido";
                 }
                 else
                 {
-                    lblOIdentidad.Visible = false;
+                    lblVIdentidad.Visible = false;
                 }
             }
             else
             {
-                lblOIdentidad.Visible = true;
-                lblOIdentidad.Text = "Obligatorio";
+                lblVIdentidad.Visible = true;
+                lblVIdentidad.Text = "Obligatorio";
             }
 
-            revisarAntesDeGuardar();
+            validarAntesDeGuardar();
         }
 
-        private void agregarGionesIdentidad()
+        private void agregarGionesIdentidad(TextBox control)
         {
-            if (txtIdentidad.Text.Length == 4 || txtIdentidad.Text.Length == 9)
+            if (control.Text.Length == 4 || control.Text.Length == 9)
             {
-                txtIdentidad.Text += "-";
+                control.Text += "-";
 
                 // Mueve el cursor al final del texto
-                txtIdentidad.SelectionStart = txtIdentidad.Text.Length;
+                control.SelectionStart = control.Text.Length;
             }
         }
         private void agregarGionTelefono()
@@ -318,7 +318,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             else if (!esControl)
             {
-                agregarGionesIdentidad();
+                agregarGionesIdentidad(txtIdentidad);
             }
         }
 
@@ -368,7 +368,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblVTelefono.Visible = false;
             }
-            revisarAntesDeGuardar();
+            validarAntesDeGuardar();
         }
 
         private void txtCorreo_TextChanged(object sender, EventArgs e)
@@ -389,15 +389,16 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblVCorreo.Visible = false;
             }
-            revisarAntesDeGuardar();
+            validarAntesDeGuardar();
         }
 
-        private void revisarAntesDeGuardar()
+        private void validarAntesDeGuardar()
         {
-            if (lblONombre.Visible == true ||
-                lblOIdentidad.Visible == true ||
+            if (lblVNombre.Visible == true ||
+                lblVIdentidad.Visible == true ||
                 lblVCorreo.Visible == true ||
-                lblVTelefono.Visible == true)
+                lblVTelefono.Visible == true ||
+                lblbVRTNEmpresa.Visible == true)
             {
                 btnGuardar.Enabled = false;
             }
@@ -524,6 +525,55 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 );
             }
             return codigo;
+        }
+
+        private void txtRtn_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 1. Detectar si la tecla presionado es un número (teclado principal o numérico)
+            bool esNumero = (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9) ||
+                            (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9);
+
+            // 2. Permitir teclas de navegación y borrado
+            bool esControl = e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete ||
+                             e.KeyCode == Keys.Left || e.KeyCode == Keys.Right || e.KeyCode == Keys.Tab;
+
+            // 3. Bloquear si NO es número NI tecla de control
+            if (!esNumero && !esControl)
+            {
+                e.SuppressKeyPress = true; // Cancela la tecla no numérica
+                return;
+            }
+
+            if (txtRtn.Text.Length > 16 && !esControl)
+            {
+                e.SuppressKeyPress = true;
+            }
+            else if (!esControl)
+            {
+                agregarGionesIdentidad(txtRtn);
+            }
+        }
+
+        private void txtRtn_TextChanged(object sender, EventArgs e)
+        {
+            if (txtRtn.Text.Length > 0)
+            {
+                if (txtRtn.Text.Length < 16)
+                {
+                    lblbVRTNEmpresa.Visible = true;
+                    lblbVRTNEmpresa.Text = "Debe ingresar un RTN valido";
+                }
+                else
+                {
+                    lblbVRTNEmpresa.Visible = false;
+                }
+            }
+            else
+            {
+                lblbVRTNEmpresa.Visible = false;
+            }
+
+            validarAntesDeGuardar();
         }
     }
 }

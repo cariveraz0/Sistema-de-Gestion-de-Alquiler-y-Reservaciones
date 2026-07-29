@@ -218,7 +218,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             txtMonto.Clear();
             txtObservaciones.Clear();
 
-            ValidarParaGuardar();
+            validarAntesDeGuardar();
         }
 
         private void dgvHistorial_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -257,7 +257,11 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             LlenarCboReservacion();
             LlenarCboEstadoReservacion();
             CambiarEstadoCamposActu(false);
-            ValidarParaGuardar();
+            validarAntesDeGuardar();
+            cboReservacion.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboEstado.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            validarAntesDeActualizar();
         }
 
         private void txtMonto_KeyPress(object sender, KeyPressEventArgs e)
@@ -365,10 +369,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblVCliente.Visible = false;
             }
-            ValidarParaGuardar();
+            validarAntesDeGuardar();
         }
 
-        private void ValidarParaGuardar()
+        private void validarAntesDeGuardar()
         {
             if(lblVPropiedad.Visible == true ||
                 lblVCliente.Visible == true ||
@@ -433,7 +437,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     lblVMonto.Visible = false;
                 }
             }
-            ValidarParaGuardar();
+            validarAntesDeGuardar();
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -628,18 +632,23 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             if (LimpiandoCamposActu) return;
 
-            if (cboReservacion.SelectedIndex <= 0)
+            if (cboReservacion.SelectedIndex == 0)
             {
                 btnActualizar.Enabled = false;
                 CambiarEstadoCamposActu(false);
                 IdReservacionSeleccionada = -1;
+                lblVReservacion.Text = "Seleccione una reservación.";
+                lblVReservacion.Visible = true;
             }
             else
             {
                 BuscarReservacionEnDB();
                 CambiarEstadoCamposActu(true);
                 btnActualizar.Enabled = true;
+                lblVReservacion.Visible = false;
             }
+
+            validarAntesDeActualizar();
         }
         private void CambiarEstadoCamposActu(bool estado)
         {
@@ -655,8 +664,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             txtFechaSalida.Clear();
             txtMontoPagarActu.Clear();
             txtObservacionesActu.Clear();
-            cboEstado.SelectedIndex = -1;
-            cboReservacion.SelectedIndex = -1;
+            cboEstado.SelectedIndex = 0;
+            cboReservacion.SelectedIndex = 0;
             IdReservacionSeleccionada = -1;
             CambiarEstadoCamposActu(false);
             btnActualizar.Enabled = false;
@@ -666,6 +675,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private void btnLimpiarActu_Click(object sender, EventArgs e)
         {
             LimpiarCamposActu();
+            validarAntesDeActualizar();
         }
 
         private void btnActualizar_Click(object sender, EventArgs e)
@@ -769,7 +779,19 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblVDisponibilidad.Visible = false;
             }
-            ValidarParaGuardar();
+            validarAntesDeGuardar();
+        }
+
+        private void validarAntesDeActualizar()
+        {
+            if (lblVReservacion.Visible == true)
+            {
+                btnActualizar.Enabled = false;
+            }
+            else
+            {
+                btnActualizar.Enabled = true;
+            }
         }
     }
 }

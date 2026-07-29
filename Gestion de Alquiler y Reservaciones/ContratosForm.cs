@@ -58,9 +58,11 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     else
                         cmbCantidadPersonasS.Text = "100";
                 };
+                cmbSeleccionSala.SelectedIndex = 0;
             }
 
             CargarArrendatarios();
+            ValidarParaGuardarOGenerar();
         }
 
         private void btnTabNuevo_Click(object sender, EventArgs e)    => ActivarTabNuevo();
@@ -68,6 +70,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             ActivarTabEditar();
             CargarContratosParaEdicion();
+            validarAntesDeActualizar();
         }
         private void btnTabHistorial_Click(object sender, EventArgs e) => ActivarTabHistorial();
 
@@ -124,10 +127,71 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         // ═══════════════════════════════════════════════════════════
         //  Selector de tipo de propiedad
         // ═══════════════════════════════════════════════════════════
-        private void btnTipoApartamento_Click(object sender, EventArgs e) => MostrarFormulario(pnlFormApartamento, btnTipoApartamento);
-        private void btnTipoLocal_Click(object sender, EventArgs e)       => MostrarFormulario(pnlFormLocal,       btnTipoLocal);
-        private void btnTipoCasa_Click(object sender, EventArgs e)        => MostrarFormulario(pnlFormCasa,        btnTipoCasa);
-        private void btnTipoSala_Click(object sender, EventArgs e)        => MostrarFormulario(pnlFormSala,        btnTipoSala);
+
+        //private void btnTipoApartamento_Click(object sender, EventArgs e) => MostrarFormulario(pnlFormApartamento, btnTipoApartamento);
+        //private void btnTipoLocal_Click(object sender, EventArgs e)       => MostrarFormulario(pnlFormLocal,       btnTipoLocal);
+        //private void btnTipoCasa_Click(object sender, EventArgs e)        => MostrarFormulario(pnlFormCasa,        btnTipoCasa);
+        //private void btnTipoSala_Click(object sender, EventArgs e)        => MostrarFormulario(pnlFormSala,        btnTipoSala);
+        
+        //Lo tuve que poner de esta forma por las validaciones que le voy a hacer a
+        //cada tipo de contrato-------------------------------------------------------------------------------
+        private void btnTipoApartamento_Click(object sender, EventArgs e)
+        {
+            MostrarFormulario(pnlFormApartamento, btnTipoApartamento);
+            if (_tipoActivo == btnTipoSala || _tipoActivo == btnTipoCasa)
+            {
+                btnGuardar.Enabled = false;
+            }
+            else
+            {
+                btnGuardar.Enabled = true;
+            }
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void btnTipoLocal_Click(object sender, EventArgs e)
+        {
+            MostrarFormulario(pnlFormLocal, btnTipoLocal);
+            if (_tipoActivo == btnTipoSala || _tipoActivo == btnTipoCasa)
+            {
+                btnGuardar.Enabled = false;
+            }
+            else
+            {
+                btnGuardar.Enabled = true;
+            }
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void btnTipoCasa_Click(object sender, EventArgs e)
+        {
+            MostrarFormulario(pnlFormCasa, btnTipoCasa);
+            if (_tipoActivo == btnTipoSala || _tipoActivo == btnTipoCasa)
+            {
+                btnGuardar.Enabled = false;
+            }
+            else
+            {
+                btnGuardar.Enabled = true;
+            }
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void btnTipoSala_Click(object sender, EventArgs e)
+        {
+            MostrarFormulario(pnlFormSala, btnTipoSala);
+            if (_tipoActivo == btnTipoSala || _tipoActivo == btnTipoCasa)
+            {
+                btnGuardar.Enabled = false;
+            }
+            else
+            {
+                btnGuardar.Enabled = true;
+            }
+            ValidarParaGuardarOGenerar();
+        }
+        //Lo tuve que poner de esta forma por las validaciones que le voy a hacer a
+        //cada tipo de contrato-------------------------------------------------------------------------------
 
         private void MostrarFormulario(Panel panelObjetivo, Button btnOrigen)
         {
@@ -171,7 +235,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             LimpiarPanelControles(pnlFormCasa);
             LimpiarPanelControles(pnlFormSala);
 
-            ValidarParaGenerar();
+            ValidarParaGuardarOGenerar();
         }
 
         private void LimpiarPanelControles(Panel panel)
@@ -311,71 +375,91 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 return;
             }
 
-            TipoContrato tipoSeleccionado = TipoContrato.Apartamento;
-            if (_tipoActivo == btnTipoLocal) tipoSeleccionado = TipoContrato.Local;
-            else if (_tipoActivo == btnTipoSala) tipoSeleccionado = TipoContrato.Auditorio;
-            else if (_tipoActivo == btnTipoCasa) tipoSeleccionado = TipoContrato.CasaPlaya;
-
-            Dictionary<string, string> datosContrato = new Dictionary<string, string>();
-
-            try
-            {
-                switch (tipoSeleccionado)
-                {
-                    case TipoContrato.Apartamento:
-                        datosContrato = ObtenerDatosApartamento();
-                        break;
-                    case TipoContrato.Local:
-                        datosContrato = ObtenerDatosLocal();
-                        break;
-                    case TipoContrato.Auditorio:
-                        datosContrato = ObtenerDatosSala();
-                        break;
-                    case TipoContrato.CasaPlaya:
-                        datosContrato = ObtenerDatosCasa();
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Faltan datos o tienen un formato incorrecto: " + ex.Message, 
-                    "Error."
+            DialogResult result = MessageBox.Show(
+                    "¿Está seguro de generar este contrato?",
+                    "Generar contrato.",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
                 );
-                return;
-            }
 
-            string rutaEscritorio = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string marcaTiempo = DateTime.Now.Ticks.ToString();
-
-            string rutaDocx = rutaEscritorio + $@"\Contrato_{tipoSeleccionado}_{marcaTiempo}.docx";
-            string rutaPdf = rutaEscritorio + $@"\Contrato_{tipoSeleccionado}_{marcaTiempo}.pdf";
-
-            try
+            if (result == DialogResult.Yes)
             {
-                GeneradorContratos generador = new GeneradorContratos();
-                generador.GenerarDocumento(tipoSeleccionado, datosContrato, rutaDocx);
+                TipoContrato tipoSeleccionado = TipoContrato.Apartamento;
+                if (_tipoActivo == btnTipoLocal) tipoSeleccionado = TipoContrato.Local;
+                else if (_tipoActivo == btnTipoSala) tipoSeleccionado = TipoContrato.Auditorio;
+                else if (_tipoActivo == btnTipoCasa) tipoSeleccionado = TipoContrato.CasaPlaya;
 
-                ConvertirWordAPdf(rutaDocx, rutaPdf);
+                Dictionary<string, string> datosContrato = new Dictionary<string, string>();
 
-                if (System.IO.File.Exists(rutaDocx))
+                try
                 {
-                    System.IO.File.Delete(rutaDocx);
+                    switch (tipoSeleccionado)
+                    {
+                        case TipoContrato.Apartamento:
+                            datosContrato = ObtenerDatosApartamento();
+                            break;
+                        case TipoContrato.Local:
+                            datosContrato = ObtenerDatosLocal();
+                            break;
+                        case TipoContrato.Auditorio:
+                            datosContrato = ObtenerDatosSala();
+                            break;
+                        case TipoContrato.CasaPlaya:
+                            datosContrato = ObtenerDatosCasa();
+                            break;
+                    }
+
+                    LimpiarPanelControles(pnlFormApartamento);
+                    LimpiarPanelControles(pnlFormLocal);
+                    LimpiarPanelControles(pnlFormCasa);
+                    LimpiarPanelControles(pnlFormSala);
+
+                    ValidarParaGuardarOGenerar();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        "Faltan datos o tienen un formato incorrecto: " + ex.Message,
+                        "Error."
+                    );
+                    return;
                 }
 
-                MessageBox.Show(
-                    "Contrato generado con éxito en PDF en:\n" + rutaPdf, 
-                    "Éxito."
-                );
+                string rutaEscritorio = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                string marcaTiempo = DateTime.Now.Ticks.ToString();
+
+                string rutaDocx = rutaEscritorio + $@"\Contrato_{tipoSeleccionado}_{marcaTiempo}.docx";
+                string rutaPdf = rutaEscritorio + $@"\Contrato_{tipoSeleccionado}_{marcaTiempo}.pdf";
+
+                try
+                {
+                    GeneradorContratos generador = new GeneradorContratos();
+                    generador.GenerarDocumento(tipoSeleccionado, datosContrato, rutaDocx);
+
+                    ConvertirWordAPdf(rutaDocx, rutaPdf);
+
+                    if (System.IO.File.Exists(rutaDocx))
+                    {
+                        System.IO.File.Delete(rutaDocx);
+                    }
+
+                    MessageBox.Show(
+                        "Contrato generado con éxito en PDF en:\n" + rutaPdf,
+                        "Éxito."
+                    );
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        "Error al generar: " + ex.Message,
+                        "Error."
+                    );
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Error al generar: " + ex.Message, 
-                    "Error."
-                );
-            }
+
+            
         }
+
         private Dictionary<string, string> ObtenerDatosApartamento()
         {
             DateTime fechaSeleccionada = dtpFechaArrendamientoA.Value;
@@ -697,25 +781,99 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 lblVNombreA.Visible = false;
             }
 
-            ValidarParaGenerar();
+            ValidarParaGuardarOGenerar();
         }
-        private void ValidarParaGenerar()
+
+        //Validaciones para habilitar o deshabilitar los botones de guardar o generar
+        private void ValidarParaGuardarOGenerar()
         {
-            if(lblVNombreA.Visible == true ||
-                lblVClaveContador.Visible == true || 
-                lblVPrecioAlquiler.Visible == true || 
-                lblVDepositoUnitario.Visible == true || 
-                lblVFechaA.Visible == true ||
-                lblVDiaM.Visible == true ||
-                lblVNumeroA.Visible == true)
+            if(_tipoActivo == null)
             {
+                //Aqui verifivo que haya seleccionado algo, de lo contrario se inhabilitan los botones
                 btnGuardar.Enabled = false;
                 btnGenerar.Enabled = false;
             }
             else
             {
-                btnGuardar.Enabled = true;
-                btnGenerar.Enabled = true;
+                //Aqui verifico el tipo de contrato que está haciendo
+                //Dependiendo del tipo de contrato, solo sus propios camposs tomará en cuenta
+                switch (_tipoActivo.Text)
+                {
+                    case "Apartamento":
+                        if (lblVNombreA.Visible == true ||
+                        lblVClaveContador.Visible == true ||
+                        lblVPrecioAlquiler.Visible == true ||
+                        lblVDepositoUnitario.Visible == true ||
+                        lblVFechaA.Visible == true ||
+                        lblVDiaM.Visible == true ||
+                        lblVNumeroA.Visible == true)
+                        {
+                            btnGuardar.Enabled = false;
+                            btnGenerar.Enabled = false;
+                        }
+                        else
+                        {
+                            btnGuardar.Enabled = true;
+                            btnGenerar.Enabled = true;
+                        }
+                        break;
+
+                    case "Local Comercial":
+                        if (lblVNombreArrendatarioLocal.Visible == true ||
+                        lblVProfesionArrendatarioLocal.Visible == true ||
+                        lblVNacionalidadLocal.Visible == true ||
+                        lblVDuracionAlquilerLocal.Visible == true ||
+                        lblVFechaArrendamientoLocal.Visible == true ||
+                        lblVPrecioAlquilerLocal.Visible == true ||
+                        lblVDepositoUnitarioLocal.Visible == true ||
+                        lblVNumeroLocal.Visible == true)
+                        {
+                            btnGuardar.Enabled = false;
+                            btnGenerar.Enabled = false;
+                        }
+                        else
+                        {
+                            btnGuardar.Enabled = true;
+                            btnGenerar.Enabled = true;
+                        }
+                        break;
+
+                    case "Casa Montaña/Playa":
+                        if (lblVNombreHuespedCasa.Visible == true || 
+                        lblVSeleccionCasa.Visible == true ||
+                        lblVFechaInicialCasa.Visible == true ||
+                        lblVFechaFinalCasa.Visible == true ||
+                        lblVHoraInicialCasa.Visible == true ||
+                        lblVTarifaCasa.Visible == true ||
+                        lblVTotalPersonasCasa.Visible == true ||
+                        lblVDepositoCasa.Visible == true)
+                        {
+                            btnGuardar.Enabled = false;
+                            btnGenerar.Enabled = false;
+                        }
+                        else
+                        {
+                            btnGenerar.Enabled = true;
+                        }
+                        break;
+
+                    case "Sala de Juntas/Auditorio":
+                        if(lblVSeleccionSala.Visible == true ||
+                        lblVNombreArrendatarioSala.Visible == true ||
+                        lblVFechaArrendamientoSala.Visible == true ||
+                        lblVHoraInicioSala.Visible == true ||
+                        lblVHoraFinalSala.Visible == true ||
+                        lblVPrecioHoraSala.Visible == true)
+                        {
+                            btnGuardar.Enabled = false;
+                            btnGenerar.Enabled = false;
+                        }
+                        else
+                        {
+                            btnGenerar.Enabled = true;
+                        }
+                        break;
+                }
             }
         }
         private void txtClaveContadorA_KeyPress(object sender, KeyPressEventArgs e)
@@ -761,7 +919,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblVClaveContador.Visible = false;
             }
-            ValidarParaGenerar();
+            ValidarParaGuardarOGenerar();
         }
 
         private void dtpFechaArrendamientoA_ValueChanged(object sender, EventArgs e)
@@ -775,7 +933,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblVFechaA.Visible = false;
             }
-            ValidarParaGenerar();
+            ValidarParaGuardarOGenerar();
         }
 
         private void txtPrecioAlquilerA_TextChanged(object sender, EventArgs e)
@@ -797,7 +955,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     lblVPrecioAlquiler.Visible = false;
                 }
             }
-            ValidarParaGenerar();
+            ValidarParaGuardarOGenerar();
         }
 
         private void txtDepositoUnitarioA_TextChanged(object sender, EventArgs e)
@@ -819,7 +977,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     lblVDepositoUnitario.Visible = false;
                 }
             }
-            ValidarParaGenerar();
+            ValidarParaGuardarOGenerar();
         }
 
         private void cmbNumeroDepartamento_SelectedIndexChanged(object sender, EventArgs e)
@@ -833,7 +991,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblVNumeroA.Visible = false;
             }
-            ValidarParaGenerar();
+            ValidarParaGuardarOGenerar();
         }
 
         private void txtDiaMensualidadA_TextChanged(object sender, EventArgs e)
@@ -855,7 +1013,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     lblVDiaM.Visible = false;
                 }
             }
-            ValidarParaGenerar();
+            ValidarParaGuardarOGenerar();
         }
 
         private void txtNombreArrendatarioL_TextChanged(object sender, EventArgs e)
@@ -872,6 +1030,17 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 txtNombreEmpresaL.Text = empresa;
                 txtRTNEmpresaL.Text = rtn;
             }
+
+            if(txtNombreArrendatarioL.Text.Length < 7 || txtIdentidadArrendatarioL.Text.Length < 10)
+            {
+                lblVNombreArrendatarioLocal.Text = "Seleccione un arrendatario.";
+                lblVNombreArrendatarioLocal.Visible = true;
+            }
+            else
+            {
+                lblVNombreArrendatarioLocal.Visible = false;
+            }
+            ValidarParaGuardarOGenerar();
         }
 
         private void txtNombreArrendatarioS_TextChanged(object sender, EventArgs e)
@@ -879,6 +1048,18 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             txtIdentidadS.Clear();
             if (sugerencias.Contains(txtNombreArrendatarioS.Text))
                 txtIdentidadS.Text = devolverIdentidadArrendatario(txtNombreArrendatarioS.Text);
+
+            if (txtNombreArrendatarioS.Text.Length < 7 || txtIdentidadS.Text.Length < 10)
+            {
+                lblVNombreArrendatarioSala.Text = "Seleccione un arrendatario.";
+                lblVNombreArrendatarioSala.Visible = true;
+            }
+            else
+            {
+                lblVNombreArrendatarioSala.Visible = false;
+            }
+
+            ValidarParaGuardarOGenerar();
         }
 
         private void txtNombreHuespedC_TextChanged(object sender, EventArgs e)
@@ -886,6 +1067,18 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             txtIdentidadHuespedC.Clear();
             if (sugerencias.Contains(txtNombreHuespedC.Text))
                 txtIdentidadHuespedC.Text = devolverIdentidadArrendatario(txtNombreHuespedC.Text);
+
+            if (txtNombreHuespedC.Text.Length < 7 || txtIdentidadHuespedC.Text.Length < 10)
+            {
+                lblVNombreHuespedCasa.Text = "Seleccione un huesped.";
+                lblVNombreHuespedCasa.Visible = true;
+            }
+            else
+            {
+                lblVNombreHuespedCasa.Visible = false;
+            }
+
+            ValidarParaGuardarOGenerar();
         }
         private int ObtenerIdCliente(string identidad)
         {
@@ -938,19 +1131,37 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 return;
             }
 
-            try
-            {
-                if (_tipoActivo == btnTipoApartamento) GuardarApartamento();
-                else if (_tipoActivo == btnTipoLocal) GuardarLocal();
+            DialogResult result = MessageBox.Show(
+                    "¿Está seguro de guardar este contrato en el sitema?",
+                    "Guardar contrato.",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
 
-                CargarDatosDesdeBD();
-                CargarPropiedadesDisponibles();
-            }
-            catch (Exception ex)
+            if (result == DialogResult.Yes)
             {
-                MessageBox.Show("Error al guardar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                try
+                {
+                    if (_tipoActivo == btnTipoApartamento) GuardarApartamento();
+                    else if (_tipoActivo == btnTipoLocal) GuardarLocal();
+
+                    CargarDatosDesdeBD();
+                    CargarPropiedadesDisponibles();
+
+                    LimpiarPanelControles(pnlFormApartamento);
+                    LimpiarPanelControles(pnlFormLocal);
+                    LimpiarPanelControles(pnlFormCasa);
+                    LimpiarPanelControles(pnlFormSala);
+
+                    ValidarParaGuardarOGenerar();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al guardar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
+
         private void GuardarApartamento()
         {
             if (string.IsNullOrWhiteSpace(txtIdentidadA.Text) || cmbNumeroApartamento.SelectedIndex <= 0 ||
@@ -1151,10 +1362,18 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 txtPropiedadActu.Clear();
                 txtClienteEmpresa.Clear();
                 txtObservacionesActu.Clear();
+
+                lblVContratoActu.Text = "Seleccione el contrato.";
+                lblVContratoActu.Visible = true;
+
                 return;
             }
+            else
+            {
+                lblVContratoActu.Visible = false;
+            }
 
-            string query = @"SELECT p.Codigo as Propiedad, cl.NombreCompleto as Cliente, 
+                string query = @"SELECT p.Codigo as Propiedad, cl.NombreCompleto as Cliente, 
                             c.FechaFin, c.Observaciones, ec.Nombre as Estado
                      FROM Contratos c
                      INNER JOIN Propiedades p ON c.IdPropiedad = p.IdPropiedad
@@ -1181,6 +1400,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     }
                 }
             }
+            validarAntesDeActualizar();
         }
         private void btnActualizar_Click(object sender, EventArgs e)
         {
@@ -1190,55 +1410,66 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 return;
             }
 
-            const int DiasParaPorVencer = 15;
+            DialogResult result = MessageBox.Show(
+                    "¿Está seguro de actualizar este contrato?",
+                    "Actualizar contrato.",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
 
-            string estadoSeleccionado = cmbEstadoActu.Text.Trim();
-            int idEstado;
+            if (result == DialogResult.Yes)
+            {
+                const int DiasParaPorVencer = 15;
 
-            if (estadoSeleccionado.Equals("Finalizado", StringComparison.OrdinalIgnoreCase))
-            {
-                idEstado = 3; // Finalizado
-            }
-            else if (estadoSeleccionado.Equals("Cancelado", StringComparison.OrdinalIgnoreCase))
-            {
-                idEstado = 4; // Cancelado
-            }
-            else
-            {
-                int diasRestantes = (dtpFinalizacionActu.Value.Date - DateTime.Now.Date).Days;
-                idEstado = diasRestantes <= DiasParaPorVencer ? 2 : 1;
-            }
+                string estadoSeleccionado = cmbEstadoActu.Text.Trim();
+                int idEstado;
 
-            string query = @"UPDATE Contratos 
+                if (estadoSeleccionado.Equals("Finalizado", StringComparison.OrdinalIgnoreCase))
+                {
+                    idEstado = 3; // Finalizado
+                }
+                else if (estadoSeleccionado.Equals("Cancelado", StringComparison.OrdinalIgnoreCase))
+                {
+                    idEstado = 4; // Cancelado
+                }
+                else
+                {
+                    int diasRestantes = (dtpFinalizacionActu.Value.Date - DateTime.Now.Date).Days;
+                    idEstado = diasRestantes <= DiasParaPorVencer ? 2 : 1;
+                }
+
+                string query = @"UPDATE Contratos 
                  SET FechaFin = @fin, 
                      IdEstadoContrato = @estado, 
                      Observaciones = @obs 
                  WHERE NumeroContrato = @num";
 
-            try
-            {
-                using (SqlConnection conexion = Conexion.ObtenerConexion())
+                try
                 {
-                    conexion.Open();
-                    using (SqlCommand cmd = new SqlCommand(query, conexion))
+                    using (SqlConnection conexion = Conexion.ObtenerConexion())
                     {
-                        cmd.Parameters.AddWithValue("@fin", dtpFinalizacionActu.Value);
-                        cmd.Parameters.AddWithValue("@estado", idEstado);
-                        cmd.Parameters.AddWithValue("@obs", txtObservacionesActu.Text);
-                        cmd.Parameters.AddWithValue("@num", cboSolicitud.Text);
-                        cmd.ExecuteNonQuery();
+                        conexion.Open();
+                        using (SqlCommand cmd = new SqlCommand(query, conexion))
+                        {
+                            cmd.Parameters.AddWithValue("@fin", dtpFinalizacionActu.Value);
+                            cmd.Parameters.AddWithValue("@estado", idEstado);
+                            cmd.Parameters.AddWithValue("@obs", txtObservacionesActu.Text);
+                            cmd.Parameters.AddWithValue("@num", cboSolicitud.Text);
+                            cmd.ExecuteNonQuery();
+                        }
                     }
+
+                    MessageBox.Show("¡Contrato actualizado exitosamente!", "Éxito");
+
+                    CargarDatosDesdeBD();
+                    CargarContratosParaEdicion();
+                    cboSolicitud.SelectedIndex = 0;
+                    limpiarCamposActualizar();
                 }
-
-                MessageBox.Show("¡Contrato actualizado exitosamente!", "Éxito");
-
-                CargarDatosDesdeBD();
-                CargarContratosParaEdicion();
-                cboSolicitud.SelectedIndex = 0;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al actualizar: " + ex.Message, "Error");
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al actualizar: " + ex.Message, "Error");
+                }
             }
         }
         private void ObtenerDatosEmpresaArrendatario(string nombre, out string empresa, out string rtn)
@@ -1262,6 +1493,411 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     }
                 }
             }
+        }
+
+        private void lblVDepositoUnitario_TextChanged(object sender, EventArgs e)
+        {
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void txtRTNEmpresaL_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+            }
+        }
+
+        private void txtIdentidadArrendatarioL_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+            }
+        }
+
+        private void txtPrecioAlquilerL_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+            }
+        }
+
+        private void txtDepositoUnitarioL_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+            }
+        }
+
+        private void txtValoresAgregadosL_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+            }
+        }
+
+        private void txtProfesionArrendatarioL_TextChanged(object sender, EventArgs e)
+        {
+            if(txtProfesionArrendatarioL.Text.Length < 7)
+            {
+                lblVProfesionArrendatarioLocal.Text = "Escriba la profesión.";
+                lblVProfesionArrendatarioLocal.Visible = true;
+            }
+            else
+            {
+                lblVProfesionArrendatarioLocal.Visible = false;
+            }
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void txtNacionalidadL_TextChanged(object sender, EventArgs e)
+        {
+            if (txtNacionalidadL.Text.Length < 5)
+            {
+                lblVNacionalidadLocal.Text = "Escriba la nacionalidad.";
+                lblVNacionalidadLocal.Visible = true;
+            }
+            else
+            {
+                lblVNacionalidadLocal.Visible = false;
+            }
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void dtpFechaArrendamientoL_ValueChanged(object sender, EventArgs e)
+        {
+            if (dtpFechaArrendamientoL.Value.Date < DateTime.Now.Date)
+            {
+                lblVFechaArrendamientoLocal.Text = "Seleccione una fecha válida.";
+                lblVFechaArrendamientoLocal.Visible = true;
+            }
+            else
+            {
+                lblVFechaArrendamientoLocal.Visible = false;
+            }
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void txtDuracionAlquilerL_TextChanged(object sender, EventArgs e)
+        {
+            if(txtDuracionAlquilerL.Text == "0" || txtDuracionAlquilerL.Text.Length < 1)
+            {
+                lblVDuracionAlquilerLocal.Text = "Ingrese la duracion del contrato en meses.";
+                lblVDuracionAlquilerLocal.Visible = true;
+            }
+            else
+            {
+                lblVDuracionAlquilerLocal.Visible = false;
+            }
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void txtPrecioAlquilerL_TextChanged(object sender, EventArgs e)
+        {
+            if (txtPrecioAlquilerL.Text == "0" || txtPrecioAlquilerL.Text.Length < 1)
+            {
+                lblVPrecioAlquilerLocal.Text = "Ingrese un numero mayor que 0.";
+                lblVPrecioAlquilerLocal.Visible = true;
+            }
+            else
+            {
+                lblVPrecioAlquilerLocal.Visible = false;
+            }
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void cmbNumeroLocal_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbNumeroLocal.SelectedIndex == 0)
+            {
+                lblVNumeroLocal.Text = "Seleccione un numero de local.";
+                lblVNumeroLocal.Visible = true;
+            }
+            else
+            {
+                lblVNumeroLocal.Visible = false;
+            }
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void txtDuracionAlquilerL_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+            }
+        }
+
+        private void txtDepositoUnitarioL_TextChanged(object sender, EventArgs e)
+        {
+            if (txtDepositoUnitarioL.Text == "0" || txtDepositoUnitarioL.Text.Length < 1)
+            {
+                lblVDepositoUnitarioLocal.Text = "Ingrese un numero mayor que 0.";
+                lblVDepositoUnitarioLocal.Visible = true;
+            }
+            else
+            {
+                lblVDepositoUnitarioLocal.Visible = false;
+            }
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void dtpFechaInicialC_ValueChanged(object sender, EventArgs e)
+        {
+            if(dtpFechaInicialC.Value.Date < DateTime.Now.Date)
+            {
+                lblVFechaInicialCasa.Text = "Seleccione una fecha válida.";
+                lblVFechaInicialCasa.Visible = true;
+            }
+            else
+            {
+                lblVFechaInicialCasa.Visible = false;
+            }
+
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void dtpFechaFinalC_ValueChanged(object sender, EventArgs e)
+        {
+            if (dtpFechaFinalC.Value.Date < dtpFechaInicialC.Value.Date)
+            {
+                lblVFechaFinalCasa.Text = "La fecha final no debe de ser menor a la inicial.";
+                lblVFechaFinalCasa.Visible = true;
+            }
+            else
+            {
+                lblVFechaFinalCasa.Visible = false;
+            }
+
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void txtTarifaC_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+            }
+        }
+
+        private void txtTotalPersonasC_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+            }
+        }
+
+        private void txtDepositoC_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+            }
+        }
+
+        private void dtpHoraInicialC_ValueChanged(object sender, EventArgs e)
+        {
+            if(dtpHoraInicialC.Value.Hour < DateTime.Now.Hour)
+            {
+                lblVHoraInicialCasa.Text = "La hora inicial no debe de ser menor a la actual.";
+                lblVHoraInicialCasa.Visible = true;
+            }
+            else
+            {
+                lblVHoraInicialCasa.Visible = false;
+            }
+
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void txtTarifaC_TextChanged(object sender, EventArgs e)
+        {
+            if (txtTarifaC.Text == "0" || txtTarifaC.Text.Length < 3)
+            {
+                lblVTarifaCasa.Text = "Introduzca una tarifa mayor que 0.";
+                lblVTarifaCasa.Visible = true;
+            }
+            else
+            {
+                lblVTarifaCasa.Visible = false;
+            }
+
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void txtTotalPersonasC_TextChanged(object sender, EventArgs e)
+        {
+            if (txtTotalPersonasC.Text == "0")
+            {
+                lblVTotalPersonasCasa.Text = "El numero de personas debe ser mayor a 0.";
+                lblVTotalPersonasCasa.Visible = true;
+            }
+            else
+            {
+                lblVTotalPersonasCasa.Visible = false;
+            }
+
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void txtDepositoC_TextChanged(object sender, EventArgs e)
+        {
+            if (txtDepositoC.Text == "0" || txtDepositoC.Text.Length < 3)
+            {
+                lblVDepositoCasa.Text = "Introduzca un deposito mayor que 0.";
+                lblVDepositoCasa.Visible = true;
+            }
+            else
+            {
+                lblVDepositoCasa.Visible = false;
+            }
+
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void cmbSeleccionCasa_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbSeleccionCasa.SelectedIndex == 0)
+            {
+                lblVSeleccionCasa.Text = "Seleccione una casa.";
+                lblVSeleccionCasa.Visible = true;
+            }
+            else
+            {
+                lblVSeleccionCasa.Visible = false;
+            }
+
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void txtPrecioHoraS_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+            }
+        }
+
+        private void cmbSeleccionSala_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbSeleccionSala.SelectedIndex == 0)
+            {
+                lblVSeleccionSala.Text = "Seleccione una propiedad.";
+                lblVSeleccionSala.Visible = true;
+            }
+            else
+            {
+                lblVSeleccionSala.Visible = false;
+            }
+
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void dtpFechaArrendamientoS_ValueChanged(object sender, EventArgs e)
+        {
+            if (dtpFechaArrendamientoS.Value.Date < DateTime.Now.Date)
+            {
+                lblVFechaArrendamientoSala.Text = "La fecha de arrendamiento no puede ser menor a la actual.";
+                lblVFechaArrendamientoSala.Visible = true;
+            }
+            else
+            {
+                lblVFechaArrendamientoSala.Visible = false;
+            }
+
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void dtpHoraInicioS_ValueChanged(object sender, EventArgs e)
+        {
+            if (dtpHoraInicioS.Value.Hour < DateTime.Now.Hour)
+            {
+                lblVHoraInicioSala.Text = "La hora no puede ser menor a la actual.";
+                lblVHoraInicioSala.Visible = true;
+            }
+            else
+            {
+                lblVHoraInicioSala.Visible = false;
+            }
+
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void dtpHoraFinalS_ValueChanged(object sender, EventArgs e)
+        {
+            if (dtpHoraFinalS.Value.Hour < dtpHoraInicioS.Value.Hour)
+            {
+                lblVHoraFinalSala.Text = "La hora final no debe de ser menor a la hora inicial.";
+                lblVHoraFinalSala.Visible = true;
+            }
+            else
+            {
+                lblVHoraFinalSala.Visible = false;
+            }
+
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void txtPrecioHoraS_TextChanged(object sender, EventArgs e)
+        {
+            if (txtPrecioHoraS.Text == "0" || txtPrecioHoraS.Text.Length < 3)
+            {
+                lblVPrecioHoraSala.Text = "Introduzca un precio mayor que 0.";
+                lblVPrecioHoraSala.Visible = true;
+            }
+            else
+            {
+                lblVPrecioHoraSala.Visible = false;
+            }
+
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void validarAntesDeActualizar()
+        {
+            if (lblVContratoActu.Visible == true)
+            {
+                btnActualizar.Enabled = false;
+            }
+            else
+            {
+                btnActualizar.Enabled = true;
+            }
+        }
+
+        private void limpiarCamposActualizar()
+        {
+            cboSolicitud.SelectedIndex = 0;
+            txtPropiedadActu.ResetText();
+            txtClienteEmpresa.ResetText();
+            dtpFinalizacionActu.ResetText();
+
+            validarAntesDeActualizar();
+        }
+
+        private void btnLimpiarActu_Click(object sender, EventArgs e)
+        {
+            limpiarCamposActualizar();
+        }
+
+        private void lblVContratoActu_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

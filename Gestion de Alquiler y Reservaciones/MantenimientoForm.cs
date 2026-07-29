@@ -243,7 +243,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             LlenarCboSolicitud();
             LlenarCmbEstado();
             CambiarEstadoCampos(false);
-            ValidarCamposParaGuardar();
+            validarAntesDeGuardar();
         }
 
         private void LlenarTipoMantenimiento()
@@ -452,57 +452,60 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             if (cboPropiedad.SelectedIndex == 0)
             {
-                lblOPropiedad.Visible = true;
+                lblVPropiedad.Text = "Seleccione una propiedad.";
+                lblVPropiedad.Visible = true;
             }
             else
             {
-                lblOPropiedad.Visible = false;
+                lblVPropiedad.Visible = false;
             }
 
-            ValidarCamposParaGuardar();
+            validarAntesDeGuardar();
         }
 
         private void cboTecnico_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cboTecnico.SelectedIndex == 0)
             {
-                lblOTecnico.Visible = true;
+                lblVTecnico.Text = "Seleccione un técnico.";
+                lblVTecnico.Visible = true;
             }
             else
             {
-                lblOTecnico.Visible = false;
+                lblVTecnico.Visible = false;
             }
 
-            ValidarCamposParaGuardar();
+            validarAntesDeGuardar();
         }
 
         private void cboTipo_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cboTipo.SelectedIndex == 0)
             {
-                lblOTipo.Visible = true;
+                lblVTipo.Text = "Seleccione el tipo de mantenimiento.";
+                lblVTipo.Visible = true;
             }
             else
             {
-                lblOTipo.Visible = false;
+                lblVTipo.Visible = false;
             }
 
-            ValidarCamposParaGuardar();
+            validarAntesDeGuardar();
         }
 
         private void dtpProgramada_ValueChanged(object sender, EventArgs e)
         {
             if(dtpProgramada.Value.Date < DateTime.Now.Date)
             {
-                lblOFecha.Text = "Seleccione una fecha válida.";
-                lblOFecha.Visible = true;
+                lblVFecha.Text = "Seleccione una fecha válida.";
+                lblVFecha.Visible = true;
             }
             else
             {
-                lblOFecha.Visible = false;
+                lblVFecha.Visible = false;
             }
 
-            ValidarCamposParaGuardar();
+            validarAntesDeGuardar();
         }
 
         private void LlenarCboSolicitud()
@@ -551,6 +554,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     SqlCommand cmd = new SqlCommand(query, conectar);
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
+                        cmbEstado.Items.Add("--Seleccionar--");
                         while (reader.Read())
                         {
                             cmbEstado.Items.Add(reader["Nombre"].ToString());
@@ -609,18 +613,22 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             if (LimpiandoCampos) return;
 
-            if (cboSolicitud.SelectedIndex <= 0)
+            if (cboSolicitud.SelectedIndex == 0)
             {
                 btnActualizarSoli.Enabled = false;
                 CambiarEstadoCampos(false);
                 idMantenimientoSeleccionado = -1;
+                lblVSolicitud.Text = "Seleccione una solicitud.";
+                lblVSolicitud.Visible = true;
             }
             else
             {
                 BuscarDatosEnDB();
                 CambiarEstadoCampos(true);
                 btnActualizarSoli.Enabled = true;
+                lblVSolicitud.Visible = false;
             }
+            validarAntesDeActualizar();
         }
         
 
@@ -633,6 +641,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             dtpConclusion.Enabled = estado;
             cmbEstado.Enabled = estado;
         }
+
         private void LimpiarCampos()
         {
             // Crear mantenimiento
@@ -649,14 +658,14 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             txtCosto.Text = string.Empty;
             txtDescripcionActu.Text = string.Empty;
             dtpConclusion.Value = DateTime.Now;
-            cmbEstado.SelectedIndex = -1;
-            cboSolicitud.SelectedIndex = -1;
+            cboSolicitud.SelectedIndex = 0;
             idMantenimientoSeleccionado = -1;
             CambiarEstadoCampos(false);
             btnActualizarSoli.Enabled = false;
             LimpiandoCampos = false;
 
-            ValidarCamposParaGuardar();
+            validarAntesDeGuardar();
+            validarAntesDeActualizar();
         }
 
         private void btnLimpiarActu_Click(object sender, EventArgs e)
@@ -664,18 +673,33 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             LimpiarCampos();
         }
 
-        private void ValidarCamposParaGuardar()
+        private void validarAntesDeGuardar()
         {
-            if (lblOPropiedad.Visible == true ||
-                lblOTecnico.Visible == true ||
-                lblOTipo.Visible == true ||
-                lblOFecha.Visible == true)
+            if (lblVPropiedad.Visible == true ||
+                lblVTecnico.Visible == true ||
+                lblVTipo.Visible == true ||
+                lblVFecha.Visible == true)
             {
                 btnGuardar.Enabled = false;
             }
             else
             {
                 btnGuardar.Enabled = true;
+            }
+        }
+
+        private void validarAntesDeActualizar()
+        {
+            if (lblVSolicitud.Visible == true ||
+                lblVCosto.Visible == true ||
+                lblVFechaConclusion.Visible == true ||
+                lblVFechaConclusion.Visible == true)
+            {
+                btnActualizarSoli.Enabled = false;
+            }
+            else
+            {
+                btnActualizarSoli.Enabled = true;
             }
         }
 
@@ -700,6 +724,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     btnActualizar.Enabled = false;
                 }
             }
+            validarAntesDeActualizar();
         }
 
         private void txtCosto_KeyPress(object sender, KeyPressEventArgs e)
@@ -718,7 +743,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void btnActualizarSoli_Click(object sender, EventArgs e)
         {
-            if (cboSolicitud.SelectedIndex <= 0 || idMantenimientoSeleccionado <= 0)
+            if (cboSolicitud.SelectedIndex == 0 || idMantenimientoSeleccionado == 0)
             {
                 MessageBox.Show(
                     "Seleccione una solicitud válida para actualizar.",
@@ -792,6 +817,34 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     MessageBoxIcon.Error
                 );
             }
+        }
+
+        private void dtpConclusion_ValueChanged(object sender, EventArgs e)
+        {
+            if(dtpConclusion.Value.Date < DateTime.Now.Date)
+            {
+                lblVFechaConclusion.Text = "Debe seleccionar una fecha valida.";
+                lblVFechaConclusion.Visible = true;
+            }
+            else
+            {
+                lblVFechaConclusion.Visible = false;
+            }
+            validarAntesDeActualizar();
+        }
+
+        private void cmbEstado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbEstado.SelectedIndex == 0)
+            {
+                lblVEstado.Text = "Seleccione un estado.";
+                lblVEstado.Visible = true;
+            }
+            else
+            {
+                lblVEstado.Visible = false;
+            }
+            validarAntesDeActualizar();
         }
     }
 }

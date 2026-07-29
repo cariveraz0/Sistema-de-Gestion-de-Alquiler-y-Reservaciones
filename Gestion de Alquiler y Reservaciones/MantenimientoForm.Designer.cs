@@ -32,6 +32,7 @@
             this.btnHistorial = new System.Windows.Forms.Button();
             this.pnlCuerpo = new System.Windows.Forms.Panel();
             this.pnlEditar = new System.Windows.Forms.Panel();
+            this.lblVSolicitud = new System.Windows.Forms.Label();
             this.lblVCosto = new System.Windows.Forms.Label();
             this.txtTecnicoActu = new System.Windows.Forms.TextBox();
             this.txtPropiedadActu = new System.Windows.Forms.TextBox();
@@ -49,10 +50,10 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.pnlNueva = new System.Windows.Forms.Panel();
-            this.lblOFecha = new System.Windows.Forms.Label();
-            this.lblOTipo = new System.Windows.Forms.Label();
-            this.lblOTecnico = new System.Windows.Forms.Label();
-            this.lblOPropiedad = new System.Windows.Forms.Label();
+            this.lblVFecha = new System.Windows.Forms.Label();
+            this.lblVTipo = new System.Windows.Forms.Label();
+            this.lblVTecnico = new System.Windows.Forms.Label();
+            this.lblVPropiedad = new System.Windows.Forms.Label();
             this.dtpProgramada = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -77,6 +78,8 @@
             this.pnlActualizar = new System.Windows.Forms.Panel();
             this.btnActualizarSoli = new System.Windows.Forms.Button();
             this.btnLimpiarActu = new System.Windows.Forms.Button();
+            this.lblVFechaConclusion = new System.Windows.Forms.Label();
+            this.lblVEstado = new System.Windows.Forms.Label();
             this.pnlCuerpo.SuspendLayout();
             this.pnlEditar.SuspendLayout();
             this.pnlNueva.SuspendLayout();
@@ -94,7 +97,7 @@
             this.btnSolicitud.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSolicitud.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSolicitud.Location = new System.Drawing.Point(51, 15);
-            this.btnSolicitud.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSolicitud.Margin = new System.Windows.Forms.Padding(4);
             this.btnSolicitud.Name = "btnSolicitud";
             this.btnSolicitud.Size = new System.Drawing.Size(227, 55);
             this.btnSolicitud.TabIndex = 0;
@@ -109,7 +112,7 @@
             this.btnHistorial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnHistorial.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHistorial.Location = new System.Drawing.Point(529, 15);
-            this.btnHistorial.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnHistorial.Margin = new System.Windows.Forms.Padding(4);
             this.btnHistorial.Name = "btnHistorial";
             this.btnHistorial.Size = new System.Drawing.Size(227, 55);
             this.btnHistorial.TabIndex = 1;
@@ -120,17 +123,20 @@
             // pnlCuerpo
             // 
             this.pnlCuerpo.BackColor = System.Drawing.Color.White;
-            this.pnlCuerpo.Controls.Add(this.pnlNueva);
             this.pnlCuerpo.Controls.Add(this.pnlEditar);
+            this.pnlCuerpo.Controls.Add(this.pnlNueva);
             this.pnlCuerpo.Controls.Add(this.pnlHistorial);
             this.pnlCuerpo.Location = new System.Drawing.Point(51, 92);
-            this.pnlCuerpo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlCuerpo.Margin = new System.Windows.Forms.Padding(4);
             this.pnlCuerpo.Name = "pnlCuerpo";
             this.pnlCuerpo.Size = new System.Drawing.Size(1389, 598);
             this.pnlCuerpo.TabIndex = 2;
             // 
             // pnlEditar
             // 
+            this.pnlEditar.Controls.Add(this.lblVEstado);
+            this.pnlEditar.Controls.Add(this.lblVFechaConclusion);
+            this.pnlEditar.Controls.Add(this.lblVSolicitud);
             this.pnlEditar.Controls.Add(this.lblVCosto);
             this.pnlEditar.Controls.Add(this.txtTecnicoActu);
             this.pnlEditar.Controls.Add(this.txtPropiedadActu);
@@ -148,10 +154,21 @@
             this.pnlEditar.Controls.Add(this.label12);
             this.pnlEditar.Controls.Add(this.label13);
             this.pnlEditar.Location = new System.Drawing.Point(0, 0);
-            this.pnlEditar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlEditar.Margin = new System.Windows.Forms.Padding(4);
             this.pnlEditar.Name = "pnlEditar";
             this.pnlEditar.Size = new System.Drawing.Size(1385, 594);
             this.pnlEditar.TabIndex = 11;
+            // 
+            // lblVSolicitud
+            // 
+            this.lblVSolicitud.AutoSize = true;
+            this.lblVSolicitud.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVSolicitud.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVSolicitud.Location = new System.Drawing.Point(1035, 29);
+            this.lblVSolicitud.Name = "lblVSolicitud";
+            this.lblVSolicitud.Size = new System.Drawing.Size(93, 22);
+            this.lblVSolicitud.TabIndex = 30;
+            this.lblVSolicitud.Text = "Obligatorio";
             // 
             // lblVCosto
             // 
@@ -171,7 +188,7 @@
             this.txtTecnicoActu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtTecnicoActu.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.txtTecnicoActu.Location = new System.Drawing.Point(53, 186);
-            this.txtTecnicoActu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtTecnicoActu.Margin = new System.Windows.Forms.Padding(4);
             this.txtTecnicoActu.Name = "txtTecnicoActu";
             this.txtTecnicoActu.ReadOnly = true;
             this.txtTecnicoActu.Size = new System.Drawing.Size(389, 26);
@@ -183,7 +200,7 @@
             this.txtPropiedadActu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtPropiedadActu.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.txtPropiedadActu.Location = new System.Drawing.Point(53, 108);
-            this.txtPropiedadActu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtPropiedadActu.Margin = new System.Windows.Forms.Padding(4);
             this.txtPropiedadActu.Name = "txtPropiedadActu";
             this.txtPropiedadActu.ReadOnly = true;
             this.txtPropiedadActu.Size = new System.Drawing.Size(389, 26);
@@ -194,10 +211,11 @@
             this.cmbEstado.AccessibleName = "cmbEstado";
             this.cmbEstado.FormattingEnabled = true;
             this.cmbEstado.Location = new System.Drawing.Point(53, 534);
-            this.cmbEstado.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbEstado.Margin = new System.Windows.Forms.Padding(4);
             this.cmbEstado.Name = "cmbEstado";
             this.cmbEstado.Size = new System.Drawing.Size(265, 24);
             this.cmbEstado.TabIndex = 26;
+            this.cmbEstado.SelectedIndexChanged += new System.EventHandler(this.cmbEstado_SelectedIndexChanged);
             // 
             // label15
             // 
@@ -217,7 +235,7 @@
             this.txtCosto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtCosto.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.txtCosto.Location = new System.Drawing.Point(53, 262);
-            this.txtCosto.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtCosto.Margin = new System.Windows.Forms.Padding(4);
             this.txtCosto.Name = "txtCosto";
             this.txtCosto.Size = new System.Drawing.Size(235, 26);
             this.txtCosto.TabIndex = 24;
@@ -243,7 +261,7 @@
             this.cboSolicitud.Items.AddRange(new object[] {
             "--Seleccionar--"});
             this.cboSolicitud.Location = new System.Drawing.Point(775, 30);
-            this.cboSolicitud.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cboSolicitud.Margin = new System.Windows.Forms.Padding(4);
             this.cboSolicitud.Name = "cboSolicitud";
             this.cboSolicitud.Size = new System.Drawing.Size(253, 24);
             this.cboSolicitud.TabIndex = 22;
@@ -253,10 +271,11 @@
             // 
             this.dtpConclusion.AccessibleName = "dtpConclusion";
             this.dtpConclusion.Location = new System.Drawing.Point(53, 469);
-            this.dtpConclusion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dtpConclusion.Margin = new System.Windows.Forms.Padding(4);
             this.dtpConclusion.Name = "dtpConclusion";
             this.dtpConclusion.Size = new System.Drawing.Size(265, 22);
             this.dtpConclusion.TabIndex = 21;
+            this.dtpConclusion.ValueChanged += new System.EventHandler(this.dtpConclusion_ValueChanged);
             // 
             // label8
             // 
@@ -312,7 +331,7 @@
             this.txtDescripcionActu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtDescripcionActu.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.txtDescripcionActu.Location = new System.Drawing.Point(53, 341);
-            this.txtDescripcionActu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtDescripcionActu.Margin = new System.Windows.Forms.Padding(4);
             this.txtDescripcionActu.Multiline = true;
             this.txtDescripcionActu.Name = "txtDescripcionActu";
             this.txtDescripcionActu.Size = new System.Drawing.Size(769, 84);
@@ -344,10 +363,10 @@
             // 
             // pnlNueva
             // 
-            this.pnlNueva.Controls.Add(this.lblOFecha);
-            this.pnlNueva.Controls.Add(this.lblOTipo);
-            this.pnlNueva.Controls.Add(this.lblOTecnico);
-            this.pnlNueva.Controls.Add(this.lblOPropiedad);
+            this.pnlNueva.Controls.Add(this.lblVFecha);
+            this.pnlNueva.Controls.Add(this.lblVTipo);
+            this.pnlNueva.Controls.Add(this.lblVTecnico);
+            this.pnlNueva.Controls.Add(this.lblVPropiedad);
             this.pnlNueva.Controls.Add(this.dtpProgramada);
             this.pnlNueva.Controls.Add(this.label6);
             this.pnlNueva.Controls.Add(this.label5);
@@ -360,60 +379,60 @@
             this.pnlNueva.Controls.Add(this.label2);
             this.pnlNueva.Controls.Add(this.label1);
             this.pnlNueva.Location = new System.Drawing.Point(0, 0);
-            this.pnlNueva.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlNueva.Margin = new System.Windows.Forms.Padding(4);
             this.pnlNueva.Name = "pnlNueva";
             this.pnlNueva.Size = new System.Drawing.Size(1381, 591);
             this.pnlNueva.TabIndex = 0;
             // 
-            // lblOFecha
+            // lblVFecha
             // 
-            this.lblOFecha.AutoSize = true;
-            this.lblOFecha.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
-            this.lblOFecha.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblOFecha.Location = new System.Drawing.Point(325, 479);
-            this.lblOFecha.Name = "lblOFecha";
-            this.lblOFecha.Size = new System.Drawing.Size(93, 22);
-            this.lblOFecha.TabIndex = 17;
-            this.lblOFecha.Text = "Obligatorio";
+            this.lblVFecha.AutoSize = true;
+            this.lblVFecha.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVFecha.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVFecha.Location = new System.Drawing.Point(325, 479);
+            this.lblVFecha.Name = "lblVFecha";
+            this.lblVFecha.Size = new System.Drawing.Size(93, 22);
+            this.lblVFecha.TabIndex = 17;
+            this.lblVFecha.Text = "Obligatorio";
             // 
-            // lblOTipo
+            // lblVTipo
             // 
-            this.lblOTipo.AutoSize = true;
-            this.lblOTipo.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
-            this.lblOTipo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblOTipo.Location = new System.Drawing.Point(449, 265);
-            this.lblOTipo.Name = "lblOTipo";
-            this.lblOTipo.Size = new System.Drawing.Size(93, 22);
-            this.lblOTipo.TabIndex = 16;
-            this.lblOTipo.Text = "Obligatorio";
+            this.lblVTipo.AutoSize = true;
+            this.lblVTipo.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVTipo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVTipo.Location = new System.Drawing.Point(449, 265);
+            this.lblVTipo.Name = "lblVTipo";
+            this.lblVTipo.Size = new System.Drawing.Size(93, 22);
+            this.lblVTipo.TabIndex = 16;
+            this.lblVTipo.Text = "Obligatorio";
             // 
-            // lblOTecnico
+            // lblVTecnico
             // 
-            this.lblOTecnico.AutoSize = true;
-            this.lblOTecnico.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
-            this.lblOTecnico.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblOTecnico.Location = new System.Drawing.Point(449, 185);
-            this.lblOTecnico.Name = "lblOTecnico";
-            this.lblOTecnico.Size = new System.Drawing.Size(93, 22);
-            this.lblOTecnico.TabIndex = 15;
-            this.lblOTecnico.Text = "Obligatorio";
+            this.lblVTecnico.AutoSize = true;
+            this.lblVTecnico.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVTecnico.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVTecnico.Location = new System.Drawing.Point(449, 185);
+            this.lblVTecnico.Name = "lblVTecnico";
+            this.lblVTecnico.Size = new System.Drawing.Size(93, 22);
+            this.lblVTecnico.TabIndex = 15;
+            this.lblVTecnico.Text = "Obligatorio";
             // 
-            // lblOPropiedad
+            // lblVPropiedad
             // 
-            this.lblOPropiedad.AutoSize = true;
-            this.lblOPropiedad.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
-            this.lblOPropiedad.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblOPropiedad.Location = new System.Drawing.Point(449, 107);
-            this.lblOPropiedad.Name = "lblOPropiedad";
-            this.lblOPropiedad.Size = new System.Drawing.Size(93, 22);
-            this.lblOPropiedad.TabIndex = 14;
-            this.lblOPropiedad.Text = "Obligatorio";
+            this.lblVPropiedad.AutoSize = true;
+            this.lblVPropiedad.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVPropiedad.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVPropiedad.Location = new System.Drawing.Point(449, 107);
+            this.lblVPropiedad.Name = "lblVPropiedad";
+            this.lblVPropiedad.Size = new System.Drawing.Size(93, 22);
+            this.lblVPropiedad.TabIndex = 14;
+            this.lblVPropiedad.Text = "Obligatorio";
             // 
             // dtpProgramada
             // 
             this.dtpProgramada.AccessibleName = "dtpProgramada";
             this.dtpProgramada.Location = new System.Drawing.Point(53, 479);
-            this.dtpProgramada.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dtpProgramada.Margin = new System.Windows.Forms.Padding(4);
             this.dtpProgramada.Name = "dtpProgramada";
             this.dtpProgramada.Size = new System.Drawing.Size(265, 22);
             this.dtpProgramada.TabIndex = 10;
@@ -450,7 +469,7 @@
             this.cboTipo.Items.AddRange(new object[] {
             "--Seleccionar--"});
             this.cboTipo.Location = new System.Drawing.Point(53, 265);
-            this.cboTipo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cboTipo.Margin = new System.Windows.Forms.Padding(4);
             this.cboTipo.Name = "cboTipo";
             this.cboTipo.Size = new System.Drawing.Size(389, 24);
             this.cboTipo.TabIndex = 7;
@@ -475,7 +494,7 @@
             this.cboTecnico.Items.AddRange(new object[] {
             "--Seleccionar--"});
             this.cboTecnico.Location = new System.Drawing.Point(53, 185);
-            this.cboTecnico.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cboTecnico.Margin = new System.Windows.Forms.Padding(4);
             this.cboTecnico.Name = "cboTecnico";
             this.cboTecnico.Size = new System.Drawing.Size(389, 24);
             this.cboTecnico.TabIndex = 5;
@@ -500,7 +519,7 @@
             this.cboPropiedad.Items.AddRange(new object[] {
             "--Seleccionar--"});
             this.cboPropiedad.Location = new System.Drawing.Point(53, 107);
-            this.cboPropiedad.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cboPropiedad.Margin = new System.Windows.Forms.Padding(4);
             this.cboPropiedad.Name = "cboPropiedad";
             this.cboPropiedad.Size = new System.Drawing.Size(389, 24);
             this.cboPropiedad.TabIndex = 3;
@@ -512,7 +531,7 @@
             this.txtDescripcion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtDescripcion.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.txtDescripcion.Location = new System.Drawing.Point(53, 342);
-            this.txtDescripcion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtDescripcion.Margin = new System.Windows.Forms.Padding(4);
             this.txtDescripcion.Multiline = true;
             this.txtDescripcion.Name = "txtDescripcion";
             this.txtDescripcion.Size = new System.Drawing.Size(769, 84);
@@ -548,7 +567,7 @@
             this.pnlHistorial.Controls.Add(this.dgvHistorial);
             this.pnlHistorial.Controls.Add(this.pnlBuscar);
             this.pnlHistorial.Location = new System.Drawing.Point(0, 0);
-            this.pnlHistorial.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlHistorial.Margin = new System.Windows.Forms.Padding(4);
             this.pnlHistorial.Name = "pnlHistorial";
             this.pnlHistorial.Size = new System.Drawing.Size(1373, 583);
             this.pnlHistorial.TabIndex = 11;
@@ -558,7 +577,7 @@
             this.dgvHistorial.AccessibleName = "dgvHistorial";
             this.dgvHistorial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvHistorial.Location = new System.Drawing.Point(4, 79);
-            this.dgvHistorial.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvHistorial.Margin = new System.Windows.Forms.Padding(4);
             this.dgvHistorial.Name = "dgvHistorial";
             this.dgvHistorial.RowHeadersWidth = 51;
             this.dgvHistorial.Size = new System.Drawing.Size(1369, 505);
@@ -572,7 +591,7 @@
             this.pnlBuscar.Controls.Add(this.txtBuscar);
             this.pnlBuscar.Controls.Add(this.label7);
             this.pnlBuscar.Location = new System.Drawing.Point(4, 4);
-            this.pnlBuscar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlBuscar.Margin = new System.Windows.Forms.Padding(4);
             this.pnlBuscar.Name = "pnlBuscar";
             this.pnlBuscar.Size = new System.Drawing.Size(1377, 74);
             this.pnlBuscar.TabIndex = 0;
@@ -586,7 +605,7 @@
             this.btnBuscar.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBuscar.ForeColor = System.Drawing.Color.White;
             this.btnBuscar.Location = new System.Drawing.Point(544, 20);
-            this.btnBuscar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBuscar.Margin = new System.Windows.Forms.Padding(4);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(120, 33);
             this.btnBuscar.TabIndex = 2;
@@ -600,7 +619,7 @@
             this.txtBuscar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtBuscar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBuscar.Location = new System.Drawing.Point(97, 23);
-            this.txtBuscar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBuscar.Margin = new System.Windows.Forms.Padding(4);
             this.txtBuscar.Name = "txtBuscar";
             this.txtBuscar.Size = new System.Drawing.Size(426, 27);
             this.txtBuscar.TabIndex = 1;
@@ -624,7 +643,7 @@
             this.pnlAccion.Controls.Add(this.btnGuardar);
             this.pnlAccion.Controls.Add(this.btnLimpiar);
             this.pnlAccion.Location = new System.Drawing.Point(51, 703);
-            this.pnlAccion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlAccion.Margin = new System.Windows.Forms.Padding(4);
             this.pnlAccion.Name = "pnlAccion";
             this.pnlAccion.Padding = new System.Windows.Forms.Padding(13, 10, 13, 10);
             this.pnlAccion.Size = new System.Drawing.Size(1389, 57);
@@ -639,7 +658,7 @@
             this.btnGuardar.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGuardar.ForeColor = System.Drawing.Color.White;
             this.btnGuardar.Location = new System.Drawing.Point(332, 10);
-            this.btnGuardar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnGuardar.Margin = new System.Windows.Forms.Padding(4);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(267, 37);
             this.btnGuardar.TabIndex = 1;
@@ -655,7 +674,7 @@
             this.btnLimpiar.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLimpiar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
             this.btnLimpiar.Location = new System.Drawing.Point(57, 10);
-            this.btnLimpiar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLimpiar.Margin = new System.Windows.Forms.Padding(4);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(267, 37);
             this.btnLimpiar.TabIndex = 0;
@@ -670,7 +689,7 @@
             this.btnActualizar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnActualizar.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnActualizar.Location = new System.Drawing.Point(285, 15);
-            this.btnActualizar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnActualizar.Margin = new System.Windows.Forms.Padding(4);
             this.btnActualizar.Name = "btnActualizar";
             this.btnActualizar.Size = new System.Drawing.Size(236, 55);
             this.btnActualizar.TabIndex = 4;
@@ -684,7 +703,7 @@
             this.pnlActualizar.Controls.Add(this.btnActualizarSoli);
             this.pnlActualizar.Controls.Add(this.btnLimpiarActu);
             this.pnlActualizar.Location = new System.Drawing.Point(51, 703);
-            this.pnlActualizar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlActualizar.Margin = new System.Windows.Forms.Padding(4);
             this.pnlActualizar.Name = "pnlActualizar";
             this.pnlActualizar.Size = new System.Drawing.Size(1389, 57);
             this.pnlActualizar.TabIndex = 2;
@@ -698,7 +717,7 @@
             this.btnActualizarSoli.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnActualizarSoli.ForeColor = System.Drawing.Color.White;
             this.btnActualizarSoli.Location = new System.Drawing.Point(332, 10);
-            this.btnActualizarSoli.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnActualizarSoli.Margin = new System.Windows.Forms.Padding(4);
             this.btnActualizarSoli.Name = "btnActualizarSoli";
             this.btnActualizarSoli.Size = new System.Drawing.Size(267, 37);
             this.btnActualizarSoli.TabIndex = 3;
@@ -715,7 +734,7 @@
             this.btnLimpiarActu.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLimpiarActu.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
             this.btnLimpiarActu.Location = new System.Drawing.Point(57, 10);
-            this.btnLimpiarActu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLimpiarActu.Margin = new System.Windows.Forms.Padding(4);
             this.btnLimpiarActu.Name = "btnLimpiarActu";
             this.btnLimpiarActu.Size = new System.Drawing.Size(267, 37);
             this.btnLimpiarActu.TabIndex = 2;
@@ -723,18 +742,42 @@
             this.btnLimpiarActu.UseVisualStyleBackColor = false;
             this.btnLimpiarActu.Click += new System.EventHandler(this.btnLimpiarActu_Click);
             // 
+            // lblVFechaConclusion
+            // 
+            this.lblVFechaConclusion.AutoSize = true;
+            this.lblVFechaConclusion.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVFechaConclusion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVFechaConclusion.Location = new System.Drawing.Point(328, 469);
+            this.lblVFechaConclusion.Name = "lblVFechaConclusion";
+            this.lblVFechaConclusion.Size = new System.Drawing.Size(48, 22);
+            this.lblVFechaConclusion.TabIndex = 31;
+            this.lblVFechaConclusion.Text = "texto";
+            this.lblVFechaConclusion.Visible = false;
+            // 
+            // lblVEstado
+            // 
+            this.lblVEstado.AutoSize = true;
+            this.lblVEstado.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold);
+            this.lblVEstado.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblVEstado.Location = new System.Drawing.Point(328, 534);
+            this.lblVEstado.Name = "lblVEstado";
+            this.lblVEstado.Size = new System.Drawing.Size(48, 22);
+            this.lblVEstado.TabIndex = 32;
+            this.lblVEstado.Text = "texto";
+            this.lblVEstado.Visible = false;
+            // 
             // MantenimientoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1493, 798);
-            this.Controls.Add(this.pnlAccion);
             this.Controls.Add(this.pnlActualizar);
+            this.Controls.Add(this.pnlAccion);
             this.Controls.Add(this.btnActualizar);
             this.Controls.Add(this.pnlCuerpo);
             this.Controls.Add(this.btnHistorial);
             this.Controls.Add(this.btnSolicitud);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MantenimientoForm";
             this.Text = "MantenimientoForm";
             this.Load += new System.EventHandler(this.MantenimientoForm_Load);
@@ -797,12 +840,15 @@
         private System.Windows.Forms.Panel pnlActualizar;
         private System.Windows.Forms.Button btnActualizarSoli;
         private System.Windows.Forms.Button btnLimpiarActu;
-        private System.Windows.Forms.Label lblOTipo;
-        private System.Windows.Forms.Label lblOTecnico;
-        private System.Windows.Forms.Label lblOPropiedad;
-        private System.Windows.Forms.Label lblOFecha;
+        private System.Windows.Forms.Label lblVTipo;
+        private System.Windows.Forms.Label lblVTecnico;
+        private System.Windows.Forms.Label lblVPropiedad;
+        private System.Windows.Forms.Label lblVFecha;
         private System.Windows.Forms.TextBox txtTecnicoActu;
         private System.Windows.Forms.TextBox txtPropiedadActu;
         private System.Windows.Forms.Label lblVCosto;
+        private System.Windows.Forms.Label lblVSolicitud;
+        private System.Windows.Forms.Label lblVEstado;
+        private System.Windows.Forms.Label lblVFechaConclusion;
     }
 }
