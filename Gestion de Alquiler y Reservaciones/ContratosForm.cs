@@ -368,10 +368,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             if (_tipoActivo == null)
             {
-                MessageBox.Show(
-                    "Por favor, seleccione un tipo de contrato.", 
-                    "Aviso"
-                );
+                MessageBox.Show("Por favor, seleccione un tipo de contrato.", "Aviso");
                 return;
             }
 
@@ -409,19 +406,11 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                             break;
                     }
 
-                    LimpiarPanelControles(pnlFormApartamento);
-                    LimpiarPanelControles(pnlFormLocal);
-                    LimpiarPanelControles(pnlFormCasa);
-                    LimpiarPanelControles(pnlFormSala);
-
                     ValidarParaGuardarOGenerar();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(
-                        "Faltan datos o tienen un formato incorrecto: " + ex.Message,
-                        "Error."
-                    );
+                    MessageBox.Show("Faltan datos o tienen un formato incorrecto: " + ex.Message, "Error.");
                     return;
                 }
 
@@ -442,22 +431,27 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     {
                         System.IO.File.Delete(rutaDocx);
                     }
-
-                    MessageBox.Show(
-                        "Contrato generado con éxito en PDF en:\n" + rutaPdf,
-                        "Éxito."
+                    DialogResult abrirResult = MessageBox.Show(
+                        "Contrato generado con éxito en PDF.\n\n¿Desea abrir el documento ahora?",
+                        "Éxito",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Information
                     );
+
+                    if (abrirResult == DialogResult.Yes)
+                    {
+                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                        {
+                            FileName = rutaPdf,
+                            UseShellExecute = true
+                        });
+                    }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(
-                        "Error al generar: " + ex.Message,
-                        "Error."
-                    );
+                    MessageBox.Show("Error al generar: " + ex.Message, "Error.");
                 }
             }
-
-            
         }
 
         private Dictionary<string, string> ObtenerDatosApartamento()
@@ -609,16 +603,16 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 switch (estado)
                 {
                     case "vigente":
-                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#155724");
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#0c6b22");
                         break;
                     case "por vencer":
-                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#856404");
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#E6B340");
                         break;
                     case "finalizado":
-                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#8F8686");
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#9E8A73");
                         break;
                     case "cancelado":
-                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#721C24");
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#C84F24");
                         break;
                 }
 
@@ -947,7 +941,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 if (int.Parse(txtPrecioAlquilerA.Text) <= 0)
                 {
-                    lblVPrecioAlquiler.Text = "Debe intriducir un monto mayor que 0.";
+                    lblVPrecioAlquiler.Text = "Debe introducir un monto mayor que 0.";
                     lblVPrecioAlquiler.Visible = true;
                 }
                 else
@@ -969,7 +963,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 if (int.Parse(txtDepositoUnitarioA.Text) <= 0)
                 {
-                    lblVDepositoUnitario.Text = "Debe intriducir un monto mayor que 0.";
+                    lblVDepositoUnitario.Text = "Debe introducir un monto mayor que 0.";
                     lblVDepositoUnitario.Visible = true;
                 }
                 else
@@ -984,7 +978,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             if (cmbNumeroApartamento.SelectedIndex == 0)
             {
-                lblVNumeroA.Text = "Debe intriducir un monto mayor que 0.";
+                lblVNumeroA.Text = "Debe seleccionar un apartamento.";
                 lblVNumeroA.Visible = true;
             }
             else
@@ -1005,7 +999,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 if (int.Parse(txtDiaMensualidadA.Text) <= 0)
                 {
-                    lblVDiaM.Text = "Debe intriducir un numero mayor que 0.";
+                    lblVDiaM.Text = "Debe introducir un numero mayor que 0.";
                     lblVDiaM.Visible = true;
                 }
                 else
@@ -1132,7 +1126,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
 
             DialogResult result = MessageBox.Show(
-                    "¿Está seguro de guardar este contrato en el sitema?",
+                    "¿Está seguro de guardar este contrato en el sistema?",
                     "Guardar contrato.",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question
@@ -1148,10 +1142,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     CargarDatosDesdeBD();
                     CargarPropiedadesDisponibles();
 
-                    LimpiarPanelControles(pnlFormApartamento);
-                    LimpiarPanelControles(pnlFormLocal);
-                    LimpiarPanelControles(pnlFormCasa);
-                    LimpiarPanelControles(pnlFormSala);
+                    //LimpiarPanelControles(pnlFormApartamento);
+                    //LimpiarPanelControles(pnlFormLocal);
+                    //LimpiarPanelControles(pnlFormCasa);
+                    //LimpiarPanelControles(pnlFormSala);
 
                     ValidarParaGuardarOGenerar();
                 }
@@ -1173,23 +1167,42 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
             int idCliente = ObtenerIdCliente(txtIdentidadA.Text);
             string idPropiedad = ((PropiedadDisponible)cmbNumeroApartamento.SelectedItem).IdPropiedad;
-            string numContrato = "APT-" + DateTime.Now.ToString("yyyyMMddHHmm");
 
-            if (idCliente == 0 || string.IsNullOrEmpty(idPropiedad)) { MessageBox.Show("Error al guardar en base de datos."); return; }
+            if (idCliente == 0 || string.IsNullOrEmpty(idPropiedad))
+            {
+                MessageBox.Show("Error al guardar en base de datos.");
+                return;
+            }
 
-            string query = @"INSERT INTO Contratos (NumeroContrato, IdPropiedad, IdArrendatario, FechaInicio, FechaFin, MontoMensual, DepositoGarantia, DiaPagoMensual, IdEstadoContrato, Observaciones) 
-                     VALUES (@num, @idProp, @idCli, @inicio, @fin, @monto, @deposito, @dia, 1, 'Contrato generado por sistema')";
+            string propiedadLimpia = idPropiedad.Replace("-", "");
+            string fechaInicioStr = dtpFechaArrendamientoA.Value.ToString("yyMMdd");
+            string numContratoBase = $"CT-{propiedadLimpia}-{fechaInicioStr}";
+            string numContrato = numContratoBase;
 
             using (SqlConnection con = Conexion.ObtenerConexion())
             {
                 con.Open();
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                string queryCount = "SELECT COUNT(*) FROM Contratos WHERE NumeroContrato LIKE @patron";
+                using (SqlCommand cmdCount = new SqlCommand(queryCount, con))
+                {
+                    cmdCount.Parameters.AddWithValue("@patron", numContratoBase + "%");
+                    int consecutivo = (int)cmdCount.ExecuteScalar() + 1;
+                    if (consecutivo > 1)
+                    {
+                        numContrato = $"{numContratoBase}-{consecutivo:D2}";
+                    }
+                }
+
+                string queryInsert = @"INSERT INTO Contratos (NumeroContrato, IdPropiedad, IdArrendatario, FechaInicio, FechaFin, MontoMensual, DepositoGarantia, DiaPagoMensual, IdEstadoContrato, Observaciones) 
+                 VALUES (@num, @idProp, @idCli, @inicio, @fin, @monto, @deposito, @dia, 1, 'Contrato generado por sistema')";
+
+                using (SqlCommand cmd = new SqlCommand(queryInsert, con))
                 {
                     cmd.Parameters.AddWithValue("@num", numContrato);
                     cmd.Parameters.AddWithValue("@idProp", idPropiedad);
                     cmd.Parameters.AddWithValue("@idCli", idCliente);
                     cmd.Parameters.AddWithValue("@inicio", dtpFechaArrendamientoA.Value);
-                    cmd.Parameters.AddWithValue("@fin", dtpFechaArrendamientoA.Value.AddYears(1)); // Apartamentos asumen 1 año
+                    cmd.Parameters.AddWithValue("@fin", dtpFechaArrendamientoA.Value.AddYears(1));
                     cmd.Parameters.AddWithValue("@monto", Convert.ToDecimal(txtPrecioAlquilerA.Text));
                     cmd.Parameters.AddWithValue("@deposito", Convert.ToDecimal(txtDepositoUnitarioA.Text));
                     cmd.Parameters.AddWithValue("@dia", Convert.ToInt32(txtDiaMensualidadA.Text));
@@ -1210,19 +1223,38 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
             int idCliente = ObtenerIdCliente(txtIdentidadArrendatarioL.Text);
             string idPropiedad = ((PropiedadDisponible)cmbNumeroLocal.SelectedItem).IdPropiedad;
-            string numContrato = "LOC-" + DateTime.Now.ToString("yyyyMMddHHmm");
 
-            if (idCliente == 0 || string.IsNullOrEmpty(idPropiedad)) { MessageBox.Show("Cliente o Propiedad no encontrados en BD."); return; }
+            if (idCliente == 0 || string.IsNullOrEmpty(idPropiedad))
+            {
+                MessageBox.Show("Cliente o Propiedad no encontrados en BD.");
+                return;
+            }
 
             int mesesDuracion = Convert.ToInt32(txtDuracionAlquilerL.Text);
-
-            string query = @"INSERT INTO Contratos (NumeroContrato, IdPropiedad, IdArrendatario, FechaInicio, FechaFin, MontoMensual, DepositoGarantia, DiaPagoMensual, IdEstadoContrato, Observaciones) 
-                     VALUES (@num, @idProp, @idCli, @inicio, @fin, @monto, @deposito, 1, 1, 'Empresa: ' + @empresa)";
+            string propiedadLimpia = idPropiedad.Replace("-", "");
+            string fechaInicioStr = dtpFechaArrendamientoL.Value.ToString("yyMMdd");
+            string numContratoBase = $"CT-{propiedadLimpia}-{fechaInicioStr}";
+            string numContrato = numContratoBase;
 
             using (SqlConnection con = Conexion.ObtenerConexion())
             {
                 con.Open();
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                string queryCount = "SELECT COUNT(*) FROM Contratos WHERE NumeroContrato LIKE @patron";
+                using (SqlCommand cmdCount = new SqlCommand(queryCount, con))
+                {
+                    cmdCount.Parameters.AddWithValue("@patron", numContratoBase + "%");
+                    int consecutivo = (int)cmdCount.ExecuteScalar() + 1;
+
+                    if (consecutivo > 1)
+                    {
+                        numContrato = $"{numContratoBase}-{consecutivo:D2}";
+                    }
+                }
+
+                string queryInsert = @"INSERT INTO Contratos (NumeroContrato, IdPropiedad, IdArrendatario, FechaInicio, FechaFin, MontoMensual, DepositoGarantia, DiaPagoMensual, IdEstadoContrato, Observaciones) 
+                 VALUES (@num, @idProp, @idCli, @inicio, @fin, @monto, @deposito, 1, 1, 'Empresa: ' + @empresa)";
+
+                using (SqlCommand cmd = new SqlCommand(queryInsert, con))
                 {
                     cmd.Parameters.AddWithValue("@num", numContrato);
                     cmd.Parameters.AddWithValue("@idProp", idPropiedad);
@@ -1235,6 +1267,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     cmd.ExecuteNonQuery();
                 }
             }
+
             MessageBox.Show("Contrato de Local guardado exitosamente. Ahora puede Generar el documento.", "Éxito");
         }
 

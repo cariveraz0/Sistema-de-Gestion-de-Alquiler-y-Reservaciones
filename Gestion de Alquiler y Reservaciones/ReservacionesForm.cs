@@ -19,6 +19,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private int IdReservacionSeleccionada = -1;
         private bool LimpiandoCamposActu = false;
 
+
         public ReservacionesForm()
         {
             InitializeComponent();
@@ -46,9 +47,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
             grid.ColumnHeadersDefaultCellStyle.BackColor = naranjaTitulo;
             grid.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.Color.White;
-            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Montserrat", 8, FontStyle.Bold);
+            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Montserrat", 9, FontStyle.Bold);
 
-            grid.DefaultCellStyle.Font = new Font("Segoe UI", 7, FontStyle.Regular);
+            grid.DefaultCellStyle.Font = new Font("Segoe UI", 8, FontStyle.Regular);
             grid.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(225, 225, 225);
         }
         private void AplicarEstilosColumnas(DataGridView grid)
@@ -128,17 +129,16 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 R.NumeroReservacion AS [Número de Reservación],
                 P.Codigo AS [Propiedad],
                 C.NombreCompleto AS [Arrendatario],
-                R.FechaEntrada AS [Fecha de Entrada],
-                R.FechaSalida AS [Fecha de Salida],
-                R.NumeroPersonas AS [Número de Personas],
+                FORMAT(R.FechaEntrada, 'dd/MM/yyyy') + ' al ' + FORMAT(R.FechaSalida, 'dd/MM/yyyy') AS [Período],
+                R.NumeroPersonas AS [Cant. Personas],
                 R.MontoTotal AS [Monto Total],
                 E.Nombre AS [Estado],
                 R.Observaciones AS [Observaciones]
-                FROM Reservaciones R
-                INNER JOIN Propiedades P ON R.IdPropiedad = P.IdPropiedad
-                INNER JOIN EstadosReservacion E ON R.IdEstadoReservacion= E.IdEstadoReservacion
-                INNER JOIN Clientes C ON R.IdCliente = C.IdCliente
-                ORDER BY R.FechaEntrada";
+            FROM Reservaciones R
+            INNER JOIN Propiedades P ON R.IdPropiedad = P.IdPropiedad
+            INNER JOIN EstadosReservacion E ON R.IdEstadoReservacion = E.IdEstadoReservacion
+            INNER JOIN Clientes C ON R.IdCliente = C.IdCliente
+            ORDER BY R.FechaEntrada";
 
             try
             {
@@ -230,19 +230,19 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 switch (estado)
                 {
                     case "en curso":
-                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#155724");
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#0c6b22");
                         break;
                     case "pendiente":
-                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#856404");
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#E6B340");
                         break;
                     case "completada":
-                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#8F8686");
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#9E8A73");
                         break;
                     case "cancelada":
-                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#721C24");
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#C84F24");
                         break;
                     case "confirmada":
-                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#87A96B");
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#d67a31");
                         break;
                 }
 
@@ -260,6 +260,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             validarAntesDeGuardar();
             cboReservacion.DropDownStyle = ComboBoxStyle.DropDownList;
             cboEstado.DropDownStyle = ComboBoxStyle.DropDownList;
+            dgvHistorial.Columns["Observaciones"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
 
             validarAntesDeActualizar();
         }
@@ -482,23 +483,20 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
                 string idPropiedad = PropiedadesReservacion[cboPropiedad.SelectedItem.ToString()];
                 int idCliente = ClientesDic[txtCliente.Text];
-                string prefijo = idPropiedad.Split('-')[0]; // AUD, SAL, CVM, CVP
-                string fechaStr = DateTime.Now.ToString("yyMMdd");
+                string propiedadLimpia = idPropiedad.Replace("-", "");
+                string fechaEntradaStr = dtpEntrada.Value.ToString("yyMMdd");
 
                 using (SqlConnection conectar = Conexion.ObtenerConexion())
                 {
                     conectar.Open();
-
-                    string patron = $"RES-{prefijo}-{fechaStr}%";
+                    string patron = $"RES-{propiedadLimpia}-{fechaEntradaStr}%";
                     SqlCommand cmdCount = new SqlCommand(
                         "SELECT COUNT(*) FROM Reservaciones WHERE NumeroReservacion LIKE @patron", conectar);
                     cmdCount.Parameters.AddWithValue("@patron", patron);
                     int consecutivo = (int)cmdCount.ExecuteScalar() + 1;
-
-                    // Sigue el mismo patrón de tus datos de prueba: RES-AUD-260510 (sin sufijo la primera vez del día)
                     string numeroReservacion = consecutivo == 1
-                        ? $"RES-{prefijo}-{fechaStr}"
-                        : $"RES-{prefijo}-{fechaStr}-{consecutivo:D2}";
+                        ? $"RES-{propiedadLimpia}-{fechaEntradaStr}"
+                        : $"RES-{propiedadLimpia}-{fechaEntradaStr}";
 
                     string queryInsert = @"
                 INSERT INTO Reservaciones

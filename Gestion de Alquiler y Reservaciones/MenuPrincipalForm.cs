@@ -61,6 +61,20 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void AbrirForm(Form formNuevo)
         {
+            string nombreForm = formNuevo.GetType().Name;
+
+            if (!PermisosHelper.TieneAcceso(LoginForm.cargo, nombreForm))
+            {
+                MessageBox.Show(
+                    "No tiene acceso a este módulo.",
+                    "Acceso denegado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                formNuevo.Dispose();
+                return;
+            }
+
             if (formActivo != null)
             {
                 formActivo.Close();

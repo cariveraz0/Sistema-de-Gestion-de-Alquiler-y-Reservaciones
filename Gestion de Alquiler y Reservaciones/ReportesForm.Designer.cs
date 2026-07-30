@@ -49,10 +49,9 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Montserrat ExtraBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(79)))), ((int)(((byte)(36)))));
-            this.label1.Location = new System.Drawing.Point(137, 39);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(103, 32);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(101, 27);
+            this.label1.Size = new System.Drawing.Size(78, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Contratos";
             // 
@@ -62,10 +61,9 @@
             this.btnReporteDeContratosVigentesYSuEstado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnReporteDeContratosVigentesYSuEstado.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnReporteDeContratosVigentesYSuEstado.ForeColor = System.Drawing.Color.White;
-            this.btnReporteDeContratosVigentesYSuEstado.Location = new System.Drawing.Point(143, 68);
-            this.btnReporteDeContratosVigentesYSuEstado.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnReporteDeContratosVigentesYSuEstado.Location = new System.Drawing.Point(107, 55);
             this.btnReporteDeContratosVigentesYSuEstado.Name = "btnReporteDeContratosVigentesYSuEstado";
-            this.btnReporteDeContratosVigentesYSuEstado.Size = new System.Drawing.Size(389, 48);
+            this.btnReporteDeContratosVigentesYSuEstado.Size = new System.Drawing.Size(292, 39);
             this.btnReporteDeContratosVigentesYSuEstado.TabIndex = 1;
             this.btnReporteDeContratosVigentesYSuEstado.Text = "Reporte de Contratos Vigentes y su Estado";
             this.btnReporteDeContratosVigentesYSuEstado.UseVisualStyleBackColor = false;
@@ -77,10 +75,9 @@
             this.btnHistorialDeMantenimientoPorPropiedad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnHistorialDeMantenimientoPorPropiedad.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHistorialDeMantenimientoPorPropiedad.ForeColor = System.Drawing.Color.White;
-            this.btnHistorialDeMantenimientoPorPropiedad.Location = new System.Drawing.Point(143, 170);
-            this.btnHistorialDeMantenimientoPorPropiedad.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnHistorialDeMantenimientoPorPropiedad.Location = new System.Drawing.Point(107, 138);
             this.btnHistorialDeMantenimientoPorPropiedad.Name = "btnHistorialDeMantenimientoPorPropiedad";
-            this.btnHistorialDeMantenimientoPorPropiedad.Size = new System.Drawing.Size(389, 48);
+            this.btnHistorialDeMantenimientoPorPropiedad.Size = new System.Drawing.Size(292, 39);
             this.btnHistorialDeMantenimientoPorPropiedad.TabIndex = 3;
             this.btnHistorialDeMantenimientoPorPropiedad.Text = "Historial de Mantenimiento por Propiedad";
             this.btnHistorialDeMantenimientoPorPropiedad.UseVisualStyleBackColor = false;
@@ -91,10 +88,9 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Montserrat ExtraBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(79)))), ((int)(((byte)(36)))));
-            this.label2.Location = new System.Drawing.Point(137, 142);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(103, 115);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(152, 27);
+            this.label2.Size = new System.Drawing.Size(115, 20);
             this.label2.TabIndex = 2;
             this.label2.Text = "Mantenimiento";
             // 
@@ -104,10 +100,9 @@
             this.btnResumenDeSolicitudesDeMantenimientoPorEstado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnResumenDeSolicitudesDeMantenimientoPorEstado.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnResumenDeSolicitudesDeMantenimientoPorEstado.ForeColor = System.Drawing.Color.White;
-            this.btnResumenDeSolicitudesDeMantenimientoPorEstado.Location = new System.Drawing.Point(143, 225);
-            this.btnResumenDeSolicitudesDeMantenimientoPorEstado.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnResumenDeSolicitudesDeMantenimientoPorEstado.Location = new System.Drawing.Point(107, 183);
             this.btnResumenDeSolicitudesDeMantenimientoPorEstado.Name = "btnResumenDeSolicitudesDeMantenimientoPorEstado";
-            this.btnResumenDeSolicitudesDeMantenimientoPorEstado.Size = new System.Drawing.Size(389, 57);
+            this.btnResumenDeSolicitudesDeMantenimientoPorEstado.Size = new System.Drawing.Size(292, 46);
             this.btnResumenDeSolicitudesDeMantenimientoPorEstado.TabIndex = 4;
             this.btnResumenDeSolicitudesDeMantenimientoPorEstado.Text = "Resumen de Solicitudes de Mantenimiento por Estado";
             this.btnResumenDeSolicitudesDeMantenimientoPorEstado.UseVisualStyleBackColor = false;
@@ -119,10 +114,9 @@
             this.btnReporteDeReservacionesPorPeríodo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnReporteDeReservacionesPorPeríodo.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnReporteDeReservacionesPorPeríodo.ForeColor = System.Drawing.Color.White;
-            this.btnReporteDeReservacionesPorPeríodo.Location = new System.Drawing.Point(143, 332);
-            this.btnReporteDeReservacionesPorPeríodo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnReporteDeReservacionesPorPeríodo.Location = new System.Drawing.Point(107, 270);
             this.btnReporteDeReservacionesPorPeríodo.Name = "btnReporteDeReservacionesPorPeríodo";
-            this.btnReporteDeReservacionesPorPeríodo.Size = new System.Drawing.Size(389, 48);
+            this.btnReporteDeReservacionesPorPeríodo.Size = new System.Drawing.Size(292, 39);
             this.btnReporteDeReservacionesPorPeríodo.TabIndex = 6;
             this.btnReporteDeReservacionesPorPeríodo.Text = "Reporte de Reservaciones por Período";
             this.btnReporteDeReservacionesPorPeríodo.UseVisualStyleBackColor = false;
@@ -133,10 +127,9 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Montserrat ExtraBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(79)))), ((int)(((byte)(36)))));
-            this.label3.Location = new System.Drawing.Point(137, 304);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(103, 247);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(144, 27);
+            this.label3.Size = new System.Drawing.Size(109, 20);
             this.label3.TabIndex = 5;
             this.label3.Text = "Reservaciones";
             // 
@@ -146,10 +139,9 @@
             this.btnCasasVacacionalesReservadasConPagoEnEfectivo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCasasVacacionalesReservadasConPagoEnEfectivo.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCasasVacacionalesReservadasConPagoEnEfectivo.ForeColor = System.Drawing.Color.White;
-            this.btnCasasVacacionalesReservadasConPagoEnEfectivo.Location = new System.Drawing.Point(143, 388);
-            this.btnCasasVacacionalesReservadasConPagoEnEfectivo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCasasVacacionalesReservadasConPagoEnEfectivo.Location = new System.Drawing.Point(107, 315);
             this.btnCasasVacacionalesReservadasConPagoEnEfectivo.Name = "btnCasasVacacionalesReservadasConPagoEnEfectivo";
-            this.btnCasasVacacionalesReservadasConPagoEnEfectivo.Size = new System.Drawing.Size(389, 54);
+            this.btnCasasVacacionalesReservadasConPagoEnEfectivo.Size = new System.Drawing.Size(292, 44);
             this.btnCasasVacacionalesReservadasConPagoEnEfectivo.TabIndex = 7;
             this.btnCasasVacacionalesReservadasConPagoEnEfectivo.Text = "Casas Vacacionales Reservadas con Pago en Efectivo";
             this.btnCasasVacacionalesReservadasConPagoEnEfectivo.UseVisualStyleBackColor = false;
@@ -161,10 +153,9 @@
             this.btnEstadoDeCuentaPorArrendatario.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEstadoDeCuentaPorArrendatario.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEstadoDeCuentaPorArrendatario.ForeColor = System.Drawing.Color.White;
-            this.btnEstadoDeCuentaPorArrendatario.Location = new System.Drawing.Point(143, 495);
-            this.btnEstadoDeCuentaPorArrendatario.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnEstadoDeCuentaPorArrendatario.Location = new System.Drawing.Point(107, 402);
             this.btnEstadoDeCuentaPorArrendatario.Name = "btnEstadoDeCuentaPorArrendatario";
-            this.btnEstadoDeCuentaPorArrendatario.Size = new System.Drawing.Size(389, 48);
+            this.btnEstadoDeCuentaPorArrendatario.Size = new System.Drawing.Size(292, 39);
             this.btnEstadoDeCuentaPorArrendatario.TabIndex = 9;
             this.btnEstadoDeCuentaPorArrendatario.Text = "Estado de Cuenta por Arrendatario";
             this.btnEstadoDeCuentaPorArrendatario.UseVisualStyleBackColor = false;
@@ -175,10 +166,9 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Montserrat ExtraBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(79)))), ((int)(((byte)(36)))));
-            this.label4.Location = new System.Drawing.Point(137, 466);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(103, 379);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(68, 27);
+            this.label4.Size = new System.Drawing.Size(52, 20);
             this.label4.TabIndex = 8;
             this.label4.Text = "Pagos";
             // 
@@ -188,10 +178,9 @@
             this.btnResumenDeIngresosPorConcepto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnResumenDeIngresosPorConcepto.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnResumenDeIngresosPorConcepto.ForeColor = System.Drawing.Color.White;
-            this.btnResumenDeIngresosPorConcepto.Location = new System.Drawing.Point(756, 170);
-            this.btnResumenDeIngresosPorConcepto.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnResumenDeIngresosPorConcepto.Location = new System.Drawing.Point(567, 138);
             this.btnResumenDeIngresosPorConcepto.Name = "btnResumenDeIngresosPorConcepto";
-            this.btnResumenDeIngresosPorConcepto.Size = new System.Drawing.Size(389, 48);
+            this.btnResumenDeIngresosPorConcepto.Size = new System.Drawing.Size(292, 39);
             this.btnResumenDeIngresosPorConcepto.TabIndex = 13;
             this.btnResumenDeIngresosPorConcepto.Text = "Resumen de Ingresos por Concepto";
             this.btnResumenDeIngresosPorConcepto.UseVisualStyleBackColor = false;
@@ -202,10 +191,9 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Montserrat ExtraBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(79)))), ((int)(((byte)(36)))));
-            this.label5.Location = new System.Drawing.Point(751, 142);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Location = new System.Drawing.Point(563, 115);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(150, 27);
+            this.label5.Size = new System.Drawing.Size(116, 20);
             this.label5.TabIndex = 12;
             this.label5.Text = "Administración";
             // 
@@ -215,10 +203,9 @@
             this.btnEstadísticasDeOc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEstadísticasDeOc.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEstadísticasDeOc.ForeColor = System.Drawing.Color.White;
-            this.btnEstadísticasDeOc.Location = new System.Drawing.Point(756, 68);
-            this.btnEstadísticasDeOc.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnEstadísticasDeOc.Location = new System.Drawing.Point(567, 55);
             this.btnEstadísticasDeOc.Name = "btnEstadísticasDeOc";
-            this.btnEstadísticasDeOc.Size = new System.Drawing.Size(389, 48);
+            this.btnEstadísticasDeOc.Size = new System.Drawing.Size(292, 39);
             this.btnEstadísticasDeOc.TabIndex = 11;
             this.btnEstadísticasDeOc.Text = "Estadísticas de Ocupación por Propiedad";
             this.btnEstadísticasDeOc.UseVisualStyleBackColor = false;
@@ -229,18 +216,17 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Montserrat ExtraBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(79)))), ((int)(((byte)(36)))));
-            this.label6.Location = new System.Drawing.Point(751, 39);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Location = new System.Drawing.Point(563, 32);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(127, 27);
+            this.label6.Size = new System.Drawing.Size(96, 20);
             this.label6.TabIndex = 10;
             this.label6.Text = "Propiedades";
             // 
             // ReportesForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1172, 611);
+            this.ClientSize = new System.Drawing.Size(843, 571);
             this.Controls.Add(this.btnResumenDeIngresosPorConcepto);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btnEstadísticasDeOc);
@@ -255,7 +241,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnReporteDeContratosVigentesYSuEstado);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ReportesForm";
             this.Text = "ReportesForm";
             this.ResumeLayout(false);

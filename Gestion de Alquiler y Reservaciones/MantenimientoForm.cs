@@ -217,16 +217,16 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 switch (estado)
                 {
                     case "en proceso":
-                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#155724");
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#E6B340");
                         break;
                     case "pendiente":
-                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#856404");
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#d67a31");
                         break;
                     case "completado":
-                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#8F8686");
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#0c6b22");
                         break;
                     case "cancelado":
-                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#721C24");
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#C84F24");
                         break;
                 }
 
@@ -402,27 +402,29 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 int idTipo = TiposDic[cboTipo.SelectedItem.ToString()];
                 string tipoAbrev = cboTipo.SelectedItem.ToString()
                     .StartsWith("Prev", StringComparison.OrdinalIgnoreCase) ? "PRE" : "COR";
+                string propAbrev = idPropiedad.Replace("-", "");
+
                 string fechaStr = DateTime.Now.ToString("yyMMdd");
 
                 using (SqlConnection conectar = Conexion.ObtenerConexion())
                 {
                     conectar.Open();
 
-                    string patron = $"MTC-{tipoAbrev}-{fechaStr}%";
+                    string patron = $"{tipoAbrev}-{propAbrev}-{fechaStr}-%";
                     SqlCommand cmdCount = new SqlCommand(
                         "SELECT COUNT(*) FROM Mantenimiento WHERE NumeroOrden LIKE @patron", conectar);
                     cmdCount.Parameters.AddWithValue("@patron", patron);
                     int consecutivo = (int)cmdCount.ExecuteScalar() + 1;
-                    string numeroOrden = $"MTC-{tipoAbrev}-{fechaStr}-{consecutivo:D2}";
+                    string numeroOrden = $"{tipoAbrev}-{propAbrev}-{fechaStr}-{consecutivo:D2}";
 
                     string queryInsert = @"
-                INSERT INTO Mantenimiento
-                    (NumeroOrden, IdPropiedad, IdTipoMantenimiento, IdTecnicoAsignado,
-                     Descripcion, FechaSolicitud, FechaProgramada, IdEstadoMantenimiento)
-                VALUES
-                    (@numeroOrden, @idPropiedad, @idTipo, @idTecnico,
-                     @descripcion, CAST(GETDATE() AS DATE), @fechaProgramada,
-                     (SELECT IdEstadoMantenimiento FROM EstadosMantenimiento WHERE Nombre = 'Pendiente'))";
+                        INSERT INTO Mantenimiento
+                            (NumeroOrden, IdPropiedad, IdTipoMantenimiento, IdTecnicoAsignado,
+                             Descripcion, FechaSolicitud, FechaProgramada, IdEstadoMantenimiento)
+                        VALUES
+                            (@numeroOrden, @idPropiedad, @idTipo, @idTecnico,
+                             @descripcion, CAST(GETDATE() AS DATE), @fechaProgramada,
+                             (SELECT IdEstadoMantenimiento FROM EstadosMantenimiento WHERE Nombre = 'Pendiente'))";
 
                     SqlCommand cmdInsert = new SqlCommand(queryInsert, conectar);
                     cmdInsert.Parameters.AddWithValue("@numeroOrden", numeroOrden);
@@ -440,7 +442,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 MessageBox.Show(
                     "Error al crear la solicitud: " + ex.Message,
-                    "Error",
+                    "Error de Inserción",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );

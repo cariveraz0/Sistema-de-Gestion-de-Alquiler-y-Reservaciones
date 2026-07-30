@@ -310,6 +310,7 @@
     <Compile Include="PagosForm.Designer.cs">
       <DependentUpon>PagosForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PermisosHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropiedadesForm.cs">
