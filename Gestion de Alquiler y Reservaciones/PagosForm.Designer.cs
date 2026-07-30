@@ -59,7 +59,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.label5 = new System.Windows.Forms.Label();
             this.txtCliente = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.btnBuscarCuota = new System.Windows.Forms.Button();
             this.pnlPagoReservacion = new System.Windows.Forms.Panel();
             this.txtNumeroReciboR = new System.Windows.Forms.TextBox();
             this.labelReciboR = new System.Windows.Forms.Label();
@@ -88,9 +87,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.lblResultadosCuota = new System.Windows.Forms.Label();
             this.lblResultadosReserv = new System.Windows.Forms.Label();
             this.cmbResultadosReserv = new System.Windows.Forms.ComboBox();
-            this.btnBuscarReserv = new System.Windows.Forms.Button();
-            this.txtBuscarCuota = new System.Windows.Forms.TextBox();
-            this.txtBuscarReserv = new System.Windows.Forms.TextBox();
             this.pnlCuerpo.SuspendLayout();
             this.pnlHistorial.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHistorial)).BeginInit();
@@ -221,7 +217,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             // pnlPagodeCuota
             // 
             this.pnlPagodeCuota.BackColor = System.Drawing.SystemColors.Control;
-            this.pnlPagodeCuota.Controls.Add(this.txtBuscarCuota);
             this.pnlPagodeCuota.Controls.Add(this.lblResultadosCuota);
             this.pnlPagodeCuota.Controls.Add(this.cmbResultadosCuota);
             this.pnlPagodeCuota.Controls.Add(this.txtNumeroRecibo);
@@ -244,7 +239,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.pnlPagodeCuota.Controls.Add(this.label5);
             this.pnlPagodeCuota.Controls.Add(this.txtCliente);
             this.pnlPagodeCuota.Controls.Add(this.label4);
-            this.pnlPagodeCuota.Controls.Add(this.btnBuscarCuota);
             this.pnlPagodeCuota.Location = new System.Drawing.Point(21, 100);
             this.pnlPagodeCuota.Name = "pnlPagodeCuota";
             this.pnlPagodeCuota.Size = new System.Drawing.Size(995, 370);
@@ -465,27 +459,13 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.label4.TabIndex = 3;
             this.label4.Text = "Cliente:";
             // 
-            // btnBuscarCuota
             // 
-            this.btnBuscarCuota.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(214)))), ((int)(((byte)(122)))), ((int)(((byte)(49)))));
-            this.btnBuscarCuota.FlatAppearance.BorderSize = 0;
-            this.btnBuscarCuota.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBuscarCuota.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBuscarCuota.ForeColor = System.Drawing.Color.White;
-            this.btnBuscarCuota.Location = new System.Drawing.Point(586, 15);
-            this.btnBuscarCuota.Name = "btnBuscarCuota";
-            this.btnBuscarCuota.Size = new System.Drawing.Size(80, 23);
-            this.btnBuscarCuota.TabIndex = 0;
-            this.btnBuscarCuota.Text = "Buscar";
-            this.btnBuscarCuota.UseVisualStyleBackColor = false;
             // 
             // pnlPagoReservacion
             // 
             this.pnlPagoReservacion.BackColor = System.Drawing.SystemColors.Control;
-            this.pnlPagoReservacion.Controls.Add(this.txtBuscarReserv);
             this.pnlPagoReservacion.Controls.Add(this.lblResultadosReserv);
             this.pnlPagoReservacion.Controls.Add(this.cmbResultadosReserv);
-            this.pnlPagoReservacion.Controls.Add(this.btnBuscarReserv);
             this.pnlPagoReservacion.Controls.Add(this.txtNumeroReciboR);
             this.pnlPagoReservacion.Controls.Add(this.labelReciboR);
             this.pnlPagoReservacion.Controls.Add(this.dtpFechaPagoR);
@@ -815,37 +795,11 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             this.cmbResultadosReserv.Size = new System.Drawing.Size(536, 23);
             this.cmbResultadosReserv.TabIndex = 26;
             // 
-            // btnBuscarReserv
             // 
-            this.btnBuscarReserv.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(214)))), ((int)(((byte)(122)))), ((int)(((byte)(49)))));
-            this.btnBuscarReserv.FlatAppearance.BorderSize = 0;
-            this.btnBuscarReserv.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBuscarReserv.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBuscarReserv.ForeColor = System.Drawing.Color.White;
-            this.btnBuscarReserv.Location = new System.Drawing.Point(586, 15);
-            this.btnBuscarReserv.Name = "btnBuscarReserv";
-            this.btnBuscarReserv.Size = new System.Drawing.Size(80, 23);
-            this.btnBuscarReserv.TabIndex = 24;
-            this.btnBuscarReserv.Text = "Buscar";
-            this.btnBuscarReserv.UseVisualStyleBackColor = false;
             // 
-            // txtBuscarCuota
             // 
-            this.txtBuscarCuota.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtBuscarCuota.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBuscarCuota.Location = new System.Drawing.Point(25, 15);
-            this.txtBuscarCuota.Name = "txtBuscarCuota";
-            this.txtBuscarCuota.Size = new System.Drawing.Size(536, 23);
-            this.txtBuscarCuota.TabIndex = 24;
             // 
-            // txtBuscarReserv
             // 
-            this.txtBuscarReserv.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtBuscarReserv.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBuscarReserv.Location = new System.Drawing.Point(25, 15);
-            this.txtBuscarReserv.Name = "txtBuscarReserv";
-            this.txtBuscarReserv.Size = new System.Drawing.Size(536, 23);
-            this.txtBuscarReserv.TabIndex = 28;
             // 
             // PagosForm
             // 
@@ -897,7 +851,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private System.Windows.Forms.RadioButton rbPagodeCuota;
         private System.Windows.Forms.RadioButton rbReservacion;
         private System.Windows.Forms.Panel pnlPagodeCuota;
-        private System.Windows.Forms.Button btnBuscarCuota;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtCliente;
         private System.Windows.Forms.TextBox textBox2;
@@ -939,8 +892,5 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private System.Windows.Forms.ComboBox cmbResultadosCuota;
         private System.Windows.Forms.Label lblResultadosReserv;
         private System.Windows.Forms.ComboBox cmbResultadosReserv;
-        private System.Windows.Forms.Button btnBuscarReserv;
-        private System.Windows.Forms.TextBox txtBuscarCuota;
-        private System.Windows.Forms.TextBox txtBuscarReserv;
     }
 }

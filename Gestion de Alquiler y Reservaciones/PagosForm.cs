@@ -64,16 +64,16 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
             ConfigurarDataGridView(dgvHistorial);
 
-            cmbResultadosCuota.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbResultadosReserv.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbResultadosCuota.DropDownStyle = ComboBoxStyle.DropDown;
+            cmbResultadosCuota.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbResultadosCuota.AutoCompleteSource = AutoCompleteSource.ListItems;
+
+            cmbResultadosReserv.DropDownStyle = ComboBoxStyle.DropDown;
+            cmbResultadosReserv.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbResultadosReserv.AutoCompleteSource = AutoCompleteSource.ListItems;
+
             cmbResultadosCuota.SelectedIndexChanged += cmbResultadosCuota_SelectedIndexChanged;
             cmbResultadosReserv.SelectedIndexChanged += cmbResultadosReserv_SelectedIndexChanged;
-
-            btnBuscarCuota.Click += (s, e) => CargarResultadosCuotas(txtBuscarCuota.Text);
-            btnBuscarReserv.Click += (s, e) => CargarResultadosReservaciones(txtBuscarReserv.Text);
-
-            txtBuscarCuota.KeyDown += (s, e) => { if (e.KeyCode == Keys.Enter) { CargarResultadosCuotas(txtBuscarCuota.Text); e.SuppressKeyPress = true; } };
-            txtBuscarReserv.KeyDown += (s, e) => { if (e.KeyCode == Keys.Enter) { CargarResultadosReservaciones(txtBuscarReserv.Text); e.SuppressKeyPress = true; } };
 
             btnGuardar.Click += btnGuardar_Click;
             btnLimpiar.Click += btnLimpiar_Click;
@@ -87,8 +87,11 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
             LimpiarDetalleCuota();
             LimpiarDetalleReservacion();
-            lblResultadosCuota.Text = "Escribe un cliente, contrato o propiedad y presiona Buscar.";
-            lblResultadosReserv.Text = "Escribe un cliente, reservación o propiedad y presiona Buscar.";
+            lblResultadosCuota.Text = "Selecciona un cliente, contrato o propiedad.";
+            lblResultadosReserv.Text = "Selecciona un cliente, reservación o propiedad.";
+
+            CargarResultadosCuotas();
+            CargarResultadosReservaciones();
         }
 
         public void ConfigurarDataGridView(DataGridView grid)
@@ -176,19 +179,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             pnlPagoReservacion.Visible = true;
         }
 
-        private void CargarResultadosCuotas(string busqueda)
+        private void CargarResultadosCuotas()
         {
             cmbResultadosCuota.DataSource = null;
             idCuotaSeleccionada = null;
-
-            if (string.IsNullOrWhiteSpace(busqueda) || busqueda.Trim().Length < 2)
-            {
-                pnlPagodeCuota.Enabled = false;
-                LimpiarDetalleCuota();
-                return;
-            }
-
-            string filtro = busqueda.Trim();
 
             using (SqlConnection conexion = Conexion.ObtenerConexion())
             {
@@ -197,45 +191,51 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     conexion.Open();
 
                     string query = @"
-                WITH CuotasPendientes AS (
-                    SELECT 
-                        CC.IdCuota,
-                        CC.IdContrato,
-                        CC.NumeroCuota,
-                        CC.FechaVencimiento,
-                        CC.MontoCuota,
-                        CC.MontoMora,
-                        CLI.NombreCompleto AS Cliente,
-                        CLI.Identidad,
-                        P.Codigo AS Propiedad,
-                        EP.Nombre AS EstadoPago,
-                        ISNULL(SUM(PAG.Monto), 0) AS TotalPagado,
-                        (CC.MontoCuota + CC.MontoMora - ISNULL(SUM(PAG.Monto), 0)) AS Saldo,
-                        ROW_NUMBER() OVER (
-                            PARTITION BY C.IdContrato 
-                            ORDER BY CC.FechaVencimiento ASC, CC.NumeroCuota ASC
-                        ) AS RowNum
-                    FROM CuotasContrato CC
-                    INNER JOIN Contratos C ON CC.IdContrato = C.IdContrato
-                    INNER JOIN Clientes CLI ON C.IdArrendatario = CLI.IdCliente
-                    INNER JOIN Propiedades P ON C.IdPropiedad = P.IdPropiedad
-                    INNER JOIN EstadosPago EP ON CC.IdEstadoPago = EP.IdEstadoPago
-                    LEFT JOIN Pagos PAG ON CC.IdCuota = PAG.IdCuota
-                    WHERE C.IdEstadoContrato = (SELECT IdEstadoContrato FROM EstadosContrato WHERE Nombre = 'Vigente')
-                    GROUP BY CC.IdCuota, CC.IdContrato, CC.NumeroCuota, CC.FechaVencimiento, CC.MontoCuota, CC.MontoMora, 
-                             CLI.NombreCompleto, CLI.Identidad, P.Codigo, EP.Nombre
-                    HAVING (CC.MontoCuota + CC.MontoMora - ISNULL(SUM(PAG.Monto), 0)) > 0
-                )
-                SELECT IdCuota, Cliente, Propiedad, FechaVencimiento, MontoCuota, MontoMora, Saldo, EstadoPago
-                FROM CuotasPendientes
-                WHERE RowNum = 1
-                  AND (Cliente LIKE '%' + @Filtro + '%' 
-                       OR Identidad LIKE '%' + @Filtro + '%' 
-                       OR Propiedad LIKE '%' + @Filtro + '%');";
+        WITH PagosRealizados AS (
+            SELECT IdCuota, ISNULL(SUM(Monto), 0) AS TotalPagado
+            FROM Pagos
+            WHERE IdCuota IS NOT NULL
+            GROUP BY IdCuota
+        ),
+        SaldosCuotas AS (
+            SELECT 
+                CC.IdCuota,
+                CC.IdContrato,
+                CC.NumeroCuota,
+                CC.FechaVencimiento,
+                CC.MontoCuota,
+                CC.MontoMora,
+                CLI.NombreCompleto AS Cliente,
+                CLI.Identidad,
+                P.Codigo AS Propiedad,
+                EP.Nombre AS EstadoPago,
+                ISNULL(PR.TotalPagado, 0) AS TotalPagado,
+                (CC.MontoCuota + CC.MontoMora - ISNULL(PR.TotalPagado, 0)) AS Saldo
+            FROM CuotasContrato CC
+            INNER JOIN Contratos C ON CC.IdContrato = C.IdContrato
+            INNER JOIN Clientes CLI ON C.IdArrendatario = CLI.IdCliente
+            INNER JOIN Propiedades P ON C.IdPropiedad = P.IdPropiedad
+            INNER JOIN EstadosPago EP ON CC.IdEstadoPago = EP.IdEstadoPago
+            LEFT JOIN PagosRealizados PR ON CC.IdCuota = PR.IdCuota
+            WHERE C.IdEstadoContrato = (SELECT IdEstadoContrato FROM EstadosContrato WHERE Nombre = 'Vigente')
+        ),
+        CuotasSecuenciales AS (
+            SELECT 
+                IdCuota, Cliente, Identidad, Propiedad, FechaVencimiento, MontoCuota, MontoMora, Saldo, EstadoPago,
+                ROW_NUMBER() OVER (
+                    PARTITION BY IdContrato 
+                    ORDER BY FechaVencimiento ASC, NumeroCuota ASC
+                ) AS RowNum
+            FROM SaldosCuotas
+            WHERE Saldo > 0
+        )
+        SELECT IdCuota, Cliente, Propiedad, FechaVencimiento, MontoCuota, MontoMora, Saldo, EstadoPago
+        FROM CuotasSecuenciales
+        WHERE RowNum = 1
+        ORDER BY FechaVencimiento ASC;";
 
                     using (SqlCommand cmd = new SqlCommand(query, conexion))
                     {
-                        cmd.Parameters.AddWithValue("@Filtro", filtro);
 
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -276,19 +276,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
         }
 
-        private void CargarResultadosReservaciones(string busqueda)
+        private void CargarResultadosReservaciones()
         {
             cmbResultadosReserv.DataSource = null;
             idReservacionSeleccionada = null;
-
-            if (string.IsNullOrWhiteSpace(busqueda) || busqueda.Trim().Length < 2)
-            {
-                pnlPagoReservacion.Enabled = false;
-                LimpiarDetalleReservacion();
-                return;
-            }
-
-            string filtro = busqueda.Trim();
 
             using (SqlConnection conexion = Conexion.ObtenerConexion())
             {
@@ -297,32 +288,42 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     conexion.Open();
 
                     string query = @"
+                WITH PagosRealizados AS (
+                    SELECT IdReservacion, ISNULL(SUM(Monto), 0) AS TotalPagado
+                    FROM Pagos
+                    WHERE IdReservacion IS NOT NULL
+                    GROUP BY IdReservacion
+                ),
+                SaldosReservaciones AS (
+                    SELECT 
+                        R.IdReservacion,
+                        R.NumeroReservacion,
+                        CLI.NombreCompleto AS Cliente,
+                        CLI.Identidad,
+                        P.Codigo AS Propiedad,
+                        R.MontoTotal,
+                        ISNULL(PR.TotalPagado, 0) AS TotalPagado,
+                        (R.MontoTotal - ISNULL(PR.TotalPagado, 0)) AS Saldo,
+                        ER.Nombre AS EstadoReservacion
+                    FROM Reservaciones R
+                    INNER JOIN Clientes CLI ON R.IdCliente = CLI.IdCliente
+                    INNER JOIN Propiedades P ON R.IdPropiedad = P.IdPropiedad
+                    INNER JOIN EstadosReservacion ER ON R.IdEstadoReservacion = ER.IdEstadoReservacion
+                    LEFT JOIN PagosRealizados PR ON R.IdReservacion = PR.IdReservacion
+                    WHERE ER.Nombre NOT IN ('Cancelada', 'Completada')
+                )
                 SELECT 
-                    R.IdReservacion,
-                    R.NumeroReservacion,
-                    CLI.NombreCompleto AS Cliente,
-                    CLI.Identidad,
-                    P.Codigo AS Propiedad,
-                    R.MontoTotal,
-                    ISNULL(SUM(PAG.Monto), 0) AS TotalPagado,
-                    (R.MontoTotal - ISNULL(SUM(PAG.Monto), 0)) AS Saldo,
-                    ER.Nombre AS EstadoReservacion
-                FROM Reservaciones R
-                INNER JOIN Clientes CLI ON R.IdCliente = CLI.IdCliente
-                INNER JOIN Propiedades P ON R.IdPropiedad = P.IdPropiedad
-                INNER JOIN EstadosReservacion ER ON R.IdEstadoReservacion = ER.IdEstadoReservacion
-                LEFT JOIN Pagos PAG ON R.IdReservacion = PAG.IdReservacion
-                WHERE ER.Nombre NOT IN ('Cancelada', 'Completada')
-                GROUP BY R.IdReservacion, R.NumeroReservacion, CLI.NombreCompleto, CLI.Identidad, P.Codigo, R.MontoTotal, ER.Nombre
-                HAVING (R.MontoTotal - ISNULL(SUM(PAG.Monto), 0)) > 0
-                   AND (CLI.NombreCompleto LIKE '%' + @Filtro + '%' 
-                        OR CLI.Identidad LIKE '%' + @Filtro + '%' 
-                        OR P.Codigo LIKE '%' + @Filtro + '%' 
-                        OR R.NumeroReservacion LIKE '%' + @Filtro + '%');";
+                    IdReservacion, 
+                    Cliente, 
+                    Propiedad, 
+                    MontoTotal, 
+                    Saldo, 
+                    EstadoReservacion
+                FROM SaldosReservaciones
+                WHERE Saldo > 0;";
 
                     using (SqlCommand cmd = new SqlCommand(query, conexion))
                     {
-                        cmd.Parameters.AddWithValue("@Filtro", filtro);
 
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -415,7 +416,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private string GenerarNumeroReciboPreview()
         {
-            return "REC-" + DateTime.Today.ToString("yyMMdd") + "-XX";
+            return $"REC-{DateTime.Today:yyMMdd}[C/R]-[P/PP]00";
         }
 
         private void LimpiarDetalleCuota()
@@ -501,8 +502,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             int idCuota = idCuotaSeleccionada.Value;
             decimal montoAbonado = numMontoPagar.Value;
             int idMetodoPago = Convert.ToInt32(cmbMetodoPago.SelectedValue);
-            string nombreMetodo = cmbMetodoPago.Text;
             DateTime fechaPago = dtpFechaPago.Value.Date;
+
+            string estadoPagoAbreviado = (montoAbonado >= numMontoPagar.Maximum) ? "P" : "PP";
 
             using (SqlConnection conexion = Conexion.ObtenerConexion())
             {
@@ -510,7 +512,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 SqlTransaction transaccion = conexion.BeginTransaction();
                 try
                 {
-                    string numeroRecibo = GenerarNumeroRecibo(conexion, transaccion, nombreMetodo);
+                    string numeroRecibo = GenerarNumeroRecibo(conexion, transaccion, fechaPago, 'C', estadoPagoAbreviado);
 
                     using (SqlCommand cmdInsert = new SqlCommand(
                         @"INSERT INTO Pagos (NumeroRecibo, IdCuota, IdReservacion, Monto, FechaPago, IdMetodoPago)
@@ -554,7 +556,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
                     MessageBox.Show($"Pago registrado exitosamente.\nRecibo: {numeroRecibo}\nEstado actualizado a: {nuevoEstado}", "Transacción Completada", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    CargarResultadosCuotas(txtBuscarCuota.Text);
+                    CargarResultadosCuotas();
                     CargarDatosBD();
                 }
                 catch (Exception ex)
@@ -586,8 +588,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             int idReservacion = idReservacionSeleccionada.Value;
             decimal montoAbonado = numMontoPagarR.Value;
             int idMetodoPago = Convert.ToInt32(cmbMetodoPagoR.SelectedValue);
-            string nombreMetodo = cmbMetodoPagoR.Text;
             DateTime fechaPago = dtpFechaPagoR.Value.Date;
+
+            string estadoPagoAbreviado = (montoAbonado >= numMontoPagarR.Maximum) ? "P" : "PP";
 
             using (SqlConnection conexion = Conexion.ObtenerConexion())
             {
@@ -595,7 +598,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 SqlTransaction transaccion = conexion.BeginTransaction();
                 try
                 {
-                    string numeroRecibo = GenerarNumeroRecibo(conexion, transaccion, nombreMetodo);
+                    string numeroRecibo = GenerarNumeroRecibo(conexion, transaccion, fechaPago, 'R', estadoPagoAbreviado);
 
                     using (SqlCommand cmdInsert = new SqlCommand(
                         @"INSERT INTO Pagos (NumeroRecibo, IdCuota, IdReservacion, Monto, FechaPago, IdMetodoPago)
@@ -623,25 +626,25 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                         totalPagadoAcumulado = Convert.ToDecimal(cmdPagado.ExecuteScalar());
                     }
 
-                    string estadoMensaje = "Pendiente (Pago Parcial)";
-                    if (totalPagadoAcumulado >= totalReservacion)
+                    string nuevoEstado = totalPagadoAcumulado >= totalReservacion ? "Confirmada" : "Pendiente";
+
+                    using (SqlCommand cmdEstado = new SqlCommand(
+                        @"UPDATE Reservaciones
+                  SET IdEstadoReservacion = (SELECT IdEstadoReservacion FROM EstadosReservacion WHERE Nombre = @Estado)
+                  WHERE IdReservacion = @IdReservacion;", conexion, transaccion))
                     {
-                        using (SqlCommand cmdEstado = new SqlCommand(
-                            @"UPDATE Reservaciones
-                      SET IdEstadoReservacion = (SELECT IdEstadoReservacion FROM EstadosReservacion WHERE Nombre = 'Confirmada')
-                      WHERE IdReservacion = @IdReservacion;", conexion, transaccion))
-                        {
-                            cmdEstado.Parameters.AddWithValue("@IdReservacion", idReservacion);
-                            cmdEstado.ExecuteNonQuery();
-                        }
-                        estadoMensaje = "Confirmada (Pago Total)";
+                        cmdEstado.Parameters.AddWithValue("@Estado", nuevoEstado);
+                        cmdEstado.Parameters.AddWithValue("@IdReservacion", idReservacion);
+                        cmdEstado.ExecuteNonQuery();
                     }
+
+                    string estadoMensaje = nuevoEstado == "Confirmada" ? "Confirmada (Pago Total)" : "Pendiente (Pago Parcial)";
 
                     transaccion.Commit();
 
                     MessageBox.Show($"Pago registrado exitosamente.\nRecibo: {numeroRecibo}\nEstado Reservación: {estadoMensaje}", "Transacción Completada", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    CargarResultadosReservaciones(txtBuscarReserv.Text);
+                    CargarResultadosReservaciones();
                     CargarDatosBD();
                 }
                 catch (Exception ex)
@@ -651,42 +654,19 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 }
             }
         }
-
-        private string GenerarNumeroRecibo(SqlConnection conexion, SqlTransaction transaccion, string nombreMetodo)
-        {
-            string codigoMetodo = (nombreMetodo != null && nombreMetodo.StartsWith("Tarjeta")) ? "TJ" : "EF";
-            Random rnd = new Random();
-
-            for (int intento = 0; intento < 8; intento++)
-            {
-                string candidato = $"REC-{DateTime.Today:yyMMdd}-{codigoMetodo}{rnd.Next(10, 99)}";
-
-                using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Pagos WHERE NumeroRecibo = @Recibo;", conexion, transaccion))
-                {
-                    cmd.Parameters.AddWithValue("@Recibo", candidato);
-                    int existe = (int)cmd.ExecuteScalar();
-                    if (existe == 0) return candidato;
-                }
-            }
-
-            throw new Exception("No se pudo generar un número de recibo único. Intenta nuevamente.");
-        }
-
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             if (rbPagodeCuota.Checked)
             {
                 LimpiarDetalleCuota();
-                cmbResultadosCuota.Items.Clear();
-                txtBuscarCuota.Clear();
-                lblResultadosCuota.Text = "Escribe un cliente, contrato o propiedad y presiona Buscar.";
+                cmbResultadosCuota.SelectedIndex = -1;
+                lblResultadosCuota.Text = "Selecciona un cliente, contrato o propiedad.";
             }
             else
             {
                 LimpiarDetalleReservacion();
-                cmbResultadosReserv.Items.Clear();
-                txtBuscarReserv.Clear();
-                lblResultadosReserv.Text = "Escribe un cliente, reservación o propiedad y presiona Buscar.";
+                cmbResultadosReserv.SelectedIndex = -1;
+                lblResultadosReserv.Text = "Selecciona un cliente, reservación o propiedad.";
             }
         }
 
@@ -795,6 +775,19 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     MessageBoxButtons.OK, 
                     MessageBoxIcon.Warning
                 );
+            }
+        }
+        private string GenerarNumeroRecibo(SqlConnection conexion, SqlTransaction transaccion, DateTime fecha, char tipo, string estado)
+        {
+            string baseRecibo = $"REC-{fecha:yyMMdd}{tipo}-{estado}";
+
+            using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Pagos WHERE NumeroRecibo LIKE @Base + '%';", conexion, transaccion))
+            {
+                cmd.Parameters.AddWithValue("@Base", baseRecibo);
+                int conteo = (int)cmd.ExecuteScalar();
+                int consecutivo = conteo + 1;
+
+                return $"{baseRecibo}{consecutivo:D2}";
             }
         }
 

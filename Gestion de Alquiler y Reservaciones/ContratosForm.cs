@@ -628,7 +628,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             try
             {
                 doc = wordApp.Documents.Open(rutaOrigenDocx);
-                doc.ExportAsFixedFormat(rutaDestinoPdf, Microsoft.Office.Interop.Word.WdExportFormat.wdExportFormatPDF, OpenAfterExport: true);
+                doc.ExportAsFixedFormat(rutaDestinoPdf, Microsoft.Office.Interop.Word.WdExportFormat.wdExportFormatPDF, OpenAfterExport: false);
             }
             finally
             {
@@ -1746,8 +1746,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             if(dtpHoraInicialC.Value.Hour < DateTime.Now.Hour)
             {
-                lblVHoraInicialCasa.Text = "La hora inicial no debe de ser menor a la actual.";
-                lblVHoraInicialCasa.Visible = true;
+                //lblVHoraInicialCasa.Text = "La hora inicial no debe de ser menor a la actual.";
+                lblVHoraInicialCasa.Visible = false;
             }
             else
             {
@@ -1845,8 +1845,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             if (dtpFechaArrendamientoS.Value.Date < DateTime.Now.Date)
             {
-                lblVFechaArrendamientoSala.Text = "La fecha de arrendamiento no puede ser menor a la actual.";
-                lblVFechaArrendamientoSala.Visible = true;
+                //lblVFechaArrendamientoSala.Text = "La fecha de arrendamiento no puede ser menor a la actual.";
+                //lblVFechaArrendamientoSala.Visible = true;
+                lblVFechaArrendamientoSala.Visible = false;
             }
             else
             {
@@ -1860,8 +1861,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             if (dtpHoraInicioS.Value.Hour < DateTime.Now.Hour)
             {
-                lblVHoraInicioSala.Text = "La hora no puede ser menor a la actual.";
-                lblVHoraInicioSala.Visible = true;
+                //lblVHoraInicioSala.Text = "La hora no puede ser menor a la actual.";
+                //lblVHoraInicioSala.Visible = true;
+                lblVHoraInicioSala.Visible = false;
             }
             else
             {
