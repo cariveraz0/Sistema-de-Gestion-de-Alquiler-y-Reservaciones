@@ -235,7 +235,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 if(txtNombre.Text.Length < 8)
                 {
                     lblVNombre.Visible = true;
-                    lblVNombre.Text = "Debe ingresar un nombre valido";
+                    lblVNombre.Text = "Debe ingresar un nombre válido";
                 }
                 else
                 {
@@ -255,10 +255,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             if (txtIdentidad.Text.Length > 0)
             {
-                if (txtIdentidad.Text.Length < 15)
+                if (txtIdentidad.Text.Length < 14)
                 {
                     lblVIdentidad.Visible = true;
-                    lblVIdentidad.Text = "Debe ingresar un numero de identidad valido";
+                    lblVIdentidad.Text = "Debe ingresar un número de identidad válido";
                 }
                 else
                 {
@@ -312,7 +312,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 return;
             }
 
-            if (txtIdentidad.Text.Length >= 16 && !esControl)
+            if (txtIdentidad.Text.Length >= 15 && !esControl)
             {
                 e.SuppressKeyPress = true; 
             }
@@ -366,7 +366,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             else
             {
-                lblVTelefono.Visible = false;
+                lblVTelefono.Visible = true;
+                lblVTelefono.Text = "Obligatorio";
             }
             validarAntesDeGuardar();
         }
@@ -378,7 +379,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 if(!txtCorreo.Text.Contains(".") || !txtCorreo.Text.Contains("@"))
                 {
                     lblVCorreo.Visible = true;
-                    lblVCorreo.Text = "El correo debe estar en formato valido";
+                    lblVCorreo.Text = "El correo debe estar en formato válido";
                 }
                 else
                 {
@@ -387,7 +388,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
             else
             {
-                lblVCorreo.Visible = false;
+                lblVCorreo.Visible = true;
+                lblVCorreo.Text = "Obligatorio";
             }
             validarAntesDeGuardar();
         }
@@ -544,7 +546,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 return;
             }
 
-            if (txtRtn.Text.Length > 16 && !esControl)
+            if (txtRtn.Text.Length > 15 && !esControl)
             {
                 e.SuppressKeyPress = true;
             }
@@ -561,7 +563,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 if (txtRtn.Text.Length < 16)
                 {
                     lblbVRTNEmpresa.Visible = true;
-                    lblbVRTNEmpresa.Text = "Debe ingresar un RTN valido";
+                    lblbVRTNEmpresa.Text = "Debe ingresar un RTN válido";
                 }
                 else
                 {

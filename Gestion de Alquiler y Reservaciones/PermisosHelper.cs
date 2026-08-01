@@ -14,7 +14,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             { "arrendamiento", new List<string> {
                 "ContratosForm", "ClientesForm", "PropiedadesForm", "ReportesForm"
             }},
-            { "reservacion", new List<string> {
+            { "reservaciones", new List<string> {
                 "ReservacionesForm", "ClientesForm", "PropiedadesForm", "ReportesForm"
             }},
             { "mantenimiento", new List<string> {
@@ -41,7 +41,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             "Contratos", "Mantenimiento", "Reservaciones", "Pagos", "Propiedades", "Administracion"
         }},
         { "arrendamiento", new List<string> { "Contratos" }},
-        { "reservacion",   new List<string> { "Reservaciones" }},
+        { "reservaciones",   new List<string> { "Reservaciones" }},
         { "mantenimiento", new List<string> { "Mantenimiento" }},
     };
 

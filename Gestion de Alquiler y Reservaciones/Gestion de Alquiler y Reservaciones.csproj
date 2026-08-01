@@ -397,6 +397,18 @@
     <Compile Include="ReservacionesForm.Designer.cs">
       <DependentUpon>ReservacionesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucPropiedadCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucPropiedadCard.Designer.cs">
+      <DependentUpon>ucPropiedadCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucReservacionCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucReservacionCard.Designer.cs">
+      <DependentUpon>ucReservacionCard.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="ActividadesItem.resx">
       <DependentUpon>ActividadesItem.cs</DependentUpon>
     </EmbeddedResource>
@@ -470,6 +482,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ReservacionesForm.resx">
       <DependentUpon>ReservacionesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucPropiedadCard.resx">
+      <DependentUpon>ucPropiedadCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucReservacionCard.resx">
+      <DependentUpon>ucReservacionCard.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Assets\Fonts\Montserrat-Black.ttf" />
     <None Include="Assets\Fonts\Montserrat-BlackItalic.ttf" />

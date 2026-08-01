@@ -796,8 +796,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     case "Apartamento":
                         if (lblVNombreA.Visible == true ||
                         lblVClaveContador.Visible == true ||
-                        lblVPrecioAlquiler.Visible == true ||
-                        lblVDepositoUnitario.Visible == true ||
                         lblVFechaA.Visible == true ||
                         lblVDiaM.Visible == true ||
                         lblVNumeroA.Visible == true)
@@ -818,8 +816,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                         lblVNacionalidadLocal.Visible == true ||
                         lblVDuracionAlquilerLocal.Visible == true ||
                         lblVFechaArrendamientoLocal.Visible == true ||
-                        lblVPrecioAlquilerLocal.Visible == true ||
-                        lblVDepositoUnitarioLocal.Visible == true ||
                         lblVNumeroLocal.Visible == true)
                         {
                             btnGuardar.Enabled = false;
@@ -878,22 +874,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
         }
 
-        private void txtPrecioAlquilerA_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void txtDepositoUnitarioA_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
-
         private void txtDiaMensualidadA_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
@@ -904,9 +884,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void txtClaveContadorA_TextChanged(object sender, EventArgs e)
         {
-            if(txtClaveContadorA.Text.Length < 5)
+            if(txtClaveContadorA.Text.Trim().Length != 7)
             {
-                lblVClaveContador.Text = "Debe ingresar un valor numerico.";
+                lblVClaveContador.Text = "La clave debe tener exactamente 7 dígitos.";
                 lblVClaveContador.Visible = true;
             }
             else
@@ -920,7 +900,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             if (dtpFechaArrendamientoA.Value.Date < DateTime.Now.Date)
             {
-                lblVFechaA.Text = "Debe seleccionar una fecha mayor o igual a la actual.";
+                lblVFechaA.Text = "Debe seleccionar una fecha válida.";
                 lblVFechaA.Visible = true;
             }
             else
@@ -932,46 +912,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void txtPrecioAlquilerA_TextChanged(object sender, EventArgs e)
         {
-            if (txtPrecioAlquilerA.Text.Trim() == string.Empty)
-            {
-                txtPrecioAlquilerA.Text = "0";
-                txtPrecioAlquilerA.SelectionStart = txtPrecioAlquilerA.Text.Length;
-            }
-            else
-            {
-                if (int.Parse(txtPrecioAlquilerA.Text) <= 0)
-                {
-                    lblVPrecioAlquiler.Text = "Debe introducir un monto mayor que 0.";
-                    lblVPrecioAlquiler.Visible = true;
-                }
-                else
-                {
-                    lblVPrecioAlquiler.Visible = false;
-                }
-            }
-            ValidarParaGuardarOGenerar();
+
         }
 
         private void txtDepositoUnitarioA_TextChanged(object sender, EventArgs e)
         {
-            if (txtDepositoUnitarioA.Text.Trim() == string.Empty)
-            {
-                txtDepositoUnitarioA.Text = "0";
-                txtDepositoUnitarioA.SelectionStart = txtDepositoUnitarioA.Text.Length;
-            }
-            else
-            {
-                if (int.Parse(txtDepositoUnitarioA.Text) <= 0)
-                {
-                    lblVDepositoUnitario.Text = "Debe introducir un monto mayor que 0.";
-                    lblVDepositoUnitario.Visible = true;
-                }
-                else
-                {
-                    lblVDepositoUnitario.Visible = false;
-                }
-            }
-            ValidarParaGuardarOGenerar();
+
         }
 
         private void cmbNumeroDepartamento_SelectedIndexChanged(object sender, EventArgs e)
@@ -980,26 +926,70 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblVNumeroA.Text = "Debe seleccionar un apartamento.";
                 lblVNumeroA.Visible = true;
+                txtPrecioAlquilerA.Text = "0";
+                txtDepositoUnitarioA.Text = "0";
             }
             else
             {
                 lblVNumeroA.Visible = false;
+                string idPropiedad = ((PropiedadDisponible)cmbNumeroApartamento.SelectedItem).IdPropiedad;
+                decimal? precio = ObtenerPrecioAlquilerPropiedad(idPropiedad);
+
+                if (precio.HasValue)
+                {
+                    txtPrecioAlquilerA.Text = precio.Value.ToString("0");
+                    txtDepositoUnitarioA.Text = precio.Value.ToString("0");
+                }
             }
             ValidarParaGuardarOGenerar();
+        }
+        private decimal? ObtenerPrecioAlquilerPropiedad(string idPropiedad)
+        {
+            decimal? precio = null;
+            string query = "SELECT PrecioAlquiler FROM Propiedades WHERE IdPropiedad = @id";
+
+            try
+            {
+                using (SqlConnection conexion = Conexion.ObtenerConexion())
+                using (SqlCommand cmd = new SqlCommand(query, conexion))
+                {
+                    conexion.Open();
+                    cmd.Parameters.AddWithValue("@id", idPropiedad);
+                    object resultado = cmd.ExecuteScalar();
+                    if (resultado != null && resultado != DBNull.Value)
+                    {
+                        precio = Convert.ToDecimal(resultado);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener el precio de la propiedad: " + ex.Message);
+            }
+
+            return precio;
         }
 
         private void txtDiaMensualidadA_TextChanged(object sender, EventArgs e)
         {
             if (txtDiaMensualidadA.Text.Trim() == string.Empty)
             {
-                txtDiaMensualidadA.Text = "0";
-                txtDiaMensualidadA.SelectionStart = txtDiaMensualidadA.Text.Length;
+                lblVDiaM.Text = "El día no puede estar vacío.";
+                lblVDiaM.Visible = true;
+                ValidarParaGuardarOGenerar();
+                return;
             }
-            else
+
+            if (int.TryParse(txtDiaMensualidadA.Text, out int dia))
             {
-                if (int.Parse(txtDiaMensualidadA.Text) <= 0)
+                if (dia <= 0)
                 {
-                    lblVDiaM.Text = "Debe introducir un numero mayor que 0.";
+                    lblVDiaM.Text = "Debe introducir un número mayor que 0.";
+                    lblVDiaM.Visible = true;
+                }
+                else if (dia > 31)
+                {
+                    lblVDiaM.Text = "El día no puede ser mayor a 31.";
                     lblVDiaM.Visible = true;
                 }
                 else
@@ -1230,7 +1220,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 return;
             }
 
-            int mesesDuracion = Convert.ToInt32(txtDuracionAlquilerL.Text);
+            int anioDuracion = Convert.ToInt32(txtDuracionAlquilerL.Text);
             string propiedadLimpia = idPropiedad.Replace("-", "");
             string fechaInicioStr = dtpFechaArrendamientoL.Value.ToString("yyMMdd");
             string numContratoBase = $"CT-{propiedadLimpia}-{fechaInicioStr}";
@@ -1260,7 +1250,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     cmd.Parameters.AddWithValue("@idProp", idPropiedad);
                     cmd.Parameters.AddWithValue("@idCli", idCliente);
                     cmd.Parameters.AddWithValue("@inicio", dtpFechaArrendamientoL.Value);
-                    cmd.Parameters.AddWithValue("@fin", dtpFechaArrendamientoL.Value.AddMonths(mesesDuracion));
+                    cmd.Parameters.AddWithValue("@fin", dtpFechaArrendamientoL.Value.AddYears(anioDuracion));
                     cmd.Parameters.AddWithValue("@monto", Convert.ToDecimal(txtPrecioAlquilerL.Text));
                     cmd.Parameters.AddWithValue("@deposito", Convert.ToDecimal(txtDepositoUnitarioL.Text));
                     cmd.Parameters.AddWithValue("@empresa", txtNombreEmpresaL.Text);
@@ -1553,20 +1543,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void txtPrecioAlquilerL_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
-            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
-            {
-                e.Handled = true; // Cancela la tecla presionada (no la escribe)
-            }
+
         }
 
         private void txtDepositoUnitarioL_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
-            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
-            {
-                e.Handled = true; // Cancela la tecla presionada (no la escribe)
-            }
+
         }
 
         private void txtValoresAgregadosL_KeyPress(object sender, KeyPressEventArgs e)
@@ -1624,26 +1606,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             if(txtDuracionAlquilerL.Text == "0" || txtDuracionAlquilerL.Text.Length < 1)
             {
-                lblVDuracionAlquilerLocal.Text = "Ingrese la duracion del contrato en meses.";
+                lblVDuracionAlquilerLocal.Text = "Ingrese la duración del contrato en años.";
                 lblVDuracionAlquilerLocal.Visible = true;
             }
             else
             {
                 lblVDuracionAlquilerLocal.Visible = false;
-            }
-            ValidarParaGuardarOGenerar();
-        }
-
-        private void txtPrecioAlquilerL_TextChanged(object sender, EventArgs e)
-        {
-            if (txtPrecioAlquilerL.Text == "0" || txtPrecioAlquilerL.Text.Length < 1)
-            {
-                lblVPrecioAlquilerLocal.Text = "Ingrese un numero mayor que 0.";
-                lblVPrecioAlquilerLocal.Visible = true;
-            }
-            else
-            {
-                lblVPrecioAlquilerLocal.Visible = false;
             }
             ValidarParaGuardarOGenerar();
         }
@@ -1654,10 +1622,20 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblVNumeroLocal.Text = "Seleccione un numero de local.";
                 lblVNumeroLocal.Visible = true;
+                txtPrecioAlquilerL.Text = "0";
+                txtDepositoUnitarioL.Text = "0";
             }
             else
             {
                 lblVNumeroLocal.Visible = false;
+                string idPropiedad = ((PropiedadDisponible)cmbNumeroLocal.SelectedItem).IdPropiedad;
+                decimal? precio = ObtenerPrecioAlquilerPropiedad(idPropiedad);
+
+                if (precio.HasValue)
+                {
+                    txtPrecioAlquilerL.Text = precio.Value.ToString("0");
+                    txtDepositoUnitarioL.Text = precio.Value.ToString("0");
+                }
             }
             ValidarParaGuardarOGenerar();
         }
@@ -1669,20 +1647,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 e.Handled = true; // Cancela la tecla presionada (no la escribe)
             }
-        }
-
-        private void txtDepositoUnitarioL_TextChanged(object sender, EventArgs e)
-        {
-            if (txtDepositoUnitarioL.Text == "0" || txtDepositoUnitarioL.Text.Length < 1)
-            {
-                lblVDepositoUnitarioLocal.Text = "Ingrese un numero mayor que 0.";
-                lblVDepositoUnitarioLocal.Visible = true;
-            }
-            else
-            {
-                lblVDepositoUnitarioLocal.Visible = false;
-            }
-            ValidarParaGuardarOGenerar();
         }
 
         private void dtpFechaInicialC_ValueChanged(object sender, EventArgs e)

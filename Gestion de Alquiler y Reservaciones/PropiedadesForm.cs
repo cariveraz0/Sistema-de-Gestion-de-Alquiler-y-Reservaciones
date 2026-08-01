@@ -17,11 +17,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         public PropiedadesForm()
         {
             InitializeComponent();
-            ConfigurarDataGridView(dataGridView1);
-            ConfigurarDataGridView(dataGridView2);
             CargarKPIs();
-            CargarDataGridPropiedades();
-            CargarDataGridReservaciones();
+            CargarCardsPropiedades();
+            CargarCardsReservaciones();
         }
 
         private void CargarKPIs()
@@ -113,117 +111,105 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             );
         }
 
-        public void ConfigurarDataGridView(DataGridView grid)
-        {
-            System.Drawing.Color naranjaTitulo = System.Drawing.Color.FromArgb(216, 122, 45);
-
-            grid.RowHeadersVisible = false;
-            grid.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            grid.RowTemplate.Height = 28;
-            grid.ReadOnly = true;
-            grid.AllowUserToAddRows = false;
-            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            grid.BackgroundColor = System.Drawing.Color.White;
-            grid.EnableHeadersVisualStyles = false;
-
-            grid.ColumnHeadersDefaultCellStyle.BackColor = naranjaTitulo;
-            grid.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.Color.White;
-            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Montserrat", 9, FontStyle.Bold);
-
-            grid.DefaultCellStyle.Font = new Font("Segoe UI", 8, FontStyle.Regular);
-            grid.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(225, 225, 225);
-        }
-        private void CargarDataGridPropiedades()
+        private void CargarCardsPropiedades()
         {
             string consulta = @"
-                SELECT 
-                    p.Codigo AS [Nombre Propiedad],
-                    ISNULL(p.AreaM2, 0) AS [Área (m²)],
-                    ISNULL(p.PrecioAlquiler, 0) AS [Precio],
-                    ep.Nombre AS [Estado],
-                    ISNULL(cli.NombreCompleto, 'N/A') AS [Arrendatario]
-                FROM Propiedades p
-                INNER JOIN EstadosPropiedad ep ON p.IdEstadoPropiedad = ep.IdEstadoPropiedad
-                LEFT JOIN Contratos c ON p.IdPropiedad = c.IdPropiedad 
-                     AND c.IdEstadoContrato = (SELECT IdEstadoContrato FROM EstadosContrato WHERE Nombre = 'Vigente')
-                LEFT JOIN Clientes cli ON c.IdArrendatario = cli.IdCliente
-                ORDER BY p.Codigo";
+            SELECT 
+                p.Codigo AS Nombre,
+                tp.Nombre AS Tipo,
+                p.AreaM2,
+                p.PrecioAlquiler,
+                ep.Nombre AS Estado,
+                cli.NombreCompleto AS Arrendatario
+            FROM Propiedades p
+            INNER JOIN TiposPropiedad tp ON p.IdTipoPropiedad = tp.IdTipoPropiedad
+            INNER JOIN EstadosPropiedad ep ON p.IdEstadoPropiedad = ep.IdEstadoPropiedad
+            LEFT JOIN Contratos c ON p.IdPropiedad = c.IdPropiedad 
+                 AND c.IdEstadoContrato IN (SELECT IdEstadoContrato FROM EstadosContrato WHERE Nombre IN ('Vigente','Por Vencer'))
+            LEFT JOIN Clientes cli ON c.IdArrendatario = cli.IdCliente
+            WHERE tp.Nombre IN ('Apartamento', 'Local Comercial')
+            ORDER BY p.Codigo";
 
             try
             {
-                using (SqlConnection conexion = Conexion.ObtenerConexion())
-                {
-                    using (SqlCommand comando = new SqlCommand(consulta, conexion))
-                    {
-                        SqlDataAdapter adaptador = new SqlDataAdapter(comando);
-                        DataTable dt = new DataTable();
-                        adaptador.Fill(dt);
-                        dataGridView1.DataSource = dt;
+                flpPropiedades.Controls.Clear();
 
-                        if (dataGridView1.Columns["Precio"] != null)
+                using (SqlConnection conexion = Conexion.ObtenerConexion())
+                using (SqlCommand comando = new SqlCommand(consulta, conexion))
+                {
+                    conexion.Open();
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
                         {
-                            dataGridView1.Columns["Precio"].DefaultCellStyle.Format = "C2";
-                            dataGridView1.Columns["Precio"].DefaultCellStyle.FormatProvider = new System.Globalization.CultureInfo("es-HN");
+                            ucPropiedadCard card = new ucPropiedadCard();
+                            card.CargarDatos(
+                                reader["Nombre"].ToString(),
+                                reader["Tipo"].ToString(),
+                                reader["AreaM2"] == DBNull.Value ? (decimal?)null : Convert.ToDecimal(reader["AreaM2"]),
+                                reader["PrecioAlquiler"] == DBNull.Value ? (decimal?)null : Convert.ToDecimal(reader["PrecioAlquiler"]),
+                                reader["Estado"].ToString(),
+                                reader["Arrendatario"] == DBNull.Value ? null : reader["Arrendatario"].ToString()
+                            );
+                            flpPropiedades.Controls.Add(card);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Error al cargar Propiedades: " + ex.Message
-                );
+                MessageBox.Show("Error al cargar Propiedades: " + ex.Message);
             }
         }
-        private void CargarDataGridReservaciones()
+
+        private void CargarCardsReservaciones()
         {
             string consulta = @"
-                SELECT 
-                    p.Codigo AS [Propiedad],
-                    tp.Nombre AS [Tipo],
-                    cli.NombreCompleto AS [Cliente],
-                    r.FechaEntrada AS [Entrada],
-                    r.FechaSalida AS [Salida],
-                    er.Nombre AS [Estado]
-                FROM Reservaciones r
-                INNER JOIN Propiedades p ON r.IdPropiedad = p.IdPropiedad
-                INNER JOIN Clientes cli ON r.IdCliente = cli.IdCliente
-                INNER JOIN EstadosReservacion er ON r.IdEstadoReservacion = er.IdEstadoReservacion
-                INNER JOIN TiposPropiedad tp ON p.IdTipoPropiedad = tp.IdTipoPropiedad
-                WHERE tp.Nombre IN ('Casa de Playa/Montaña', 'Auditorio', 'Sala de Juntas')
-                ORDER BY r.FechaEntrada DESC";
+            SELECT 
+                p.Codigo AS Propiedad,
+                cli.NombreCompleto AS Cliente,
+                er.Nombre AS Estado,
+                r.FechaEntrada,
+                r.FechaSalida
+            FROM Reservaciones r
+            INNER JOIN Propiedades p ON r.IdPropiedad = p.IdPropiedad
+            INNER JOIN Clientes cli ON r.IdCliente = cli.IdCliente
+            INNER JOIN EstadosReservacion er ON r.IdEstadoReservacion = er.IdEstadoReservacion
+            INNER JOIN TiposPropiedad tp ON p.IdTipoPropiedad = tp.IdTipoPropiedad
+            WHERE tp.Nombre IN ('Casa de Playa/Montaña', 'Auditorio', 'Sala de Juntas')
+              AND er.Nombre NOT IN ('Cancelada', 'Completada')
+              AND r.FechaSalida >= CAST(GETDATE() AS DATE)
+            ORDER BY r.FechaEntrada ASC";
 
             try
             {
+                flpReservaciones.Controls.Clear();
+
                 using (SqlConnection conexion = Conexion.ObtenerConexion())
+                using (SqlCommand comando = new SqlCommand(consulta, conexion))
                 {
-                    using (SqlCommand comando = new SqlCommand(consulta, conexion))
+                    conexion.Open();
+                    using (SqlDataReader reader = comando.ExecuteReader())
                     {
-                        SqlDataAdapter adaptador = new SqlDataAdapter(comando);
-                        DataTable dt = new DataTable();
-                        adaptador.Fill(dt);
-                        dataGridView2.DataSource = dt;
-
-                        if (dataGridView2.Columns["Entrada"] != null)
-                            dataGridView2.Columns["Entrada"].DefaultCellStyle.Format = "dd/MM/yyyy hh:mm tt";
-
-                        if (dataGridView2.Columns["Salida"] != null)
-                            dataGridView2.Columns["Salida"].DefaultCellStyle.Format = "dd/MM/yyyy hh:mm tt";
+                        while (reader.Read())
+                        {
+                            ucReservacionCard card = new ucReservacionCard();
+                            card.CargarDatos(
+                                reader["Propiedad"].ToString(),
+                                reader["Cliente"].ToString(),
+                                reader["Estado"].ToString(),
+                                Convert.ToDateTime(reader["FechaEntrada"]),
+                                Convert.ToDateTime(reader["FechaSalida"])
+                            );
+                            flpReservaciones.Controls.Add(card);
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Error al cargar Reservaciones: " + ex.Message
-                );
+                MessageBox.Show("Error al cargar Reservaciones: " + ex.Message);
             }
-        }
-
-        private void PropiedadesForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

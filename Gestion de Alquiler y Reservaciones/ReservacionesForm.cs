@@ -14,11 +14,17 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private static readonly Color ColorInactivo = ColorTranslator.FromHtml("#E0DBD2");
         private static readonly Color TextoInactivo = ColorTranslator.FromHtml("#666666");
         private DataTable tablalocal;
-        private Dictionary<string, string> PropiedadesReservacion = new Dictionary<string, string>();
+        private Dictionary<string, PropiedadInfo> PropiedadesReservacion = new Dictionary<string, PropiedadInfo>();
         private Dictionary<string, int> ClientesDic = new Dictionary<string, int>();  
         private int IdReservacionSeleccionada = -1;
         private bool LimpiandoCamposActu = false;
 
+        public class PropiedadInfo
+        {
+            public string IdPropiedad { get; set; }
+            public string TipoPropiedad { get; set; }
+            public decimal PrecioAlquiler { get; set; }
+        }
 
         public ReservacionesForm()
         {
@@ -216,6 +222,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             dtpEntrada.ResetText();
             dtpSalida.ResetText();
             txtMonto.Clear();
+            txtPersonas.Clear();
             txtObservaciones.Clear();
 
             validarAntesDeGuardar();
@@ -265,15 +272,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             validarAntesDeActualizar();
         }
 
-        private void txtMonto_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
-            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
-            {
-                e.Handled = true; // Cancela la tecla presionada (no la escribe)
-            }
-        }
-
         private void ObtenerPropiedades()
         {
             try
@@ -283,11 +281,11 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 PropiedadesReservacion.Clear();
 
                 string query = @"
-            SELECT P.IdPropiedad, P.Codigo
-            FROM Propiedades P
-            INNER JOIN TiposPropiedad T ON P.IdTipoPropiedad = T.IdTipoPropiedad
-            WHERE T.Nombre IN ('Auditorio', 'Sala de Juntas', 'Casa de Playa/Montaña')
-            ORDER BY P.Codigo";
+                    SELECT P.IdPropiedad, P.Codigo, T.Nombre AS TipoPropiedad, ISNULL(P.PrecioAlquiler, 0) AS PrecioAlquiler
+                    FROM Propiedades P
+                    INNER JOIN TiposPropiedad T ON P.IdTipoPropiedad = T.IdTipoPropiedad
+                    WHERE T.Nombre IN ('Auditorio', 'Sala de Juntas', 'Casa de Playa/Montaña')
+                    ORDER BY P.Codigo";
 
                 using (SqlConnection conectar = Conexion.ObtenerConexion())
                 {
@@ -298,9 +296,14 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                         while (reader.Read())
                         {
                             string codigo = reader["Codigo"].ToString();
-                            string idPropiedad = reader["IdPropiedad"].ToString();
                             cboPropiedad.Items.Add(codigo);
-                            PropiedadesReservacion[codigo] = idPropiedad;
+
+                            PropiedadesReservacion[codigo] = new PropiedadInfo
+                            {
+                                IdPropiedad = reader["IdPropiedad"].ToString(),
+                                TipoPropiedad = reader["TipoPropiedad"].ToString(),
+                                PrecioAlquiler = Convert.ToDecimal(reader["PrecioAlquiler"])
+                            };
                         }
                     }
                 }
@@ -318,12 +321,13 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblVPropiedad.Text = "Debe seleccionar una opcion.";
                 lblVPropiedad.Visible = true;
+                txtMonto.Clear();
             }
             else
             {
                 lblVPropiedad.Visible = false;
             }
-            ValidarDisponibilidad();
+            ValidarFechasYMonto();
         }
 
         private void CargarClientes()
@@ -379,7 +383,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 lblVCliente.Visible == true ||
                 lblVFechaEntrada.Visible == true ||
                 lblVFechaSalida.Visible == true ||
-                lblVMonto.Visible == true ||
                 lblVDisponibilidad.Visible == true)
             {
                 btnGuardar.Enabled = false;
@@ -392,53 +395,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void dtpEntrada_ValueChanged(object sender, EventArgs e)
         {
-            if (dtpEntrada.Value.Date < DateTime.Now.Date)
-            {
-                lblVFechaEntrada.Text = "La fecha de entrada no debe ser menor a la fecha actual.";
-                lblVFechaEntrada.Visible = true;
-            }
-            else
-            {
-                lblVFechaEntrada.Visible = false;
-            }
-            ValidarDisponibilidad();
+            ValidarFechasYMonto();
         }
 
         private void dtpSalida_ValueChanged(object sender, EventArgs e)
         {
-            if (dtpSalida.Value.Date < dtpEntrada.Value.Date)
-            {
-                lblVFechaSalida.Text = "La fecha de salida no debe ser menor a la fecha de entrada.";
-                lblVFechaSalida.Visible = true;
-            }
-            else
-            {
-                lblVFechaSalida.Visible = false;
-            }
-            ValidarDisponibilidad();
-        }
-
-        private void txtMonto_TextChanged(object sender, EventArgs e)
-        {
-            if (txtMonto.Text.Trim() == string.Empty)
-            {
-                txtMonto.Text = "0";
-                txtMonto.SelectionStart = txtMonto.Text.Length;
-            }
-            else
-            {
-                if (decimal.Parse(txtMonto.Text) <= 0)
-                {
-                    lblVMonto.Text = "El valor debe ser un número mayor que 0.";
-                    lblVMonto.Visible = true;
-                    lblVMonto.Enabled = true;
-                }
-                else
-                {
-                    lblVMonto.Visible = false;
-                }
-            }
-            validarAntesDeGuardar();
+            ValidarFechasYMonto();
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -481,7 +443,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     return false;
                 }
 
-                string idPropiedad = PropiedadesReservacion[cboPropiedad.SelectedItem.ToString()];
+                string idPropiedad = PropiedadesReservacion[cboPropiedad.SelectedItem.ToString()].IdPropiedad;
                 int idCliente = ClientesDic[txtCliente.Text];
                 string propiedadLimpia = idPropiedad.Replace("-", "");
                 string fechaEntradaStr = dtpEntrada.Value.ToString("yyMMdd");
@@ -504,7 +466,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                      NumeroPersonas, MontoTotal, IdEstadoReservacion, Observaciones)
                 VALUES
                     (@numero, @idPropiedad, @idCliente, @fechaEntrada, @fechaSalida,
-                     NULL, @monto,
+                     @personas, @monto,
                      (SELECT IdEstadoReservacion FROM EstadosReservacion WHERE Nombre = 'Pendiente'),
                      @observaciones)";
 
@@ -515,6 +477,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     cmdInsert.Parameters.AddWithValue("@fechaEntrada", dtpEntrada.Value);
                     cmdInsert.Parameters.AddWithValue("@fechaSalida", dtpSalida.Value);
                     cmdInsert.Parameters.AddWithValue("@monto", decimal.Parse(txtMonto.Text));
+                    cmdInsert.Parameters.AddWithValue("@personas", decimal.Parse(txtPersonas.Text));
                     cmdInsert.Parameters.AddWithValue("@observaciones",
                         string.IsNullOrWhiteSpace(txtObservaciones.Text) ? (object)DBNull.Value : txtObservaciones.Text.Trim());
 
@@ -591,7 +554,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             try
             {
                 string query = @"
-            SELECT R.IdReservacion, P.Codigo, C.NombreCompleto, R.FechaEntrada, R.FechaSalida,
+            SELECT R.IdReservacion, P.Codigo, C.NombreCompleto, R.FechaEntrada, R.FechaSalida, R.NumeroPersonas,
                    R.MontoTotal, R.Observaciones, E.Nombre
             FROM Reservaciones R
             INNER JOIN Propiedades P ON R.IdPropiedad = P.IdPropiedad
@@ -614,6 +577,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                             txtFechaEntrada.Text = Convert.ToDateTime(reader["FechaEntrada"]).ToString("dd/MM/yyyy HH:mm");
                             txtFechaSalida.Text = Convert.ToDateTime(reader["FechaSalida"]).ToString("dd/MM/yyyy HH:mm");
                             txtMontoPagarActu.Text = reader["MontoTotal"] == DBNull.Value ? "0" : reader["MontoTotal"].ToString();
+                            txtPersonasActu.Text = reader["NumeroPersonas"] == DBNull.Value ? "0" : reader["NumeroPersonas"].ToString();
                             txtObservacionesActu.Text = reader["Observaciones"] == DBNull.Value ? string.Empty : reader["Observaciones"].ToString();
                             cboEstado.Text = reader["Nombre"].ToString();
                         }
@@ -661,6 +625,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             txtFechaEntrada.Clear();
             txtFechaSalida.Clear();
             txtMontoPagarActu.Clear();
+            txtPersonasActu.Clear();
             txtObservacionesActu.Clear();
             cboEstado.SelectedIndex = 0;
             cboReservacion.SelectedIndex = 0;
@@ -734,16 +699,16 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
             try
             {
-                string idPropiedad = PropiedadesReservacion[cboPropiedad.SelectedItem.ToString()];
+                string idPropiedad = PropiedadesReservacion[cboPropiedad.SelectedItem.ToString()].IdPropiedad;
 
                 string query = @"
-            SELECT COUNT(*) 
-            FROM Reservaciones R
-            INNER JOIN EstadosReservacion E ON R.IdEstadoReservacion = E.IdEstadoReservacion
-            WHERE R.IdPropiedad = @idPropiedad
-              AND E.Nombre <> 'Cancelada'
-              AND R.FechaEntrada < @fechaSalida
-              AND R.FechaSalida > @fechaEntrada";
+                SELECT COUNT(*) 
+                FROM Reservaciones R
+                INNER JOIN EstadosReservacion E ON R.IdEstadoReservacion = E.IdEstadoReservacion
+                WHERE R.IdPropiedad = @idPropiedad
+                  AND E.Nombre <> 'Cancelada'
+                  AND R.FechaEntrada < @fechaSalida
+                  AND R.FechaSalida > @fechaEntrada";
 
                 using (SqlConnection conectar = Conexion.ObtenerConexion())
                 {
@@ -762,23 +727,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 return false;
             }
         }
-        private void ValidarDisponibilidad()
-        {
-            if (cboPropiedad.SelectedIndex <= 0 || dtpSalida.Value.Date <= dtpEntrada.Value.Date)
-            {
-                lblVDisponibilidad.Visible = false;
-            }
-            else if (!VerificarDisponibilidad())
-            {
-                lblVDisponibilidad.Text = "La propiedad ya está reservada en esas fechas.";
-                lblVDisponibilidad.Visible = true;
-            }
-            else
-            {
-                lblVDisponibilidad.Visible = false;
-            }
-            validarAntesDeGuardar();
-        }
 
         private void validarAntesDeActualizar()
         {
@@ -789,6 +737,103 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             else
             {
                 btnActualizar.Enabled = true;
+            }
+        }
+
+        private void ValidarFechasYMonto()
+        {
+            bool hayError = false;
+
+            if (dtpEntrada.Value < DateTime.Now)
+            {
+                lblVFechaEntrada.Text = "La entrada no puede ser en el pasado.";
+                lblVFechaEntrada.Visible = true;
+                hayError = true;
+            }
+            else
+            {
+                lblVFechaEntrada.Visible = false;
+            }
+
+            if (dtpSalida.Value <= dtpEntrada.Value)
+            {
+                lblVFechaSalida.Text = "La salida debe ser posterior a la entrada.";
+                lblVFechaSalida.Visible = true;
+                hayError = true;
+            }
+            else
+            {
+                lblVFechaSalida.Visible = false;
+            }
+
+            if (cboPropiedad.SelectedIndex > 0 && !hayError)
+            {
+                string codigo = cboPropiedad.SelectedItem.ToString();
+                var info = PropiedadesReservacion[codigo];
+                TimeSpan diferencia = dtpSalida.Value - dtpEntrada.Value;
+                decimal montoFinal = 0;
+
+                if (info.TipoPropiedad == "Auditorio" || info.TipoPropiedad == "Sala de Juntas")
+                {
+                    if (dtpEntrada.Value.Date != dtpSalida.Value.Date)
+                    {
+                        lblVFechaSalida.Text = "Los eventos deben iniciar y terminar el mismo día.";
+                        lblVFechaSalida.Visible = true;
+                        hayError = true;
+                    }
+                    else
+                    {
+                        decimal horas = (decimal)Math.Ceiling(diferencia.TotalHours);
+                        if (horas == 0) horas = 1;
+                        montoFinal = horas * info.PrecioAlquiler;
+                    }
+                }
+                else if (info.TipoPropiedad == "Casa de Playa/Montaña")
+                {
+                    int dias = (int)Math.Ceiling(diferencia.TotalDays);
+                    if (dias == 0) dias = 1;
+                    montoFinal = dias * info.PrecioAlquiler;
+                }
+
+                if (!hayError)
+                {
+                    txtMonto.Text = montoFinal.ToString("F2");
+                }
+                else
+                {
+                    txtMonto.Clear();
+                }
+            }
+            else
+            {
+                txtMonto.Clear();
+            }
+
+            if (!hayError && cboPropiedad.SelectedIndex > 0)
+            {
+                if (!VerificarDisponibilidad())
+                {
+                    lblVDisponibilidad.Text = "La propiedad ya está reservada en ese horario.";
+                    lblVDisponibilidad.Visible = true;
+                }
+                else
+                {
+                    lblVDisponibilidad.Visible = false;
+                }
+            }
+            else
+            {
+                lblVDisponibilidad.Visible = false;
+            }
+
+            validarAntesDeGuardar();
+        }
+
+        private void txtPersonas_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
             }
         }
     }
