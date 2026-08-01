@@ -27,6 +27,29 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private int? idCuotaSeleccionada = null;
         private int? idReservacionSeleccionada = null;
 
+        private void ActualizarCuotasVencidas()
+        {
+            try
+            {
+                using (SqlConnection conexion = Conexion.ObtenerConexion())
+                using (SqlCommand cmd = new SqlCommand("sp_ActualizarCuotasVencidas", conexion))
+                {
+                    conexion.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "No se pudo actualizar el estado de las cuotas vencidas: " + ex.Message,
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+            }
+        }
+
         private class ResultadoCuota
         {
             public int IdCuota { get; set; }
@@ -217,7 +240,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             INNER JOIN Propiedades P ON C.IdPropiedad = P.IdPropiedad
             INNER JOIN EstadosPago EP ON CC.IdEstadoPago = EP.IdEstadoPago
             LEFT JOIN PagosRealizados PR ON CC.IdCuota = PR.IdCuota
-            WHERE C.IdEstadoContrato = (SELECT IdEstadoContrato FROM EstadosContrato WHERE Nombre = 'Vigente')
+            WHERE C.IdEstadoContrato IN (
+                SELECT IdEstadoContrato FROM EstadosContrato WHERE Nombre IN ('Vigente', 'Por Vencer')
+            )
         ),
         CuotasSecuenciales AS (
             SELECT 
@@ -288,39 +313,43 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     conexion.Open();
 
                     string query = @"
-                WITH PagosRealizados AS (
-                    SELECT IdReservacion, ISNULL(SUM(Monto), 0) AS TotalPagado
-                    FROM Pagos
-                    WHERE IdReservacion IS NOT NULL
-                    GROUP BY IdReservacion
-                ),
-                SaldosReservaciones AS (
-                    SELECT 
-                        R.IdReservacion,
-                        R.NumeroReservacion,
-                        CLI.NombreCompleto AS Cliente,
-                        CLI.Identidad,
-                        P.Codigo AS Propiedad,
-                        R.MontoTotal,
-                        ISNULL(PR.TotalPagado, 0) AS TotalPagado,
-                        (R.MontoTotal - ISNULL(PR.TotalPagado, 0)) AS Saldo,
-                        ER.Nombre AS EstadoReservacion
-                    FROM Reservaciones R
-                    INNER JOIN Clientes CLI ON R.IdCliente = CLI.IdCliente
-                    INNER JOIN Propiedades P ON R.IdPropiedad = P.IdPropiedad
-                    INNER JOIN EstadosReservacion ER ON R.IdEstadoReservacion = ER.IdEstadoReservacion
-                    LEFT JOIN PagosRealizados PR ON R.IdReservacion = PR.IdReservacion
-                    WHERE ER.Nombre NOT IN ('Cancelada', 'Completada')
-                )
-                SELECT 
-                    IdReservacion, 
-                    Cliente, 
-                    Propiedad, 
-                    MontoTotal, 
-                    Saldo, 
-                    EstadoReservacion
-                FROM SaldosReservaciones
-                WHERE Saldo > 0;";
+                        WITH PagosRealizados AS (
+                            SELECT IdReservacion, ISNULL(SUM(Monto), 0) AS TotalPagado
+                            FROM Pagos
+                            WHERE IdReservacion IS NOT NULL
+                            GROUP BY IdReservacion
+                        ),
+                        SaldosReservaciones AS (
+                            SELECT 
+                                R.IdReservacion,
+                                R.NumeroReservacion,
+                                CLI.NombreCompleto AS Cliente,
+                                CLI.Identidad,
+                                P.Codigo AS Propiedad,
+                                R.FechaEntrada,
+                                R.FechaSalida,
+                                R.MontoTotal,
+                                ISNULL(PR.TotalPagado, 0) AS TotalPagado,
+                                (R.MontoTotal - ISNULL(PR.TotalPagado, 0)) AS Saldo,
+                                ER.Nombre AS EstadoReservacion
+                            FROM Reservaciones R
+                            INNER JOIN Clientes CLI ON R.IdCliente = CLI.IdCliente
+                            INNER JOIN Propiedades P ON R.IdPropiedad = P.IdPropiedad
+                            INNER JOIN EstadosReservacion ER ON R.IdEstadoReservacion = ER.IdEstadoReservacion
+                            LEFT JOIN PagosRealizados PR ON R.IdReservacion = PR.IdReservacion
+                            WHERE ER.Nombre NOT IN ('Cancelada', 'Completada')
+                        )
+                        SELECT 
+                            IdReservacion, 
+                            Cliente, 
+                            Propiedad, 
+                            FechaEntrada,
+                            FechaSalida,
+                            MontoTotal, 
+                            Saldo, 
+                            EstadoReservacion
+                        FROM SaldosReservaciones
+                        WHERE Saldo > 0;";
 
                     using (SqlCommand cmd = new SqlCommand(query, conexion))
                     {
@@ -336,6 +365,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                                     IdReservacion = Convert.ToInt32(reader["IdReservacion"]),
                                     Cliente = reader["Cliente"].ToString(),
                                     Propiedad = reader["Propiedad"].ToString(),
+                                    Entrada = Convert.ToDateTime(reader["FechaEntrada"]),
+                                    Salida = Convert.ToDateTime(reader["FechaSalida"]),
                                     MontoTotal = Convert.ToDecimal(reader["MontoTotal"]),
                                     Saldo = Convert.ToDecimal(reader["Saldo"]),
                                     Estado = reader["EstadoReservacion"].ToString()
@@ -793,7 +824,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void PagosForm_Load(object sender, EventArgs e)
         {
-
+            ActualizarCuotasVencidas();
         }
     }
 }

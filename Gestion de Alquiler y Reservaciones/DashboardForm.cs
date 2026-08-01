@@ -185,7 +185,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         }
         private void CargarActividadReciente()
         {
-            // Limpiamos el FlowLayoutPanel de actividades
             flpActividad.Controls.Clear();
             flpActividad.AutoScroll = true;
             flpActividad.WrapContents = false;

@@ -38,9 +38,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             CargarDatosDesdeBD();
             ActivarTabNuevo();
 
-            cmbSeleccionCasa.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbSeleccionSala.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbCantidadPersonasS.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbNumeroApartamento.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbNumeroLocal.DropDownStyle = ComboBoxStyle.DropDownList;
 
@@ -49,20 +46,10 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void ContratosForm_Load(object sender, EventArgs e)
         {
-            if (cmbSeleccionSala != null)
-            {
-                cmbSeleccionSala.SelectedIndexChanged += (s, args) =>
-                {
-                    if (cmbSeleccionSala.Text == "Auditorio Los Zorzales")
-                        cmbCantidadPersonasS.Text = "200";
-                    else
-                        cmbCantidadPersonasS.Text = "100";
-                };
-                cmbSeleccionSala.SelectedIndex = 0;
-            }
-
             CargarArrendatarios();
             ValidarParaGuardarOGenerar();
+            CargarReservacionesCasa();
+            CargarReservacionesSalaAuditorio();
         }
 
         private void btnTabNuevo_Click(object sender, EventArgs e)    => ActivarTabNuevo();
@@ -534,18 +521,15 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private Dictionary<string, string> ObtenerDatosSala()
         {
+            double totalHoras = 0;
+            double.TryParse(txtNumeroHorasS.Text, out totalHoras);
             decimal precioHora = 0;
             decimal.TryParse(txtPrecioHoraS.Text, out precioHora);
-
-            TimeSpan diferencia = dtpHoraFinalS.Value - dtpHoraInicioS.Value;
-            double totalHoras = diferencia.TotalHours > 0 ? diferencia.TotalHours : 0;
-            txtNumeroHorasS.Text = totalHoras.ToString("0.##");
-
             decimal precioTotal = (decimal)totalHoras * precioHora;
 
             return new Dictionary<string, string>
             {
-                { "${seleccion}", cmbSeleccionSala.Text.ToUpper() },
+                { "${seleccion}", txtSeleccionS.Text.ToUpper() },
                 { "${nombre_arrendatario}", txtNombreArrendatarioS.Text.ToUpper() },
                 { "${numero_identidad}", txtIdentidadS.Text },
                 { "${numero_horas}", totalHoras.ToString("0.##") },
@@ -553,7 +537,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 { "${hora_inicio}", dtpHoraInicioS.Value.ToString("hh:mm tt") },
                 { "${hora_final}", dtpHoraFinalS.Value.ToString("hh:mm tt") },
                 { "${precio_hora}", precioHora.ToString("N2") },
-                { "${cantidad_personas}", cmbCantidadPersonasS.Text },
+                { "${cantidad_personas}", txtCantidadPersonasS.Text },
                 { "${dia_creacion}", DateTime.Now.Day.ToString().ToUpper()},
                 { "${mes_creacion}", DateTime.Now.ToString("MMMM") },
                 { "${anio_creacion}", DateTime.Now.Year.ToString() },
@@ -563,35 +547,27 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private Dictionary<string, string> ObtenerDatosCasa()
         {
-            decimal tarifaNoche = 0;
-            decimal.TryParse(txtTarifaC.Text, out tarifaNoche);
-
-            decimal deposito = 0;
-            decimal.TryParse(txtDepositoC.Text, out deposito);
-
-            TimeSpan diferenciaDias = dtpFechaFinalC.Value.Date - dtpFechaInicialC.Value.Date;
-            int totalNoches = diferenciaDias.Days > 0 ? diferenciaDias.Days : 1;
-            txtDiasC.Text = totalNoches.ToString();
-
-            decimal totalTarifa = tarifaNoche * totalNoches;
+            decimal tarifaNoche = Convert.ToDecimal(txtTarifaC.Text);
+            decimal deposito = Convert.ToDecimal(txtDepositoC.Text);
+            decimal totalTarifa = tarifaNoche * Convert.ToInt32(txtDiasC.Text);
 
             return new Dictionary<string, string>
-                {
-                    { "${nombre_huesped}", txtNombreHuespedC.Text.ToUpper() },
-                    { "${identidad_huesped}", txtIdentidadHuespedC.Text },
-                    { "${seleccion}", cmbSeleccionCasa.Text.ToUpper() },
-                    { "${fecha_inicial}", dtpFechaInicialC.Value.ToString("dd/MM/yyyy") },
-                    { "${fecha_final}", dtpFechaFinalC.Value.ToString("dd/MM/yyyy") },
-                    { "${hora_inicial}", dtpHoraInicialC.Value.ToString("hh:mm tt") },
-                    { "${tarifa}", tarifaNoche.ToString("N2") },
-                    { "${dias}", totalNoches.ToString() },
-                    { "${total_tarifa}", totalTarifa.ToString("N2") },
-                    { "${total_personas}", txtTotalPersonasC.Text },
-                    { "${deposito}", deposito.ToString("N2") },
-                    { "${dia_actual}", DateTime.Now.Day.ToString() },
-                    { "${mes_actual}", DateTime.Now.ToString("MMMM") },
-                    { "${anio_actual}", DateTime.Now.Year.ToString() }
-                };
+            {
+                { "${nombre_huesped}", txtNombreHuespedC.Text.ToUpper() },
+                { "${identidad_huesped}", txtIdentidadHuespedC.Text },
+                { "${seleccion}", txtSeleccionCasa.Text.ToUpper() },
+                { "${fecha_inicial}", dtpFechaInicialC.Value.ToString("dd/MM/yyyy") },
+                { "${fecha_final}", dtpFechaFinalC.Value.ToString("dd/MM/yyyy") },
+                { "${hora_inicial}", dtpHoraInicialC.Value.ToString("hh:mm tt") },
+                { "${tarifa}", tarifaNoche.ToString("N2") },
+                { "${dias}", txtDiasC.Text },
+                { "${total_tarifa}", totalTarifa.ToString("N2") },
+                { "${total_personas}", txtTotalPersonasC.Text },
+                { "${deposito}", deposito.ToString("N2") },
+                { "${dia_actual}", DateTime.Now.Day.ToString() },
+                { "${mes_actual}", DateTime.Now.ToString("MMMM") },
+                { "${anio_actual}", DateTime.Now.Year.ToString() }
+            };
         }
 
         private void dgvHistorial_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -695,14 +671,13 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             combo.Items.Clear();
             combo.Items.Add(new PropiedadDisponible { IdPropiedad = "", Codigo = "", Numero = "--Seleccionar--" });
 
-            // Ajusta "EstadoActual" al nombre real de columna en tu vista si es distinto
             string query = @"
-        SELECT p.IdPropiedad, p.Codigo
-        FROM Propiedades p
-        INNER JOIN TiposPropiedad tp ON p.IdTipoPropiedad = tp.IdTipoPropiedad
-        INNER JOIN vw_EstadoActualPropiedad v ON v.IdPropiedad = p.IdPropiedad
-        WHERE tp.Nombre = @tipo AND v.EstadoActual = 'Disponible'
-        ORDER BY p.Codigo";
+            SELECT p.IdPropiedad, p.Codigo
+            FROM Propiedades p
+            INNER JOIN TiposPropiedad tp ON p.IdTipoPropiedad = tp.IdTipoPropiedad
+            INNER JOIN vw_EstadoActualPropiedad v ON v.IdPropiedad = p.IdPropiedad
+            WHERE tp.Nombre = @tipo AND v.EstadoActual = 'Disponible'
+            ORDER BY p.Codigo";
 
             using (SqlConnection con = Conexion.ObtenerConexion())
             {
@@ -778,19 +753,15 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             ValidarParaGuardarOGenerar();
         }
 
-        //Validaciones para habilitar o deshabilitar los botones de guardar o generar
         private void ValidarParaGuardarOGenerar()
         {
             if(_tipoActivo == null)
             {
-                //Aqui verifivo que haya seleccionado algo, de lo contrario se inhabilitan los botones
                 btnGuardar.Enabled = false;
                 btnGenerar.Enabled = false;
             }
             else
             {
-                //Aqui verifico el tipo de contrato que está haciendo
-                //Dependiendo del tipo de contrato, solo sus propios camposs tomará en cuenta
                 switch (_tipoActivo.Text)
                 {
                     case "Apartamento":
@@ -829,14 +800,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                         break;
 
                     case "Casa Montaña/Playa":
-                        if (lblVNombreHuespedCasa.Visible == true || 
-                        lblVSeleccionCasa.Visible == true ||
-                        lblVFechaInicialCasa.Visible == true ||
-                        lblVFechaFinalCasa.Visible == true ||
-                        lblVHoraInicialCasa.Visible == true ||
-                        lblVTarifaCasa.Visible == true ||
-                        lblVTotalPersonasCasa.Visible == true ||
-                        lblVDepositoCasa.Visible == true)
+                        if (lblVReservaCasa.Visible == true)
                         {
                             btnGuardar.Enabled = false;
                             btnGenerar.Enabled = false;
@@ -848,12 +812,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                         break;
 
                     case "Sala de Juntas/Auditorio":
-                        if(lblVSeleccionSala.Visible == true ||
-                        lblVNombreArrendatarioSala.Visible == true ||
-                        lblVFechaArrendamientoSala.Visible == true ||
-                        lblVHoraInicioSala.Visible == true ||
-                        lblVHoraFinalSala.Visible == true ||
-                        lblVPrecioHoraSala.Visible == true)
+                        if (lblVReservaS.Visible == true)
                         {
                             btnGuardar.Enabled = false;
                             btnGenerar.Enabled = false;
@@ -908,16 +867,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 lblVFechaA.Visible = false;
             }
             ValidarParaGuardarOGenerar();
-        }
-
-        private void txtPrecioAlquilerA_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtDepositoUnitarioA_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void cmbNumeroDepartamento_SelectedIndexChanged(object sender, EventArgs e)
@@ -1027,43 +976,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             ValidarParaGuardarOGenerar();
         }
 
-        private void txtNombreArrendatarioS_TextChanged(object sender, EventArgs e)
-        {
-            txtIdentidadS.Clear();
-            if (sugerencias.Contains(txtNombreArrendatarioS.Text))
-                txtIdentidadS.Text = devolverIdentidadArrendatario(txtNombreArrendatarioS.Text);
-
-            if (txtNombreArrendatarioS.Text.Length < 7 || txtIdentidadS.Text.Length < 10)
-            {
-                lblVNombreArrendatarioSala.Text = "Seleccione un arrendatario.";
-                lblVNombreArrendatarioSala.Visible = true;
-            }
-            else
-            {
-                lblVNombreArrendatarioSala.Visible = false;
-            }
-
-            ValidarParaGuardarOGenerar();
-        }
-
-        private void txtNombreHuespedC_TextChanged(object sender, EventArgs e)
-        {
-            txtIdentidadHuespedC.Clear();
-            if (sugerencias.Contains(txtNombreHuespedC.Text))
-                txtIdentidadHuespedC.Text = devolverIdentidadArrendatario(txtNombreHuespedC.Text);
-
-            if (txtNombreHuespedC.Text.Length < 7 || txtIdentidadHuespedC.Text.Length < 10)
-            {
-                lblVNombreHuespedCasa.Text = "Seleccione un huesped.";
-                lblVNombreHuespedCasa.Visible = true;
-            }
-            else
-            {
-                lblVNombreHuespedCasa.Visible = false;
-            }
-
-            ValidarParaGuardarOGenerar();
-        }
         private int ObtenerIdCliente(string identidad)
         {
             int idCliente = 0;
@@ -1261,85 +1173,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             MessageBox.Show("Contrato de Local guardado exitosamente. Ahora puede Generar el documento.", "Éxito");
         }
 
-        private void GuardarSala()
-        {
-            if (string.IsNullOrWhiteSpace(txtIdentidadS.Text) || cmbSeleccionSala.SelectedIndex < 0 || string.IsNullOrWhiteSpace(txtPrecioHoraS.Text))
-            {
-                MessageBox.Show("Todos los campos para la sala/auditorio son obligatorios.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            int idCliente = ObtenerIdCliente(txtIdentidadS.Text);
-            string idPropiedad = ObtenerIdPropiedad(cmbSeleccionSala.Text);
-            string numReserva = "RES-" + DateTime.Now.ToString("yyyyMMddHHmm");
-
-            if (idCliente == 0 || string.IsNullOrEmpty(idPropiedad)) { MessageBox.Show("Error al guardar en base de datos."); return; }
-
-            TimeSpan diferencia = dtpHoraFinalS.Value - dtpHoraInicioS.Value;
-            decimal precioHora = Convert.ToDecimal(txtPrecioHoraS.Text);
-            decimal total = (decimal)diferencia.TotalHours * precioHora;
-
-            string query = @"INSERT INTO Reservaciones (NumeroReservacion, IdPropiedad, IdCliente, FechaEntrada, FechaSalida, NumeroPersonas, MontoTotal, IdEstadoReservacion) 
-                     VALUES (@num, @idProp, @idCli, @entrada, @salida, @personas, @monto, 2)"; // 2 = Confirmada
-
-            using (SqlConnection con = Conexion.ObtenerConexion())
-            {
-                con.Open();
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    cmd.Parameters.AddWithValue("@num", numReserva);
-                    cmd.Parameters.AddWithValue("@idProp", idPropiedad);
-                    cmd.Parameters.AddWithValue("@idCli", idCliente);
-                    cmd.Parameters.AddWithValue("@entrada", dtpFechaArrendamientoS.Value.Date + dtpHoraInicioS.Value.TimeOfDay);
-                    cmd.Parameters.AddWithValue("@salida", dtpFechaArrendamientoS.Value.Date + dtpHoraFinalS.Value.TimeOfDay);
-                    cmd.Parameters.AddWithValue("@personas", Convert.ToInt16(cmbCantidadPersonasS.Text));
-                    cmd.Parameters.AddWithValue("@monto", total);
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            MessageBox.Show("Reservación de Sala guardada exitosamente. Ahora puede Generar el documento.", "Éxito");
-        }
-
-        private void GuardarCasa()
-        {
-            if (string.IsNullOrWhiteSpace(txtIdentidadHuespedC.Text) || cmbSeleccionCasa.SelectedIndex < 0 ||
-                string.IsNullOrWhiteSpace(txtTarifaC.Text) || string.IsNullOrWhiteSpace(txtTotalPersonasC.Text))
-            {
-                MessageBox.Show("Todos los campos para la casa vacacional son obligatorios.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            int idCliente = ObtenerIdCliente(txtIdentidadHuespedC.Text);
-            string idPropiedad = ObtenerIdPropiedad(cmbSeleccionCasa.Text);
-            string numReserva = "CAS-" + DateTime.Now.ToString("yyyyMMddHHmm");
-
-            if (idCliente == 0 || string.IsNullOrEmpty(idPropiedad)) { MessageBox.Show("Cliente o Propiedad no encontrados en BD."); return; }
-
-            TimeSpan diferenciaDias = dtpFechaFinalC.Value.Date - dtpFechaInicialC.Value.Date;
-            int totalNoches = diferenciaDias.Days > 0 ? diferenciaDias.Days : 1;
-            decimal total = Convert.ToDecimal(txtTarifaC.Text) * totalNoches;
-
-            string query = @"INSERT INTO Reservaciones (NumeroReservacion, IdPropiedad, IdCliente, FechaEntrada, FechaSalida, NumeroPersonas, MontoTotal, IdEstadoReservacion, Observaciones) 
-                     VALUES (@num, @idProp, @idCli, @entrada, @salida, @personas, @monto, 2, 'Depósito: ' + @deposito)";
-
-            using (SqlConnection con = Conexion.ObtenerConexion())
-            {
-                con.Open();
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    cmd.Parameters.AddWithValue("@num", numReserva);
-                    cmd.Parameters.AddWithValue("@idProp", idPropiedad);
-                    cmd.Parameters.AddWithValue("@idCli", idCliente);
-                    cmd.Parameters.AddWithValue("@entrada", dtpFechaInicialC.Value.Date + dtpHoraInicialC.Value.TimeOfDay);
-                    cmd.Parameters.AddWithValue("@salida", dtpFechaFinalC.Value.Date + TimeSpan.FromHours(13)); // Check-out 1 PM
-                    cmd.Parameters.AddWithValue("@personas", Convert.ToInt16(txtTotalPersonasC.Text));
-                    cmd.Parameters.AddWithValue("@monto", total);
-                    cmd.Parameters.AddWithValue("@deposito", txtDepositoC.Text);
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            MessageBox.Show("Reservación de Casa guardada exitosamente. Ahora puede Generar el documento.", "Éxito");
-        }
         private void CargarContratosParaEdicion()
         {
             try
@@ -1518,45 +1351,19 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
         }
 
-        private void lblVDepositoUnitario_TextChanged(object sender, EventArgs e)
-        {
-            ValidarParaGuardarOGenerar();
-        }
-
         private void txtRTNEmpresaL_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
-                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+                e.Handled = true;
             }
         }
 
         private void txtIdentidadArrendatarioL_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
-                e.Handled = true; // Cancela la tecla presionada (no la escribe)
-            }
-        }
-
-        private void txtPrecioAlquilerL_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-        }
-
-        private void txtDepositoUnitarioL_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-        }
-
-        private void txtValoresAgregadosL_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
-            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
-            {
-                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+                e.Handled = true;
             }
         }
 
@@ -1624,6 +1431,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 lblVNumeroLocal.Visible = true;
                 txtPrecioAlquilerL.Text = "0";
                 txtDepositoUnitarioL.Text = "0";
+                txtValoresAgregadosL.Text = "3500";
             }
             else
             {
@@ -1649,222 +1457,36 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
         }
 
-        private void dtpFechaInicialC_ValueChanged(object sender, EventArgs e)
-        {
-            if(dtpFechaInicialC.Value.Date < DateTime.Now.Date)
-            {
-                lblVFechaInicialCasa.Text = "Seleccione una fecha válida.";
-                lblVFechaInicialCasa.Visible = true;
-            }
-            else
-            {
-                lblVFechaInicialCasa.Visible = false;
-            }
-
-            ValidarParaGuardarOGenerar();
-        }
-
-        private void dtpFechaFinalC_ValueChanged(object sender, EventArgs e)
-        {
-            if (dtpFechaFinalC.Value.Date < dtpFechaInicialC.Value.Date)
-            {
-                lblVFechaFinalCasa.Text = "La fecha final no debe de ser menor a la inicial.";
-                lblVFechaFinalCasa.Visible = true;
-            }
-            else
-            {
-                lblVFechaFinalCasa.Visible = false;
-            }
-
-            ValidarParaGuardarOGenerar();
-        }
-
         private void txtTarifaC_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
-                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+                e.Handled = true;
             }
         }
 
         private void txtTotalPersonasC_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
-                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+                e.Handled = true;
             }
         }
 
         private void txtDepositoC_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
-                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+                e.Handled = true;
             }
-        }
-
-        private void dtpHoraInicialC_ValueChanged(object sender, EventArgs e)
-        {
-            if(dtpHoraInicialC.Value.Hour < DateTime.Now.Hour)
-            {
-                //lblVHoraInicialCasa.Text = "La hora inicial no debe de ser menor a la actual.";
-                lblVHoraInicialCasa.Visible = false;
-            }
-            else
-            {
-                lblVHoraInicialCasa.Visible = false;
-            }
-
-            ValidarParaGuardarOGenerar();
-        }
-
-        private void txtTarifaC_TextChanged(object sender, EventArgs e)
-        {
-            if (txtTarifaC.Text == "0" || txtTarifaC.Text.Length < 3)
-            {
-                lblVTarifaCasa.Text = "Introduzca una tarifa mayor que 0.";
-                lblVTarifaCasa.Visible = true;
-            }
-            else
-            {
-                lblVTarifaCasa.Visible = false;
-            }
-
-            ValidarParaGuardarOGenerar();
-        }
-
-        private void txtTotalPersonasC_TextChanged(object sender, EventArgs e)
-        {
-            if (txtTotalPersonasC.Text == "0")
-            {
-                lblVTotalPersonasCasa.Text = "El numero de personas debe ser mayor a 0.";
-                lblVTotalPersonasCasa.Visible = true;
-            }
-            else
-            {
-                lblVTotalPersonasCasa.Visible = false;
-            }
-
-            ValidarParaGuardarOGenerar();
-        }
-
-        private void txtDepositoC_TextChanged(object sender, EventArgs e)
-        {
-            if (txtDepositoC.Text == "0" || txtDepositoC.Text.Length < 3)
-            {
-                lblVDepositoCasa.Text = "Introduzca un deposito mayor que 0.";
-                lblVDepositoCasa.Visible = true;
-            }
-            else
-            {
-                lblVDepositoCasa.Visible = false;
-            }
-
-            ValidarParaGuardarOGenerar();
-        }
-
-        private void cmbSeleccionCasa_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cmbSeleccionCasa.SelectedIndex == 0)
-            {
-                lblVSeleccionCasa.Text = "Seleccione una casa.";
-                lblVSeleccionCasa.Visible = true;
-            }
-            else
-            {
-                lblVSeleccionCasa.Visible = false;
-            }
-
-            ValidarParaGuardarOGenerar();
         }
 
         private void txtPrecioHoraS_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permite únicamente dígitos numéricos y la tecla de borrado (Backspace)
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
-                e.Handled = true; // Cancela la tecla presionada (no la escribe)
+                e.Handled = true;
             }
-        }
-
-        private void cmbSeleccionSala_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cmbSeleccionSala.SelectedIndex == 0)
-            {
-                lblVSeleccionSala.Text = "Seleccione una propiedad.";
-                lblVSeleccionSala.Visible = true;
-            }
-            else
-            {
-                lblVSeleccionSala.Visible = false;
-            }
-
-            ValidarParaGuardarOGenerar();
-        }
-
-        private void dtpFechaArrendamientoS_ValueChanged(object sender, EventArgs e)
-        {
-            if (dtpFechaArrendamientoS.Value.Date < DateTime.Now.Date)
-            {
-                //lblVFechaArrendamientoSala.Text = "La fecha de arrendamiento no puede ser menor a la actual.";
-                //lblVFechaArrendamientoSala.Visible = true;
-                lblVFechaArrendamientoSala.Visible = false;
-            }
-            else
-            {
-                lblVFechaArrendamientoSala.Visible = false;
-            }
-
-            ValidarParaGuardarOGenerar();
-        }
-
-        private void dtpHoraInicioS_ValueChanged(object sender, EventArgs e)
-        {
-            if (dtpHoraInicioS.Value.Hour < DateTime.Now.Hour)
-            {
-                //lblVHoraInicioSala.Text = "La hora no puede ser menor a la actual.";
-                //lblVHoraInicioSala.Visible = true;
-                lblVHoraInicioSala.Visible = false;
-            }
-            else
-            {
-                lblVHoraInicioSala.Visible = false;
-            }
-
-            ValidarParaGuardarOGenerar();
-        }
-
-        private void dtpHoraFinalS_ValueChanged(object sender, EventArgs e)
-        {
-            if (dtpHoraFinalS.Value.Hour < dtpHoraInicioS.Value.Hour)
-            {
-                lblVHoraFinalSala.Text = "La hora final no debe de ser menor a la hora inicial.";
-                lblVHoraFinalSala.Visible = true;
-            }
-            else
-            {
-                lblVHoraFinalSala.Visible = false;
-            }
-
-            ValidarParaGuardarOGenerar();
-        }
-
-        private void txtPrecioHoraS_TextChanged(object sender, EventArgs e)
-        {
-            if (txtPrecioHoraS.Text == "0" || txtPrecioHoraS.Text.Length < 3)
-            {
-                lblVPrecioHoraSala.Text = "Introduzca un precio mayor que 0.";
-                lblVPrecioHoraSala.Visible = true;
-            }
-            else
-            {
-                lblVPrecioHoraSala.Visible = false;
-            }
-
-            ValidarParaGuardarOGenerar();
         }
 
         private void validarAntesDeActualizar()
@@ -1894,9 +1516,206 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             limpiarCamposActualizar();
         }
 
-        private void lblVContratoActu_Click(object sender, EventArgs e)
+        private void CargarReservacionesCasa()
         {
+            try
+            {
+                cboReservaCasa.Items.Clear();
+                cboReservaCasa.Items.Add("--Seleccionar--");
 
+                string query = @"
+                    SELECT R.NumeroReservacion 
+                    FROM Reservaciones R
+                    INNER JOIN Propiedades P ON R.IdPropiedad = P.IdPropiedad
+                    INNER JOIN TiposPropiedad TP ON P.IdTipoPropiedad = TP.IdTipoPropiedad
+                    WHERE TP.Nombre = 'Casa de Playa/Montaña' 
+                      AND R.IdEstadoReservacion IN (1, 2) -- 1: Pendiente, 2: Confirmada
+                    ORDER BY R.FechaEntrada DESC";
+
+                using (SqlConnection conexion = Conexion.ObtenerConexion())
+                {
+                    conexion.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, conexion))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            cboReservaCasa.Items.Add(reader["NumeroReservacion"].ToString());
+                        }
+                    }
+                }
+                cboReservaCasa.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar reservaciones de casas: " + ex.Message);
+            }
+        }
+
+        private void CargarReservacionesSalaAuditorio()
+        {
+            try
+            {
+                cboReservaS.Items.Clear();
+                cboReservaS.Items.Add("--Seleccionar--");
+
+                string query = @"
+                SELECT R.NumeroReservacion 
+                FROM Reservaciones R
+                INNER JOIN Propiedades P ON R.IdPropiedad = P.IdPropiedad
+                INNER JOIN TiposPropiedad TP ON P.IdTipoPropiedad = TP.IdTipoPropiedad
+                WHERE TP.Nombre = 'Auditorio' OR Nombre = 'Sala de Juntas'
+                    AND R.IdEstadoReservacion IN (1, 2) -- 1: Pendiente, 2: Confirmada
+                ORDER BY R.FechaEntrada DESC";
+
+                using (SqlConnection conexion = Conexion.ObtenerConexion())
+                {
+                    conexion.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, conexion))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            cboReservaS.Items.Add(reader["NumeroReservacion"].ToString());
+                        }
+                    }
+                }
+                cboReservaS.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar reservaciones de el auditorio y la sala de juntas: " + ex.Message);
+            }
+        }
+
+        private void cboReservaCasa_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboReservaCasa.SelectedIndex <= 0)
+            {
+                lblVReservaCasa.Visible = true;
+                LimpiarPanelControles(pnlFormCasa);
+                ValidarParaGuardarOGenerar();
+                return;
+            }
+
+            lblVReservaCasa.Visible = false;
+
+            string query = @"
+            SELECT C.NombreCompleto, C.Identidad, P.Codigo AS NombrePropiedad, 
+                   R.FechaEntrada, R.FechaSalida, R.NumeroPersonas, R.MontoTotal, R.Observaciones
+            FROM Reservaciones R
+            INNER JOIN Clientes C ON R.IdCliente = C.IdCliente
+            INNER JOIN Propiedades P ON R.IdPropiedad = P.IdPropiedad
+            WHERE R.NumeroReservacion = @numero";
+
+            try
+            {
+                using (SqlConnection conexion = Conexion.ObtenerConexion())
+                {
+                    conexion.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, conexion))
+                    {
+                        cmd.Parameters.AddWithValue("@numero", cboReservaCasa.SelectedItem.ToString());
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                txtNombreHuespedC.Text = reader["NombreCompleto"].ToString();
+                                txtIdentidadHuespedC.Text = reader["Identidad"].ToString();
+                                txtSeleccionCasa.Text = reader["NombrePropiedad"].ToString();
+                                dtpFechaInicialC.Value = Convert.ToDateTime(reader["FechaEntrada"]);
+                                dtpHoraInicialC.Value = Convert.ToDateTime(reader["FechaEntrada"]);
+                                dtpFechaFinalC.Value = Convert.ToDateTime(reader["FechaSalida"]);
+                                txtTotalPersonasC.Text = reader["NumeroPersonas"].ToString();
+
+                                int dias = (dtpFechaFinalC.Value.Date - dtpFechaInicialC.Value.Date).Days;
+                                if (dias <= 0) dias = 1;
+                                txtDiasC.Text = dias.ToString();
+
+                                decimal montoTotal = Convert.ToDecimal(reader["MontoTotal"]);
+                                decimal tarifaDiaria = montoTotal / dias;
+                                txtTarifaC.Text = tarifaDiaria.ToString("0.##");
+                                string obs = reader["Observaciones"].ToString();
+                                if (obs.Contains("Depósito:"))
+                                {
+                                    string depositoStr = obs.Replace("Depósito:", "").Trim();
+                                    txtDepositoC.Text = depositoStr;
+                                }
+                                else
+                                {
+                                    txtDepositoC.Text = "2600";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los detalles: " + ex.Message);
+            }
+
+            ValidarParaGuardarOGenerar();
+        }
+
+        private void cboReservaS_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboReservaS.SelectedIndex <= 0)
+            {
+                lblVReservaS.Visible = true;
+                LimpiarPanelControles(pnlFormSala);
+                ValidarParaGuardarOGenerar();
+                return;
+            }
+            lblVReservaS.Visible = false;
+
+            string query = @"
+                SELECT C.NombreCompleto, C.Identidad, P.Codigo AS NombrePropiedad, 
+                       R.FechaEntrada, R.FechaSalida, R.NumeroPersonas, R.MontoTotal, R.Observaciones
+                FROM Reservaciones R
+                INNER JOIN Clientes C ON R.IdCliente = C.IdCliente
+                INNER JOIN Propiedades P ON R.IdPropiedad = P.IdPropiedad
+                WHERE R.NumeroReservacion = @numero";
+
+            try
+            {
+                using (SqlConnection conexion = Conexion.ObtenerConexion())
+                {
+                    conexion.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, conexion))
+                    {
+                        cmd.Parameters.AddWithValue("@numero", cboReservaS.SelectedItem.ToString());
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                txtNombreArrendatarioS.Text = reader["NombreCompleto"].ToString();
+                                txtIdentidadS.Text = reader["Identidad"].ToString();
+                                txtSeleccionS.Text = reader["NombrePropiedad"].ToString();
+                                dtpFechaArrendamientoS.Value = Convert.ToDateTime(reader["FechaEntrada"]);
+                                dtpHoraInicioS.Value = Convert.ToDateTime(reader["FechaEntrada"]);
+                                dtpHoraFinalS.Value = Convert.ToDateTime(reader["FechaSalida"]);
+                                txtCantidadPersonasS.Text = reader["NumeroPersonas"].ToString();
+
+                                double totalHorasDiferencia = (dtpHoraFinalS.Value - dtpHoraInicioS.Value).TotalHours;
+                                int horas = (int)Math.Ceiling(totalHorasDiferencia);
+                                if (horas <= 0) horas = 1;
+                                txtNumeroHorasS.Text = horas.ToString();
+
+                                decimal montoTotal = Convert.ToDecimal(reader["MontoTotal"]);
+                                decimal tarifaHoras = montoTotal / horas;
+                                txtPrecioHoraS.Text = tarifaHoras.ToString("0.##");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los detalles: " + ex.Message);
+            }
+
+            ValidarParaGuardarOGenerar();
         }
     }
 }

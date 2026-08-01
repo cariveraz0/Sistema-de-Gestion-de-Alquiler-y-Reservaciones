@@ -33,7 +33,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 lblArrendatario.Font = new Font("Segoe UI", 8F, FontStyle.Italic);
             }
 
-            NumberFormatInfo nfi = new NumberFormatInfo { CurrencySymbol = "L. " };
+            NumberFormatInfo nfi = new NumberFormatInfo { CurrencySymbol = "L" };
             lblPrecio.Text = precio.HasValue ? precio.Value.ToString("C2", nfi) : "N/A";
         }
 
@@ -56,6 +56,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 case "En Mantenimiento":
                     lblEstado.BackColor = Color.FromArgb(92, 107, 133);
                     lblEstado.ForeColor = Color.White;
+                    lblEstado.Font = new Font(lblEstado.Font.FontFamily, 5, FontStyle.Bold);
                     break;
                 case "Inactiva":
                     lblEstado.BackColor = Color.FromArgb(74, 74, 74);

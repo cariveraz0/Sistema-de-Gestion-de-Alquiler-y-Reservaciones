@@ -92,7 +92,7 @@
             // label1
             // 
             this.label1.Location = new System.Drawing.Point(260, 41);
-            this.label1.Size = new System.Drawing.Size(439, 30);
+            this.label1.Size = new System.Drawing.Size(465, 31);
             this.label1.Text = "ESTADO DE CUENTA POR ARRENDATARIO";
             // 
             // panel4
@@ -266,7 +266,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Montserrat", 8.25F);
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
             this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.Size = new System.Drawing.Size(960, 275);

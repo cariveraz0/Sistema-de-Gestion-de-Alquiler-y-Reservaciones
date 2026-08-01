@@ -37,7 +37,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     lblEstado.ForeColor = Color.White;
                     break;
                 case "En Curso":
-                    lblEstado.BackColor = Color.FromArgb(53, 119, 201);
+                    lblEstado.BackColor = Color.FromArgb(214, 122, 49);
                     lblEstado.ForeColor = Color.White;
                     break;
                 default:

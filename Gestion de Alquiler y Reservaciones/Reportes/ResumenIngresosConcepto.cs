@@ -36,9 +36,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
         {
             Color naranjaTitulo = Color.FromArgb(216, 122, 45);
 
-            label1.Text = "REPORTE RESUMEN DE\nINGRESOS POR CONCEPTO";
+            label1.Text = "RESUMEN DE INGRESOS POR CONCEPTO";
             label1.Size = new Size(600, 60);
-            label1.Location = new Point(330, 35);
+            label1.Location = new Point(278, 42);
             label1.TextAlign = ContentAlignment.MiddleCenter;
 
             Label lblPeriodo = new Label();
@@ -247,7 +247,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     string concepto = row["Concepto"].ToString();
                     decimal total = Convert.ToDecimal(row["TotalIngresos"]);
                     decimal porcentaje = totalGeneral > 0 ? (total / totalGeneral) * 100 : 0;
-                    tabla.Rows.Add(concepto, "L. " + total.ToString("N2"), porcentaje.ToString("N2") + "%");
+                    tabla.Rows.Add(concepto, "L" + total.ToString("N2"), porcentaje.ToString("N2") + "%");
 
                     if (total > 0)
                     {

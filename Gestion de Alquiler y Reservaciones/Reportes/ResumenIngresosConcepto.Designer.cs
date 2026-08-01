@@ -30,14 +30,10 @@
         {
             this.SuspendLayout();
             // 
-            // pnlPrincipal
-            // 
-            this.pnlPrincipal.Size = new System.Drawing.Size(984, 548);
-            // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(290, 44);
-            this.label1.Size = new System.Drawing.Size(427, 32);
+            this.label1.Location = new System.Drawing.Point(278, 42);
+            this.label1.Size = new System.Drawing.Size(448, 31);
             this.label1.Text = "RESUMEN DE INGRESOS POR CONCEPTO";
             // 
             // ResumenIngresosConcepto

@@ -243,7 +243,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             LlenarCboSolicitud();
             LlenarCmbEstado();
             CambiarEstadoCampos(false);
-            validarAntesDeGuardar();
+            ValidarAntesDeGuardar();
         }
 
         private void LlenarTipoMantenimiento()
@@ -462,7 +462,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 lblVPropiedad.Visible = false;
             }
 
-            validarAntesDeGuardar();
+            ValidarAntesDeGuardar();
         }
 
         private void cboTecnico_SelectedIndexChanged(object sender, EventArgs e)
@@ -477,7 +477,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 lblVTecnico.Visible = false;
             }
 
-            validarAntesDeGuardar();
+            ValidarAntesDeGuardar();
         }
 
         private void cboTipo_SelectedIndexChanged(object sender, EventArgs e)
@@ -492,7 +492,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 lblVTipo.Visible = false;
             }
 
-            validarAntesDeGuardar();
+            ValidarAntesDeGuardar();
         }
 
         private void dtpProgramada_ValueChanged(object sender, EventArgs e)
@@ -507,7 +507,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 lblVFecha.Visible = false;
             }
 
-            validarAntesDeGuardar();
+            ValidarAntesDeGuardar();
         }
 
         private void LlenarCboSolicitud()
@@ -518,11 +518,11 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 cboSolicitud.Items.Add("--Seleccionar--");
 
                 string query = @"
-            SELECT M.NumeroOrden
-            FROM Mantenimiento M
-            INNER JOIN EstadosMantenimiento EM ON M.IdEstadoMantenimiento = EM.IdEstadoMantenimiento
-            WHERE EM.Nombre <> 'Completado'
-            ORDER BY M.NumeroOrden";
+                SELECT M.NumeroOrden
+                FROM Mantenimiento M
+                INNER JOIN EstadosMantenimiento EM ON M.IdEstadoMantenimiento = EM.IdEstadoMantenimiento
+                WHERE EM.Nombre IN ('Pendiente', 'En Proceso')
+                ORDER BY M.NumeroOrden";
 
                 using (SqlConnection conectar = Conexion.ObtenerConexion())
                 {
@@ -576,7 +576,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 string query = @"
                 SELECT M.IdMantenimiento, P.Codigo, Emp.NombreCompleto, M.Costo,
-                       M.Descripcion, M.FechaConclusion, Est.Nombre
+                       M.Descripcion, M.FechaConclusion, M.FechaProgramada, Est.Nombre
                 FROM Mantenimiento AS M
                 INNER JOIN Propiedades AS P ON M.IdPropiedad = P.IdPropiedad
                 INNER JOIN Empleado AS Emp ON M.IdTecnicoAsignado = Emp.IdEmpleado
@@ -597,9 +597,20 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                             txtTecnicoActu.Text = reader["NombreCompleto"].ToString();
                             txtCosto.Text = reader["Costo"] == DBNull.Value ? "0" : reader["Costo"].ToString();
                             txtDescripcionActu.Text = reader["Descripcion"].ToString();
-                            dtpConclusion.Value = reader["FechaConclusion"] == DBNull.Value
-                                ? DateTime.Now
-                                : Convert.ToDateTime(reader["FechaConclusion"]);
+                            DateTime fechaProgramada = Convert.ToDateTime(reader["FechaProgramada"]);
+                            dtpConclusion.MinDate = new DateTime(1900, 1, 1);
+
+                            if (reader["FechaConclusion"] == DBNull.Value)
+                            {
+                                dtpConclusion.Value = fechaProgramada;
+                            }
+                            else
+                            {
+                                dtpConclusion.Value = Convert.ToDateTime(reader["FechaConclusion"]);
+                            }
+
+                            dtpConclusion.MinDate = fechaProgramada;
+
                             cmbEstado.Text = reader["Nombre"].ToString();
                         }
                     }
@@ -630,7 +641,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 btnActualizarSoli.Enabled = true;
                 lblVSolicitud.Visible = false;
             }
-            validarAntesDeActualizar();
+            ValidarAntesDeActualizar();
         }
         
 
@@ -646,14 +657,12 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void LimpiarCampos()
         {
-            // Crear mantenimiento
             cboPropiedad.SelectedIndex = 0;
             cboTecnico.SelectedIndex = 0;
             cboTipo.SelectedIndex = 0;
             dtpProgramada.ResetText();
             txtDescripcion.Text = string.Empty;
 
-            // Actualizar mantenimiento
             LimpiandoCampos = true;
             txtPropiedadActu.Text = string.Empty;
             txtTecnicoActu.Text = string.Empty;
@@ -666,8 +675,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             btnActualizarSoli.Enabled = false;
             LimpiandoCampos = false;
 
-            validarAntesDeGuardar();
-            validarAntesDeActualizar();
+            ValidarAntesDeGuardar();
+            ValidarAntesDeActualizar();
         }
 
         private void btnLimpiarActu_Click(object sender, EventArgs e)
@@ -675,7 +684,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             LimpiarCampos();
         }
 
-        private void validarAntesDeGuardar()
+        private void ValidarAntesDeGuardar()
         {
             if (lblVPropiedad.Visible == true ||
                 lblVTecnico.Visible == true ||
@@ -688,45 +697,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 btnGuardar.Enabled = true;
             }
-        }
-
-        private void validarAntesDeActualizar()
-        {
-            if (lblVSolicitud.Visible == true ||
-                lblVCosto.Visible == true ||
-                lblVFechaConclusion.Visible == true ||
-                lblVFechaConclusion.Visible == true)
-            {
-                btnActualizarSoli.Enabled = false;
-            }
-            else
-            {
-                btnActualizarSoli.Enabled = true;
-            }
-        }
-
-        private void txtCosto_TextChanged(object sender, EventArgs e)
-        {
-            if(txtCosto.Text.Trim() == string.Empty)
-            {
-                txtCosto.Text = "0";
-                txtCosto.SelectionStart = txtCosto.Text.Length;
-            }
-            else
-            {
-                if (decimal.Parse(txtCosto.Text) <= 0)
-                {
-                    lblVCosto.Text = "El valor debe ser un número mayor que 0.";
-                    lblVCosto.Visible = true;
-                    btnActualizar.Enabled = true;
-                }
-                else
-                {
-                    lblVCosto.Visible = false;
-                    btnActualizar.Enabled = false;
-                }
-            }
-            validarAntesDeActualizar();
         }
 
         private void txtCosto_KeyPress(object sender, KeyPressEventArgs e)
@@ -820,33 +790,68 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 );
             }
         }
-
-        private void dtpConclusion_ValueChanged(object sender, EventArgs e)
+        private void ValidarLogicaActualizacion()
         {
-            if(dtpConclusion.Value.Date < DateTime.Now.Date)
+            if (LimpiandoCampos || cboSolicitud.SelectedIndex == 0) return;
+
+            string estadoActual = cmbEstado.Text;
+            decimal costo = 0;
+            decimal.TryParse(txtCosto.Text, out costo);
+
+            if (estadoActual == "Completado" && costo <= 0)
             {
-                lblVFechaConclusion.Text = "Debe seleccionar una fecha valida.";
-                lblVFechaConclusion.Visible = true;
+                lblVCosto.Text = "El costo debe ser mayor a 0 al completar.";
+                lblVCosto.Visible = true;
             }
             else
             {
-                lblVFechaConclusion.Visible = false;
+                lblVCosto.Visible = false;
             }
-            validarAntesDeActualizar();
-        }
 
-        private void cmbEstado_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cmbEstado.SelectedIndex == 0)
+            if (cmbEstado.SelectedIndex <= 0)
             {
-                lblVEstado.Text = "Seleccione un estado.";
+                lblVEstado.Text = "Seleccione un estado válido.";
                 lblVEstado.Visible = true;
             }
             else
             {
                 lblVEstado.Visible = false;
             }
-            validarAntesDeActualizar();
+
+            ValidarAntesDeActualizar();
+        }
+
+        private void ValidarAntesDeActualizar()
+        {
+            if (lblVSolicitud.Visible || lblVCosto.Visible || lblVFechaConclusion.Visible || lblVEstado.Visible)
+            {
+                btnActualizarSoli.Enabled = false;
+            }
+            else
+            {
+                btnActualizarSoli.Enabled = true;
+            }
+        }
+
+        private void txtCosto_TextChanged(object sender, EventArgs e)
+        {
+            if (txtCosto.Text.Trim() == string.Empty)
+            {
+                txtCosto.Text = "0";
+                txtCosto.SelectionStart = txtCosto.Text.Length;
+            }
+            ValidarLogicaActualizacion();
+        }
+
+        private void cmbEstado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ValidarLogicaActualizacion();
+        }
+
+        private void dtpConclusion_ValueChanged(object sender, EventArgs e)
+        {
+            lblVFechaConclusion.Visible = false;
+            ValidarLogicaActualizacion();
         }
     }
 }

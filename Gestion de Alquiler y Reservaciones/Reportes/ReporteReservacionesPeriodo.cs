@@ -399,7 +399,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                             celdaEstado.SetFontColor(new DeviceRgb(0x15, 0x57, 0x24));
                             break;
                         case "finalizada":
-                            celdaEstado.SetFontColor(new DeviceRgb(0x00, 0x40, 0x85));
+                            celdaEstado.SetFontColor(new DeviceRgb(0x9E, 0x8A, 0x73));
                             break;
                         case "pendiente":
                             celdaEstado.SetFontColor(new DeviceRgb(0x85, 0x64, 0x04));
@@ -466,7 +466,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                         break;
 
                     case "finalizada":
-                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#004085");
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#9E8A73");
                         break;
 
                     case "cancelada":

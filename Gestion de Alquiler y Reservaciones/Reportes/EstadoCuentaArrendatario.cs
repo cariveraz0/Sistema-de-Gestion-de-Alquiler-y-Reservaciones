@@ -285,7 +285,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             nContrato.Text = contrato["NumeroContrato"].ToString();
             fechaInicio.Text = Convert.ToDateTime(contrato["FechaInicio"]).ToString("dd/MM/yyyy");
             fechaVencimiento.Text = Convert.ToDateTime(contrato["FechaFin"]).ToString("dd/MM/yyyy");
-            montoMensual.Text = "L. " + Convert.ToDecimal(contrato["MontoMensual"]).ToString("N2");
+            montoMensual.Text = "L" + Convert.ToDecimal(contrato["MontoMensual"]).ToString("N2");
         }
 
         // Obtiene el historial de cuotas del contrato, cruzando cuotascontrato con pagos
@@ -293,28 +293,39 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
         private DataTable ObtenerHistorialPagos(int idContrato)
         {
             string query = @"
-                SELECT 
-                    cc.IdCuota,
-                    cc.NumeroCuota,
-                    cc.PeriodoCorrespondiente,
-                    cc.FechaVencimiento,
-                    cc.MontoCuota,
-                    cc.MontoMora,
-                    ep.Nombre AS Estado,
-                    pg.FechaPago,
-                    pg.Monto AS MontoPagado,
-                    pg.NumeroRecibo
-                FROM cuotascontrato cc
-                INNER JOIN EstadosPago ep ON ep.IdEstadoPago = cc.IdEstadoPago
-                LEFT JOIN pagos pg ON pg.IdCuota = cc.IdCuota
-                WHERE cc.IdContrato = @IdContrato
-                ORDER BY cc.NumeroCuota";
+        SELECT 
+            cc.IdCuota,
+            cc.NumeroCuota,
+            cc.PeriodoCorrespondiente,
+            cc.FechaVencimiento,
+            cc.MontoCuota,
+            cc.MontoMora,
+            ep.Nombre AS Estado,
+            ISNULL(totales.TotalPagado, 0) AS MontoPagado,
+            ultimo.FechaPago,
+            ultimo.NumeroRecibo
+        FROM cuotascontrato cc
+        INNER JOIN EstadosPago ep ON ep.IdEstadoPago = cc.IdEstadoPago
+        OUTER APPLY (
+            SELECT SUM(p.Monto) AS TotalPagado
+            FROM Pagos p
+            WHERE p.IdCuota = cc.IdCuota
+        ) totales
+        OUTER APPLY (
+            SELECT TOP 1 p2.FechaPago, p2.NumeroRecibo
+            FROM Pagos p2
+            WHERE p2.IdCuota = cc.IdCuota
+            ORDER BY p2.FechaPago DESC, p2.IdPago DESC
+        ) ultimo
+        WHERE cc.IdContrato = @IdContrato
+        ORDER BY cc.NumeroCuota";
 
             DataTable dt = new DataTable();
 
             using (SqlConnection conexion = Conexion.ObtenerConexion())
             using (SqlCommand cmd = new SqlCommand(query, conexion))
             {
+                conexion.Open();
                 cmd.Parameters.AddWithValue("@IdContrato", idContrato);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 adapter.Fill(dt);
@@ -338,25 +349,29 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             foreach (DataRow fila in dtOrigen.Rows)
             {
                 string estado = fila["Estado"].ToString();
-                bool pagada = estado.StartsWith("Pagad", StringComparison.OrdinalIgnoreCase);
+                bool pagadaCompleta = estado.Equals("Pagada", StringComparison.OrdinalIgnoreCase);
+                bool pagadaParcial = estado.Equals("Pagada Parcial", StringComparison.OrdinalIgnoreCase);
                 bool anulada = estado.Equals("Anulada", StringComparison.OrdinalIgnoreCase);
 
                 decimal montoCuota = Convert.ToDecimal(fila["MontoCuota"]);
                 decimal montoMora = Convert.ToDecimal(fila["MontoMora"]);
-                decimal montoPagado = (pagada && fila["MontoPagado"] != DBNull.Value)
-                                        ? Convert.ToDecimal(fila["MontoPagado"])
-                                        : 0m;
-                decimal pagoPendiente = (!pagada && !anulada) ? montoCuota : 0m;
+                decimal montoPagado = fila["MontoPagado"] != DBNull.Value ? Convert.ToDecimal(fila["MontoPagado"]) : 0m;
 
-                string fechaPago = (pagada && fila["FechaPago"] != DBNull.Value)
+                decimal pagoPendiente = anulada ? 0m : Math.Max((montoCuota + montoMora) - montoPagado, 0m);
+
+                string fechaPago = (montoPagado > 0 && fila["FechaPago"] != DBNull.Value)
                                     ? Convert.ToDateTime(fila["FechaPago"]).ToString("dd/MM/yyyy")
                                     : "-";
 
                 string observaciones;
-                if (pagada)
+                if (pagadaCompleta)
                     observaciones = fila["NumeroRecibo"] != DBNull.Value
                                         ? $"Pago registrado (Recibo {fila["NumeroRecibo"]})"
                                         : "Pago registrado";
+                else if (pagadaParcial)
+                    observaciones = fila["NumeroRecibo"] != DBNull.Value
+                                        ? $"Abono parcial (Recibo {fila["NumeroRecibo"]}) · Saldo L{pagoPendiente:N2}"
+                                        : $"Abono parcial · Saldo L{pagoPendiente:N2}";
                 else if (anulada)
                     observaciones = "Pago anulado";
                 else
@@ -365,9 +380,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                 DataRow filaVisual = dtVisual.NewRow();
                 filaVisual["Fecha de Pago"] = fechaPago;
                 filaVisual["Periodo Cubierto"] = FormatearPeriodo(fila["PeriodoCorrespondiente"]);
-                filaVisual["Monto Pagado"] = "L. " + montoPagado.ToString("N2");
-                filaVisual["Pago Pendiente"] = "L. " + pagoPendiente.ToString("N2");
-                filaVisual["Mora Acumulada"] = "L. " + montoMora.ToString("N2");
+                filaVisual["Monto Pagado"] = "L" + montoPagado.ToString("N2");
+                filaVisual["Pago Pendiente"] = "L" + pagoPendiente.ToString("N2");
+                filaVisual["Mora Acumulada"] = "L" + montoMora.ToString("N2");
                 filaVisual["Estado"] = estado;
                 filaVisual["Observaciones"] = observaciones;
                 dtVisual.Rows.Add(filaVisual);
@@ -375,7 +390,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
 
             dataGridView1.DataSource = dtVisual;
 
-            // Reparte el ancho disponible entre columnas (Observaciones y Periodo un poco más anchas)
             if (dataGridView1.Columns.Count > 0)
             {
                 dataGridView1.Columns["Fecha de Pago"].FillWeight = 90;
@@ -395,8 +409,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
         }
-
-        // Convierte la fecha del período (ej. 2026-07-01) a un texto legible ("Julio 2026")
         private string FormatearPeriodo(object periodo)
         {
             if (periodo == null || periodo == DBNull.Value) return string.Empty;
@@ -418,32 +430,29 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             foreach (DataRow fila in dtHistorial.Rows)
             {
                 string estado = fila["Estado"].ToString();
-                bool pagada = estado.StartsWith("Pagad", StringComparison.OrdinalIgnoreCase);
-
                 bool anulada = estado.Equals("Anulada", StringComparison.OrdinalIgnoreCase);
-
                 bool vencida = estado.Equals("Vencida", StringComparison.OrdinalIgnoreCase);
 
                 decimal montoCuota = Convert.ToDecimal(fila["MontoCuota"]);
                 decimal montoMora = Convert.ToDecimal(fila["MontoMora"]);
+                decimal montoPagado = fila["MontoPagado"] != DBNull.Value ? Convert.ToDecimal(fila["MontoPagado"]) : 0m;
 
-                if (pagada && fila["MontoPagado"] != DBNull.Value)
-                {
-                    totalPagadoValor += Convert.ToDecimal(fila["MontoPagado"]);
-                }
-                else if (anulada)
+                totalPagadoValor += montoPagado;
+
+                if (anulada)
                 {
                     cuotasAnuladas++;
+                    continue;
                 }
-                else
+
+                decimal pendiente = (montoCuota + montoMora) - montoPagado;
+                if (pendiente > 0)
                 {
                     cuotasActivas++;
-                    totalPendienteValor += (montoCuota + montoMora);
+                    totalPendienteValor += pendiente;
 
                     if (vencida || montoMora > 0)
-                    {
                         tieneMoraReal = true;
-                    }
                 }
             }
 
@@ -457,7 +466,6 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             }
             else if (cuotasActivas == 0 && cuotasAnuladas > 0)
             {
-
                 estadoGeneral.Text = "ANULADO";
                 estadoGeneral.ForeColor = System.Drawing.Color.DimGray;
             }
@@ -703,6 +711,9 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                             break;
                         case "pendiente":
                             celdaEstado.SetFontColor(new DeviceRgb(0x85, 0x64, 0x04));
+                            break;
+                        case "pagado parcial":
+                            celdaEstado.SetFontColor(new DeviceRgb(0x8A, 0x66, 0x0C));
                             break;
                     }
                     tabla.AddCell(celdaEstado);
