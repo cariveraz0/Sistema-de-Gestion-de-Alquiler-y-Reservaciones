@@ -39,13 +39,51 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblTitulo.Text = botonPresionado.Text;
 
-                if (botonPresionado.Name == "btnPrincipal")
+                switch (botonPresionado.Name)
                 {
-                    lblSubtitulo.Visible = true;
-                }
-                else
-                {
-                    lblSubtitulo.Visible = false;
+                    case "btnPrincipal":
+                        lblSubtitulo.Visible = true;
+                        lblSubtitulo.Text = "Resumen General de Operaciones";
+                        break;
+
+                    case "btnPropiedades":
+                        lblSubtitulo.Visible = true;
+                        lblSubtitulo.Text = "Catálogo y Disponibilidad de Activos";
+                        break;
+
+                    case "btnContratos":
+                        lblSubtitulo.Visible = true;
+                        lblSubtitulo.Text = "Control de Arrendamientos a Largo Plazo y Creación de Contratos";
+                        break;
+
+                    case "btnReservaciones":
+                        lblSubtitulo.Visible = true;
+                        lblSubtitulo.Text = "Gestión a Estancias a Corto Plazo";
+                        break;
+
+                    case "btnClientes":
+                        lblSubtitulo.Visible = true;
+                        lblSubtitulo.Text = "Perfiles y Contactos Registrados";
+                        break;
+
+                    case "btnMantenimiento":
+                        lblSubtitulo.Visible = true;
+                        lblSubtitulo.Text = "Seguimiento Técnico de Reparaciones";
+                        break;
+
+                    case "btnReportes":
+                        lblSubtitulo.Visible = true;
+                        lblSubtitulo.Text = "Análisis Financiero y Métricas Gerenciales";
+                        break;
+
+                    case "btnPagos":
+                        lblSubtitulo.Visible = true;
+                        lblSubtitulo.Text = "Gestión de Cuotas, Saldos Pendientes y Recibos";
+                        break;
+
+                    default:
+                        lblSubtitulo.Visible = false;
+                        break;
                 }
             }
         }
