@@ -50,6 +50,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             ValidarParaGuardarOGenerar();
             CargarReservacionesCasa();
             CargarReservacionesSalaAuditorio();
+            AplicarPermisosPorCargo();
         }
 
         private void btnTabNuevo_Click(object sender, EventArgs e)    => ActivarTabNuevo();
@@ -57,7 +58,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             ActivarTabEditar();
             CargarContratosParaEdicion();
-            validarAntesDeActualizar();
+            ValidarAntesDeActualizar();
         }
         private void btnTabHistorial_Click(object sender, EventArgs e) => ActivarTabHistorial();
 
@@ -111,6 +112,33 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             btn.ForeColor = TextoInactivo;
         }
 
+        private void AplicarPermisosPorCargo()
+        {
+            string cargo = LoginForm.cargo.Trim().ToLower();
+
+            if (cargo == "reservaciones")
+            {
+                btnTipoApartamento.Visible = false;
+                btnTipoLocal.Visible = false;
+
+                btnTabEditar.Visible = false;
+                btnTabHistorial.Visible = false;
+
+                btnTipoCasa.PerformClick();
+            }
+            else if (cargo == "arrendamiento")
+            {
+                btnTipoCasa.Visible = false;
+                btnTipoSala.Visible = false;
+
+                btnTipoApartamento.PerformClick();
+            }
+            else if (cargo == "administrador")
+            {
+                btnTipoApartamento.PerformClick();
+            }
+        }
+
         // ═══════════════════════════════════════════════════════════
         //  Selector de tipo de propiedad
         // ═══════════════════════════════════════════════════════════
@@ -119,7 +147,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         //private void btnTipoLocal_Click(object sender, EventArgs e)       => MostrarFormulario(pnlFormLocal,       btnTipoLocal);
         //private void btnTipoCasa_Click(object sender, EventArgs e)        => MostrarFormulario(pnlFormCasa,        btnTipoCasa);
         //private void btnTipoSala_Click(object sender, EventArgs e)        => MostrarFormulario(pnlFormSala,        btnTipoSala);
-        
+
         //Lo tuve que poner de esta forma por las validaciones que le voy a hacer a
         //cada tipo de contrato-------------------------------------------------------------------------------
         private void btnTipoApartamento_Click(object sender, EventArgs e)
@@ -1256,7 +1284,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     }
                 }
             }
-            validarAntesDeActualizar();
+            ValidarAntesDeActualizar();
         }
         private void btnActualizar_Click(object sender, EventArgs e)
         {
@@ -1489,7 +1517,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             }
         }
 
-        private void validarAntesDeActualizar()
+        private void ValidarAntesDeActualizar()
         {
             if (lblVContratoActu.Visible == true)
             {
@@ -1508,7 +1536,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             txtClienteEmpresa.ResetText();
             dtpFinalizacionActu.ResetText();
 
-            validarAntesDeActualizar();
+            ValidarAntesDeActualizar();
         }
 
         private void btnLimpiarActu_Click(object sender, EventArgs e)

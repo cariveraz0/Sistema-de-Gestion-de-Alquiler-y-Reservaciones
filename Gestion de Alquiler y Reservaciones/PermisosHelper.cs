@@ -15,7 +15,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 "ContratosForm", "ClientesForm", "PropiedadesForm", "ReportesForm"
             }},
             { "reservaciones", new List<string> {
-                "ReservacionesForm", "ClientesForm", "PropiedadesForm", "ReportesForm"
+                "ContratosForm", "ReservacionesForm", "ClientesForm", "PropiedadesForm", "ReportesForm"
             }},
             { "mantenimiento", new List<string> {
                 "MantenimientoForm", "ReportesForm"
