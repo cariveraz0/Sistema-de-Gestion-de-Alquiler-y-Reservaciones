@@ -704,6 +704,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private void CargarDatosBD()
         {
             string query = @"
+                SELECT TOP 100 * FROM (
                 SELECT
                     pg.NumeroRecibo AS [Número de Recibo],
                     pg.FechaPago AS [Fecha de Pago],
@@ -736,6 +737,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 INNER JOIN Propiedades prop ON prop.IdPropiedad = r.IdPropiedad
                 INNER JOIN MetodosPago mp   ON mp.IdMetodoPago = pg.IdMetodoPago
                 WHERE pg.IdReservacion IS NOT NULL
+                ) AS HistorialCombinado
                 ORDER BY [Fecha de Pago] DESC;";
 
             try
