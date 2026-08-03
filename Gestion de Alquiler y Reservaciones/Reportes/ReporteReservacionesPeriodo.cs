@@ -103,7 +103,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             lblFinalizadas = CrearLabelResumen("FINALIZADAS:\n0", 275, 125);
             lblPendientes = CrearLabelResumen("PENDIENTES:\n0", 415, 125);
             lblCanceladas = CrearLabelResumen("CANCELADAS:\n0", 555, 125);
-            lblMontoTotal = CrearLabelResumen("TOTAL MONTO:\nL. 0.00", 690, 150);
+            lblMontoTotal = CrearLabelResumen("TOTAL MONTO:\nL0.00", 690, 150);
 
             pnlResumen.Controls.Add(lblTotal);
             pnlResumen.Controls.Add(lblConfirmadas);
@@ -167,7 +167,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
                     WHEN er.Nombre = 'Completada' THEN 'Finalizada'
                        ELSE er.Nombre
                  END AS [Estado],
-                'L. ' + FORMAT(r.MontoTotal, 'N2') AS [Monto Cobrado],
+                'L' + FORMAT(r.MontoTotal, 'N2') AS [Monto Cobrado],
                  r.MontoTotal
                 FROM Reservaciones r
                INNER JOIN Clientes c ON r.IdCliente = c.IdCliente
@@ -238,7 +238,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones.Reportes
             lblFinalizadas.Text = "FINALIZADAS:\n" + finalizadas;
             lblPendientes.Text = "PENDIENTES:\n" + pendientes;
             lblCanceladas.Text = "CANCELADAS:\n" + canceladas;
-            lblMontoTotal.Text = "TOTAL MONTO:\nL. " + totalMonto.ToString("N2");
+            lblMontoTotal.Text = "TOTAL MONTO:\nL" + totalMonto.ToString("N2");
         }
         private void btnImprimir_Click(object sender, EventArgs e)
         {
