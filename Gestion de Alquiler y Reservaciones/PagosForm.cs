@@ -404,6 +404,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             if (grid.Columns[nombreColumna] == null) return;
             grid.Columns[nombreColumna].DefaultCellStyle.Format = "C";
             grid.Columns[nombreColumna].DefaultCellStyle.FormatProvider = FormatoLempiras;
+            grid.Columns[nombreColumna].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
         }
         private void cmbResultadosCuota_SelectedIndexChanged(object sender, EventArgs e)
         {
