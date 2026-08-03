@@ -1139,7 +1139,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                     cmd.ExecuteNonQuery();
                 }
             }
-            MessageBox.Show("Contrato de Apartamento guardado exitosamente. Ahora puede Generar el documento.", "Éxito");
+            MessageBox.Show("Contrato de Apartamento guardado exitosamente", "Éxito");
         }
 
         private void GuardarLocal()
@@ -1198,7 +1198,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 }
             }
 
-            MessageBox.Show("Contrato de Local guardado exitosamente. Ahora puede Generar el documento.", "Éxito");
+            MessageBox.Show("Contrato de Local guardado exitosamente", "Éxito");
         }
 
         private void CargarContratosParaEdicion()
