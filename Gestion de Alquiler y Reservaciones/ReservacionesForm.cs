@@ -15,7 +15,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private static readonly Color TextoInactivo = ColorTranslator.FromHtml("#666666");
         private DataTable tablalocal;
         private Dictionary<string, PropiedadInfo> PropiedadesReservacion = new Dictionary<string, PropiedadInfo>();
-        private Dictionary<string, int> ClientesDic = new Dictionary<string, int>();  
+        private Dictionary<string, int> ClientesDic = new Dictionary<string, int>();
         private int IdReservacionSeleccionada = -1;
         private bool LimpiandoCamposActu = false;
 
@@ -35,6 +35,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             AplicarEstilosColumnas(dgvHistorial);
 
             cboPropiedad.DropDownStyle = ComboBoxStyle.DropDownList;
+            txtPersonas.TextChanged += txtPersonas_TextChanged;
         }
         public void ConfigurarDataGridView(DataGridView grid)
         {
@@ -111,7 +112,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             EstiloTabInactivo(btnActualizarReservacion);
             EstiloTabInactivo(btnNuevaReservacion);
         }
-        
+
         private void EstiloTabActivo(Button btn)
         {
             btn.BackColor = ColorActivo;
@@ -225,7 +226,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             txtPersonas.Clear();
             txtObservaciones.Clear();
 
-            validarAntesDeGuardar();
+            ValidarAntesDeGuardar();
         }
 
         private void dgvHistorial_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -264,7 +265,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             LlenarCboReservacion();
             LlenarCboEstadoReservacion();
             CambiarEstadoCamposActu(false);
-            validarAntesDeGuardar();
+            ValidarPersonas();
+            ValidarAntesDeGuardar();
             cboReservacion.DropDownStyle = ComboBoxStyle.DropDownList;
             cboEstado.DropDownStyle = ComboBoxStyle.DropDownList;
             dgvHistorial.Columns["Observaciones"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
@@ -317,7 +319,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
 
         private void cboPropiedad_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(cboPropiedad.SelectedIndex == 0)
+            if (cboPropiedad.SelectedIndex == 0)
             {
                 lblVPropiedad.Text = "Debe seleccionar una opcion.";
                 lblVPropiedad.Visible = true;
@@ -328,6 +330,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 lblVPropiedad.Visible = false;
             }
             ValidarFechasYMonto();
+            ValidarPersonas();
         }
 
         private void CargarClientes()
@@ -374,16 +377,17 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 lblVCliente.Visible = false;
             }
-            validarAntesDeGuardar();
+            ValidarAntesDeGuardar();
         }
 
-        private void validarAntesDeGuardar()
+        private void ValidarAntesDeGuardar()
         {
-            if(lblVPropiedad.Visible == true ||
+            if (lblVPropiedad.Visible == true ||
                 lblVCliente.Visible == true ||
                 lblVFechaEntrada.Visible == true ||
                 lblVFechaSalida.Visible == true ||
-                lblVDisponibilidad.Visible == true)
+                lblVDisponibilidad.Visible == true ||
+                lblVPersonas.Visible == true)
             {
                 btnGuardar.Enabled = false;
             }
@@ -826,7 +830,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
                 lblVDisponibilidad.Visible = false;
             }
 
-            validarAntesDeGuardar();
+            ValidarAntesDeGuardar();
         }
 
         private void txtPersonas_KeyPress(object sender, KeyPressEventArgs e)
@@ -835,6 +839,64 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             {
                 e.Handled = true;
             }
+        }
+
+        private void txtPersonas_TextChanged(object sender, EventArgs e)
+        {
+            ValidarPersonas();
+        }
+
+        private void ValidarPersonas()
+        {
+            if (string.IsNullOrWhiteSpace(txtPersonas.Text))
+            {
+                lblVPersonas.Text = "Debe ingresar la cantidad de personas.";
+                lblVPersonas.Visible = true;
+                ValidarAntesDeGuardar();
+                return;
+            }
+
+            if (!int.TryParse(txtPersonas.Text, out int cantidadPersonas) || cantidadPersonas <= 0)
+            {
+                lblVPersonas.Text = "Ingrese una cantidad válida de personas.";
+                lblVPersonas.Visible = true;
+                ValidarAntesDeGuardar();
+                return;
+            }
+
+            if (cboPropiedad.SelectedIndex > 0)
+            {
+                string codigo = cboPropiedad.SelectedItem.ToString();
+                var info = PropiedadesReservacion[codigo];
+                int maximoPersonas;
+
+                switch (info.TipoPropiedad)
+                {
+                    case "Sala de Juntas":
+                        maximoPersonas = 100;
+                        break;
+                    case "Auditorio":
+                        maximoPersonas = 200;
+                        break;
+                    case "Casa de Playa/Montaña":
+                        maximoPersonas = 20;
+                        break;
+                    default:
+                        maximoPersonas = int.MaxValue;
+                        break;
+                }
+
+                if (cantidadPersonas > maximoPersonas)
+                {
+                    lblVPersonas.Text = $"Máximo {maximoPersonas} personas para {info.TipoPropiedad}.";
+                    lblVPersonas.Visible = true;
+                    ValidarAntesDeGuardar();
+                    return;
+                }
+            }
+
+            lblVPersonas.Visible = false;
+            ValidarAntesDeGuardar();
         }
     }
 }

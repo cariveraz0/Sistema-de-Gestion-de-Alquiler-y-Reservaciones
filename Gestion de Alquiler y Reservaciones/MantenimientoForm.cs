@@ -668,6 +668,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             txtTecnicoActu.Text = string.Empty;
             txtCosto.Text = string.Empty;
             txtDescripcionActu.Text = string.Empty;
+            dtpConclusion.MinDate = new DateTime(1900, 1, 1);
             dtpConclusion.Value = DateTime.Now;
             cboSolicitud.SelectedIndex = 0;
             idMantenimientoSeleccionado = -1;

@@ -17,9 +17,29 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         public PropiedadesForm()
         {
             InitializeComponent();
+            RecalcularEstadosPropiedades();
             CargarKPIs();
             CargarCardsPropiedades();
             CargarCardsReservaciones();
+        }
+        private void RecalcularEstadosPropiedades()
+        {
+            try
+            {
+                using (SqlConnection conexion = Conexion.ObtenerConexion())
+                {
+                    conexion.Open();
+                    using (SqlCommand comando = new SqlCommand("dbo.sp_ActualizarEstadoPropiedad", conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al recalcular estados: " + ex.Message);
+            }
         }
 
         private void CargarKPIs()

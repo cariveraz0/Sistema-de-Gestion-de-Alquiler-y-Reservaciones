@@ -30,61 +30,95 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private void MenuPrincipalForm_Load(object sender, EventArgs e)
         {
             CargarDatosUsuario();
-            AbrirForm(new DashboardForm());
+            AbrirModuloInicial();
         }
 
         private void CambiarTitulo_Click(object sender, EventArgs e)
         {
             if (sender is Button botonPresionado)
             {
-                lblTitulo.Text = botonPresionado.Text;
+                ActualizarTitulo(botonPresionado.Name, botonPresionado.Text);
+            }
+        }
 
-                switch (botonPresionado.Name)
-                {
-                    case "btnPrincipal":
-                        lblSubtitulo.Visible = true;
-                        lblSubtitulo.Text = "Resumen General de Operaciones";
-                        break;
+        private void ActualizarTitulo(string nombreControl, string texto)
+        {
+            lblTitulo.Text = texto;
 
-                    case "btnPropiedades":
-                        lblSubtitulo.Visible = true;
-                        lblSubtitulo.Text = "Catálogo y Disponibilidad de Activos";
-                        break;
+            switch (nombreControl)
+            {
+                case "btnPrincipal":
+                    lblSubtitulo.Visible = true;
+                    lblSubtitulo.Text = "Resumen General de Operaciones";
+                    break;
 
-                    case "btnContratos":
-                        lblSubtitulo.Visible = true;
-                        lblSubtitulo.Text = "Control de Arrendamientos a Largo Plazo y Creación de Contratos";
-                        break;
+                case "btnPropiedades":
+                    lblSubtitulo.Visible = true;
+                    lblSubtitulo.Text = "Catálogo y Disponibilidad de Activos";
+                    break;
 
-                    case "btnReservaciones":
-                        lblSubtitulo.Visible = true;
-                        lblSubtitulo.Text = "Gestión a Estancias a Corto Plazo";
-                        break;
+                case "btnContratos":
+                    lblSubtitulo.Visible = true;
+                    lblSubtitulo.Text = "Control de Arrendamientos a Largo Plazo y Creación de Contratos";
+                    break;
 
-                    case "btnClientes":
-                        lblSubtitulo.Visible = true;
-                        lblSubtitulo.Text = "Perfiles y Contactos Registrados";
-                        break;
+                case "btnReservaciones":
+                    lblSubtitulo.Visible = true;
+                    lblSubtitulo.Text = "Gestión a Estancias a Corto Plazo";
+                    break;
 
-                    case "btnMantenimiento":
-                        lblSubtitulo.Visible = true;
-                        lblSubtitulo.Text = "Seguimiento Técnico de Reparaciones";
-                        break;
+                case "btnClientes":
+                    lblSubtitulo.Visible = true;
+                    lblSubtitulo.Text = "Perfiles y Contactos Registrados";
+                    break;
 
-                    case "btnReportes":
-                        lblSubtitulo.Visible = true;
-                        lblSubtitulo.Text = "Análisis Financiero y Métricas Gerenciales";
-                        break;
+                case "btnMantenimiento":
+                    lblSubtitulo.Visible = true;
+                    lblSubtitulo.Text = "Seguimiento Técnico de Reparaciones";
+                    break;
 
-                    case "btnPagos":
-                        lblSubtitulo.Visible = true;
-                        lblSubtitulo.Text = "Gestión de Cuotas, Saldos Pendientes y Recibos";
-                        break;
+                case "btnReportes":
+                    lblSubtitulo.Visible = true;
+                    lblSubtitulo.Text = "Análisis Financiero y Métricas Gerenciales";
+                    break;
 
-                    default:
-                        lblSubtitulo.Visible = false;
-                        break;
-                }
+                case "btnPagos":
+                    lblSubtitulo.Visible = true;
+                    lblSubtitulo.Text = "Gestión de Cuotas, Saldos Pendientes y Recibos";
+                    break;
+
+                default:
+                    lblSubtitulo.Visible = false;
+                    break;
+            }
+        }
+
+        private void AbrirModuloInicial()
+        {
+            string cargoNormalizado = (LoginForm.cargo ?? string.Empty).Trim().ToLower();
+
+            switch (cargoNormalizado)
+            {
+                case "arrendamiento":
+                    ActualizarTitulo("btnContratos", btnContratos.Text);
+                    AbrirForm(new ContratosForm());
+                    break;
+
+                case "reservaciones":
+                    ActualizarTitulo("btnReservaciones", btnReservaciones.Text);
+                    AbrirForm(new ReservacionesForm());
+                    break;
+
+                case "mantenimiento":
+                    ActualizarTitulo("btnMantenimiento", btnMantenimiento.Text);
+                    AbrirForm(new MantenimientoForm());
+                    break;
+
+                case "administrador":
+                default:
+                    ActualizarTitulo("btnPrincipal", btnPrincipal.Text);
+                    AbrirForm(new DashboardForm());
+                    break;
             }
         }
 
