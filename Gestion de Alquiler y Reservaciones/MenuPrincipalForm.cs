@@ -31,6 +31,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             CargarDatosUsuario();
             AbrirModuloInicial();
+
+            mostrarLetreroInofensivo(); //Es de prueba solamente
         }
 
         private void CambiarTitulo_Click(object sender, EventArgs e)
@@ -216,6 +218,16 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private void btnPagos_Click(object sender, EventArgs e)
         {
             AbrirForm(new PagosForm());
+        }
+
+        private void mostrarLetreroInofensivo()
+        {
+            MessageBox.Show(
+                "Letrero inofensivo para pruebas de demostracion.",
+                "Aceptado",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Exclamation
+            );
         }
     }
 }
