@@ -265,13 +265,13 @@
     <Compile Include="BaseForm.Designer.cs">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Conexion.cs" />
     <Compile Include="ClientesForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ClientesForm.Designer.cs">
       <DependentUpon>ClientesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Conexion.cs" />
     <Compile Include="ConexionEjemplo.cs" />
     <Compile Include="ContratosForm.cs">
       <SubType>Form</SubType>
