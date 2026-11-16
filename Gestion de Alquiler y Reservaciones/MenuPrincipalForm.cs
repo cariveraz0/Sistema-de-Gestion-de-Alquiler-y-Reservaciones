@@ -32,7 +32,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             CargarDatosUsuario();
             AbrirModuloInicial();
 
-            mostrarLetreroInofensivo(); //Es de prueba solamente
+            saludoInicioSesion(); //Es de prueba solamente
         }
 
         private void CambiarTitulo_Click(object sender, EventArgs e)
@@ -220,11 +220,11 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             AbrirForm(new PagosForm());
         }
 
-        private void mostrarLetreroInofensivo()
+        private void saludoInicioSesion()
         {
             MessageBox.Show(
-                "Letrero inofensivo para pruebas de demostracion.",
-                "Aceptado",
+                "Saludos, estimado " + LoginForm.nombreCompleto,
+                "Inicio exitoso",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Exclamation
             );
