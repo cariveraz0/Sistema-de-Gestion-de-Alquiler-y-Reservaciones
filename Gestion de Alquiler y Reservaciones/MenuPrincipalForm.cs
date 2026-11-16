@@ -223,7 +223,7 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         private void mostrarLetreroInofensivo()
         {
             MessageBox.Show(
-                "Letrero inofensivo para pruebas.",
+                "Letrero inofensivo para pruebas de demostracion.",
                 "Aceptado",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Exclamation
