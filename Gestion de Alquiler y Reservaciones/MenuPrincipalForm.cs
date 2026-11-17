@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Org.BouncyCastle.Asn1.Cmp;
 
 namespace Gestion_de_Alquiler_y_Reservaciones
 {
@@ -31,6 +32,8 @@ namespace Gestion_de_Alquiler_y_Reservaciones
         {
             CargarDatosUsuario();
             AbrirModuloInicial();
+
+            saludoInicioSesion();
         }
 
         private void CambiarTitulo_Click(object sender, EventArgs e)
@@ -218,6 +221,15 @@ namespace Gestion_de_Alquiler_y_Reservaciones
             AbrirForm(new PagosForm());
         }
 
+        private void saludoInicioSesion()
+        {
+            MessageBox.Show(
+                    "Saludos estimado " + LoginForm.nombreCompleto,
+                    "Inicio exitoso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+        }
         
     }
 }
